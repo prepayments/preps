@@ -27,6 +27,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.ServiceOutlet}.
@@ -143,4 +146,21 @@ public class ServiceOutletResource {
         serviceOutletService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/service-outlets?query=:query} : search for the serviceOutlet corresponding
+     * to the query.
+     *
+     * @param query the query of the serviceOutlet search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/service-outlets")
+    public ResponseEntity<List<ServiceOutletDTO>> searchServiceOutlets(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of ServiceOutlets for query {}", query);
+        Page<ServiceOutletDTO> page = serviceOutletService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

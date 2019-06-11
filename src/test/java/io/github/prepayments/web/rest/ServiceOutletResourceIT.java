@@ -3,6 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.ServiceOutlet;
 import io.github.prepayments.repository.ServiceOutletRepository;
+import io.github.prepayments.repository.search.ServiceOutletSearchRepository;
 import io.github.prepayments.service.ServiceOutletService;
 import io.github.prepayments.service.dto.ServiceOutletDTO;
 import io.github.prepayments.service.mapper.ServiceOutletMapper;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,11 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -79,6 +85,14 @@ public class ServiceOutletResourceIT {
 
     @Autowired
     private ServiceOutletService serviceOutletService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.ServiceOutletSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private ServiceOutletSearchRepository mockServiceOutletSearchRepository;
 
     @Autowired
     private ServiceOutletQueryService serviceOutletQueryService;
@@ -189,6 +203,9 @@ public class ServiceOutletResourceIT {
         assertThat(testServiceOutlet.getContactPersonName()).isEqualTo(DEFAULT_CONTACT_PERSON_NAME);
         assertThat(testServiceOutlet.getContactEmail()).isEqualTo(DEFAULT_CONTACT_EMAIL);
         assertThat(testServiceOutlet.getStreet()).isEqualTo(DEFAULT_STREET);
+
+        // Validate the ServiceOutlet in Elasticsearch
+        verify(mockServiceOutletSearchRepository, times(1)).save(testServiceOutlet);
     }
 
     @Test
@@ -209,6 +226,9 @@ public class ServiceOutletResourceIT {
         // Validate the ServiceOutlet in the database
         List<ServiceOutlet> serviceOutletList = serviceOutletRepository.findAll();
         assertThat(serviceOutletList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the ServiceOutlet in Elasticsearch
+        verify(mockServiceOutletSearchRepository, times(0)).save(serviceOutlet);
     }
 
 
@@ -879,6 +899,9 @@ public class ServiceOutletResourceIT {
         assertThat(testServiceOutlet.getContactPersonName()).isEqualTo(UPDATED_CONTACT_PERSON_NAME);
         assertThat(testServiceOutlet.getContactEmail()).isEqualTo(UPDATED_CONTACT_EMAIL);
         assertThat(testServiceOutlet.getStreet()).isEqualTo(UPDATED_STREET);
+
+        // Validate the ServiceOutlet in Elasticsearch
+        verify(mockServiceOutletSearchRepository, times(1)).save(testServiceOutlet);
     }
 
     @Test
@@ -898,6 +921,9 @@ public class ServiceOutletResourceIT {
         // Validate the ServiceOutlet in the database
         List<ServiceOutlet> serviceOutletList = serviceOutletRepository.findAll();
         assertThat(serviceOutletList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the ServiceOutlet in Elasticsearch
+        verify(mockServiceOutletSearchRepository, times(0)).save(serviceOutlet);
     }
 
     @Test
@@ -916,6 +942,34 @@ public class ServiceOutletResourceIT {
         // Validate the database is empty
         List<ServiceOutlet> serviceOutletList = serviceOutletRepository.findAll();
         assertThat(serviceOutletList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the ServiceOutlet in Elasticsearch
+        verify(mockServiceOutletSearchRepository, times(1)).deleteById(serviceOutlet.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchServiceOutlet() throws Exception {
+        // Initialize the database
+        serviceOutletRepository.saveAndFlush(serviceOutlet);
+        when(mockServiceOutletSearchRepository.search(queryStringQuery("id:" + serviceOutlet.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(serviceOutlet), PageRequest.of(0, 1), 1));
+        // Search the serviceOutlet
+        restServiceOutletMockMvc.perform(get("/api/_search/service-outlets?query=id:" + serviceOutlet.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(serviceOutlet.getId().intValue())))
+            .andExpect(jsonPath("$.[*].serviceOutletName").value(hasItem(DEFAULT_SERVICE_OUTLET_NAME)))
+            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE)))
+            .andExpect(jsonPath("$.[*].serviceOutletLocation").value(hasItem(DEFAULT_SERVICE_OUTLET_LOCATION)))
+            .andExpect(jsonPath("$.[*].serviceOutletManager").value(hasItem(DEFAULT_SERVICE_OUTLET_MANAGER)))
+            .andExpect(jsonPath("$.[*].numberOfStaff").value(hasItem(DEFAULT_NUMBER_OF_STAFF)))
+            .andExpect(jsonPath("$.[*].building").value(hasItem(DEFAULT_BUILDING)))
+            .andExpect(jsonPath("$.[*].floor").value(hasItem(DEFAULT_FLOOR)))
+            .andExpect(jsonPath("$.[*].postalAddress").value(hasItem(DEFAULT_POSTAL_ADDRESS)))
+            .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME)))
+            .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL)))
+            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)));
     }
 
     @Test

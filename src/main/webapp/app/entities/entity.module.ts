@@ -77,6 +77,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'report-request-event',
         loadChildren: './reports/report-request-event/report-request-event.module#PrepsReportRequestEventModule'
+      },
+      {
+        path: 'service-outlet',
+        loadChildren: './prepayments/service-outlet/service-outlet.module#PrepsServiceOutletModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
