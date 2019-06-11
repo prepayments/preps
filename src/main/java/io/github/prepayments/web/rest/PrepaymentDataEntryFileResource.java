@@ -1,5 +1,7 @@
 package io.github.prepayments.web.rest;
 
+import io.github.prepayments.app.messaging.notifications.dto.PrepaymentFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.PrepaymentDataFileMessageService;
 import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +43,16 @@ public class PrepaymentDataEntryFileResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final PrepaymentDataFileMessageService prepaymentDataFileMessageService;
     private final PrepaymentDataEntryFileService prepaymentDataEntryFileService;
 
     private final PrepaymentDataEntryFileQueryService prepaymentDataEntryFileQueryService;
 
-    public PrepaymentDataEntryFileResource(PrepaymentDataEntryFileService prepaymentDataEntryFileService, PrepaymentDataEntryFileQueryService prepaymentDataEntryFileQueryService) {
+    public PrepaymentDataEntryFileResource(PrepaymentDataEntryFileService prepaymentDataEntryFileService, PrepaymentDataEntryFileQueryService prepaymentDataEntryFileQueryService,
+                                           final PrepaymentDataFileMessageService prepaymentDataFileMessageService) {
         this.prepaymentDataEntryFileService = prepaymentDataEntryFileService;
         this.prepaymentDataEntryFileQueryService = prepaymentDataEntryFileQueryService;
+        this.prepaymentDataFileMessageService = prepaymentDataFileMessageService;
     }
 
     /**
@@ -65,6 +69,17 @@ public class PrepaymentDataEntryFileResource {
             throw new BadRequestAlertException("A new prepaymentDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PrepaymentDataEntryFileDTO result = prepaymentDataEntryFileService.save(prepaymentDataEntryFileDTO);
+
+        // @formatter:off
+        prepaymentDataFileMessageService.sendMessage(PrepaymentFileUploadNotification.builder()
+                                                     .id(result.getId())
+                                                     .timeStamp(System.currentTimeMillis())
+                                                     .fileUpload(result.getDataEntryFile())
+                                                     .build()
+        );
+        // @formatter:on
+
+
         return ResponseEntity.created(new URI("/api/prepayment-data-entry-files/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);

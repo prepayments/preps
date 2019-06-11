@@ -7,7 +7,6 @@ import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
 import io.github.prepayments.service.mapper.PrepaymentDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
 import io.github.prepayments.service.PrepaymentDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +91,8 @@ public class PrepaymentDataEntryFileResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PrepaymentDataEntryFileResource prepaymentDataEntryFileResource = new PrepaymentDataEntryFileResource(prepaymentDataEntryFileService, prepaymentDataEntryFileQueryService);
+        final PrepaymentDataEntryFileResource prepaymentDataEntryFileResource = new PrepaymentDataEntryFileResource(prepaymentDataEntryFileService, prepaymentDataEntryFileQueryService,
+                                                                                                                    prepaymentDataFileMessageService);
         this.restPrepaymentDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(prepaymentDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -240,7 +240,7 @@ public class PrepaymentDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getPrepaymentDataEntryFile() throws Exception {
