@@ -1,6 +1,7 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.services.notifications.SupplierDataFileMessageService;
 import io.github.prepayments.domain.SupplierDataEntryFile;
 import io.github.prepayments.repository.SupplierDataEntryFileRepository;
 import io.github.prepayments.service.SupplierDataEntryFileService;
@@ -11,6 +12,7 @@ import io.github.prepayments.service.SupplierDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,6 +89,8 @@ public class SupplierDataEntryFileResourceIT {
     private MockMvc restSupplierDataEntryFileMockMvc;
 
     private SupplierDataEntryFile supplierDataEntryFile;
+
+    @Mock private SupplierDataFileMessageService supplierDataFileMessageService;
 
     @BeforeEach
     public void setup() {

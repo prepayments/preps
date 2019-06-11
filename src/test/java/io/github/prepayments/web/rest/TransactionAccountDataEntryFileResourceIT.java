@@ -1,6 +1,7 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
 import io.github.prepayments.domain.TransactionAccountDataEntryFile;
 import io.github.prepayments.repository.TransactionAccountDataEntryFileRepository;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
@@ -11,6 +12,7 @@ import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,6 +89,8 @@ public class TransactionAccountDataEntryFileResourceIT {
     private MockMvc restTransactionAccountDataEntryFileMockMvc;
 
     private TransactionAccountDataEntryFile transactionAccountDataEntryFile;
+
+    @Mock private TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
 
     @BeforeEach
     public void setup() {

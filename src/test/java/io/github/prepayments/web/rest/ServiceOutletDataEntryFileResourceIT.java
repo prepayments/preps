@@ -1,6 +1,7 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.services.notifications.ServiceOutletDataFileMessageService;
 import io.github.prepayments.domain.ServiceOutletDataEntryFile;
 import io.github.prepayments.repository.ServiceOutletDataEntryFileRepository;
 import io.github.prepayments.service.ServiceOutletDataEntryFileService;
@@ -11,6 +12,7 @@ import io.github.prepayments.service.ServiceOutletDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,6 +89,8 @@ public class ServiceOutletDataEntryFileResourceIT {
     private MockMvc restServiceOutletDataEntryFileMockMvc;
 
     private ServiceOutletDataEntryFile serviceOutletDataEntryFile;
+
+    @Mock private ServiceOutletDataFileMessageService serviceOutletDataFileMessageService;
 
     @BeforeEach
     public void setup() {

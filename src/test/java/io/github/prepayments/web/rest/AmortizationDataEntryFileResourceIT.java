@@ -1,6 +1,8 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.services.notifications.AmortizationDataFileMessageService;
+import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
 import io.github.prepayments.domain.AmortizationDataEntryFile;
 import io.github.prepayments.repository.AmortizationDataEntryFileRepository;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
@@ -11,6 +13,7 @@ import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,6 +90,8 @@ public class AmortizationDataEntryFileResourceIT {
     private MockMvc restAmortizationDataEntryFileMockMvc;
 
     private AmortizationDataEntryFile amortizationDataEntryFile;
+
+    @Mock private AmortizationDataFileMessageService amortizationDataFileMessageService;
 
     @BeforeEach
     public void setup() {
