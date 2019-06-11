@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReportTypeRepository extends JpaRepository<ReportType, Long>, JpaSpecificationExecutor<ReportType> {
 
+    ReportType findFirstByReportModelName(String reportModelName);
 }
