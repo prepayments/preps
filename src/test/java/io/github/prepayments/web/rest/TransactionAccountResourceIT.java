@@ -3,6 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.TransactionAccount;
 import io.github.prepayments.repository.TransactionAccountRepository;
+import io.github.prepayments.repository.search.TransactionAccountSearchRepository;
 import io.github.prepayments.service.TransactionAccountService;
 import io.github.prepayments.service.dto.TransactionAccountDTO;
 import io.github.prepayments.service.mapper.TransactionAccountMapper;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,11 +30,14 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -64,6 +70,14 @@ public class TransactionAccountResourceIT {
 
     @Autowired
     private TransactionAccountService transactionAccountService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.TransactionAccountSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private TransactionAccountSearchRepository mockTransactionAccountSearchRepository;
 
     @Autowired
     private TransactionAccountQueryService transactionAccountQueryService;
@@ -156,6 +170,9 @@ public class TransactionAccountResourceIT {
         assertThat(testTransactionAccount.getAccountBalance()).isEqualTo(DEFAULT_ACCOUNT_BALANCE);
         assertThat(testTransactionAccount.getOpeningDate()).isEqualTo(DEFAULT_OPENING_DATE);
         assertThat(testTransactionAccount.getAccountOpeningDateBalance()).isEqualTo(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE);
+
+        // Validate the TransactionAccount in Elasticsearch
+        verify(mockTransactionAccountSearchRepository, times(1)).save(testTransactionAccount);
     }
 
     @Test
@@ -176,6 +193,9 @@ public class TransactionAccountResourceIT {
         // Validate the TransactionAccount in the database
         List<TransactionAccount> transactionAccountList = transactionAccountRepository.findAll();
         assertThat(transactionAccountList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the TransactionAccount in Elasticsearch
+        verify(mockTransactionAccountSearchRepository, times(0)).save(transactionAccount);
     }
 
 
@@ -593,6 +613,9 @@ public class TransactionAccountResourceIT {
         assertThat(testTransactionAccount.getAccountBalance()).isEqualTo(UPDATED_ACCOUNT_BALANCE);
         assertThat(testTransactionAccount.getOpeningDate()).isEqualTo(UPDATED_OPENING_DATE);
         assertThat(testTransactionAccount.getAccountOpeningDateBalance()).isEqualTo(UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+
+        // Validate the TransactionAccount in Elasticsearch
+        verify(mockTransactionAccountSearchRepository, times(1)).save(testTransactionAccount);
     }
 
     @Test
@@ -612,6 +635,9 @@ public class TransactionAccountResourceIT {
         // Validate the TransactionAccount in the database
         List<TransactionAccount> transactionAccountList = transactionAccountRepository.findAll();
         assertThat(transactionAccountList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the TransactionAccount in Elasticsearch
+        verify(mockTransactionAccountSearchRepository, times(0)).save(transactionAccount);
     }
 
     @Test
@@ -630,6 +656,28 @@ public class TransactionAccountResourceIT {
         // Validate the database is empty
         List<TransactionAccount> transactionAccountList = transactionAccountRepository.findAll();
         assertThat(transactionAccountList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the TransactionAccount in Elasticsearch
+        verify(mockTransactionAccountSearchRepository, times(1)).deleteById(transactionAccount.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchTransactionAccount() throws Exception {
+        // Initialize the database
+        transactionAccountRepository.saveAndFlush(transactionAccount);
+        when(mockTransactionAccountSearchRepository.search(queryStringQuery("id:" + transactionAccount.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(transactionAccount), PageRequest.of(0, 1), 1));
+        // Search the transactionAccount
+        restTransactionAccountMockMvc.perform(get("/api/_search/transaction-accounts?query=id:" + transactionAccount.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(transactionAccount.getId().intValue())))
+            .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
+            .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
+            .andExpect(jsonPath("$.[*].accountBalance").value(hasItem(DEFAULT_ACCOUNT_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].openingDate").value(hasItem(DEFAULT_OPENING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].accountOpeningDateBalance").value(hasItem(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE.intValue())));
     }
 
     @Test

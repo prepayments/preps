@@ -17,6 +17,7 @@ import io.github.jhipster.service.QueryService;
 import io.github.prepayments.domain.TransactionAccount;
 import io.github.prepayments.domain.*; // for static metamodels
 import io.github.prepayments.repository.TransactionAccountRepository;
+import io.github.prepayments.repository.search.TransactionAccountSearchRepository;
 import io.github.prepayments.service.dto.TransactionAccountCriteria;
 import io.github.prepayments.service.dto.TransactionAccountDTO;
 import io.github.prepayments.service.mapper.TransactionAccountMapper;
@@ -37,9 +38,12 @@ public class TransactionAccountQueryService extends QueryService<TransactionAcco
 
     private final TransactionAccountMapper transactionAccountMapper;
 
-    public TransactionAccountQueryService(TransactionAccountRepository transactionAccountRepository, TransactionAccountMapper transactionAccountMapper) {
+    private final TransactionAccountSearchRepository transactionAccountSearchRepository;
+
+    public TransactionAccountQueryService(TransactionAccountRepository transactionAccountRepository, TransactionAccountMapper transactionAccountMapper, TransactionAccountSearchRepository transactionAccountSearchRepository) {
         this.transactionAccountRepository = transactionAccountRepository;
         this.transactionAccountMapper = transactionAccountMapper;
+        this.transactionAccountSearchRepository = transactionAccountSearchRepository;
     }
 
     /**

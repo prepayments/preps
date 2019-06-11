@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.TransactionAccountService;
 import io.github.prepayments.domain.TransactionAccount;
 import io.github.prepayments.repository.TransactionAccountRepository;
+import io.github.prepayments.repository.search.TransactionAccountSearchRepository;
 import io.github.prepayments.service.dto.TransactionAccountDTO;
 import io.github.prepayments.service.mapper.TransactionAccountMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link TransactionAccount}.
@@ -28,9 +31,12 @@ public class TransactionAccountServiceImpl implements TransactionAccountService 
 
     private final TransactionAccountMapper transactionAccountMapper;
 
-    public TransactionAccountServiceImpl(TransactionAccountRepository transactionAccountRepository, TransactionAccountMapper transactionAccountMapper) {
+    private final TransactionAccountSearchRepository transactionAccountSearchRepository;
+
+    public TransactionAccountServiceImpl(TransactionAccountRepository transactionAccountRepository, TransactionAccountMapper transactionAccountMapper, TransactionAccountSearchRepository transactionAccountSearchRepository) {
         this.transactionAccountRepository = transactionAccountRepository;
         this.transactionAccountMapper = transactionAccountMapper;
+        this.transactionAccountSearchRepository = transactionAccountSearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class TransactionAccountServiceImpl implements TransactionAccountService 
         log.debug("Request to save TransactionAccount : {}", transactionAccountDTO);
         TransactionAccount transactionAccount = transactionAccountMapper.toEntity(transactionAccountDTO);
         transactionAccount = transactionAccountRepository.save(transactionAccount);
-        return transactionAccountMapper.toDto(transactionAccount);
+        TransactionAccountDTO result = transactionAccountMapper.toDto(transactionAccount);
+        transactionAccountSearchRepository.save(transactionAccount);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class TransactionAccountServiceImpl implements TransactionAccountService 
     public void delete(Long id) {
         log.debug("Request to delete TransactionAccount : {}", id);
         transactionAccountRepository.deleteById(id);
+        transactionAccountSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the transactionAccount corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TransactionAccountDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of TransactionAccounts for query {}", query);
+        return transactionAccountSearchRepository.search(queryStringQuery(query), pageable)
+            .map(transactionAccountMapper::toDto);
     }
 }
