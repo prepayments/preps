@@ -7,7 +7,6 @@ import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import io.github.prepayments.service.mapper.SupplierDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.SupplierDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +91,8 @@ public class SupplierDataEntryFileResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SupplierDataEntryFileResource supplierDataEntryFileResource = new SupplierDataEntryFileResource(supplierDataEntryFileService, supplierDataEntryFileQueryService);
+        final SupplierDataEntryFileResource supplierDataEntryFileResource = new SupplierDataEntryFileResource(supplierDataEntryFileService, supplierDataEntryFileQueryService,
+                                                                                                              supplierDataFileMessageService);
         this.restSupplierDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(supplierDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -240,7 +240,7 @@ public class SupplierDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplierDataEntryFile() throws Exception {

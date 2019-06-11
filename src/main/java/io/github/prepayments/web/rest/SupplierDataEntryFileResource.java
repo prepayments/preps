@@ -1,5 +1,7 @@
 package io.github.prepayments.web.rest;
 
+import io.github.prepayments.app.messaging.notifications.dto.SupplierDataFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.SupplierDataFileMessageService;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +44,14 @@ public class SupplierDataEntryFileResource {
     private String applicationName;
 
     private final SupplierDataEntryFileService supplierDataEntryFileService;
-
+    private final SupplierDataFileMessageService supplierDataFileMessageService;
     private final SupplierDataEntryFileQueryService supplierDataEntryFileQueryService;
 
-    public SupplierDataEntryFileResource(SupplierDataEntryFileService supplierDataEntryFileService, SupplierDataEntryFileQueryService supplierDataEntryFileQueryService) {
+    public SupplierDataEntryFileResource(SupplierDataEntryFileService supplierDataEntryFileService, SupplierDataEntryFileQueryService supplierDataEntryFileQueryService,
+                                         final SupplierDataFileMessageService supplierDataFileMessageService) {
         this.supplierDataEntryFileService = supplierDataEntryFileService;
         this.supplierDataEntryFileQueryService = supplierDataEntryFileQueryService;
+        this.supplierDataFileMessageService = supplierDataFileMessageService;
     }
 
     /**
@@ -65,6 +68,16 @@ public class SupplierDataEntryFileResource {
             throw new BadRequestAlertException("A new supplierDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SupplierDataEntryFileDTO result = supplierDataEntryFileService.save(supplierDataEntryFileDTO);
+
+        // @formatter:off
+        supplierDataFileMessageService.sendMessage(
+            SupplierDataFileUploadNotification.builder()
+                                                 .id(result.getId())
+                                                 .timeStamp(System.currentTimeMillis())
+                                                 .fileUpload(result.getDataEntryFile())
+                                              .build());
+        // @formatter:on
+
         return ResponseEntity.created(new URI("/api/supplier-data-entry-files/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);

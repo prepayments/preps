@@ -7,7 +7,6 @@ import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
 import io.github.prepayments.service.mapper.ServiceOutletDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
 import io.github.prepayments.service.ServiceOutletDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +91,8 @@ public class ServiceOutletDataEntryFileResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource = new ServiceOutletDataEntryFileResource(serviceOutletDataEntryFileService, serviceOutletDataEntryFileQueryService);
+        final ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource = new ServiceOutletDataEntryFileResource(serviceOutletDataEntryFileService, serviceOutletDataEntryFileQueryService,
+                                                                                                                             serviceOutletDataFileMessageService);
         this.restServiceOutletDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(serviceOutletDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -240,7 +240,7 @@ public class ServiceOutletDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))));
     }
-    
+
     @Test
     @Transactional
     public void getServiceOutletDataEntryFile() throws Exception {
