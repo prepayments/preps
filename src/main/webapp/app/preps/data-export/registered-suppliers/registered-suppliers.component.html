@@ -1,0 +1,40 @@
+<div class="table-responsive" *ngIf="registeredSuppliers">
+    <h5>Registered Suppliers</h5>
+    <table class="table table-striped table-bordered table-sm row-border hover"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+        <tr>
+            <th><span>ID</span></th>
+            <th><span>Supplier Name</span></th>
+            <th><span>Supplier Address</span></th>
+            <th><span>Phone Number</span></th>
+            <th><span>Supplier Email</span></th>
+            <th><span>Bank Account Name</span></th>
+            <th><span>Bank Account Number</span></th>
+            <th><span>Supplier Bank Name</span></th>
+            <th><span>Supplier Bank Branch</span></th>
+            <th><span>Bank Swift Code</span></th>
+            <th><span>Bank Physical Address</span></th>
+            <th><span>Locally Domiciled</span></th>
+            <th><span>Kra Pin Number</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let registeredSupplier of registeredSuppliers ;trackBy: trackId">
+            <td>{{registeredSupplier.id}}</td>
+            <td>{{registeredSupplier.supplierName}}</td>
+            <td>{{registeredSupplier.supplierAddress}}</td>
+            <td>{{registeredSupplier.phoneNumber}}</td>
+            <td>{{registeredSupplier.supplierEmail}}</td>
+            <td>{{registeredSupplier.bankAccountName}}</td>
+            <td>{{registeredSupplier.bankAccountNumber}}</td>
+            <td>{{registeredSupplier.supplierBankName}}</td>
+            <td>{{registeredSupplier.supplierBankBranch}}</td>
+            <td>{{registeredSupplier.bankSwiftCode}}</td>
+            <td>{{registeredSupplier.bankPhysicalAddress}}</td>
+            <td>{{registeredSupplier.locallyDomiciled}}</td>
+            <td>{{registeredSupplier.kraPinNumber}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

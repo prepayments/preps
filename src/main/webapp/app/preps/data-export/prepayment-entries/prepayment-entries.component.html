@@ -1,0 +1,37 @@
+<div class="table-responsive" *ngIf="prepaymentEntries$">
+    <h5>Prepayment Entries</h5>
+    <table class="table table-striped table-bordered table-sm row-border hover"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+        <tr>
+            <th><span>ID</span> </th>
+            <th><span>Account Number</span> </th>
+            <th><span>Account Name</span> </th>
+            <th><span>Prepayment Id</span> </th>
+            <th><span>Prepayment Date</span> </th>
+            <th><span>Particulars</span> </th>
+            <th><span>Service Outlet</span> </th>
+            <th><span>Prepayment Amount</span> </th>
+            <th><span>Months</span> </th>
+            <th><span>Supplier Name</span> </th>
+            <th><span>Invoice Number</span> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let prepaymentEntry of prepaymentEntries$">
+            <td>{{prepaymentEntry.id}}</td>
+            <td>{{prepaymentEntry.accountNumber}}</td>
+            <td>{{prepaymentEntry.accountName}}</td>
+            <td>{{prepaymentEntry.prepaymentId}}</td>
+            <td>{{prepaymentEntry.prepaymentDate | date:'mediumDate'}}</td>
+            <td>{{prepaymentEntry.particulars}}</td>
+            <td>{{prepaymentEntry.serviceOutlet}}</td>
+            <td>{{prepaymentEntry.prepaymentAmount}}</td>
+            <td>{{prepaymentEntry.months}}</td>
+            <td>{{prepaymentEntry.supplierName}}</td>
+            <td>{{prepaymentEntry.invoiceNumber}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

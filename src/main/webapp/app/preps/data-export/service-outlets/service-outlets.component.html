@@ -1,0 +1,38 @@
+<div class="table-responsive" *ngIf="serviceOutlets">
+    <h5>Service Outlets</h5>
+    <table class="table table-striped table-bordered table-sm row-border hover"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+        <tr>
+            <th><span>ID</span></th>
+            <th><span>Service Outlet Name</span></th>
+            <th><span>Service Outlet Code</span></th>
+            <th><span>Service Outlet Location</span></th>
+            <th><span>Service Outlet Manager</span></th>
+            <th><span>Number Of Staff</span></th>
+            <th><span>Building</span></th>
+            <th><span>Floor</span></th>
+            <th><span>Postal Address</span></th>
+            <th><span>Contact Person Name</span></th>
+            <th><span>Contact Email</span></th>
+            <th><span>Street</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let serviceOutlet of serviceOutlets ;trackBy: trackId">
+            <td>{{serviceOutlet.id}}</td>
+            <td>{{serviceOutlet.serviceOutletName}}</td>
+            <td>{{serviceOutlet.serviceOutletCode}}</td>
+            <td>{{serviceOutlet.serviceOutletLocation}}</td>
+            <td>{{serviceOutlet.serviceOutletManager}}</td>
+            <td>{{serviceOutlet.numberOfStaff}}</td>
+            <td>{{serviceOutlet.building}}</td>
+            <td>{{serviceOutlet.floor}}</td>
+            <td>{{serviceOutlet.postalAddress}}</td>
+            <td>{{serviceOutlet.contactPersonName}}</td>
+            <td>{{serviceOutlet.contactEmail}}</td>
+            <td>{{serviceOutlet.street}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

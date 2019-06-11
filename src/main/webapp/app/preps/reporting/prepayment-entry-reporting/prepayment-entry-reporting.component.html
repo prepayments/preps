@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="prepaymentEntryReport">
+            <h2><span>Report : </span> {{prepaymentEntryReport.reportTitle}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Report Name : </span></dt>
+                <dd>
+                    <span>{{prepaymentEntryReport.reportTitle}}</span>
+                </dd>
+
+                <br />
+
+                <dt><span>Report Type : </span></dt>
+                <dd>
+                    <span>{{prepaymentEntryReport.reportType}}</span>
+                </dd>
+
+                <br />
+
+                <dt><span>Report File</span></dt>
+                <dd>
+                    <div *ngIf="prepaymentEntryReport.reportFile">
+                        <a (click)="openFile(prepaymentEntryReport.reportFileContentType, prepaymentEntryReport.reportFile)">open</a>
+                        <span class="pull-left">{{prepaymentEntryReport.reportFileContentType}}, {{byteSize(prepaymentEntryReport.reportFile)}}</span>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <br />
+        </div>
+    </div>
+</div>

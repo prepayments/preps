@@ -1,0 +1,32 @@
+<div class="table-responsive" *ngIf="amortizationEntries">
+    <h5>Amortization Entries</h5>
+    <table class="table table-striped table-bordered table-sm row-border hover"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" style="width:100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Amortization Date</th>
+            <th>Amortization Amount</th>
+            <th>Particulars</th>
+            <th>Posted</th>
+            <th>Service Outlet</th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+            <th>Prepayment Entry</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let amortizationEntry of amortizationEntries ;trackBy: trackId">
+            <td><a [routerLink]="['/amortization-entry', amortizationEntry.id, 'view' ]">{{amortizationEntry.id}}</a></td>
+            <td>{{amortizationEntry.amortizationDate | date:'mediumDate'}}</td>
+            <td>{{amortizationEntry.amortizationAmount}}</td>
+            <td>{{amortizationEntry.particulars}}</td>
+            <td>{{amortizationEntry.posted}}</td>
+            <td>{{amortizationEntry.serviceOutlet}}</td>
+            <td>{{amortizationEntry.accountNumber}}</td>
+            <td>{{amortizationEntry.accountName}}</td>
+            <td>{{amortizationEntry.prepaymentEntryId}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

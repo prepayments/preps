@@ -1,0 +1,26 @@
+<div class="table-responsive" *ngIf="transactionAccounts">
+    <h5>Transaction Accounts</h5>
+    <table   class="table table-striped table-bordered table-sm row-border hover"
+             datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+        <tr>
+            <th><span>ID</span></th>
+            <th><span>Account Name</span></th>
+            <th><span>Account Number</span></th>
+            <th><span>Account Balance</span></th>
+            <th><span>Opening Date</span></th>
+            <th><span>Account Opening Date Balance</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transactionAccount of transactionAccounts">
+            <td>{{transactionAccount.id}}</td>
+            <td>{{transactionAccount.accountName}}</td>
+            <td>{{transactionAccount.accountNumber}}</td>
+            <td>{{transactionAccount.accountBalance}}</td>
+            <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
+            <td>{{transactionAccount.accountOpeningDateBalance}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
