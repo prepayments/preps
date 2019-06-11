@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "prepayments",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "supplierName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "supplierAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phoneNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "supplierEmail",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankAccountName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankAccountNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "supplierBankName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "supplierBankBranch",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankSwiftCode",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "bankPhysicalAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locallyDomiciled",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "taxAuthorityPIN",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190430163600",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceImpl",
+    "entityTableName": "registered_supplier",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "infinite-scroll"
+}

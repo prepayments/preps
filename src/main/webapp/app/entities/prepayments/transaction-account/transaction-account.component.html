@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span>Transaction Accounts</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-transaction-account" [routerLink]="['/transaction-account/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Transaction Account
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="transactionAccounts">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountBalance"><span>Account Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="openingDate"><span>Opening Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountOpeningDateBalance"><span>Account Opening Date Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let transactionAccount of transactionAccounts ;trackBy: trackId">
+                <td><a [routerLink]="['/transaction-account', transactionAccount.id, 'view' ]">{{transactionAccount.id}}</a></td>
+                <td>{{transactionAccount.accountName}}</td>
+                <td>{{transactionAccount.accountNumber}}</td>
+                <td>{{transactionAccount.accountBalance}}</td>
+                <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
+                <td>{{transactionAccount.accountOpeningDateBalance}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/transaction-account', transactionAccount.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/transaction-account', transactionAccount.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'transaction-account', { outlets: { popup: transactionAccount.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

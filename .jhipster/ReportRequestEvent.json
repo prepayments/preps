@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "reports",
+    "relationships": [
+        {
+            "relationshipName": "reportType",
+            "otherEntityName": "reportType",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "reportRequestDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "requestedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reportFile",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "changelogDate": "20190520140229",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceImpl",
+    "entityTableName": "report_request_event",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}

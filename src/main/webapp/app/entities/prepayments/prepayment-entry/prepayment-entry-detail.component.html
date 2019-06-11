@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="prepaymentEntry">
+            <h2><span>Prepayment Entry</span> {{prepaymentEntry.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Account Number</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.accountNumber}}</span>
+                </dd>
+                <dt><span>Account Name</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.accountName}}</span>
+                </dd>
+                <dt><span>Prepayment Id</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.prepaymentId}}</span>
+                </dd>
+                <dt><span>Prepayment Date</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.prepaymentDate}}</span>
+                </dd>
+                <dt><span>Particulars</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.particulars}}</span>
+                </dd>
+                <dt><span>Service Outlet</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.serviceOutlet}}</span>
+                </dd>
+                <dt><span>Prepayment Amount</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.prepaymentAmount}}</span>
+                </dd>
+                <dt><span>Months</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.months}}</span>
+                </dd>
+                <dt><span>Supplier Name</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.supplierName}}</span>
+                </dd>
+                <dt><span>Invoice Number</span></dt>
+                <dd>
+                    <span>{{prepaymentEntry.invoiceNumber}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/prepayment-entry', prepaymentEntry.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

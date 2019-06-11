@@ -1,0 +1,126 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-prepayment-entry-heading">Create or edit a Prepayment Entry</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!prepaymentEntry.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_accountNumber">Account Number</label>
+                    <input type="text" class="form-control" name="accountNumber" id="field_accountNumber"
+                           formControlName="accountNumber"/>
+                    <div *ngIf="editForm.get('accountNumber').invalid && (editForm.get('accountNumber').dirty || editForm.get('accountNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('accountNumber').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('accountNumber').errors.pattern">
+                            This field should follow pattern for "Account Number".
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_accountName">Account Name</label>
+                    <input type="text" class="form-control" name="accountName" id="field_accountName"
+                           formControlName="accountName"/>
+                    <div *ngIf="editForm.get('accountName').invalid && (editForm.get('accountName').dirty || editForm.get('accountName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('accountName').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentId">Prepayment Id</label>
+                    <input type="text" class="form-control" name="prepaymentId" id="field_prepaymentId"
+                           formControlName="prepaymentId"/>
+                    <div *ngIf="editForm.get('prepaymentId').invalid && (editForm.get('prepaymentId').dirty || editForm.get('prepaymentId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentId').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentDate">Prepayment Date</label>
+                    <div class="input-group">
+                        <input id="field_prepaymentDate" type="text" class="form-control" name="prepaymentDate" ngbDatepicker  #prepaymentDateDp="ngbDatepicker" formControlName="prepaymentDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="prepaymentDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('prepaymentDate').invalid && (editForm.get('prepaymentDate').dirty || editForm.get('prepaymentDate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentDate').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_particulars">Particulars</label>
+                    <input type="text" class="form-control" name="particulars" id="field_particulars"
+                           formControlName="particulars"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_serviceOutlet">Service Outlet</label>
+                    <input type="text" class="form-control" name="serviceOutlet" id="field_serviceOutlet"
+                           formControlName="serviceOutlet"/>
+                    <div *ngIf="editForm.get('serviceOutlet').invalid && (editForm.get('serviceOutlet').dirty || editForm.get('serviceOutlet').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('serviceOutlet').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('serviceOutlet').errors.pattern">
+                            This field should follow pattern for "Service Outlet".
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentAmount">Prepayment Amount</label>
+                    <input type="number" class="form-control" name="prepaymentAmount" id="field_prepaymentAmount"
+                           formControlName="prepaymentAmount"/>
+                    <div *ngIf="editForm.get('prepaymentAmount').invalid && (editForm.get('prepaymentAmount').dirty || editForm.get('prepaymentAmount').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentAmount').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('prepaymentAmount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_months">Months</label>
+                    <input type="number" class="form-control" name="months" id="field_months"
+                           formControlName="months"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierName">Supplier Name</label>
+                    <input type="text" class="form-control" name="supplierName" id="field_supplierName"
+                           formControlName="supplierName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_invoiceNumber">Invoice Number</label>
+                    <input type="text" class="form-control" name="invoiceNumber" id="field_invoiceNumber"
+                           formControlName="invoiceNumber"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-registered-supplier-heading">Create or edit a Registered Supplier</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!registeredSupplier.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierName">Supplier Name</label>
+                    <input type="text" class="form-control" name="supplierName" id="field_supplierName"
+                           formControlName="supplierName"/>
+                    <div *ngIf="editForm.get('supplierName').invalid && (editForm.get('supplierName').dirty || editForm.get('supplierName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('supplierName').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierAddress">Supplier Address</label>
+                    <input type="text" class="form-control" name="supplierAddress" id="field_supplierAddress"
+                           formControlName="supplierAddress"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_phoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber"
+                           formControlName="phoneNumber"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierEmail">Supplier Email</label>
+                    <input type="text" class="form-control" name="supplierEmail" id="field_supplierEmail"
+                           formControlName="supplierEmail"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bankAccountName">Bank Account Name</label>
+                    <input type="text" class="form-control" name="bankAccountName" id="field_bankAccountName"
+                           formControlName="bankAccountName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bankAccountNumber">Bank Account Number</label>
+                    <input type="text" class="form-control" name="bankAccountNumber" id="field_bankAccountNumber"
+                           formControlName="bankAccountNumber"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierBankName">Supplier Bank Name</label>
+                    <input type="text" class="form-control" name="supplierBankName" id="field_supplierBankName"
+                           formControlName="supplierBankName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplierBankBranch">Supplier Bank Branch</label>
+                    <input type="text" class="form-control" name="supplierBankBranch" id="field_supplierBankBranch"
+                           formControlName="supplierBankBranch"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bankSwiftCode">Bank Swift Code</label>
+                    <input type="text" class="form-control" name="bankSwiftCode" id="field_bankSwiftCode"
+                           formControlName="bankSwiftCode"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bankPhysicalAddress">Bank Physical Address</label>
+                    <input type="text" class="form-control" name="bankPhysicalAddress" id="field_bankPhysicalAddress"
+                           formControlName="bankPhysicalAddress"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_locallyDomiciled">Locally Domiciled</label>
+                    <input type="checkbox" class="form-control" name="locallyDomiciled" id="field_locallyDomiciled"
+                           formControlName="locallyDomiciled"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_taxAuthorityPIN">Tax Authority PIN</label>
+                    <input type="text" class="form-control" name="taxAuthorityPIN" id="field_taxAuthorityPIN"
+                           formControlName="taxAuthorityPIN"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

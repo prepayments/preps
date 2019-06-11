@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="amortizationEntry">
+            <h2><span>Amortization Entry</span> {{amortizationEntry.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Amortization Date</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.amortizationDate}}</span>
+                </dd>
+                <dt><span>Amortization Amount</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.amortizationAmount}}</span>
+                </dd>
+                <dt><span>Particulars</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.particulars}}</span>
+                </dd>
+                <dt><span>Posted</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.posted}}</span>
+                </dd>
+                <dt><span>Service Outlet</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.serviceOutlet}}</span>
+                </dd>
+                <dt><span>Account Number</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.accountNumber}}</span>
+                </dd>
+                <dt><span>Account Name</span></dt>
+                <dd>
+                    <span>{{amortizationEntry.accountName}}</span>
+                </dd>
+                <dt><span>Prepayment Entry</span></dt>
+                <dd>
+                    <div *ngIf="amortizationEntry.prepaymentEntryId">
+                        <a [routerLink]="['/prepayment-entry', amortizationEntry.prepaymentEntryId, 'view']">{{amortizationEntry.prepaymentEntryId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/amortization-entry', amortizationEntry.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

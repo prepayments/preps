@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="serviceOutlet">
+            <h2><span>Service Outlet</span> {{serviceOutlet.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Service Outlet Name</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.serviceOutletName}}</span>
+                </dd>
+                <dt><span>Service Outlet Code</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.serviceOutletCode}}</span>
+                </dd>
+                <dt><span>Service Outlet Location</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.serviceOutletLocation}}</span>
+                </dd>
+                <dt><span>Service Outlet Manager</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.serviceOutletManager}}</span>
+                </dd>
+                <dt><span>Number Of Staff</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.numberOfStaff}}</span>
+                </dd>
+                <dt><span>Building</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.building}}</span>
+                </dd>
+                <dt><span>Floor</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.floor}}</span>
+                </dd>
+                <dt><span>Postal Address</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.postalAddress}}</span>
+                </dd>
+                <dt><span>Contact Person Name</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.contactPersonName}}</span>
+                </dd>
+                <dt><span>Contact Email</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.contactEmail}}</span>
+                </dd>
+                <dt><span>Street</span></dt>
+                <dd>
+                    <span>{{serviceOutlet.street}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/service-outlet', serviceOutlet.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

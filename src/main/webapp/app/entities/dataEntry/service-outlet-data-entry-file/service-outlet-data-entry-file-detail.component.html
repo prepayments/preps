@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="serviceOutletDataEntryFile">
+            <h2><span>Service Outlet Data Entry File</span> {{serviceOutletDataEntryFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Period From</span></dt>
+                <dd>
+                    <span>{{serviceOutletDataEntryFile.periodFrom}}</span>
+                </dd>
+                <dt><span>Period To</span></dt>
+                <dd>
+                    <span>{{serviceOutletDataEntryFile.periodTo}}</span>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{serviceOutletDataEntryFile.uploadSuccessful}}</span>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{serviceOutletDataEntryFile.uploadProcessed}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="serviceOutletDataEntryFile.dataEntryFile">
+                        <a (click)="openFile(serviceOutletDataEntryFile.dataEntryFileContentType, serviceOutletDataEntryFile.dataEntryFile)">open</a>
+                        {{serviceOutletDataEntryFile.dataEntryFileContentType}}, {{byteSize(serviceOutletDataEntryFile.dataEntryFile)}}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/service-outlet-data-entry-file', serviceOutletDataEntryFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

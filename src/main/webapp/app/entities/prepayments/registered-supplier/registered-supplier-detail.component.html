@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="registeredSupplier">
+            <h2><span>Registered Supplier</span> {{registeredSupplier.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Supplier Name</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.supplierName}}</span>
+                </dd>
+                <dt><span>Supplier Address</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.supplierAddress}}</span>
+                </dd>
+                <dt><span>Phone Number</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.phoneNumber}}</span>
+                </dd>
+                <dt><span>Supplier Email</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.supplierEmail}}</span>
+                </dd>
+                <dt><span>Bank Account Name</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.bankAccountName}}</span>
+                </dd>
+                <dt><span>Bank Account Number</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.bankAccountNumber}}</span>
+                </dd>
+                <dt><span>Supplier Bank Name</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.supplierBankName}}</span>
+                </dd>
+                <dt><span>Supplier Bank Branch</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.supplierBankBranch}}</span>
+                </dd>
+                <dt><span>Bank Swift Code</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.bankSwiftCode}}</span>
+                </dd>
+                <dt><span>Bank Physical Address</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.bankPhysicalAddress}}</span>
+                </dd>
+                <dt><span>Locally Domiciled</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.locallyDomiciled}}</span>
+                </dd>
+                <dt><span>Tax Authority PIN</span></dt>
+                <dd>
+                    <span>{{registeredSupplier.taxAuthorityPIN}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/registered-supplier', registeredSupplier.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

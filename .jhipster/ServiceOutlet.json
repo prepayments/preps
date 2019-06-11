@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "prepayments",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "serviceOutletName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "serviceOutletCode",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "pattern"
+            ],
+            "fieldValidateRulesPattern": "^[0-9]{3}$"
+        },
+        {
+            "fieldName": "serviceOutletLocation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "serviceOutletManager",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "numberOfStaff",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "building",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "floor",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "postalAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactPersonName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactEmail",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "street",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190430054958",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceImpl",
+    "entityTableName": "service_outlet",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "infinite-scroll"
+}

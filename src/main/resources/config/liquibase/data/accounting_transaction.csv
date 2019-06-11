@@ -1,0 +1,11 @@
+id;account_name;account_number;transaction_date;transaction_amount;increment_account
+1;Personal Loan Account;program;2019-06-10T14:17:23;13662;true
+2;Credit Card Account;France protocol;2019-06-10T20:56:36;81011;false
+3;Auto Loan Account;Senior Avon;2019-06-10T18:58:54;62789;true
+4;Savings Account;Handcrafted Cotton Bacon Unbranded Fresh Pants;2019-06-11T06:21:18;37558;true
+5;Checking Account;North Dakota Garden;2019-06-10T19:50:37;15504;true
+6;Personal Loan Account;generating;2019-06-10T10:22:06;3050;false
+7;Checking Account;compressing;2019-06-10T22:22:24;53708;false
+8;Money Market Account;synthesizing composite;2019-06-10T07:51:07;62289;false
+9;Checking Account;Intelligent Granite Shirt Peru deposit;2019-06-10T13:35:31;13274;true
+10;Personal Loan Account;card Licensed Cotton Ball;2019-06-10T20:36:48;43897;true

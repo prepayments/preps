@@ -1,0 +1,74 @@
+<div>
+    <h2 id="page-heading">
+        <span>Service Outlets</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-service-outlet" [routerLink]="['/service-outlet/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Service Outlet
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="serviceOutlets">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletName"><span>Service Outlet Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletCode"><span>Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletLocation"><span>Service Outlet Location</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletManager"><span>Service Outlet Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="numberOfStaff"><span>Number Of Staff</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="building"><span>Building</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="floor"><span>Floor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="postalAddress"><span>Postal Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="contactPersonName"><span>Contact Person Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="contactEmail"><span>Contact Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="street"><span>Street</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let serviceOutlet of serviceOutlets ;trackBy: trackId">
+                <td><a [routerLink]="['/service-outlet', serviceOutlet.id, 'view' ]">{{serviceOutlet.id}}</a></td>
+                <td>{{serviceOutlet.serviceOutletName}}</td>
+                <td>{{serviceOutlet.serviceOutletCode}}</td>
+                <td>{{serviceOutlet.serviceOutletLocation}}</td>
+                <td>{{serviceOutlet.serviceOutletManager}}</td>
+                <td>{{serviceOutlet.numberOfStaff}}</td>
+                <td>{{serviceOutlet.building}}</td>
+                <td>{{serviceOutlet.floor}}</td>
+                <td>{{serviceOutlet.postalAddress}}</td>
+                <td>{{serviceOutlet.contactPersonName}}</td>
+                <td>{{serviceOutlet.contactEmail}}</td>
+                <td>{{serviceOutlet.street}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/service-outlet', serviceOutlet.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/service-outlet', serviceOutlet.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'service-outlet', { outlets: { popup: serviceOutlet.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

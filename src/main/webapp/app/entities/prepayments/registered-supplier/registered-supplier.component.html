@@ -1,0 +1,76 @@
+<div>
+    <h2 id="page-heading">
+        <span>Registered Suppliers</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-registered-supplier" [routerLink]="['/registered-supplier/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Registered Supplier
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="registeredSuppliers">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierName"><span>Supplier Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierAddress"><span>Supplier Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="phoneNumber"><span>Phone Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierEmail"><span>Supplier Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bankAccountName"><span>Bank Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bankAccountNumber"><span>Bank Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierBankName"><span>Supplier Bank Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplierBankBranch"><span>Supplier Bank Branch</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bankSwiftCode"><span>Bank Swift Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bankPhysicalAddress"><span>Bank Physical Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="locallyDomiciled"><span>Locally Domiciled</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="taxAuthorityPIN"><span>Tax Authority PIN</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let registeredSupplier of registeredSuppliers ;trackBy: trackId">
+                <td><a [routerLink]="['/registered-supplier', registeredSupplier.id, 'view' ]">{{registeredSupplier.id}}</a></td>
+                <td>{{registeredSupplier.supplierName}}</td>
+                <td>{{registeredSupplier.supplierAddress}}</td>
+                <td>{{registeredSupplier.phoneNumber}}</td>
+                <td>{{registeredSupplier.supplierEmail}}</td>
+                <td>{{registeredSupplier.bankAccountName}}</td>
+                <td>{{registeredSupplier.bankAccountNumber}}</td>
+                <td>{{registeredSupplier.supplierBankName}}</td>
+                <td>{{registeredSupplier.supplierBankBranch}}</td>
+                <td>{{registeredSupplier.bankSwiftCode}}</td>
+                <td>{{registeredSupplier.bankPhysicalAddress}}</td>
+                <td>{{registeredSupplier.locallyDomiciled}}</td>
+                <td>{{registeredSupplier.taxAuthorityPIN}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/registered-supplier', registeredSupplier.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/registered-supplier', registeredSupplier.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'registered-supplier', { outlets: { popup: registeredSupplier.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

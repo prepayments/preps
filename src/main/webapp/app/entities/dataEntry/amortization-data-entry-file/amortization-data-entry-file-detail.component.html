@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="amortizationDataEntryFile">
+            <h2><span>Amortization Data Entry File</span> {{amortizationDataEntryFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Period From</span></dt>
+                <dd>
+                    <span>{{amortizationDataEntryFile.periodFrom}}</span>
+                </dd>
+                <dt><span>Period To</span></dt>
+                <dd>
+                    <span>{{amortizationDataEntryFile.periodTo}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="amortizationDataEntryFile.dataEntryFile">
+                        <a (click)="openFile(amortizationDataEntryFile.dataEntryFileContentType, amortizationDataEntryFile.dataEntryFile)">open</a>
+                        {{amortizationDataEntryFile.dataEntryFileContentType}}, {{byteSize(amortizationDataEntryFile.dataEntryFile)}}
+                    </div>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{amortizationDataEntryFile.uploadSuccessful}}</span>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{amortizationDataEntryFile.uploadProcessed}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/amortization-data-entry-file', amortizationDataEntryFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

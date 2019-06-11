@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-report-request-event-heading">Create or edit a Report Request Event</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!reportRequestEvent.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportRequestDate">Report Request Date</label>
+                    <div class="input-group">
+                        <input id="field_reportRequestDate" type="text" class="form-control" name="reportRequestDate" ngbDatepicker  #reportRequestDateDp="ngbDatepicker" formControlName="reportRequestDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="reportRequestDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requestedBy">Requested By</label>
+                    <input type="text" class="form-control" name="requestedBy" id="field_requestedBy"
+                           formControlName="requestedBy"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportFile">Report File</label>
+                    <div>
+                        <div *ngIf="editForm.get('reportFile').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('reportFileContentType').value, editForm.get('reportFile').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('reportFileContentType').value}}, {{byteSize(editForm.get('reportFile').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({reportFile: null});editForm.patchValue({reportFileContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_reportFile" (change)="setFileData($event, 'reportFile', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="reportFile" id="field_reportFile"
+                           formControlName="reportFile"/>
+                    <input type="hidden" class="form-control" name="reportFileContentType" id="field_reportFileContentType"
+                           formControlName="reportFileContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportType">Report Type</label>
+                    <select class="form-control" id="field_reportType" name="reportType" formControlName="reportTypeId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="reportTypeOption.id" *ngFor="let reportTypeOption of reporttypes; trackBy: trackReportTypeById">{{reportTypeOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="transactionAccountDataEntryFile">
+            <h2><span>Transaction Account Data Entry File</span> {{transactionAccountDataEntryFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Period From</span></dt>
+                <dd>
+                    <span>{{transactionAccountDataEntryFile.periodFrom}}</span>
+                </dd>
+                <dt><span>Period To</span></dt>
+                <dd>
+                    <span>{{transactionAccountDataEntryFile.periodTo}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="transactionAccountDataEntryFile.dataEntryFile">
+                        <a (click)="openFile(transactionAccountDataEntryFile.dataEntryFileContentType, transactionAccountDataEntryFile.dataEntryFile)">open</a>
+                        {{transactionAccountDataEntryFile.dataEntryFileContentType}}, {{byteSize(transactionAccountDataEntryFile.dataEntryFile)}}
+                    </div>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{transactionAccountDataEntryFile.uploadSuccessful}}</span>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{transactionAccountDataEntryFile.uploadProcessed}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/transaction-account-data-entry-file', transactionAccountDataEntryFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

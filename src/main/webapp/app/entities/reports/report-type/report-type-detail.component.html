@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="reportType">
+            <h2><span>Report Type</span> {{reportType.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Report Model Name</span></dt>
+                <dd>
+                    <span>{{reportType.reportModelName}}</span>
+                </dd>
+                <dt><span>Report Medium Type</span></dt>
+                <dd>
+                    <span>{{reportType.reportMediumType}}</span>
+                </dd>
+                <dt><span>Report Password</span></dt>
+                <dd>
+                    <span>{{reportType.reportPassword}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/report-type', reportType.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="prepaymentDataEntryFile">
+            <h2><span>Prepayment Data Entry File</span> {{prepaymentDataEntryFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Period From</span></dt>
+                <dd>
+                    <span>{{prepaymentDataEntryFile.periodFrom}}</span>
+                </dd>
+                <dt><span>Period To</span></dt>
+                <dd>
+                    <span>{{prepaymentDataEntryFile.periodTo}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="prepaymentDataEntryFile.dataEntryFile">
+                        <a (click)="openFile(prepaymentDataEntryFile.dataEntryFileContentType, prepaymentDataEntryFile.dataEntryFile)">open</a>
+                        {{prepaymentDataEntryFile.dataEntryFileContentType}}, {{byteSize(prepaymentDataEntryFile.dataEntryFile)}}
+                    </div>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{prepaymentDataEntryFile.uploadProcessed}}</span>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{prepaymentDataEntryFile.uploadSuccessful}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/prepayment-data-entry-file', prepaymentDataEntryFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

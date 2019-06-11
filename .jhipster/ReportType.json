@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "reports",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "reportModelName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reportMediumType",
+            "fieldType": "ReportMediumTypes",
+            "fieldValues": "EXCEL,PDF,POWERPOINT,DOC,TEXT,JSON,HTML5"
+        },
+        {
+            "fieldName": "reportPassword",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190520135215",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceImpl",
+    "entityTableName": "report_type",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "no"
+}

@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span>Accounting Transactions</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-accounting-transaction" [routerLink]="['/accounting-transaction/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Accounting Transaction
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="accountingTransactions">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="transactionDate"><span>Transaction Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="transactionAmount"><span>Transaction Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="incrementAccount"><span>Increment Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let accountingTransaction of accountingTransactions ;trackBy: trackId">
+                <td><a [routerLink]="['/accounting-transaction', accountingTransaction.id, 'view' ]">{{accountingTransaction.id}}</a></td>
+                <td>{{accountingTransaction.accountName}}</td>
+                <td>{{accountingTransaction.accountNumber}}</td>
+                <td>{{accountingTransaction.transactionDate | date:'mediumDate'}}</td>
+                <td>{{accountingTransaction.transactionAmount}}</td>
+                <td>{{accountingTransaction.incrementAccount}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/accounting-transaction', accountingTransaction.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/accounting-transaction', accountingTransaction.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'accounting-transaction', { outlets: { popup: accountingTransaction.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

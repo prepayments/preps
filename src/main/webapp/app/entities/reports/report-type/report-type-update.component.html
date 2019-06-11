@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-report-type-heading">Create or edit a Report Type</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!reportType.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportModelName">Report Model Name</label>
+                    <input type="text" class="form-control" name="reportModelName" id="field_reportModelName"
+                           formControlName="reportModelName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportMediumType">Report Medium Type</label>
+                    <select class="form-control" name="reportMediumType" formControlName="reportMediumType" id="field_reportMediumType">
+                        <option value="EXCEL">EXCEL</option>
+                        <option value="PDF">PDF</option>
+                        <option value="POWERPOINT">POWERPOINT</option>
+                        <option value="DOC">DOC</option>
+                        <option value="TEXT">TEXT</option>
+                        <option value="JSON">JSON</option>
+                        <option value="HTML5">HTML5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reportPassword">Report Password</label>
+                    <input type="text" class="form-control" name="reportPassword" id="field_reportPassword"
+                           formControlName="reportPassword"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

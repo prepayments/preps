@@ -1,0 +1,85 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "prepayments",
+    "relationships": [
+        {
+            "relationshipName": "amortizationEntry",
+            "otherEntityName": "amortizationEntry",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "prepaymentEntry",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "accountNumber",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "pattern"
+            ],
+            "fieldValidateRulesPattern": "^\\d{10,16}$"
+        },
+        {
+            "fieldName": "accountName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "prepaymentId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "prepaymentDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "particulars",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "serviceOutlet",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "pattern"
+            ],
+            "fieldValidateRulesPattern": "^[0-9]{3}$"
+        },
+        {
+            "fieldName": "prepaymentAmount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "months",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "supplierName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "invoiceNumber",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190429150304",
+    "dto": "mapstruct",
+    "searchEngine": false,
+    "service": "serviceImpl",
+    "entityTableName": "prepayment_entry",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "infinite-scroll"
+}

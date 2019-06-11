@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplierDataEntryFile">
+            <h2><span>Supplier Data Entry File</span> {{supplierDataEntryFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Period From</span></dt>
+                <dd>
+                    <span>{{supplierDataEntryFile.periodFrom}}</span>
+                </dd>
+                <dt><span>Period To</span></dt>
+                <dd>
+                    <span>{{supplierDataEntryFile.periodTo}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="supplierDataEntryFile.dataEntryFile">
+                        <a (click)="openFile(supplierDataEntryFile.dataEntryFileContentType, supplierDataEntryFile.dataEntryFile)">open</a>
+                        {{supplierDataEntryFile.dataEntryFileContentType}}, {{byteSize(supplierDataEntryFile.dataEntryFile)}}
+                    </div>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{supplierDataEntryFile.uploadSuccessful}}</span>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{supplierDataEntryFile.uploadProcessed}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/supplier-data-entry-file', supplierDataEntryFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

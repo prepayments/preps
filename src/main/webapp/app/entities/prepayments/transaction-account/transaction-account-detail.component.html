@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="transactionAccount">
+            <h2><span>Transaction Account</span> {{transactionAccount.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Account Name</span></dt>
+                <dd>
+                    <span>{{transactionAccount.accountName}}</span>
+                </dd>
+                <dt><span>Account Number</span></dt>
+                <dd>
+                    <span>{{transactionAccount.accountNumber}}</span>
+                </dd>
+                <dt><span>Account Balance</span></dt>
+                <dd>
+                    <span>{{transactionAccount.accountBalance}}</span>
+                </dd>
+                <dt><span>Opening Date</span></dt>
+                <dd>
+                    <span>{{transactionAccount.openingDate}}</span>
+                </dd>
+                <dt><span>Account Opening Date Balance</span></dt>
+                <dd>
+                    <span>{{transactionAccount.accountOpeningDateBalance}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/transaction-account', transactionAccount.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

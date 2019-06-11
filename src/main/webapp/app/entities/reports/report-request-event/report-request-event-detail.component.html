@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="reportRequestEvent">
+            <h2><span>Report Request Event</span> {{reportRequestEvent.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Report Request Date</span></dt>
+                <dd>
+                    <span>{{reportRequestEvent.reportRequestDate}}</span>
+                </dd>
+                <dt><span>Requested By</span></dt>
+                <dd>
+                    <span>{{reportRequestEvent.requestedBy}}</span>
+                </dd>
+                <dt><span>Report File</span></dt>
+                <dd>
+                    <div *ngIf="reportRequestEvent.reportFile">
+                        <a (click)="openFile(reportRequestEvent.reportFileContentType, reportRequestEvent.reportFile)">open</a>
+                        {{reportRequestEvent.reportFileContentType}}, {{byteSize(reportRequestEvent.reportFile)}}
+                    </div>
+                </dd>
+                <dt><span>Report Type</span></dt>
+                <dd>
+                    <div *ngIf="reportRequestEvent.reportTypeId">
+                        <a [routerLink]="['/report-type', reportRequestEvent.reportTypeId, 'view']">{{reportRequestEvent.reportTypeId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/report-request-event', reportRequestEvent.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
