@@ -42,7 +42,7 @@
     ],
     "changelogDate": "20190527160148",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "transaction_account",
     "databaseType": "sql",

@@ -65,7 +65,7 @@
     ],
     "changelogDate": "20190429140127",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "amortization_entry",
     "databaseType": "sql",

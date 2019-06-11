@@ -3,6 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.AccountingTransaction;
 import io.github.prepayments.repository.AccountingTransactionRepository;
+import io.github.prepayments.repository.search.AccountingTransactionSearchRepository;
 import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.service.dto.AccountingTransactionDTO;
 import io.github.prepayments.service.mapper.AccountingTransactionMapper;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,11 +30,14 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -64,6 +70,14 @@ public class AccountingTransactionResourceIT {
 
     @Autowired
     private AccountingTransactionService accountingTransactionService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.AccountingTransactionSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private AccountingTransactionSearchRepository mockAccountingTransactionSearchRepository;
 
     @Autowired
     private AccountingTransactionQueryService accountingTransactionQueryService;
@@ -156,6 +170,9 @@ public class AccountingTransactionResourceIT {
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(DEFAULT_TRANSACTION_DATE);
         assertThat(testAccountingTransaction.getTransactionAmount()).isEqualTo(DEFAULT_TRANSACTION_AMOUNT);
         assertThat(testAccountingTransaction.isIncrementAccount()).isEqualTo(DEFAULT_INCREMENT_ACCOUNT);
+
+        // Validate the AccountingTransaction in Elasticsearch
+        verify(mockAccountingTransactionSearchRepository, times(1)).save(testAccountingTransaction);
     }
 
     @Test
@@ -176,6 +193,9 @@ public class AccountingTransactionResourceIT {
         // Validate the AccountingTransaction in the database
         List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
         assertThat(accountingTransactionList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the AccountingTransaction in Elasticsearch
+        verify(mockAccountingTransactionSearchRepository, times(0)).save(accountingTransaction);
     }
 
 
@@ -612,6 +632,9 @@ public class AccountingTransactionResourceIT {
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(UPDATED_TRANSACTION_DATE);
         assertThat(testAccountingTransaction.getTransactionAmount()).isEqualTo(UPDATED_TRANSACTION_AMOUNT);
         assertThat(testAccountingTransaction.isIncrementAccount()).isEqualTo(UPDATED_INCREMENT_ACCOUNT);
+
+        // Validate the AccountingTransaction in Elasticsearch
+        verify(mockAccountingTransactionSearchRepository, times(1)).save(testAccountingTransaction);
     }
 
     @Test
@@ -631,6 +654,9 @@ public class AccountingTransactionResourceIT {
         // Validate the AccountingTransaction in the database
         List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
         assertThat(accountingTransactionList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the AccountingTransaction in Elasticsearch
+        verify(mockAccountingTransactionSearchRepository, times(0)).save(accountingTransaction);
     }
 
     @Test
@@ -649,6 +675,28 @@ public class AccountingTransactionResourceIT {
         // Validate the database is empty
         List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
         assertThat(accountingTransactionList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the AccountingTransaction in Elasticsearch
+        verify(mockAccountingTransactionSearchRepository, times(1)).deleteById(accountingTransaction.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchAccountingTransaction() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+        when(mockAccountingTransactionSearchRepository.search(queryStringQuery("id:" + accountingTransaction.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(accountingTransaction), PageRequest.of(0, 1), 1));
+        // Search the accountingTransaction
+        restAccountingTransactionMockMvc.perform(get("/api/_search/accounting-transactions?query=id:" + accountingTransaction.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(accountingTransaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
+            .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
+            .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].transactionAmount").value(hasItem(DEFAULT_TRANSACTION_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())));
     }
 
     @Test

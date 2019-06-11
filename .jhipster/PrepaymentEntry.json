@@ -76,7 +76,7 @@
     ],
     "changelogDate": "20190429150304",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "prepayment_entry",
     "databaseType": "sql",

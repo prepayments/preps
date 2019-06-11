@@ -58,7 +58,7 @@
     ],
     "changelogDate": "20190430163600",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "registered_supplier",
     "databaseType": "sql",

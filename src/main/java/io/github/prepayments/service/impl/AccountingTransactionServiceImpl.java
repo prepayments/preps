@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.domain.AccountingTransaction;
 import io.github.prepayments.repository.AccountingTransactionRepository;
+import io.github.prepayments.repository.search.AccountingTransactionSearchRepository;
 import io.github.prepayments.service.dto.AccountingTransactionDTO;
 import io.github.prepayments.service.mapper.AccountingTransactionMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link AccountingTransaction}.
@@ -28,9 +31,12 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
 
     private final AccountingTransactionMapper accountingTransactionMapper;
 
-    public AccountingTransactionServiceImpl(AccountingTransactionRepository accountingTransactionRepository, AccountingTransactionMapper accountingTransactionMapper) {
+    private final AccountingTransactionSearchRepository accountingTransactionSearchRepository;
+
+    public AccountingTransactionServiceImpl(AccountingTransactionRepository accountingTransactionRepository, AccountingTransactionMapper accountingTransactionMapper, AccountingTransactionSearchRepository accountingTransactionSearchRepository) {
         this.accountingTransactionRepository = accountingTransactionRepository;
         this.accountingTransactionMapper = accountingTransactionMapper;
+        this.accountingTransactionSearchRepository = accountingTransactionSearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
         log.debug("Request to save AccountingTransaction : {}", accountingTransactionDTO);
         AccountingTransaction accountingTransaction = accountingTransactionMapper.toEntity(accountingTransactionDTO);
         accountingTransaction = accountingTransactionRepository.save(accountingTransaction);
-        return accountingTransactionMapper.toDto(accountingTransaction);
+        AccountingTransactionDTO result = accountingTransactionMapper.toDto(accountingTransaction);
+        accountingTransactionSearchRepository.save(accountingTransaction);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
     public void delete(Long id) {
         log.debug("Request to delete AccountingTransaction : {}", id);
         accountingTransactionRepository.deleteById(id);
+        accountingTransactionSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the accountingTransaction corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AccountingTransactionDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of AccountingTransactions for query {}", query);
+        return accountingTransactionSearchRepository.search(queryStringQuery(query), pageable)
+            .map(accountingTransactionMapper::toDto);
     }
 }

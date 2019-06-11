@@ -26,7 +26,7 @@
     ],
     "changelogDate": "20190520140229",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "report_request_event",
     "databaseType": "sql",
