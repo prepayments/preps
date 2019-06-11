@@ -15,7 +15,7 @@ services:
       - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka
       - SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=zookeeper
     ports:
-      - 8080:8080
+      - 11001:11001
   preps-postgresql:
     extends:
       file: postgresql.yml

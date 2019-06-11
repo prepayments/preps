@@ -628,7 +628,7 @@
                                 <arg>chmod +x /entrypoint.sh &amp;&amp; sync &amp;&amp; /entrypoint.sh</arg>
                             </entrypoint>
                             <ports>
-                                <port>8080</port>
+                                <port>11001</port>
                                 <port>5701/udp</port>
                             </ports>
                             <environment>

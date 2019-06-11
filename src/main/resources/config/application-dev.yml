@@ -106,7 +106,7 @@ spring:
         enabled: true
 
 server:
-  port: 8080
+  port: 11001
 
 # ===================================================================
 # JHipster specific properties
@@ -141,7 +141,7 @@ jhipster:
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     from: preps@localhost
-    base-url: http://127.0.0.1:8080
+    base-url: http://127.0.0.1:11001
   metrics:
     logs: # Reports metrics in the logs
       enabled: false
