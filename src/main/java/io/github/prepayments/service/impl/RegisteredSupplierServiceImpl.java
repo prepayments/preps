@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.RegisteredSupplierService;
 import io.github.prepayments.domain.RegisteredSupplier;
 import io.github.prepayments.repository.RegisteredSupplierRepository;
+import io.github.prepayments.repository.search.RegisteredSupplierSearchRepository;
 import io.github.prepayments.service.dto.RegisteredSupplierDTO;
 import io.github.prepayments.service.mapper.RegisteredSupplierMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link RegisteredSupplier}.
@@ -28,9 +31,12 @@ public class RegisteredSupplierServiceImpl implements RegisteredSupplierService 
 
     private final RegisteredSupplierMapper registeredSupplierMapper;
 
-    public RegisteredSupplierServiceImpl(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper) {
+    private final RegisteredSupplierSearchRepository registeredSupplierSearchRepository;
+
+    public RegisteredSupplierServiceImpl(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper, RegisteredSupplierSearchRepository registeredSupplierSearchRepository) {
         this.registeredSupplierRepository = registeredSupplierRepository;
         this.registeredSupplierMapper = registeredSupplierMapper;
+        this.registeredSupplierSearchRepository = registeredSupplierSearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class RegisteredSupplierServiceImpl implements RegisteredSupplierService 
         log.debug("Request to save RegisteredSupplier : {}", registeredSupplierDTO);
         RegisteredSupplier registeredSupplier = registeredSupplierMapper.toEntity(registeredSupplierDTO);
         registeredSupplier = registeredSupplierRepository.save(registeredSupplier);
-        return registeredSupplierMapper.toDto(registeredSupplier);
+        RegisteredSupplierDTO result = registeredSupplierMapper.toDto(registeredSupplier);
+        registeredSupplierSearchRepository.save(registeredSupplier);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class RegisteredSupplierServiceImpl implements RegisteredSupplierService 
     public void delete(Long id) {
         log.debug("Request to delete RegisteredSupplier : {}", id);
         registeredSupplierRepository.deleteById(id);
+        registeredSupplierSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the registeredSupplier corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<RegisteredSupplierDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of RegisteredSuppliers for query {}", query);
+        return registeredSupplierSearchRepository.search(queryStringQuery(query), pageable)
+            .map(registeredSupplierMapper::toDto);
     }
 }

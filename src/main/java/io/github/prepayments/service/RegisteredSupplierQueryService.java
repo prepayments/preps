@@ -17,6 +17,7 @@ import io.github.jhipster.service.QueryService;
 import io.github.prepayments.domain.RegisteredSupplier;
 import io.github.prepayments.domain.*; // for static metamodels
 import io.github.prepayments.repository.RegisteredSupplierRepository;
+import io.github.prepayments.repository.search.RegisteredSupplierSearchRepository;
 import io.github.prepayments.service.dto.RegisteredSupplierCriteria;
 import io.github.prepayments.service.dto.RegisteredSupplierDTO;
 import io.github.prepayments.service.mapper.RegisteredSupplierMapper;
@@ -37,9 +38,12 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
 
     private final RegisteredSupplierMapper registeredSupplierMapper;
 
-    public RegisteredSupplierQueryService(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper) {
+    private final RegisteredSupplierSearchRepository registeredSupplierSearchRepository;
+
+    public RegisteredSupplierQueryService(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper, RegisteredSupplierSearchRepository registeredSupplierSearchRepository) {
         this.registeredSupplierRepository = registeredSupplierRepository;
         this.registeredSupplierMapper = registeredSupplierMapper;
+        this.registeredSupplierSearchRepository = registeredSupplierSearchRepository;
     }
 
     /**

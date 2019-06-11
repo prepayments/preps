@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
@@ -24,12 +25,14 @@ export class RegisteredSupplierComponent implements OnInit, OnDestroy {
   predicate: any;
   reverse: any;
   totalItems: number;
+  currentSearch: string;
 
   constructor(
     protected registeredSupplierService: RegisteredSupplierService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected parseLinks: JhiParseLinks,
+    protected activatedRoute: ActivatedRoute,
     protected accountService: AccountService
   ) {
     this.registeredSuppliers = [];
@@ -40,9 +43,25 @@ export class RegisteredSupplierComponent implements OnInit, OnDestroy {
     };
     this.predicate = 'id';
     this.reverse = true;
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
   loadAll() {
+    if (this.currentSearch) {
+      this.registeredSupplierService
+        .search({
+          query: this.currentSearch,
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe(
+          (res: HttpResponse<IRegisteredSupplier[]>) => this.paginateRegisteredSuppliers(res.body, res.headers),
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+      return;
+    }
     this.registeredSupplierService
       .query({
         page: this.page,
@@ -63,6 +82,33 @@ export class RegisteredSupplierComponent implements OnInit, OnDestroy {
 
   loadPage(page) {
     this.page = page;
+    this.loadAll();
+  }
+
+  clear() {
+    this.registeredSuppliers = [];
+    this.links = {
+      last: 0
+    };
+    this.page = 0;
+    this.predicate = 'id';
+    this.reverse = true;
+    this.currentSearch = '';
+    this.loadAll();
+  }
+
+  search(query) {
+    if (!query) {
+      return this.clear();
+    }
+    this.registeredSuppliers = [];
+    this.links = {
+      last: 0
+    };
+    this.page = 0;
+    this.predicate = '_score';
+    this.reverse = false;
+    this.currentSearch = query;
     this.loadAll();
   }
 

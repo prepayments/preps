@@ -3,6 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.RegisteredSupplier;
 import io.github.prepayments.repository.RegisteredSupplierRepository;
+import io.github.prepayments.repository.search.RegisteredSupplierSearchRepository;
 import io.github.prepayments.service.RegisteredSupplierService;
 import io.github.prepayments.service.dto.RegisteredSupplierDTO;
 import io.github.prepayments.service.mapper.RegisteredSupplierMapper;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,11 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -82,6 +88,14 @@ public class RegisteredSupplierResourceIT {
 
     @Autowired
     private RegisteredSupplierService registeredSupplierService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.RegisteredSupplierSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private RegisteredSupplierSearchRepository mockRegisteredSupplierSearchRepository;
 
     @Autowired
     private RegisteredSupplierQueryService registeredSupplierQueryService;
@@ -195,6 +209,9 @@ public class RegisteredSupplierResourceIT {
         assertThat(testRegisteredSupplier.getBankPhysicalAddress()).isEqualTo(DEFAULT_BANK_PHYSICAL_ADDRESS);
         assertThat(testRegisteredSupplier.isLocallyDomiciled()).isEqualTo(DEFAULT_LOCALLY_DOMICILED);
         assertThat(testRegisteredSupplier.getTaxAuthorityPIN()).isEqualTo(DEFAULT_TAX_AUTHORITY_PIN);
+
+        // Validate the RegisteredSupplier in Elasticsearch
+        verify(mockRegisteredSupplierSearchRepository, times(1)).save(testRegisteredSupplier);
     }
 
     @Test
@@ -215,6 +232,9 @@ public class RegisteredSupplierResourceIT {
         // Validate the RegisteredSupplier in the database
         List<RegisteredSupplier> registeredSupplierList = registeredSupplierRepository.findAll();
         assertThat(registeredSupplierList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the RegisteredSupplier in Elasticsearch
+        verify(mockRegisteredSupplierSearchRepository, times(0)).save(registeredSupplier);
     }
 
 
@@ -856,6 +876,9 @@ public class RegisteredSupplierResourceIT {
         assertThat(testRegisteredSupplier.getBankPhysicalAddress()).isEqualTo(UPDATED_BANK_PHYSICAL_ADDRESS);
         assertThat(testRegisteredSupplier.isLocallyDomiciled()).isEqualTo(UPDATED_LOCALLY_DOMICILED);
         assertThat(testRegisteredSupplier.getTaxAuthorityPIN()).isEqualTo(UPDATED_TAX_AUTHORITY_PIN);
+
+        // Validate the RegisteredSupplier in Elasticsearch
+        verify(mockRegisteredSupplierSearchRepository, times(1)).save(testRegisteredSupplier);
     }
 
     @Test
@@ -875,6 +898,9 @@ public class RegisteredSupplierResourceIT {
         // Validate the RegisteredSupplier in the database
         List<RegisteredSupplier> registeredSupplierList = registeredSupplierRepository.findAll();
         assertThat(registeredSupplierList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the RegisteredSupplier in Elasticsearch
+        verify(mockRegisteredSupplierSearchRepository, times(0)).save(registeredSupplier);
     }
 
     @Test
@@ -893,6 +919,35 @@ public class RegisteredSupplierResourceIT {
         // Validate the database is empty
         List<RegisteredSupplier> registeredSupplierList = registeredSupplierRepository.findAll();
         assertThat(registeredSupplierList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the RegisteredSupplier in Elasticsearch
+        verify(mockRegisteredSupplierSearchRepository, times(1)).deleteById(registeredSupplier.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchRegisteredSupplier() throws Exception {
+        // Initialize the database
+        registeredSupplierRepository.saveAndFlush(registeredSupplier);
+        when(mockRegisteredSupplierSearchRepository.search(queryStringQuery("id:" + registeredSupplier.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(registeredSupplier), PageRequest.of(0, 1), 1));
+        // Search the registeredSupplier
+        restRegisteredSupplierMockMvc.perform(get("/api/_search/registered-suppliers?query=id:" + registeredSupplier.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(registeredSupplier.getId().intValue())))
+            .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
+            .andExpect(jsonPath("$.[*].supplierAddress").value(hasItem(DEFAULT_SUPPLIER_ADDRESS)))
+            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
+            .andExpect(jsonPath("$.[*].supplierEmail").value(hasItem(DEFAULT_SUPPLIER_EMAIL)))
+            .andExpect(jsonPath("$.[*].bankAccountName").value(hasItem(DEFAULT_BANK_ACCOUNT_NAME)))
+            .andExpect(jsonPath("$.[*].bankAccountNumber").value(hasItem(DEFAULT_BANK_ACCOUNT_NUMBER)))
+            .andExpect(jsonPath("$.[*].supplierBankName").value(hasItem(DEFAULT_SUPPLIER_BANK_NAME)))
+            .andExpect(jsonPath("$.[*].supplierBankBranch").value(hasItem(DEFAULT_SUPPLIER_BANK_BRANCH)))
+            .andExpect(jsonPath("$.[*].bankSwiftCode").value(hasItem(DEFAULT_BANK_SWIFT_CODE)))
+            .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS)))
+            .andExpect(jsonPath("$.[*].locallyDomiciled").value(hasItem(DEFAULT_LOCALLY_DOMICILED.booleanValue())))
+            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)));
     }
 
     @Test
