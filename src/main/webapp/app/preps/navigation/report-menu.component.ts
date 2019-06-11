@@ -43,6 +43,20 @@ import { Component, OnInit } from '@angular/core';
                         <span>Transaction Accounts</span>
                     </a>
                 </li>
+                <ul *ghaHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                  <li>
+                    <a class="dropdown-item" routerLink="report-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                      <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                      <span>Report Type</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" routerLink="report-request-event" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                      <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                      <span>Report Request Event</span>
+                    </a>
+                  </li>
+                </ul>
             </ul>
         </div>
     `,
