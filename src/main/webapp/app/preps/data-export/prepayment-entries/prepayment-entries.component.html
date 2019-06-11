@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let prepaymentEntry of prepaymentEntries$">
-            <td>{{prepaymentEntry.id}}</td>
+            <td><a [routerLink]="['/prepayment-entry', prepaymentEntry.id, 'view' ]">{{prepaymentEntry.id}}</a></td>
             <td>{{prepaymentEntry.accountNumber}}</td>
             <td>{{prepaymentEntry.accountName}}</td>
             <td>{{prepaymentEntry.prepaymentId}}</td>
