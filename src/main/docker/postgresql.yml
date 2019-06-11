@@ -5,7 +5,8 @@ services:
     # volumes:
     #     - ~/volumes/jhipster/preps/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=preps
-      - POSTGRES_PASSWORD=
+                - POSTGRES_USER=${PG_DATABASE_DEV_USER}
+                - POSTGRES_PASSWORD=${PG_DATABASE_DEV_PASSWORD}
+                - POSTGRES_DB=preps
     ports:
-      - 5432:5432
+        - 5432:5432
