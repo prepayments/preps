@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IAmortizationEntry[]>;
 @Injectable({ providedIn: 'root' })
 export class AmortizationEntryService {
   public resourceUrl = SERVER_API_URL + 'api/amortization-entries';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/amortization-entries';
 
   constructor(protected http: HttpClient) {}
 
@@ -47,6 +48,13 @@ export class AmortizationEntryService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IAmortizationEntry[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   protected convertDateFromClient(amortizationEntry: IAmortizationEntry): IAmortizationEntry {

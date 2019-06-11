@@ -17,6 +17,7 @@ import io.github.jhipster.service.QueryService;
 import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.domain.*; // for static metamodels
 import io.github.prepayments.repository.AmortizationEntryRepository;
+import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
 import io.github.prepayments.service.dto.AmortizationEntryCriteria;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.mapper.AmortizationEntryMapper;
@@ -37,9 +38,12 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
 
     private final AmortizationEntryMapper amortizationEntryMapper;
 
-    public AmortizationEntryQueryService(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper) {
+    private final AmortizationEntrySearchRepository amortizationEntrySearchRepository;
+
+    public AmortizationEntryQueryService(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper, AmortizationEntrySearchRepository amortizationEntrySearchRepository) {
         this.amortizationEntryRepository = amortizationEntryRepository;
         this.amortizationEntryMapper = amortizationEntryMapper;
+        this.amortizationEntrySearchRepository = amortizationEntrySearchRepository;
     }
 
     /**

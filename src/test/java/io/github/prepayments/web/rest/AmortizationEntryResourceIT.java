@@ -4,6 +4,7 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.AmortizationEntryRepository;
+import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.mapper.AmortizationEntryMapper;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +31,14 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -71,6 +77,14 @@ public class AmortizationEntryResourceIT {
 
     @Autowired
     private AmortizationEntryService amortizationEntryService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.AmortizationEntrySearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private AmortizationEntrySearchRepository mockAmortizationEntrySearchRepository;
 
     @Autowired
     private AmortizationEntryQueryService amortizationEntryQueryService;
@@ -189,6 +203,9 @@ public class AmortizationEntryResourceIT {
         assertThat(testAmortizationEntry.getServiceOutlet()).isEqualTo(DEFAULT_SERVICE_OUTLET);
         assertThat(testAmortizationEntry.getAccountNumber()).isEqualTo(DEFAULT_ACCOUNT_NUMBER);
         assertThat(testAmortizationEntry.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
+
+        // Validate the AmortizationEntry in Elasticsearch
+        verify(mockAmortizationEntrySearchRepository, times(1)).save(testAmortizationEntry);
     }
 
     @Test
@@ -209,6 +226,9 @@ public class AmortizationEntryResourceIT {
         // Validate the AmortizationEntry in the database
         List<AmortizationEntry> amortizationEntryList = amortizationEntryRepository.findAll();
         assertThat(amortizationEntryList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the AmortizationEntry in Elasticsearch
+        verify(mockAmortizationEntrySearchRepository, times(0)).save(amortizationEntry);
     }
 
 
@@ -749,6 +769,9 @@ public class AmortizationEntryResourceIT {
         assertThat(testAmortizationEntry.getServiceOutlet()).isEqualTo(UPDATED_SERVICE_OUTLET);
         assertThat(testAmortizationEntry.getAccountNumber()).isEqualTo(UPDATED_ACCOUNT_NUMBER);
         assertThat(testAmortizationEntry.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
+
+        // Validate the AmortizationEntry in Elasticsearch
+        verify(mockAmortizationEntrySearchRepository, times(1)).save(testAmortizationEntry);
     }
 
     @Test
@@ -768,6 +791,9 @@ public class AmortizationEntryResourceIT {
         // Validate the AmortizationEntry in the database
         List<AmortizationEntry> amortizationEntryList = amortizationEntryRepository.findAll();
         assertThat(amortizationEntryList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the AmortizationEntry in Elasticsearch
+        verify(mockAmortizationEntrySearchRepository, times(0)).save(amortizationEntry);
     }
 
     @Test
@@ -786,6 +812,30 @@ public class AmortizationEntryResourceIT {
         // Validate the database is empty
         List<AmortizationEntry> amortizationEntryList = amortizationEntryRepository.findAll();
         assertThat(amortizationEntryList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the AmortizationEntry in Elasticsearch
+        verify(mockAmortizationEntrySearchRepository, times(1)).deleteById(amortizationEntry.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchAmortizationEntry() throws Exception {
+        // Initialize the database
+        amortizationEntryRepository.saveAndFlush(amortizationEntry);
+        when(mockAmortizationEntrySearchRepository.search(queryStringQuery("id:" + amortizationEntry.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(amortizationEntry), PageRequest.of(0, 1), 1));
+        // Search the amortizationEntry
+        restAmortizationEntryMockMvc.perform(get("/api/_search/amortization-entries?query=id:" + amortizationEntry.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationEntry.getId().intValue())))
+            .andExpect(jsonPath("$.[*].amortizationDate").value(hasItem(DEFAULT_AMORTIZATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].amortizationAmount").value(hasItem(DEFAULT_AMORTIZATION_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].particulars").value(hasItem(DEFAULT_PARTICULARS)))
+            .andExpect(jsonPath("$.[*].posted").value(hasItem(DEFAULT_POSTED.booleanValue())))
+            .andExpect(jsonPath("$.[*].serviceOutlet").value(hasItem(DEFAULT_SERVICE_OUTLET)))
+            .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
+            .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)));
     }
 
     @Test

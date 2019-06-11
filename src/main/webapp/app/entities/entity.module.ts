@@ -61,6 +61,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'accounting-transaction',
         loadChildren: './prepayments/accounting-transaction/accounting-transaction.module#PrepsAccountingTransactionModule'
+      },
+      {
+        path: 'amortization-entry',
+        loadChildren: './prepayments/amortization-entry/amortization-entry.module#PrepsAmortizationEntryModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

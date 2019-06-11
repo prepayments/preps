@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.repository.AmortizationEntryRepository;
+import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.mapper.AmortizationEntryMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link AmortizationEntry}.
@@ -28,9 +31,12 @@ public class AmortizationEntryServiceImpl implements AmortizationEntryService {
 
     private final AmortizationEntryMapper amortizationEntryMapper;
 
-    public AmortizationEntryServiceImpl(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper) {
+    private final AmortizationEntrySearchRepository amortizationEntrySearchRepository;
+
+    public AmortizationEntryServiceImpl(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper, AmortizationEntrySearchRepository amortizationEntrySearchRepository) {
         this.amortizationEntryRepository = amortizationEntryRepository;
         this.amortizationEntryMapper = amortizationEntryMapper;
+        this.amortizationEntrySearchRepository = amortizationEntrySearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class AmortizationEntryServiceImpl implements AmortizationEntryService {
         log.debug("Request to save AmortizationEntry : {}", amortizationEntryDTO);
         AmortizationEntry amortizationEntry = amortizationEntryMapper.toEntity(amortizationEntryDTO);
         amortizationEntry = amortizationEntryRepository.save(amortizationEntry);
-        return amortizationEntryMapper.toDto(amortizationEntry);
+        AmortizationEntryDTO result = amortizationEntryMapper.toDto(amortizationEntry);
+        amortizationEntrySearchRepository.save(amortizationEntry);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class AmortizationEntryServiceImpl implements AmortizationEntryService {
     public void delete(Long id) {
         log.debug("Request to delete AmortizationEntry : {}", id);
         amortizationEntryRepository.deleteById(id);
+        amortizationEntrySearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the amortizationEntry corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AmortizationEntryDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of AmortizationEntries for query {}", query);
+        return amortizationEntrySearchRepository.search(queryStringQuery(query), pageable)
+            .map(amortizationEntryMapper::toDto);
     }
 }
