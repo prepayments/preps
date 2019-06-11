@@ -6,7 +6,7 @@ import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'gha-export-menu',
     template: `
-        <li *ghaHasAnyAuthority="'ROLE_ADMIN'"
+        <li *ghaHasAnyAuthority="'ROLE_USER'"
             ngbDropdown
             class="nav-item dropdown pointer"
             routerLinkActive="active"
