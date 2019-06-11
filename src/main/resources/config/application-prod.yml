@@ -50,8 +50,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/preps
-    username: preps
-    password:
+    username: ${PG_DATABASE_DEV_USER}
+    password: ${PG_DATABASE_DEV_PASSWORD}
     hikari:
       poolName: Hikari
       auto-commit: false

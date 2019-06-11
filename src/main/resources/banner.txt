@@ -1,10 +1,12 @@
 
-  ${AnsiColor.GREEN}      ██╗${AnsiColor.RED} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.RED} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.RED} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.RED} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+$$$$$$$\  $$$$$$$\  $$$$$$$$\ $$$$$$$\   $$$$$$\
+$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ $$  __$$\
+$$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |$$ /  \__|
+$$$$$$$  |$$$$$$$  |$$$$$\    $$$$$$$  |\$$$$$$\
+$$  ____/ $$  __$$< $$  __|   $$  ____/  \____$$\
+$$ |      $$ |  $$ |$$ |      $$ |      $$\   $$ |
+$$ |      $$ |  $$ |$$$$$$$$\ $$ |      \$$$$$$  |
+\__|      \__|  \__|\________|\__|       \______/
 
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
+${AnsiColor.BRIGHT_BLUE}:: PREPAYMENTS ON JHipster 6.0.1  🤓  :: Running Spring Boot ${spring-boot.version} ::
 :: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
