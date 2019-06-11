@@ -7,7 +7,6 @@ import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
 import io.github.prepayments.service.mapper.TransactionAccountDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
 import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +91,8 @@ public class TransactionAccountDataEntryFileResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResource = new TransactionAccountDataEntryFileResource(transactionAccountDataEntryFileService, transactionAccountDataEntryFileQueryService);
+        final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResource = new TransactionAccountDataEntryFileResource(transactionAccountDataEntryFileService, transactionAccountDataEntryFileQueryService,
+                                                                                                                                            transactionAccountDataFileMessageService);
         this.restTransactionAccountDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(transactionAccountDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -240,7 +240,7 @@ public class TransactionAccountDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getTransactionAccountDataEntryFile() throws Exception {

@@ -1,5 +1,7 @@
 package io.github.prepayments.web.rest;
 
+import io.github.prepayments.app.messaging.notifications.dto.TransactionAccountFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +44,15 @@ public class TransactionAccountDataEntryFileResource {
     private String applicationName;
 
     private final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService;
-
+    private final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
     private final TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService;
 
-    public TransactionAccountDataEntryFileResource(TransactionAccountDataEntryFileService transactionAccountDataEntryFileService, TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService) {
+    public TransactionAccountDataEntryFileResource(TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
+                                                   TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService,
+                                                   final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService) {
         this.transactionAccountDataEntryFileService = transactionAccountDataEntryFileService;
         this.transactionAccountDataEntryFileQueryService = transactionAccountDataEntryFileQueryService;
+        this.transactionAccountDataFileMessageService = transactionAccountDataFileMessageService;
     }
 
     /**
@@ -65,6 +69,16 @@ public class TransactionAccountDataEntryFileResource {
             throw new BadRequestAlertException("A new transactionAccountDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         TransactionAccountDataEntryFileDTO result = transactionAccountDataEntryFileService.save(transactionAccountDataEntryFileDTO);
+
+        // @formatter:off
+        transactionAccountDataFileMessageService.sendMessage(TransactionAccountFileUploadNotification.builder()
+                                                     .id(result.getId())
+                                                     .timeStamp(System.currentTimeMillis())
+                                                     .fileUpload(result.getDataEntryFile())
+                                                     .build());
+        // @formatter:on
+
+
         return ResponseEntity.created(new URI("/api/transaction-account-data-entry-files/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
