@@ -1,5 +1,7 @@
 package io.github.prepayments.web.rest;
 
+import io.github.prepayments.app.messaging.notifications.dto.AmortizationFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.AmortizationDataFileMessageService;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +43,17 @@ public class AmortizationDataEntryFileResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final AmortizationDataFileMessageService amortizationDataFileMessageService;
+
     private final AmortizationDataEntryFileService amortizationDataEntryFileService;
 
     private final AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService;
 
-    public AmortizationDataEntryFileResource(AmortizationDataEntryFileService amortizationDataEntryFileService, AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService) {
+    public AmortizationDataEntryFileResource(AmortizationDataEntryFileService amortizationDataEntryFileService, AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService,
+                                             final AmortizationDataFileMessageService amortizationDataFileMessageService) {
         this.amortizationDataEntryFileService = amortizationDataEntryFileService;
         this.amortizationDataEntryFileQueryService = amortizationDataEntryFileQueryService;
+        this.amortizationDataFileMessageService = amortizationDataFileMessageService;
     }
 
     /**
@@ -65,6 +70,17 @@ public class AmortizationDataEntryFileResource {
             throw new BadRequestAlertException("A new amortizationDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AmortizationDataEntryFileDTO result = amortizationDataEntryFileService.save(amortizationDataEntryFileDTO);
+
+        // @formatter:off
+        amortizationDataFileMessageService.sendMessage(
+            AmortizationFileUploadNotification.builder()
+                                                 .id(result.getId())
+                                                 .timeStamp(System.currentTimeMillis())
+                                                 .fileUpload(result.getDataEntryFile())
+                                              .build());
+        // @formatter:on
+
+
         return ResponseEntity.created(new URI("/api/amortization-data-entry-files/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);

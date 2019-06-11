@@ -7,7 +7,6 @@ import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
 import io.github.prepayments.service.mapper.AmortizationDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
 import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +91,8 @@ public class AmortizationDataEntryFileResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AmortizationDataEntryFileResource amortizationDataEntryFileResource = new AmortizationDataEntryFileResource(amortizationDataEntryFileService, amortizationDataEntryFileQueryService);
+        final AmortizationDataEntryFileResource amortizationDataEntryFileResource = new AmortizationDataEntryFileResource(amortizationDataEntryFileService, amortizationDataEntryFileQueryService,
+                                                                                                                          amortizationDataFileMessageService);
         this.restAmortizationDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(amortizationDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -240,7 +240,7 @@ public class AmortizationDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getAmortizationDataEntryFile() throws Exception {
