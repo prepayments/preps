@@ -26,6 +26,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.ReportRequestEvent}.
@@ -142,4 +145,21 @@ public class ReportRequestEventResource {
         reportRequestEventService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/report-request-events?query=:query} : search for the reportRequestEvent corresponding
+     * to the query.
+     *
+     * @param query the query of the reportRequestEvent search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/report-request-events")
+    public ResponseEntity<List<ReportRequestEventDTO>> searchReportRequestEvents(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of ReportRequestEvents for query {}", query);
+        Page<ReportRequestEventDTO> page = reportRequestEventService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

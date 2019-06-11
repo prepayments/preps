@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IReportRequestEvent[]>;
 @Injectable({ providedIn: 'root' })
 export class ReportRequestEventService {
   public resourceUrl = SERVER_API_URL + 'api/report-request-events';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/report-request-events';
 
   constructor(protected http: HttpClient) {}
 
@@ -47,6 +48,13 @@ export class ReportRequestEventService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IReportRequestEvent[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   protected convertDateFromClient(reportRequestEvent: IReportRequestEvent): IReportRequestEvent {

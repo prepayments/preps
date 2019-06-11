@@ -17,6 +17,7 @@ import io.github.jhipster.service.QueryService;
 import io.github.prepayments.domain.ReportRequestEvent;
 import io.github.prepayments.domain.*; // for static metamodels
 import io.github.prepayments.repository.ReportRequestEventRepository;
+import io.github.prepayments.repository.search.ReportRequestEventSearchRepository;
 import io.github.prepayments.service.dto.ReportRequestEventCriteria;
 import io.github.prepayments.service.dto.ReportRequestEventDTO;
 import io.github.prepayments.service.mapper.ReportRequestEventMapper;
@@ -37,9 +38,12 @@ public class ReportRequestEventQueryService extends QueryService<ReportRequestEv
 
     private final ReportRequestEventMapper reportRequestEventMapper;
 
-    public ReportRequestEventQueryService(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper) {
+    private final ReportRequestEventSearchRepository reportRequestEventSearchRepository;
+
+    public ReportRequestEventQueryService(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper, ReportRequestEventSearchRepository reportRequestEventSearchRepository) {
         this.reportRequestEventRepository = reportRequestEventRepository;
         this.reportRequestEventMapper = reportRequestEventMapper;
+        this.reportRequestEventSearchRepository = reportRequestEventSearchRepository;
     }
 
     /**

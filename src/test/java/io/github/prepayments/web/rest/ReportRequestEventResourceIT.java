@@ -4,6 +4,7 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.ReportRequestEvent;
 import io.github.prepayments.domain.ReportType;
 import io.github.prepayments.repository.ReportRequestEventRepository;
+import io.github.prepayments.repository.search.ReportRequestEventSearchRepository;
 import io.github.prepayments.service.ReportRequestEventService;
 import io.github.prepayments.service.dto.ReportRequestEventDTO;
 import io.github.prepayments.service.mapper.ReportRequestEventMapper;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +31,14 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -61,6 +67,14 @@ public class ReportRequestEventResourceIT {
 
     @Autowired
     private ReportRequestEventService reportRequestEventService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.ReportRequestEventSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private ReportRequestEventSearchRepository mockReportRequestEventSearchRepository;
 
     @Autowired
     private ReportRequestEventQueryService reportRequestEventQueryService;
@@ -150,6 +164,9 @@ public class ReportRequestEventResourceIT {
         assertThat(testReportRequestEvent.getRequestedBy()).isEqualTo(DEFAULT_REQUESTED_BY);
         assertThat(testReportRequestEvent.getReportFile()).isEqualTo(DEFAULT_REPORT_FILE);
         assertThat(testReportRequestEvent.getReportFileContentType()).isEqualTo(DEFAULT_REPORT_FILE_CONTENT_TYPE);
+
+        // Validate the ReportRequestEvent in Elasticsearch
+        verify(mockReportRequestEventSearchRepository, times(1)).save(testReportRequestEvent);
     }
 
     @Test
@@ -170,6 +187,9 @@ public class ReportRequestEventResourceIT {
         // Validate the ReportRequestEvent in the database
         List<ReportRequestEvent> reportRequestEventList = reportRequestEventRepository.findAll();
         assertThat(reportRequestEventList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the ReportRequestEvent in Elasticsearch
+        verify(mockReportRequestEventSearchRepository, times(0)).save(reportRequestEvent);
     }
 
 
@@ -408,6 +428,9 @@ public class ReportRequestEventResourceIT {
         assertThat(testReportRequestEvent.getRequestedBy()).isEqualTo(UPDATED_REQUESTED_BY);
         assertThat(testReportRequestEvent.getReportFile()).isEqualTo(UPDATED_REPORT_FILE);
         assertThat(testReportRequestEvent.getReportFileContentType()).isEqualTo(UPDATED_REPORT_FILE_CONTENT_TYPE);
+
+        // Validate the ReportRequestEvent in Elasticsearch
+        verify(mockReportRequestEventSearchRepository, times(1)).save(testReportRequestEvent);
     }
 
     @Test
@@ -427,6 +450,9 @@ public class ReportRequestEventResourceIT {
         // Validate the ReportRequestEvent in the database
         List<ReportRequestEvent> reportRequestEventList = reportRequestEventRepository.findAll();
         assertThat(reportRequestEventList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the ReportRequestEvent in Elasticsearch
+        verify(mockReportRequestEventSearchRepository, times(0)).save(reportRequestEvent);
     }
 
     @Test
@@ -445,6 +471,27 @@ public class ReportRequestEventResourceIT {
         // Validate the database is empty
         List<ReportRequestEvent> reportRequestEventList = reportRequestEventRepository.findAll();
         assertThat(reportRequestEventList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the ReportRequestEvent in Elasticsearch
+        verify(mockReportRequestEventSearchRepository, times(1)).deleteById(reportRequestEvent.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchReportRequestEvent() throws Exception {
+        // Initialize the database
+        reportRequestEventRepository.saveAndFlush(reportRequestEvent);
+        when(mockReportRequestEventSearchRepository.search(queryStringQuery("id:" + reportRequestEvent.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(reportRequestEvent), PageRequest.of(0, 1), 1));
+        // Search the reportRequestEvent
+        restReportRequestEventMockMvc.perform(get("/api/_search/report-request-events?query=id:" + reportRequestEvent.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(reportRequestEvent.getId().intValue())))
+            .andExpect(jsonPath("$.[*].reportRequestDate").value(hasItem(DEFAULT_REPORT_REQUEST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].requestedBy").value(hasItem(DEFAULT_REQUESTED_BY)))
+            .andExpect(jsonPath("$.[*].reportFileContentType").value(hasItem(DEFAULT_REPORT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].reportFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_REPORT_FILE))));
     }
 
     @Test

@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.ReportRequestEventService;
 import io.github.prepayments.domain.ReportRequestEvent;
 import io.github.prepayments.repository.ReportRequestEventRepository;
+import io.github.prepayments.repository.search.ReportRequestEventSearchRepository;
 import io.github.prepayments.service.dto.ReportRequestEventDTO;
 import io.github.prepayments.service.mapper.ReportRequestEventMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link ReportRequestEvent}.
@@ -28,9 +31,12 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
 
     private final ReportRequestEventMapper reportRequestEventMapper;
 
-    public ReportRequestEventServiceImpl(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper) {
+    private final ReportRequestEventSearchRepository reportRequestEventSearchRepository;
+
+    public ReportRequestEventServiceImpl(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper, ReportRequestEventSearchRepository reportRequestEventSearchRepository) {
         this.reportRequestEventRepository = reportRequestEventRepository;
         this.reportRequestEventMapper = reportRequestEventMapper;
+        this.reportRequestEventSearchRepository = reportRequestEventSearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
         log.debug("Request to save ReportRequestEvent : {}", reportRequestEventDTO);
         ReportRequestEvent reportRequestEvent = reportRequestEventMapper.toEntity(reportRequestEventDTO);
         reportRequestEvent = reportRequestEventRepository.save(reportRequestEvent);
-        return reportRequestEventMapper.toDto(reportRequestEvent);
+        ReportRequestEventDTO result = reportRequestEventMapper.toDto(reportRequestEvent);
+        reportRequestEventSearchRepository.save(reportRequestEvent);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
     public void delete(Long id) {
         log.debug("Request to delete ReportRequestEvent : {}", id);
         reportRequestEventRepository.deleteById(id);
+        reportRequestEventSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the reportRequestEvent corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ReportRequestEventDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of ReportRequestEvents for query {}", query);
+        return reportRequestEventSearchRepository.search(queryStringQuery(query), pageable)
+            .map(reportRequestEventMapper::toDto);
     }
 }

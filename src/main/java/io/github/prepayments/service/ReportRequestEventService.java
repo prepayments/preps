@@ -43,4 +43,14 @@ public interface ReportRequestEventService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Search for the reportRequestEvent corresponding to the query.
+     *
+     * @param query the query of the search.
+     * 
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<ReportRequestEventDTO> search(String query, Pageable pageable);
 }
