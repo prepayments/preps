@@ -13,6 +13,16 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           path: 'admin',
           loadChildren: './admin/admin.module#PrepsAdminModule'
         },
+        {
+          /*Add paths for report items*/
+          path: 'data-export',
+          loadChildren: './preps/data-export/data-export.module#DataExportModule'
+        },
+        {
+          /*Add paths for report items*/
+          path: 'reporting',
+          loadChildren: './preps/reporting/reporting.module#ReportingModule'
+        },
         ...LAYOUT_ROUTES
       ],
       { enableTracing: DEBUG_INFO_ENABLED }

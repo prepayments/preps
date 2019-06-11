@@ -18,6 +18,8 @@ import { PrepsHomeModule } from './home/home.module';
 import { PrepsAccountModule } from './account/account.module';
 import { PrepsEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
+import { PrepsModule } from './preps/preps.module';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { GhaMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 
@@ -33,6 +35,8 @@ import { GhaMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
     PrepsSharedModule.forRoot(),
     PrepsCoreModule,
     PrepsHomeModule,
+    PrepsAccountModule,
+    LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
     PrepsAccountModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     PrepsEntityModule,
