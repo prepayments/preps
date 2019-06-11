@@ -16,7 +16,7 @@ export class AmortizationEntryReportService {
     constructor(private log: NGXLogger, private http: HttpClient) {}
 
     getAllAmortizationsReport(): Observable<EntityResponseType> {
-        this.log.debug('Fetching AmortizationEntryReport ... ');
+        this.log.debug(`Fetching AmortizationEntryReport from url : ${this.resourceUrl}... `);
 
         return this.http.get<IAmortizationEntryReport>(`${this.resourceUrl}`, { observe: 'response' });
     }
