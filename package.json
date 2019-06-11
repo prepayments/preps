@@ -46,6 +46,7 @@
     "ng-jhipster": "0.9.3",
     "ngx-cookie": "4.0.2",
     "ngx-infinite-scroll": "7.1.0",
+    "ngx-logger": "^3.3.13",
     "ngx-webstorage": "3.0.2",
     "rxjs": "6.4.0",
     "swagger-ui": "2.2.10",

@@ -16,6 +16,16 @@
                     </span>
                 </a>
             </li>
+
+
+            <gha-report-menu></gha-report-menu>
+
+            <gha-export-menu></gha-export-menu>
+
+            <gha-import-menu></gha-import-menu>
+
+            <gha-models-menu></gha-models-menu>
+
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
@@ -167,6 +177,10 @@
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                 </ul>
             </li>
+
+            <!--//TODO Add about menu-->
+            <gha-about-menu></gha-about-menu>
+
             <li ngbDropdown class="nav-item dropdown pointer" placement="bottom-right" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
                   <span *ngIf="!getImageUrl()">

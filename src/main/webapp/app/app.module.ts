@@ -38,6 +38,7 @@ import { GhaMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
     PrepsAccountModule,
     LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
     PrepsAccountModule,
+    PrepsModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     PrepsEntityModule,
     PrepsAppRoutingModule
