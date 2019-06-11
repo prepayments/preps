@@ -30,7 +30,7 @@ export class ServiceOutletsComponent implements OnInit, OnDestroy {
             pageLength: 5,
             processing: true,
             dom: 'Bfrtip',
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
         };
 
         this.serviceOutletReportingService.getEntities().subscribe(

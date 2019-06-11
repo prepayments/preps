@@ -38,7 +38,7 @@ export class RegisteredSuppliersComponent implements OnInit, OnDestroy {
             pageLength: 5,
             processing: true,
             dom: 'Bfrtip',
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
         };
     }
 
