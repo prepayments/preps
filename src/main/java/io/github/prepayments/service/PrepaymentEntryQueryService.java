@@ -17,6 +17,7 @@ import io.github.jhipster.service.QueryService;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.domain.*; // for static metamodels
 import io.github.prepayments.repository.PrepaymentEntryRepository;
+import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
 import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
@@ -37,9 +38,12 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
 
     private final PrepaymentEntryMapper prepaymentEntryMapper;
 
-    public PrepaymentEntryQueryService(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper) {
+    private final PrepaymentEntrySearchRepository prepaymentEntrySearchRepository;
+
+    public PrepaymentEntryQueryService(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper, PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
         this.prepaymentEntryRepository = prepaymentEntryRepository;
         this.prepaymentEntryMapper = prepaymentEntryMapper;
+        this.prepaymentEntrySearchRepository = prepaymentEntrySearchRepository;
     }
 
     /**

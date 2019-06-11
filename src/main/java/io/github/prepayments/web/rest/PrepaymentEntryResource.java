@@ -27,6 +27,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.PrepaymentEntry}.
@@ -143,4 +146,21 @@ public class PrepaymentEntryResource {
         prepaymentEntryService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/prepayment-entries?query=:query} : search for the prepaymentEntry corresponding
+     * to the query.
+     *
+     * @param query the query of the prepaymentEntry search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/prepayment-entries")
+    public ResponseEntity<List<PrepaymentEntryDTO>> searchPrepaymentEntries(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of PrepaymentEntries for query {}", query);
+        Page<PrepaymentEntryDTO> page = prepaymentEntryService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

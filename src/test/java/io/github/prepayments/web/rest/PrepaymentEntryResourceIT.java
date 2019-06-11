@@ -4,6 +4,7 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
+import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
 import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +31,14 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -80,6 +86,14 @@ public class PrepaymentEntryResourceIT {
 
     @Autowired
     private PrepaymentEntryService prepaymentEntryService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.PrepaymentEntrySearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private PrepaymentEntrySearchRepository mockPrepaymentEntrySearchRepository;
 
     @Autowired
     private PrepaymentEntryQueryService prepaymentEntryQueryService;
@@ -187,6 +201,9 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getMonths()).isEqualTo(DEFAULT_MONTHS);
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(DEFAULT_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(DEFAULT_INVOICE_NUMBER);
+
+        // Validate the PrepaymentEntry in Elasticsearch
+        verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
     }
 
     @Test
@@ -207,6 +224,9 @@ public class PrepaymentEntryResourceIT {
         // Validate the PrepaymentEntry in the database
         List<PrepaymentEntry> prepaymentEntryList = prepaymentEntryRepository.findAll();
         assertThat(prepaymentEntryList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the PrepaymentEntry in Elasticsearch
+        verify(mockPrepaymentEntrySearchRepository, times(0)).save(prepaymentEntry);
     }
 
 
@@ -928,6 +948,9 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getMonths()).isEqualTo(UPDATED_MONTHS);
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(UPDATED_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(UPDATED_INVOICE_NUMBER);
+
+        // Validate the PrepaymentEntry in Elasticsearch
+        verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
     }
 
     @Test
@@ -947,6 +970,9 @@ public class PrepaymentEntryResourceIT {
         // Validate the PrepaymentEntry in the database
         List<PrepaymentEntry> prepaymentEntryList = prepaymentEntryRepository.findAll();
         assertThat(prepaymentEntryList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the PrepaymentEntry in Elasticsearch
+        verify(mockPrepaymentEntrySearchRepository, times(0)).save(prepaymentEntry);
     }
 
     @Test
@@ -965,6 +991,33 @@ public class PrepaymentEntryResourceIT {
         // Validate the database is empty
         List<PrepaymentEntry> prepaymentEntryList = prepaymentEntryRepository.findAll();
         assertThat(prepaymentEntryList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the PrepaymentEntry in Elasticsearch
+        verify(mockPrepaymentEntrySearchRepository, times(1)).deleteById(prepaymentEntry.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchPrepaymentEntry() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+        when(mockPrepaymentEntrySearchRepository.search(queryStringQuery("id:" + prepaymentEntry.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(prepaymentEntry), PageRequest.of(0, 1), 1));
+        // Search the prepaymentEntry
+        restPrepaymentEntryMockMvc.perform(get("/api/_search/prepayment-entries?query=id:" + prepaymentEntry.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(prepaymentEntry.getId().intValue())))
+            .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
+            .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
+            .andExpect(jsonPath("$.[*].prepaymentId").value(hasItem(DEFAULT_PREPAYMENT_ID)))
+            .andExpect(jsonPath("$.[*].prepaymentDate").value(hasItem(DEFAULT_PREPAYMENT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].particulars").value(hasItem(DEFAULT_PARTICULARS)))
+            .andExpect(jsonPath("$.[*].serviceOutlet").value(hasItem(DEFAULT_SERVICE_OUTLET)))
+            .andExpect(jsonPath("$.[*].prepaymentAmount").value(hasItem(DEFAULT_PREPAYMENT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
+            .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
+            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)));
     }
 
     @Test

@@ -3,6 +3,7 @@ package io.github.prepayments.service.impl;
 import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
+import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link PrepaymentEntry}.
@@ -28,9 +31,12 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
 
     private final PrepaymentEntryMapper prepaymentEntryMapper;
 
-    public PrepaymentEntryServiceImpl(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper) {
+    private final PrepaymentEntrySearchRepository prepaymentEntrySearchRepository;
+
+    public PrepaymentEntryServiceImpl(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper, PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
         this.prepaymentEntryRepository = prepaymentEntryRepository;
         this.prepaymentEntryMapper = prepaymentEntryMapper;
+        this.prepaymentEntrySearchRepository = prepaymentEntrySearchRepository;
     }
 
     /**
@@ -44,7 +50,9 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
         log.debug("Request to save PrepaymentEntry : {}", prepaymentEntryDTO);
         PrepaymentEntry prepaymentEntry = prepaymentEntryMapper.toEntity(prepaymentEntryDTO);
         prepaymentEntry = prepaymentEntryRepository.save(prepaymentEntry);
-        return prepaymentEntryMapper.toDto(prepaymentEntry);
+        PrepaymentEntryDTO result = prepaymentEntryMapper.toDto(prepaymentEntry);
+        prepaymentEntrySearchRepository.save(prepaymentEntry);
+        return result;
     }
 
     /**
@@ -85,5 +93,21 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
     public void delete(Long id) {
         log.debug("Request to delete PrepaymentEntry : {}", id);
         prepaymentEntryRepository.deleteById(id);
+        prepaymentEntrySearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the prepaymentEntry corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PrepaymentEntryDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of PrepaymentEntries for query {}", query);
+        return prepaymentEntrySearchRepository.search(queryStringQuery(query), pageable)
+            .map(prepaymentEntryMapper::toDto);
     }
 }
