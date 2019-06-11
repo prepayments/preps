@@ -1,5 +1,7 @@
 package io.github.prepayments.web.rest;
 
+import io.github.prepayments.app.messaging.notifications.dto.ServiceOutletFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.ServiceOutletDataFileMessageService;
 import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
@@ -43,7 +45,7 @@ public class ServiceOutletDataEntryFileResource {
     private String applicationName;
 
     private final ServiceOutletDataEntryFileService serviceOutletDataEntryFileService;
-
+    private final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService;
     private final ServiceOutletDataEntryFileQueryService serviceOutletDataEntryFileQueryService;
 
     public ServiceOutletDataEntryFileResource(ServiceOutletDataEntryFileService serviceOutletDataEntryFileService, ServiceOutletDataEntryFileQueryService serviceOutletDataEntryFileQueryService) {
@@ -65,6 +67,16 @@ public class ServiceOutletDataEntryFileResource {
             throw new BadRequestAlertException("A new serviceOutletDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ServiceOutletDataEntryFileDTO result = serviceOutletDataEntryFileService.save(serviceOutletDataEntryFileDTO);
+
+        // @formatter:off
+        serviceOutletDataFileMessageService.sendMessage(
+            ServiceOutletFileUploadNotification.builder()
+                                                 .id(result.getId())
+                                                 .timeStamp(System.currentTimeMillis())
+                                                 .fileUpload(result.getDataEntryFile())
+                                              .build());
+        // @formatter:on
+
         return ResponseEntity.created(new URI("/api/service-outlet-data-entry-files/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
