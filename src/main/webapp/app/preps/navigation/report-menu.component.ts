@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
         <div *ghaHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="reports-menu">
                     <span>
-                        <fa-icon icon="book"></fa-icon>
+                        <fa-icon icon="pencil-alt"></fa-icon>
                         <span>
                             Reports
                         </span>
