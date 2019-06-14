@@ -36,6 +36,8 @@
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
-    "enableTranslation": false
+    "enableTranslation": false,
+    "herokuAppName": "preps",
+    "herokuDeployType": "jar"
   }
 }
