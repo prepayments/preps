@@ -14,12 +14,12 @@
         </thead>
         <tbody>
         <tr *ngFor="let transactionAccount of transactionAccounts">
-            <td>{{transactionAccount.id}}</td>
+            <td><a [routerLink]="['/transaction-account', transactionAccount.id, 'view' ]">{{transactionAccount.id}}</a></td>
             <td>{{transactionAccount.accountName}}</td>
             <td>{{transactionAccount.accountNumber}}</td>
             <td>{{transactionAccount.accountBalance}}</td>
             <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
-            <td>{{transactionAccount.accountOpeningDateBalance}}</td>
+            <td>{{transactionAccount.accountOpeningDateBalance | number}}</td>
         </tr>
         </tbody>
     </table>

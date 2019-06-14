@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let serviceOutlet of serviceOutlets ;trackBy: trackId">
-            <td>{{serviceOutlet.id}}</td>
+            <td><a [routerLink]="['/service-outlet', serviceOutlet.id, 'view' ]">{{serviceOutlet.id}}</a></td>
             <td>{{serviceOutlet.serviceOutletName}}</td>
             <td>{{serviceOutlet.serviceOutletCode}}</td>
             <td>{{serviceOutlet.serviceOutletLocation}}</td>

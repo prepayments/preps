@@ -19,7 +19,7 @@
         <tr *ngFor="let amortizationEntry of amortizationEntries ;trackBy: trackId">
             <td><a [routerLink]="['/amortization-entry', amortizationEntry.id, 'view' ]">{{amortizationEntry.id}}</a></td>
             <td>{{amortizationEntry.amortizationDate | date:'mediumDate'}}</td>
-            <td>{{amortizationEntry.amortizationAmount}}</td>
+            <td>{{amortizationEntry.amortizationAmount | number}}</td>
             <td>{{amortizationEntry.particulars}}</td>
             <td>{{amortizationEntry.posted}}</td>
             <td><a (click)="onSelectServiceOutletCode(amortizationEntry.serviceOutlet)">{{amortizationEntry.serviceOutlet}}</a></td>

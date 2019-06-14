@@ -21,7 +21,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let registeredSupplier of registeredSuppliers ;trackBy: trackId">
-            <td>{{registeredSupplier.id}}</td>
+            <td><a [routerLink]="['/registered-supplier', registeredSupplier.id, 'view' ]">{{registeredSupplier.id}}</a></td>
             <td>{{registeredSupplier.supplierName}}</td>
             <td>{{registeredSupplier.supplierAddress}}</td>
             <td>{{registeredSupplier.phoneNumber}}</td>
