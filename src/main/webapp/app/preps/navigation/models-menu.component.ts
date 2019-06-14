@@ -53,7 +53,12 @@ import { Component, OnInit } from '@angular/core';
                         <span>Transaction Account</span>
                     </a>
                 </li>
-                <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                <li>
+                  <a class="dropdown-item" routerLink="scanned-document" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                    <span>Scanned Document</span>
+                  </a>
+                </li>
             </ul>
         </li>
     `,
