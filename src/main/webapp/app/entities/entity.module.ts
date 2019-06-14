@@ -85,6 +85,22 @@ import { RouterModule } from '@angular/router';
       {
         path: 'transaction-account',
         loadChildren: './prepayments/transaction-account/transaction-account.module#PrepsTransactionAccountModule'
+      },
+      {
+        path: 'scanned-document',
+        loadChildren: './scanned-document/scanned-document.module#PrepsScannedDocumentModule'
+      },
+      {
+        path: 'scanned-document',
+        loadChildren: './scanned-document/scanned-document.module#PrepsScannedDocumentModule'
+      },
+      {
+        path: 'scanned-document',
+        loadChildren: './scanned-document/scanned-document.module#PrepsScannedDocumentModule'
+      },
+      {
+        path: 'scanned-document',
+        loadChildren: './scanned-document/scanned-document.module#PrepsScannedDocumentModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

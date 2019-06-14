@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="scannedDocument">
+            <h2><span>Scanned Document</span> {{scannedDocument.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Document Name</span></dt>
+                <dd>
+                    <span>{{scannedDocument.documentName}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{scannedDocument.description}}</span>
+                </dd>
+                <dt><span>Invoice Number</span></dt>
+                <dd>
+                    <span>{{scannedDocument.invoiceNumber}}</span>
+                </dd>
+                <dt><span>Transaction Id</span></dt>
+                <dd>
+                    <span>{{scannedDocument.transactionId}}</span>
+                </dd>
+                <dt><span>Transaction Date</span></dt>
+                <dd>
+                    <span>{{scannedDocument.transactionDate}}</span>
+                </dd>
+                <dt><span>Invoice Document</span></dt>
+                <dd>
+                    <div *ngIf="scannedDocument.invoiceDocument">
+                        <a (click)="openFile(scannedDocument.invoiceDocumentContentType, scannedDocument.invoiceDocument)">open</a>
+                        {{scannedDocument.invoiceDocumentContentType}}, {{byteSize(scannedDocument.invoiceDocument)}}
+                    </div>
+                </dd>
+                <dt><span>Requisition Document</span></dt>
+                <dd>
+                    <div *ngIf="scannedDocument.requisitionDocument">
+                        <a (click)="openFile(scannedDocument.requisitionDocumentContentType, scannedDocument.requisitionDocument)">open</a>
+                        {{scannedDocument.requisitionDocumentContentType}}, {{byteSize(scannedDocument.requisitionDocument)}}
+                    </div>
+                </dd>
+                <dt><span>Approval Memo Document</span></dt>
+                <dd>
+                    <div *ngIf="scannedDocument.approvalMemoDocument">
+                        <a (click)="openFile(scannedDocument.approvalMemoDocumentContentType, scannedDocument.approvalMemoDocument)">open</a>
+                        {{scannedDocument.approvalMemoDocumentContentType}}, {{byteSize(scannedDocument.approvalMemoDocument)}}
+                    </div>
+                </dd>
+                <dt><span>Other Scanned Document</span></dt>
+                <dd>
+                    <div *ngIf="scannedDocument.otherScannedDocument">
+                        <a (click)="openFile(scannedDocument.otherScannedDocumentContentType, scannedDocument.otherScannedDocument)">open</a>
+                        {{scannedDocument.otherScannedDocumentContentType}}, {{byteSize(scannedDocument.otherScannedDocument)}}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/scanned-document', scannedDocument.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

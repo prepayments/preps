@@ -1,0 +1,131 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-scanned-document-heading">Create or edit a Scanned Document</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!scannedDocument.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_documentName">Document Name</label>
+                    <input type="text" class="form-control" name="documentName" id="field_documentName"
+                           formControlName="documentName"/>
+                    <div *ngIf="editForm.get('documentName').invalid && (editForm.get('documentName').dirty || editForm.get('documentName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('documentName').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_invoiceNumber">Invoice Number</label>
+                    <input type="text" class="form-control" name="invoiceNumber" id="field_invoiceNumber"
+                           formControlName="invoiceNumber"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_transactionId">Transaction Id</label>
+                    <input type="text" class="form-control" name="transactionId" id="field_transactionId"
+                           formControlName="transactionId"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_transactionDate">Transaction Date</label>
+                    <div class="input-group">
+                        <input id="field_transactionDate" type="text" class="form-control" name="transactionDate" ngbDatepicker  #transactionDateDp="ngbDatepicker" formControlName="transactionDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="transactionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_invoiceDocument">Invoice Document</label>
+                    <div>
+                        <div *ngIf="editForm.get('invoiceDocument').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('invoiceDocumentContentType').value, editForm.get('invoiceDocument').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('invoiceDocumentContentType').value}}, {{byteSize(editForm.get('invoiceDocument').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({invoiceDocument: null});editForm.patchValue({invoiceDocumentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_invoiceDocument" (change)="setFileData($event, 'invoiceDocument', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="invoiceDocument" id="field_invoiceDocument"
+                           formControlName="invoiceDocument"/>
+                    <input type="hidden" class="form-control" name="invoiceDocumentContentType" id="field_invoiceDocumentContentType"
+                           formControlName="invoiceDocumentContentType" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionDocument">Requisition Document</label>
+                    <div>
+                        <div *ngIf="editForm.get('requisitionDocument').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('requisitionDocumentContentType').value, editForm.get('requisitionDocument').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('requisitionDocumentContentType').value}}, {{byteSize(editForm.get('requisitionDocument').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({requisitionDocument: null});editForm.patchValue({requisitionDocumentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_requisitionDocument" (change)="setFileData($event, 'requisitionDocument', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="requisitionDocument" id="field_requisitionDocument"
+                           formControlName="requisitionDocument"/>
+                    <input type="hidden" class="form-control" name="requisitionDocumentContentType" id="field_requisitionDocumentContentType"
+                           formControlName="requisitionDocumentContentType" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_approvalMemoDocument">Approval Memo Document</label>
+                    <div>
+                        <div *ngIf="editForm.get('approvalMemoDocument').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('approvalMemoDocumentContentType').value, editForm.get('approvalMemoDocument').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('approvalMemoDocumentContentType').value}}, {{byteSize(editForm.get('approvalMemoDocument').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({approvalMemoDocument: null});editForm.patchValue({approvalMemoDocumentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_approvalMemoDocument" (change)="setFileData($event, 'approvalMemoDocument', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="approvalMemoDocument" id="field_approvalMemoDocument"
+                           formControlName="approvalMemoDocument"/>
+                    <input type="hidden" class="form-control" name="approvalMemoDocumentContentType" id="field_approvalMemoDocumentContentType"
+                           formControlName="approvalMemoDocumentContentType" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_otherScannedDocument">Other Scanned Document</label>
+                    <div>
+                        <div *ngIf="editForm.get('otherScannedDocument').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('otherScannedDocumentContentType').value, editForm.get('otherScannedDocument').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('otherScannedDocumentContentType').value}}, {{byteSize(editForm.get('otherScannedDocument').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({otherScannedDocument: null});editForm.patchValue({otherScannedDocumentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_otherScannedDocument" (change)="setFileData($event, 'otherScannedDocument', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="otherScannedDocument" id="field_otherScannedDocument"
+                           formControlName="otherScannedDocument"/>
+                    <input type="hidden" class="form-control" name="otherScannedDocumentContentType" id="field_otherScannedDocumentContentType"
+                           formControlName="otherScannedDocumentContentType" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
