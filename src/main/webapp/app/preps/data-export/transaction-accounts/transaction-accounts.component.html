@@ -17,7 +17,7 @@
             <td><a [routerLink]="['/transaction-account', transactionAccount.id, 'view' ]">{{transactionAccount.id}}</a></td>
             <td>{{transactionAccount.accountName}}</td>
             <td>{{transactionAccount.accountNumber}}</td>
-            <td>{{transactionAccount.accountBalance}}</td>
+            <td>{{transactionAccount.accountBalance | number}}</td>
             <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
             <td>{{transactionAccount.accountOpeningDateBalance | number}}</td>
         </tr>
