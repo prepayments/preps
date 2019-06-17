@@ -101,6 +101,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'scanned-document',
         loadChildren: './scanned-document/scanned-document.module#PrepsScannedDocumentModule'
+      },
+      {
+        path: 'prepayment-entry',
+        loadChildren: './prepayments/prepayment-entry/prepayment-entry.module#PrepsPrepaymentEntryModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

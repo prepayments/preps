@@ -48,6 +48,8 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
 
     private StringFilter invoiceNumber;
 
+    private LongFilter scannedDocumentId;
+
     private LongFilter amortizationEntryId;
 
     public PrepaymentEntryCriteria(){
@@ -65,6 +67,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         this.months = other.months == null ? null : other.months.copy();
         this.supplierName = other.supplierName == null ? null : other.supplierName.copy();
         this.invoiceNumber = other.invoiceNumber == null ? null : other.invoiceNumber.copy();
+        this.scannedDocumentId = other.scannedDocumentId == null ? null : other.scannedDocumentId.copy();
         this.amortizationEntryId = other.amortizationEntryId == null ? null : other.amortizationEntryId.copy();
     }
 
@@ -161,6 +164,14 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         this.invoiceNumber = invoiceNumber;
     }
 
+    public LongFilter getScannedDocumentId() {
+        return scannedDocumentId;
+    }
+
+    public void setScannedDocumentId(LongFilter scannedDocumentId) {
+        this.scannedDocumentId = scannedDocumentId;
+    }
+
     public LongFilter getAmortizationEntryId() {
         return amortizationEntryId;
     }
@@ -191,6 +202,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
             Objects.equals(months, that.months) &&
             Objects.equals(supplierName, that.supplierName) &&
             Objects.equals(invoiceNumber, that.invoiceNumber) &&
+            Objects.equals(scannedDocumentId, that.scannedDocumentId) &&
             Objects.equals(amortizationEntryId, that.amortizationEntryId);
     }
 
@@ -208,6 +220,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         months,
         supplierName,
         invoiceNumber,
+        scannedDocumentId,
         amortizationEntryId
         );
     }
@@ -226,6 +239,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
                 (months != null ? "months=" + months + ", " : "") +
                 (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
                 (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") +
+                (scannedDocumentId != null ? "scannedDocumentId=" + scannedDocumentId + ", " : "") +
                 (amortizationEntryId != null ? "amortizationEntryId=" + amortizationEntryId + ", " : "") +
             "}";
     }

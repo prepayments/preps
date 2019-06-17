@@ -27,7 +27,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
     prepaymentAmount: [null, [Validators.required]],
     months: [],
     supplierName: [],
-    invoiceNumber: []
+    invoiceNumber: [],
+    scannedDocumentId: []
   });
 
   constructor(
@@ -56,7 +57,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       prepaymentAmount: prepaymentEntry.prepaymentAmount,
       months: prepaymentEntry.months,
       supplierName: prepaymentEntry.supplierName,
-      invoiceNumber: prepaymentEntry.invoiceNumber
+      invoiceNumber: prepaymentEntry.invoiceNumber,
+      scannedDocumentId: prepaymentEntry.scannedDocumentId
     });
   }
 
@@ -87,7 +89,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       prepaymentAmount: this.editForm.get(['prepaymentAmount']).value,
       months: this.editForm.get(['months']).value,
       supplierName: this.editForm.get(['supplierName']).value,
-      invoiceNumber: this.editForm.get(['invoiceNumber']).value
+      invoiceNumber: this.editForm.get(['invoiceNumber']).value,
+      scannedDocumentId: this.editForm.get(['scannedDocumentId']).value
     };
     return entity;
   }

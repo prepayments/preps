@@ -36,6 +36,7 @@ export class PrepaymentEntryUpdatePage {
   monthsInput = element(by.id('field_months'));
   supplierNameInput = element(by.id('field_supplierName'));
   invoiceNumberInput = element(by.id('field_invoiceNumber'));
+  scannedDocumentIdInput = element(by.id('field_scannedDocumentId'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -119,6 +120,14 @@ export class PrepaymentEntryUpdatePage {
 
   async getInvoiceNumberInput() {
     return await this.invoiceNumberInput.getAttribute('value');
+  }
+
+  async setScannedDocumentIdInput(scannedDocumentId) {
+    await this.scannedDocumentIdInput.sendKeys(scannedDocumentId);
+  }
+
+  async getScannedDocumentIdInput() {
+    return await this.scannedDocumentIdInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

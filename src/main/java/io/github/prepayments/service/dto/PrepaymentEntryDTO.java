@@ -40,6 +40,8 @@ public class PrepaymentEntryDTO implements Serializable {
 
     private String invoiceNumber;
 
+    private Long scannedDocumentId;
+
 
     public Long getId() {
         return id;
@@ -129,6 +131,14 @@ public class PrepaymentEntryDTO implements Serializable {
         this.invoiceNumber = invoiceNumber;
     }
 
+    public Long getScannedDocumentId() {
+        return scannedDocumentId;
+    }
+
+    public void setScannedDocumentId(Long scannedDocumentId) {
+        this.scannedDocumentId = scannedDocumentId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -164,6 +174,7 @@ public class PrepaymentEntryDTO implements Serializable {
             ", months=" + getMonths() +
             ", supplierName='" + getSupplierName() + "'" +
             ", invoiceNumber='" + getInvoiceNumber() + "'" +
+            ", scannedDocumentId=" + getScannedDocumentId() +
             "}";
     }
 }

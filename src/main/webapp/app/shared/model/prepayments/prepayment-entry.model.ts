@@ -13,6 +13,7 @@ export interface IPrepaymentEntry {
   months?: number;
   supplierName?: string;
   invoiceNumber?: string;
+  scannedDocumentId?: number;
   amortizationEntries?: IAmortizationEntry[];
 }
 
@@ -29,6 +30,7 @@ export class PrepaymentEntry implements IPrepaymentEntry {
     public months?: number,
     public supplierName?: string,
     public invoiceNumber?: string,
+    public scannedDocumentId?: number,
     public amortizationEntries?: IAmortizationEntry[]
   ) {}
 }

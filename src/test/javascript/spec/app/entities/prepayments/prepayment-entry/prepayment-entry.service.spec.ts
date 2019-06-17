@@ -27,7 +27,20 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new PrepaymentEntry(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA', 0, 0, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new PrepaymentEntry(
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        'AAAAAAA',
+        0,
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        0
+      );
     });
 
     describe('Service methods', () => {
@@ -83,7 +96,8 @@ describe('Service Tests', () => {
             prepaymentAmount: 1,
             months: 1,
             supplierName: 'BBBBBB',
-            invoiceNumber: 'BBBBBB'
+            invoiceNumber: 'BBBBBB',
+            scannedDocumentId: 1
           },
           elemDefault
         );
@@ -115,7 +129,8 @@ describe('Service Tests', () => {
             prepaymentAmount: 1,
             months: 1,
             supplierName: 'BBBBBB',
-            invoiceNumber: 'BBBBBB'
+            invoiceNumber: 'BBBBBB',
+            scannedDocumentId: 1
           },
           elemDefault
         );

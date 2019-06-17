@@ -1,8 +1,8 @@
 package io.github.prepayments.repository;
 
-import io.github.prepayments.app.messaging.notifications.dto.FileUploadNotification;
 import io.github.prepayments.domain.PrepaymentEntry;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;

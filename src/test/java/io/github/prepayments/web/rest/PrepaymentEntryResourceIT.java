@@ -78,6 +78,9 @@ public class PrepaymentEntryResourceIT {
     private static final String DEFAULT_INVOICE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_INVOICE_NUMBER = "BBBBBBBBBB";
 
+    private static final Long DEFAULT_SCANNED_DOCUMENT_ID = 1L;
+    private static final Long UPDATED_SCANNED_DOCUMENT_ID = 2L;
+
     @Autowired
     private PrepaymentEntryRepository prepaymentEntryRepository;
 
@@ -146,7 +149,8 @@ public class PrepaymentEntryResourceIT {
             .prepaymentAmount(DEFAULT_PREPAYMENT_AMOUNT)
             .months(DEFAULT_MONTHS)
             .supplierName(DEFAULT_SUPPLIER_NAME)
-            .invoiceNumber(DEFAULT_INVOICE_NUMBER);
+            .invoiceNumber(DEFAULT_INVOICE_NUMBER)
+            .scannedDocumentId(DEFAULT_SCANNED_DOCUMENT_ID);
         return prepaymentEntry;
     }
     /**
@@ -166,7 +170,8 @@ public class PrepaymentEntryResourceIT {
             .prepaymentAmount(UPDATED_PREPAYMENT_AMOUNT)
             .months(UPDATED_MONTHS)
             .supplierName(UPDATED_SUPPLIER_NAME)
-            .invoiceNumber(UPDATED_INVOICE_NUMBER);
+            .invoiceNumber(UPDATED_INVOICE_NUMBER)
+            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID);
         return prepaymentEntry;
     }
 
@@ -201,6 +206,7 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getMonths()).isEqualTo(DEFAULT_MONTHS);
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(DEFAULT_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(DEFAULT_INVOICE_NUMBER);
+        assertThat(testPrepaymentEntry.getScannedDocumentId()).isEqualTo(DEFAULT_SCANNED_DOCUMENT_ID);
 
         // Validate the PrepaymentEntry in Elasticsearch
         verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
@@ -364,7 +370,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentAmount").value(hasItem(DEFAULT_PREPAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME.toString())))
-            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER.toString())));
+            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
     }
     
     @Test
@@ -387,7 +394,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.prepaymentAmount").value(DEFAULT_PREPAYMENT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.months").value(DEFAULT_MONTHS))
             .andExpect(jsonPath("$.supplierName").value(DEFAULT_SUPPLIER_NAME.toString()))
-            .andExpect(jsonPath("$.invoiceNumber").value(DEFAULT_INVOICE_NUMBER.toString()));
+            .andExpect(jsonPath("$.invoiceNumber").value(DEFAULT_INVOICE_NUMBER.toString()))
+            .andExpect(jsonPath("$.scannedDocumentId").value(DEFAULT_SCANNED_DOCUMENT_ID.intValue()));
     }
 
     @Test
@@ -836,6 +844,72 @@ public class PrepaymentEntryResourceIT {
 
     @Test
     @Transactional
+    public void getAllPrepaymentEntriesByScannedDocumentIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where scannedDocumentId equals to DEFAULT_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldBeFound("scannedDocumentId.equals=" + DEFAULT_SCANNED_DOCUMENT_ID);
+
+        // Get all the prepaymentEntryList where scannedDocumentId equals to UPDATED_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldNotBeFound("scannedDocumentId.equals=" + UPDATED_SCANNED_DOCUMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByScannedDocumentIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where scannedDocumentId in DEFAULT_SCANNED_DOCUMENT_ID or UPDATED_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldBeFound("scannedDocumentId.in=" + DEFAULT_SCANNED_DOCUMENT_ID + "," + UPDATED_SCANNED_DOCUMENT_ID);
+
+        // Get all the prepaymentEntryList where scannedDocumentId equals to UPDATED_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldNotBeFound("scannedDocumentId.in=" + UPDATED_SCANNED_DOCUMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByScannedDocumentIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where scannedDocumentId is not null
+        defaultPrepaymentEntryShouldBeFound("scannedDocumentId.specified=true");
+
+        // Get all the prepaymentEntryList where scannedDocumentId is null
+        defaultPrepaymentEntryShouldNotBeFound("scannedDocumentId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByScannedDocumentIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where scannedDocumentId greater than or equals to DEFAULT_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldBeFound("scannedDocumentId.greaterOrEqualThan=" + DEFAULT_SCANNED_DOCUMENT_ID);
+
+        // Get all the prepaymentEntryList where scannedDocumentId greater than or equals to UPDATED_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldNotBeFound("scannedDocumentId.greaterOrEqualThan=" + UPDATED_SCANNED_DOCUMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByScannedDocumentIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where scannedDocumentId less than or equals to DEFAULT_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldNotBeFound("scannedDocumentId.lessThan=" + DEFAULT_SCANNED_DOCUMENT_ID);
+
+        // Get all the prepaymentEntryList where scannedDocumentId less than or equals to UPDATED_SCANNED_DOCUMENT_ID
+        defaultPrepaymentEntryShouldBeFound("scannedDocumentId.lessThan=" + UPDATED_SCANNED_DOCUMENT_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPrepaymentEntriesByAmortizationEntryIsEqualToSomething() throws Exception {
         // Initialize the database
         AmortizationEntry amortizationEntry = AmortizationEntryResourceIT.createEntity(em);
@@ -869,7 +943,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentAmount").value(hasItem(DEFAULT_PREPAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
-            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)));
+            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
 
         // Check, that the count call also returns 1
         restPrepaymentEntryMockMvc.perform(get("/api/prepayment-entries/count?sort=id,desc&" + filter))
@@ -926,7 +1001,8 @@ public class PrepaymentEntryResourceIT {
             .prepaymentAmount(UPDATED_PREPAYMENT_AMOUNT)
             .months(UPDATED_MONTHS)
             .supplierName(UPDATED_SUPPLIER_NAME)
-            .invoiceNumber(UPDATED_INVOICE_NUMBER);
+            .invoiceNumber(UPDATED_INVOICE_NUMBER)
+            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID);
         PrepaymentEntryDTO prepaymentEntryDTO = prepaymentEntryMapper.toDto(updatedPrepaymentEntry);
 
         restPrepaymentEntryMockMvc.perform(put("/api/prepayment-entries")
@@ -948,6 +1024,7 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getMonths()).isEqualTo(UPDATED_MONTHS);
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(UPDATED_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(UPDATED_INVOICE_NUMBER);
+        assertThat(testPrepaymentEntry.getScannedDocumentId()).isEqualTo(UPDATED_SCANNED_DOCUMENT_ID);
 
         // Validate the PrepaymentEntry in Elasticsearch
         verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
@@ -1017,7 +1094,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentAmount").value(hasItem(DEFAULT_PREPAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
-            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)));
+            .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
     }
 
     @Test

@@ -111,13 +111,19 @@
                     <input type="text" class="form-control" name="invoiceNumber" id="field_invoiceNumber"
                            formControlName="invoiceNumber"/>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_scannedDocumentId">Scanned Document Id</label>
+                    <input type="number" class="form-control" name="scannedDocumentId" id="field_scannedDocumentId"
+                           formControlName="scannedDocumentId"/>
+                </div>
 
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                <!--<button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">-->
+                <button type="submit" id="save-entity" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

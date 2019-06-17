@@ -72,6 +72,10 @@
         {
             "fieldName": "invoiceNumber",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "scannedDocumentId",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20190429150304",

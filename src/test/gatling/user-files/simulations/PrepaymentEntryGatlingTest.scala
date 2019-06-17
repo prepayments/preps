@@ -82,6 +82,7 @@ class PrepaymentEntryGatlingTest extends Simulation {
                 , "months":"0"
                 , "supplierName":"SAMPLE_TEXT"
                 , "invoiceNumber":"SAMPLE_TEXT"
+                , "scannedDocumentId":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_prepaymentEntry_url"))).exitHereIfFailed

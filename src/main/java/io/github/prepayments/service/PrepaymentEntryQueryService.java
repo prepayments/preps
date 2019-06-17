@@ -123,6 +123,9 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
             if (criteria.getInvoiceNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getInvoiceNumber(), PrepaymentEntry_.invoiceNumber));
             }
+            if (criteria.getScannedDocumentId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getScannedDocumentId(), PrepaymentEntry_.scannedDocumentId));
+            }
             if (criteria.getAmortizationEntryId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAmortizationEntryId(),
                     root -> root.join(PrepaymentEntry_.amortizationEntries, JoinType.LEFT).get(AmortizationEntry_.id)));

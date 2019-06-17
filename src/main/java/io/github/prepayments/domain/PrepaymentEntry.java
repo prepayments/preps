@@ -71,6 +71,9 @@ public class PrepaymentEntry implements Serializable {
     @Column(name = "invoice_number")
     private String invoiceNumber;
 
+    @Column(name = "scanned_document_id")
+    private Long scannedDocumentId;
+
     @OneToMany(mappedBy = "prepaymentEntry")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AmortizationEntry> amortizationEntries = new HashSet<>();
@@ -214,6 +217,19 @@ public class PrepaymentEntry implements Serializable {
         this.invoiceNumber = invoiceNumber;
     }
 
+    public Long getScannedDocumentId() {
+        return scannedDocumentId;
+    }
+
+    public PrepaymentEntry scannedDocumentId(Long scannedDocumentId) {
+        this.scannedDocumentId = scannedDocumentId;
+        return this;
+    }
+
+    public void setScannedDocumentId(Long scannedDocumentId) {
+        this.scannedDocumentId = scannedDocumentId;
+    }
+
     public Set<AmortizationEntry> getAmortizationEntries() {
         return amortizationEntries;
     }
@@ -270,6 +286,7 @@ public class PrepaymentEntry implements Serializable {
             ", months=" + getMonths() +
             ", supplierName='" + getSupplierName() + "'" +
             ", invoiceNumber='" + getInvoiceNumber() + "'" +
+            ", scannedDocumentId=" + getScannedDocumentId() +
             "}";
     }
 }

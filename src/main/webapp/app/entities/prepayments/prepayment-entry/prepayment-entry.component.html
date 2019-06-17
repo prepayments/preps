@@ -40,6 +40,7 @@
             <th jhiSortBy="months"><span>Months</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplierName"><span>Supplier Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="invoiceNumber"><span>Invoice Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="scannedDocumentId"><span>Scanned Document Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -56,6 +57,7 @@
                 <td>{{prepaymentEntry.months}}</td>
                 <td>{{prepaymentEntry.supplierName}}</td>
                 <td>{{prepaymentEntry.invoiceNumber}}</td>
+                <td><a [routerLink]="['/scanned-document', prepaymentEntry.scannedDocumentId, 'view' ]">{{prepaymentEntry.scannedDocumentId}}</a></td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

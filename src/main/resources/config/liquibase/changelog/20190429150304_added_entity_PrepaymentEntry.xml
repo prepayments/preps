@@ -45,7 +45,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="prepayment_amount" type="decimal(10,2)">
+            <column name="prepayment_amount" type="decimal(21,2)">
                 <constraints nullable="false" />
             </column>
 
@@ -58,6 +58,10 @@
             </column>
 
             <column name="invoice_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="scanned_document_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
