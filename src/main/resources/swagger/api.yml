@@ -4,6 +4,11 @@ openapi: '3.0.1'
 info:
   title: 'preps'
   version: 0.0.1
+servers:
+  - url: http://localhost:11001
+    description: Developpement server
+  - url: https://localhost:11001
+    description: Developpement server with TLS Profile
 paths: {}
 
 components:

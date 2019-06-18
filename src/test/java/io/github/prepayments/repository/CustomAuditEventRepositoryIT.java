@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -27,6 +28,7 @@ import static io.github.prepayments.repository.CustomAuditEventRepository.EVENT_
 /**
  * Integration tests for {@link CustomAuditEventRepository}.
  */
+@EmbeddedKafka
 @SpringBootTest(classes = PrepsApp.class)
 @Transactional
 public class CustomAuditEventRepositoryIT {

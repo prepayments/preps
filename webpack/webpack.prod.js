@@ -80,6 +80,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     },
     optimization: {
         runtimeChunk: false,
+      // Probably not a good idea but we'll see
         splitChunks: {
             cacheGroups: {
                 commons: {

@@ -1,8 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PrepsSharedLibsModule, PrepsSharedCommonModule, GhaLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { PrepsSharedCommonModule, GhaLoginModalComponent, HasAnyAuthorityDirective } from './';
 
 @NgModule({
-  imports: [PrepsSharedLibsModule, PrepsSharedCommonModule],
+  imports: [PrepsSharedCommonModule],
   declarations: [GhaLoginModalComponent, HasAnyAuthorityDirective],
   entryComponents: [GhaLoginModalComponent],
   exports: [PrepsSharedCommonModule, GhaLoginModalComponent, HasAnyAuthorityDirective],

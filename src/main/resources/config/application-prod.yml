@@ -38,15 +38,17 @@ spring:
       enabled: false
     livereload:
       enabled: false
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: localhost
-          zk-nodes: localhost
-      bindings:
-        output:
-          destination: topic-jhipster
+  #  kafka:
+  #    consumer:
+  #      bootstrap-servers: localhost:9092
+  #      group-id: group_id
+  #      auto-offset-reset: earliest
+  #      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #    producer:
+  #      bootstrap-servers: localhost:9092
+  #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/preps

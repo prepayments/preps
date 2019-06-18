@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark navbar-expand-md bg-dark">
+<nav class="navbar navbar-light navbar-expand-md bg-light">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
         <span class="navbar-title">Preps</span> <span class="navbar-version">{{version}}</span>
@@ -214,7 +214,7 @@
                     </li>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
-                            <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="lock" fixedWidth="true"></fa-icon>
                             <span>Password</span>
                         </a>
                     </li>
