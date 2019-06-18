@@ -4,9 +4,10 @@
  */
 export interface ITypeAheadDetails<T> {
   fieldLabel?: string;
+  placeHolder?: string;
   fieldOptions?: T[];
 }
 
-export class TypeAheadDetails<T> {
-  constructor(public fieldLabel?: string, public fieldOptions?: T[]) {}
+export class TypeAheadDetails<T> implements ITypeAheadDetails<T> {
+  constructor(public fieldLabel?: string, public placeHolder?: string, public fieldOptions?: T[]) {}
 }

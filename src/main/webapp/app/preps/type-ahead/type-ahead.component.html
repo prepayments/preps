@@ -1,0 +1,10 @@
+<div>
+    <div class="input-group">
+        <input type="text" [formControl]="term" class="form-control" placeholder={{typeAheadDetails.placeHolder}} >
+    </div>
+    <ul>
+        <li class="item" *ngFor="let item of matchingItems" (click)="selectItem(item)">
+            {{item.value}}
+        </li>
+    </ul>
+</div>
