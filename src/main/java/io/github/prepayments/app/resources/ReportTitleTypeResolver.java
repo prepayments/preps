@@ -7,6 +7,7 @@ import io.github.prepayments.service.ReportTypeService;
 import io.github.prepayments.service.dto.ReportTypeCriteria;
 import io.github.prepayments.service.dto.ReportTypeDTO;
 import io.github.prepayments.service.mapper.ReportTypeMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Creates or returns a type of report that is based on excel whose title serves as both the type and title of the same
  */
+@Slf4j
 @Transactional
 @Service("reportTitleTypeResolver")
 public class ReportTitleTypeResolver implements ReportTypeResolver {
@@ -32,10 +34,14 @@ public class ReportTitleTypeResolver implements ReportTypeResolver {
 
     public List<ReportTypeDTO> getReportTypeDTOS(final ReportTypeCriteria reportTypeCriteria, ReportMediumTypes reportTypeMedium) {
 
+        log.info("Getting from server reportType of the criteria: {} using the medium: {}",reportTypeCriteria, reportTypeMedium.toString());
+
         List<ReportTypeDTO> reportTypes =
             reportTypeMapper.toDto(Collections.singletonList(reportTypeRepository.findFirstByReportModelName(reportTypeCriteria.getReportModelName().getContains())));
 
         if (reportTypes.isEmpty()) {
+
+            log.error("There are no report types matching the criteria: {}", reportTypeCriteria);
 
             // @formatter:off
             reportTypes.add(reportTypeService.save(ReportTypeDTO.builder()
@@ -46,6 +52,8 @@ public class ReportTitleTypeResolver implements ReportTypeResolver {
             );
             // @formatter:on
         }
+
+        log.info("Report type found : {}", reportTypes.get(0));
 
         return reportTypes;
     }
