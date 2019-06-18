@@ -18,7 +18,7 @@
     "prodDatabaseType": "postgresql",
     "searchEngine": "elasticsearch",
     "messageBroker": "kafka",
-    "serviceDiscoveryType": false,
+    "serviceDiscoveryType": "eureka",
     "buildTool": "maven",
     "enableSwaggerCodegen": true,
     "jwtSecretKey": "ZGMxNTlmYzgzNDdlYWM5MGZiZTU3ZjUzNzYzMmRiMGRmZDY2MTU2OTcxNWY3OTcyNTVmNTJhZDAxMzg1MTUyOTJhZWIwYzgwNTdhYzkyMzdjODgxMDdiYzRkM2JlNjhkYzJkM2U5OGE4YTQxZmRiNmZjMzQxOWFmYTE5YzkwZjM=",
