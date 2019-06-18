@@ -101,14 +101,14 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_prepaymentEntry">Prepayment Entry</label>
                     <div class="row">
-                        <input type="number" class="form-control col-4" name="prepaymentEntry" id="field_prepaymentEntry"
+                        <input type="number" class="form-control col-5" name="prepaymentEntry" id="field_prepaymentEntry"
                                formControlName="prepaymentEntryId"/>
-                        <button id="jh-create-entity" class="btn btn-primary col-4" [routerLink]="['/prepayment-entry/new']">
+                        <a id="jh-create-entity" class="form-control col-3" [routerLink]="['/prepayment-entry/new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                             <span class="hidden-sm-down" >
-                            Create new Prepayment Entry
+                            New Prepayment Entry
                             </span>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div *ngIf="editForm.get('prepaymentEntry').invalid && (editForm.get('prepaymentEntry').dirty || editForm.get('prepaymentEntry').touched)">
