@@ -8,6 +8,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { TypeAheadComponent } from './type-ahead/type-ahead.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
+import { QuestionnaireModule } from './questionnaire/questionnaire.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
@@ -19,8 +20,9 @@ import { PrepsMaterialModule } from 'app/preps/preps-material.module';
     PrepsRoutingModule,
     DataExportModule,
     ReportingModule,
-    NavigationModule
+    NavigationModule,
+    QuestionnaireModule
   ],
-  exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule, PrepsMaterialModule]
+  exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule, PrepsMaterialModule, QuestionnaireModule]
 })
 export class PrepsModule {}
