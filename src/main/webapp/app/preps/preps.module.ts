@@ -8,7 +8,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { TypeAheadComponent } from './type-ahead/type-ahead.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
-import { QuestionnaireModule } from './questionnaire/questionnaire.module';
+import { QuestionnaireModule } from 'app/preps/questionnaire/questionnaire.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
