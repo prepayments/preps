@@ -6,9 +6,10 @@ import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [DynamicFormComponent],
   imports: [
     CommonModule,
     QuestionnaireRoutingModule,
@@ -19,7 +20,8 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
     }),
     FormlyMaterialModule
   ],
-  exports: [QuestionnaireRoutingModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  exports: [QuestionnaireRoutingModule, DynamicFormComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [DynamicFormComponent]
 })
 export class QuestionnaireModule {}
