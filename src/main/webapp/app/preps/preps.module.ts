@@ -7,10 +7,20 @@ import { ReportingModule } from './reporting/reporting.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { TypeAheadComponent } from './type-ahead/type-ahead.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule],
-  exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule]
+  imports: [
+    CommonModule,
+    PrepsMaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+    PrepsRoutingModule,
+    DataExportModule,
+    ReportingModule,
+    NavigationModule
+  ],
+  exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule, PrepsMaterialModule]
 })
 export class PrepsModule {}
