@@ -19,6 +19,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
     }),
     FormlyMaterialModule
   ],
+  exports: [QuestionnaireRoutingModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class QuestionnaireModule {}
