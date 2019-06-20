@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { QuestionBase } from 'app/preps/model/question-base.model';
+import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
 
 @Component({
   selector: 'gha-dynamic-form',
@@ -9,12 +9,19 @@ import { QuestionBase } from 'app/preps/model/question-base.model';
   styles: []
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() question: QuestionBase<any>;
-  form = new FormGroup({});
+  question: QuestionBase<any> = new TextBoxQuestion({
+    key: 'firstName',
+    label: 'First Name',
+    value: 'Bombasto',
+    required: true,
+    order: 1
+  });
+  queryForm: FormGroup;
+
+  @Input() model;
 
   isSubmitting: boolean;
 
-  model = {};
   fields: FormlyFieldConfig[];
 
   constructor() {}

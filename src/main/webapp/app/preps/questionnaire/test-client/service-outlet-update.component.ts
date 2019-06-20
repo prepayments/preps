@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IServiceOutlet, ServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { ServiceOutletService } from 'app/entities/prepayments/service-outlet';
+import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
 
 @Component({
   selector: 'gha-service-outlet-update',
@@ -13,6 +14,8 @@ import { ServiceOutletService } from 'app/entities/prepayments/service-outlet';
 export class ServiceOutletUpdateComponent implements OnInit {
   serviceOutlet: IServiceOutlet;
   isSaving: boolean;
+
+  question: QuestionBase<string>;
 
   editForm = this.fb.group({
     id: [],
@@ -33,9 +36,19 @@ export class ServiceOutletUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
-    this.activatedRoute.data.subscribe(({ serviceOutlet }) => {
+    /*this.activatedRoute.data.subscribe(({ serviceOutlet }) => {
       this.updateForm(serviceOutlet);
       this.serviceOutlet = serviceOutlet;
+    });*/
+
+    this.serviceOutlet = {};
+
+    this.question = new TextBoxQuestion({
+      key: 'firstName',
+      label: 'First Name',
+      value: 'Bombasto',
+      required: true,
+      order: 1
     });
   }
 

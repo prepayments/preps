@@ -1,9 +1,9 @@
-<form role="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
-    <formly-form [model]="model" [fields]="fields" [form]="form">
+<form role="form" novalidate [formGroup]="queryForm" (ngSubmit)="submit()">
+    <formly-form [model]="model" [fields]="fields" [form]="queryForm">
         <button type="button" id="cancel-save" (click)="previousState()" mat-raised-button>
             <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
-        <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSubmitting" mat-raised-button>
+        <button type="submit" id="save-entity" [disabled]="queryForm.invalid || isSubmitting" mat-raised-button>
             <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Submit</span>
         </button>
     </formly-form>
