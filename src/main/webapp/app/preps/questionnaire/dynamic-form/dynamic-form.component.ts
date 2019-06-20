@@ -10,17 +10,9 @@ import { QuestionControlService } from 'app/preps/questionnaire/question-control
   styles: []
 })
 export class DynamicFormComponent implements OnInit {
-  question: QuestionBase<any> = new TextBoxQuestion({
-    key: 'firstName',
-    label: 'First Name',
-    value: 'Bombasto',
-    required: true,
-    order: 1
-  });
-  queryForm: FormGroup;
-
+  @Input() question: QuestionBase<any>;
   @Input() model;
-
+  queryForm: FormGroup;
   isSubmitting: boolean;
 
   fields: FormlyFieldConfig[];
@@ -31,7 +23,7 @@ export class DynamicFormComponent implements OnInit {
     this.fields = [
       {
         key: this.question.key,
-        type: this.question.controlType,
+        type: this.question.fieldType,
         templateOptions: {
           required: this.question.required,
           label: this.question.label

@@ -1,99 +1,3 @@
-<!--<div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="gha-service-outlet-heading">Create or edit a Service Outlet</h2>
-            <div>
-                <gha-alert-error></gha-alert-error>
-                <div class="form-group" [hidden]="!serviceOutlet.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutletName">Service Outlet Name</label>
-                    <input type="text" class="form-control" name="serviceOutletName" id="field_serviceOutletName"
-                           formControlName="serviceOutletName"/>
-                    <div *ngIf="editForm.get('serviceOutletName').invalid && (editForm.get('serviceOutletName').dirty || editForm.get('serviceOutletName').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutletName').errors.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutletCode">Service Outlet Code</label>
-                    <input type="text" class="form-control" name="serviceOutletCode" id="field_serviceOutletCode"
-                           formControlName="serviceOutletCode"/>
-                    <div *ngIf="editForm.get('serviceOutletCode').invalid && (editForm.get('serviceOutletCode').dirty || editForm.get('serviceOutletCode').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutletCode').errors.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutletCode').errors.pattern">
-                            This field should follow pattern for "Service Outlet Code".
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutletLocation">Service Outlet Location</label>
-                    <input type="text" class="form-control" name="serviceOutletLocation" id="field_serviceOutletLocation"
-                           formControlName="serviceOutletLocation"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutletManager">Service Outlet Manager</label>
-                    <input type="text" class="form-control" name="serviceOutletManager" id="field_serviceOutletManager"
-                           formControlName="serviceOutletManager"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_numberOfStaff">Number Of Staff</label>
-                    <input type="number" class="form-control" name="numberOfStaff" id="field_numberOfStaff"
-                           formControlName="numberOfStaff"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_building">Building</label>
-                    <input type="text" class="form-control" name="building" id="field_building"
-                           formControlName="building"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_floor">Floor</label>
-                    <input type="number" class="form-control" name="floor" id="field_floor"
-                           formControlName="floor"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_postalAddress">Postal Address</label>
-                    <input type="text" class="form-control" name="postalAddress" id="field_postalAddress"
-                           formControlName="postalAddress"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_contactPersonName">Contact Person Name</label>
-                    <input type="text" class="form-control" name="contactPersonName" id="field_contactPersonName"
-                           formControlName="contactPersonName"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_contactEmail">Contact Email</label>
-                    <input type="text" class="form-control" name="contactEmail" id="field_contactEmail"
-                           formControlName="contactEmail"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_street">Street</label>
-                    <input type="text" class="form-control" name="street" id="field_street"
-                           formControlName="street"/>
-                </div>
-
-            </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>-->
-
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
@@ -106,7 +10,7 @@
                            readonly />
                 </div>
 
-                <gha-dynamic-form [model]="serviceOutlet" [queryForm]="editForm"></gha-dynamic-form>
+                <gha-dynamic-form [question]="question" [model]="serviceOutlet" [queryForm]="editForm"></gha-dynamic-form>
 
             </div>
         </form>

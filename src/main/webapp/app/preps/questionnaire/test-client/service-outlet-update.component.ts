@@ -36,10 +36,6 @@ export class ServiceOutletUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
-    /*this.activatedRoute.data.subscribe(({ serviceOutlet }) => {
-      this.updateForm(serviceOutlet);
-      this.serviceOutlet = serviceOutlet;
-    });*/
 
     this.serviceOutlet = {};
 
@@ -48,6 +44,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
       label: 'First Name',
       value: 'Bombasto',
       required: true,
+      fieldType: 'input',
       order: 1
     });
   }
