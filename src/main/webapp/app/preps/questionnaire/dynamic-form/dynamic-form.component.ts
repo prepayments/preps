@@ -16,7 +16,7 @@ export class DynamicFormComponent implements OnInit {
       type: 'input',
       templateOptions: {
         required: true,
-        label: 'Name'
+        label: 'First Name'
       }
     }
   ];
