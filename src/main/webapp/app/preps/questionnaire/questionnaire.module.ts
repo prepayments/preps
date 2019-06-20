@@ -7,9 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { QuestionComponent } from './question/question.component';
 
 @NgModule({
-  declarations: [DynamicFormComponent],
+  declarations: [DynamicFormComponent, QuestionComponent],
   imports: [
     CommonModule,
     QuestionnaireRoutingModule,
@@ -20,7 +21,7 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     }),
     FormlyMaterialModule
   ],
-  exports: [QuestionnaireRoutingModule, DynamicFormComponent],
+  exports: [QuestionnaireRoutingModule, DynamicFormComponent, QuestionComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [DynamicFormComponent]
 })
