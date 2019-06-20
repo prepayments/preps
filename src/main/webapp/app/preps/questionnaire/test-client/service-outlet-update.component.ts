@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IServiceOutlet, ServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { ServiceOutletService } from 'app/entities/prepayments/service-outlet';
 import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
+import { QuestionService } from 'app/preps/questionnaire/test-client/question.service';
 
 @Component({
   selector: 'gha-service-outlet-update',
@@ -15,7 +16,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
   serviceOutlet: IServiceOutlet;
   isSaving: boolean;
 
-  question: QuestionBase<string>;
+  questions: QuestionBase<string>[];
 
   editForm = this.fb.group({
     id: [],
@@ -32,21 +33,19 @@ export class ServiceOutletUpdateComponent implements OnInit {
     street: []
   });
 
-  constructor(protected serviceOutletService: ServiceOutletService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected serviceOutletService: ServiceOutletService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private questionService: QuestionService
+  ) {}
 
   ngOnInit() {
     this.isSaving = false;
 
     this.serviceOutlet = {};
 
-    this.question = new TextBoxQuestion({
-      key: 'firstName',
-      label: 'First Name',
-      value: 'Bombasto',
-      required: true,
-      fieldType: 'input',
-      order: 1
-    });
+    this.questions = this.questionService.getQuestions();
   }
 
   updateForm(serviceOutlet: IServiceOutlet) {

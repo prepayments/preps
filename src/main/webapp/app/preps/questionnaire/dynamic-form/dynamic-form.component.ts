@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
+import { QuestionBase } from 'app/preps/model/question-base.model';
 import { QuestionControlService } from 'app/preps/questionnaire/question-control.service';
 
 @Component({
@@ -10,28 +10,28 @@ import { QuestionControlService } from 'app/preps/questionnaire/question-control
   styles: []
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() question: QuestionBase<any>;
+  @Input() questions: QuestionBase<any>[];
   @Input() model;
+  fields: FormlyFieldConfig[] = [{}];
   queryForm: FormGroup;
   isSubmitting: boolean;
-
-  fields: FormlyFieldConfig[];
 
   constructor(private qcs: QuestionControlService) {}
 
   ngOnInit() {
-    this.fields = [
-      {
-        key: this.question.key,
-        type: this.question.fieldType,
+    this.questions.forEach((question: QuestionBase<any>) => {
+      this.fields.push({
+        key: question.key,
+        type: question.fieldType,
         templateOptions: {
-          required: this.question.required,
-          label: this.question.label
+          required: question.required,
+          label: question.label,
+          options: question.selectOptions
         }
-      }
-    ];
+      });
+    });
 
-    this.queryForm = this.qcs.toFormGroup([this.question]);
+    this.queryForm = this.qcs.toFormGroup(this.questions);
   }
 
   previousState() {
