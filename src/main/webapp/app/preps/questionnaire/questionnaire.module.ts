@@ -7,9 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { ServiceOutletUpdateComponent } from 'app/preps/questionnaire/test-client/service-outlet-update.component';
 
 @NgModule({
-  declarations: [DynamicFormComponent],
+  declarations: [DynamicFormComponent, ServiceOutletUpdateComponent],
   imports: [
     CommonModule,
     QuestionnaireRoutingModule,

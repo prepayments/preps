@@ -1,6 +1,10 @@
-<h1>@ngx-formly/material</h1>
 <form role="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
     <formly-form [model]="model" [fields]="fields" [form]="form">
-        <button type="submit" color="primary" mat-raised-button>Submit</button>
+        <button type="button" id="cancel-save" (click)="previousState()" mat-raised-button>
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSubmitting" mat-raised-button>
+            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Submit</span>
+        </button>
     </formly-form>
 </form>

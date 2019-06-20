@@ -12,6 +12,8 @@ export class DynamicFormComponent implements OnInit {
   @Input() question: QuestionBase<any>;
   form = new FormGroup({});
 
+  isSubmitting: boolean;
+
   model = {};
   fields: FormlyFieldConfig[];
 
@@ -30,7 +32,22 @@ export class DynamicFormComponent implements OnInit {
     ];
   }
 
+  previousState() {
+    window.history.back();
+  }
+
   submit() {
     console.log(this.model);
+    this.isSubmitting = true;
+    // TODO Other awesome stuff
+  }
+
+  protected onSubmitSuccess() {
+    this.isSubmitting = false;
+    this.previousState();
+  }
+
+  protected onSubmitError() {
+    this.isSubmitting = false;
   }
 }
