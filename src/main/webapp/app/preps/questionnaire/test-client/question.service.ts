@@ -10,7 +10,7 @@ export class QuestionService {
       new DropdownQuestion({
         key: 'brave',
         label: 'Bravery Rating',
-        required: true,
+        required: false,
         fieldType: 'select',
         options: [
           { name: 'solid', value: 'Solid' },
