@@ -10,7 +10,7 @@
                            readonly />
                 </div>
 
-                <gha-dynamic-form [questions]="questions" [model]="serviceOutlet" [queryForm]="editForm"></gha-dynamic-form>
+                <gha-dynamic-form [questions]="questions" (model)="serviceOutlet" [queryForm]="editForm"></gha-dynamic-form>
 
             </div>
         </form>

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { QuestionBase } from 'app/preps/model/question-base.model';
 import { QuestionControlService } from 'app/preps/questionnaire/question-control.service';
 import { FormFieldControlService } from 'app/preps/questionnaire/dynamic-form/form-field-control.service';
+import { IAmortizationEntry } from 'app/shared/model/prepayments/amortization-entry.model';
 
 @Component({
   selector: 'gha-dynamic-form',
@@ -12,7 +13,7 @@ import { FormFieldControlService } from 'app/preps/questionnaire/dynamic-form/fo
 })
 export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[];
-  @Input() model;
+  @Output() model: EventEmitter<IAmortizationEntry> = new EventEmitter();
   fields: FormlyFieldConfig[] = [{}];
   queryForm: FormGroup;
   isSubmitting: boolean;
@@ -28,10 +29,11 @@ export class DynamicFormComponent implements OnInit {
     window.history.back();
   }
 
-  submit() {
-    console.log(this.model);
+  submit(model: IAmortizationEntry) {
+    console.log(model);
     this.isSubmitting = true;
-    // TODO Other awesome stuff
+
+    this.model.emit(model);
   }
 
   protected onSubmitSuccess() {
