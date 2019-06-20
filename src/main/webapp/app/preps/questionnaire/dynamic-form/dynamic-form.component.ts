@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
+import { QuestionControlService } from 'app/preps/questionnaire/question-control.service';
 
 @Component({
   selector: 'gha-dynamic-form',
@@ -24,7 +25,7 @@ export class DynamicFormComponent implements OnInit {
 
   fields: FormlyFieldConfig[];
 
-  constructor() {}
+  constructor(private qcs: QuestionControlService) {}
 
   ngOnInit() {
     this.fields = [
@@ -37,6 +38,8 @@ export class DynamicFormComponent implements OnInit {
         }
       }
     ];
+
+    this.queryForm = this.qcs.toFormGroup([this.question]);
   }
 
   previousState() {
