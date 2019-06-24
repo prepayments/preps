@@ -88,6 +88,34 @@ export class AmortizationEntryComponent implements OnInit, OnDestroy {
         (res: HttpResponse<IAmortizationEntry[]>) => this.paginateAmortizationEntries(res.body, res.headers),
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+    this.amortizationReportingService.getEntities().subscribe(
+      res => {
+        this.amortizationEntries = res.body;
+        this.trigger.next();
+      },
+      (res: HttpErrorResponse) => this.onError(res.message),
+      () => {
+        this.log.info(`Pulled amortization entry items to render with the template...`);
+      }
+    );
+    this.transactionAccountsReportingService
+      .getEntities()
+      .pipe(tap(res => this.log.info(`Transaction accounts array has been primed with  ${res.body.length} transaction items...`)))
+      .subscribe(
+        (data: HttpResponse<ITransactionAccount[]>) => {
+          this.transactionAccounts = data.body;
+        },
+        err => this.onError(err)
+      );
+    this.serviceOutletReportingService.getEntities().subscribe(
+      (data: HttpResponse<IServiceOutlet[]>) => {
+        this.serviceOutlets = data.body;
+      },
+      err => this.onError(err),
+      () => {
+        this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
+      }
+    );
   }
 
   reset() {
@@ -134,34 +162,6 @@ export class AmortizationEntryComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInAmortizationEntries();
-    this.amortizationReportingService.getEntities().subscribe(
-      res => {
-        this.amortizationEntries = res.body;
-        this.trigger.next();
-      },
-      (res: HttpErrorResponse) => this.onError(res.message),
-      () => {
-        this.log.info(`Pulled amortization entry items to render with the template...`);
-      }
-    );
-    this.transactionAccountsReportingService
-      .getEntities()
-      .pipe(tap(res => this.log.info(`Transaction accounts array has been primed with  ${res.body.length} transaction items...`)))
-      .subscribe(
-        (data: HttpResponse<ITransactionAccount[]>) => {
-          this.transactionAccounts = data.body;
-        },
-        err => this.onError(err)
-      );
-    this.serviceOutletReportingService.getEntities().subscribe(
-      (data: HttpResponse<IServiceOutlet[]>) => {
-        this.serviceOutlets = data.body;
-      },
-      err => this.onError(err),
-      () => {
-        this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
-      }
-    );
   }
 
   ngOnDestroy() {
