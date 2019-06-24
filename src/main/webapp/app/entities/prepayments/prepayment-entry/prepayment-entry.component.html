@@ -47,15 +47,15 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let prepaymentEntry of prepaymentEntries ;trackBy: trackId">
                 <td><a [routerLink]="['/prepayment-entry', prepaymentEntry.id, 'view' ]">{{prepaymentEntry.id}}</a></td>
-                <td>{{prepaymentEntry.accountNumber}}</td>
-                <td>{{prepaymentEntry.accountName}}</td>
+                <td><a (click)="onSelectAccountNumber(prepaymentEntry.accountNumber)">{{prepaymentEntry.accountNumber}}</a></td>
+                <td><a (click)="onSelectAccountName(prepaymentEntry.accountName)">{{prepaymentEntry.accountName}}</a></td>
                 <td>{{prepaymentEntry.prepaymentId}}</td>
                 <td>{{prepaymentEntry.prepaymentDate | date:'mediumDate'}}</td>
                 <td>{{prepaymentEntry.particulars}}</td>
-                <td>{{prepaymentEntry.serviceOutlet}}</td>
+                <td><a (click)="onSelectServiceOutletCode(prepaymentEntry.serviceOutlet)">{{prepaymentEntry.serviceOutlet}}</a></td>
                 <td>{{prepaymentEntry.prepaymentAmount}}</td>
                 <td>{{prepaymentEntry.months}}</td>
-                <td>{{prepaymentEntry.supplierName}}</td>
+                <td><a (click)="onSelectRegisteredSupplier(prepaymentEntry.supplierName)">{{prepaymentEntry.supplierName}}</a></td>
                 <td>{{prepaymentEntry.invoiceNumber}}</td>
                 <td><a [routerLink]="['/scanned-document', prepaymentEntry.scannedDocumentId, 'view' ]">{{prepaymentEntry.scannedDocumentId}}</a></td>
                 <td class="text-right">

@@ -48,9 +48,9 @@
                 <td>{{amortizationEntry.amortizationAmount}}</td>
                 <td>{{amortizationEntry.particulars}}</td>
                 <td>{{amortizationEntry.posted}}</td>
-                <td>{{amortizationEntry.serviceOutlet}}</td>
-                <td>{{amortizationEntry.accountNumber}}</td>
-                <td>{{amortizationEntry.accountName}}</td>
+                <td><a (click)="onSelectServiceOutletCode(amortizationEntry.serviceOutlet)">{{amortizationEntry.serviceOutlet}}</a></td>
+                <td><a (click)="onSelectAccountNumber(amortizationEntry.accountNumber)">{{amortizationEntry.accountNumber}}</a></td>
+                <td><a (click)="onSelectAccountName(amortizationEntry.accountName)">{{amortizationEntry.accountName}}</a></td>
                 <td>
                     <div *ngIf="amortizationEntry.prepaymentEntryId">
                         <a [routerLink]="['../prepayment-entry', amortizationEntry.prepaymentEntryId , 'view' ]" >{{amortizationEntry.prepaymentEntryId}}</a>
