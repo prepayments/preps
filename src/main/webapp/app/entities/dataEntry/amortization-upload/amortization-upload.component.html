@@ -1,0 +1,97 @@
+<div>
+    <h2 id="page-heading">
+        <span>Amortization Uploads</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-amortization-upload" [routerLink]="['/amortization-upload/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Amortization Upload
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="amortizationUploads">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="particulars"><span>Particulars</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletCode"><span>Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentAccountNumber"><span>Prepayment Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="expenseAccountNumber"><span>Expense Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentTransactionId"><span>Prepayment Transaction Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentTransactionDate"><span>Prepayment Transaction Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentTransactionAmount"><span>Prepayment Transaction Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amortizationAmount"><span>Amortization Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="numberOfAmortizations"><span>Number Of Amortizations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="firstAmortizationDate"><span>First Amortization Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let amortizationUpload of amortizationUploads ;trackBy: trackId">
+                <td><a [routerLink]="['/amortization-upload', amortizationUpload.id, 'view' ]">{{amortizationUpload.id}}</a></td>
+                <td>{{amortizationUpload.accountName}}</td>
+                <td>{{amortizationUpload.particulars}}</td>
+                <td>{{amortizationUpload.serviceOutletCode}}</td>
+                <td>{{amortizationUpload.prepaymentAccountNumber}}</td>
+                <td>{{amortizationUpload.expenseAccountNumber}}</td>
+                <td>{{amortizationUpload.prepaymentTransactionId}}</td>
+                <td>{{amortizationUpload.prepaymentTransactionDate | date:'mediumDate'}}</td>
+                <td>{{amortizationUpload.prepaymentTransactionAmount}}</td>
+                <td>{{amortizationUpload.amortizationAmount}}</td>
+                <td>{{amortizationUpload.numberOfAmortizations}}</td>
+                <td>{{amortizationUpload.firstAmortizationDate | date:'mediumDate'}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/amortization-upload', amortizationUpload.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/amortization-upload', amortizationUpload.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'amortization-upload', { outlets: { popup: amortizationUpload.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="amortizationUploads && amortizationUploads.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

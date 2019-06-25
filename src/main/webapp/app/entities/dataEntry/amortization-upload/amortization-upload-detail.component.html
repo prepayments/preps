@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="amortizationUpload">
+            <h2><span>Amortization Upload</span> {{amortizationUpload.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Account Name</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.accountName}}</span>
+                </dd>
+                <dt><span>Particulars</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.particulars}}</span>
+                </dd>
+                <dt><span>Service Outlet Code</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.serviceOutletCode}}</span>
+                </dd>
+                <dt><span>Prepayment Account Number</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.prepaymentAccountNumber}}</span>
+                </dd>
+                <dt><span>Expense Account Number</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.expenseAccountNumber}}</span>
+                </dd>
+                <dt><span>Prepayment Transaction Id</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.prepaymentTransactionId}}</span>
+                </dd>
+                <dt><span>Prepayment Transaction Date</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.prepaymentTransactionDate}}</span>
+                </dd>
+                <dt><span>Prepayment Transaction Amount</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.prepaymentTransactionAmount}}</span>
+                </dd>
+                <dt><span>Amortization Amount</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.amortizationAmount}}</span>
+                </dd>
+                <dt><span>Number Of Amortizations</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.numberOfAmortizations}}</span>
+                </dd>
+                <dt><span>First Amortization Date</span></dt>
+                <dd>
+                    <span>{{amortizationUpload.firstAmortizationDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/amortization-upload', amortizationUpload.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
