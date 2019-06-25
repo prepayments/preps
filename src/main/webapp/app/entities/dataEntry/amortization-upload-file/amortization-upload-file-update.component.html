@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-amortization-upload-file-heading">Create or edit a Amortization Upload File</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!amortizationUploadFile.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_periodFrom">Period From</label>
+                    <div class="input-group">
+                        <input id="field_periodFrom" type="text" class="form-control" name="periodFrom" ngbDatepicker  #periodFromDp="ngbDatepicker" formControlName="periodFrom"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="periodFromDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('periodFrom').invalid && (editForm.get('periodFrom').dirty || editForm.get('periodFrom').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('periodFrom').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_periodTo">Period To</label>
+                    <div class="input-group">
+                        <input id="field_periodTo" type="text" class="form-control" name="periodTo" ngbDatepicker  #periodToDp="ngbDatepicker" formControlName="periodTo"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="periodToDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('periodTo').invalid && (editForm.get('periodTo').dirty || editForm.get('periodTo').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('periodTo').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dataEntryFile">Data Entry File</label>
+                    <div>
+                        <div *ngIf="editForm.get('dataEntryFile').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('dataEntryFileContentType').value, editForm.get('dataEntryFile').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('dataEntryFileContentType').value}}, {{byteSize(editForm.get('dataEntryFile').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({dataEntryFile: null});editForm.patchValue({dataEntryFileContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_dataEntryFile" (change)="setFileData($event, 'dataEntryFile', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="dataEntryFile" id="field_dataEntryFile"
+                           formControlName="dataEntryFile"/>
+                    <input type="hidden" class="form-control" name="dataEntryFileContentType" id="field_dataEntryFileContentType"
+                           formControlName="dataEntryFileContentType" />
+                    <div *ngIf="editForm.get('dataEntryFile').invalid && (editForm.get('dataEntryFile').dirty || editForm.get('dataEntryFile').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataEntryFile').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_uploadSuccessful">Upload Successful</label>
+                    <input type="checkbox" class="form-control" name="uploadSuccessful" id="field_uploadSuccessful"
+                           formControlName="uploadSuccessful"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_uploadProcessed">Upload Processed</label>
+                    <input type="checkbox" class="form-control" name="uploadProcessed" id="field_uploadProcessed"
+                           formControlName="uploadProcessed"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1561476281050-4">
+        <createTable tableName="amortization_upload_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_upload_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561476281050-1">
+        <dropUniqueConstraint constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561476281050-2">
+        <dropUniqueConstraint constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561476281050-3">
+        <dropUniqueConstraint constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+</databaseChangeLog>
