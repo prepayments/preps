@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rx.schedulers.Schedulers;
 
-@Service
+@Service("amortizationFileUploadNotificationListener")
 @Transactional
 @Slf4j
 public class AmortizationFileUploadNotificationListener implements UploadNotificationsStreamListener<AmortizationFileUploadNotification> {
