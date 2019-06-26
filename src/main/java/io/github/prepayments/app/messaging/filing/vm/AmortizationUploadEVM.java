@@ -24,7 +24,6 @@ public class AmortizationUploadEVM implements Serializable, ExcelViewModel  {
     @ExcelRow
     private long rowIndex;
 
-    // TODO Provisional fields
     @ExcelCell(0)
     private String accountName;
 
