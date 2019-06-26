@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class TransactionAccountEVM implements Serializable, ExcelViewModel {
+public class SimpleTransactionAccountEVM implements Serializable, SimpleExcelViewModel {
 
 
     private long rowIndex;

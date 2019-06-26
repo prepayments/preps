@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class ServiceOutletEVM implements Serializable, ExcelViewModel {
+public class ServiceOutletEVM implements Serializable, SimpleExcelViewModel {
 
 
     private static final long serialVersionUID = -4705775023373128718L;

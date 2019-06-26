@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class AmortizationEntryEVM implements Serializable {
+public class SimpleAmortizationEntryEVM implements Serializable {
 
     private static final long serialVersionUID = 4812288900845715487L;
     private int rowIndex;

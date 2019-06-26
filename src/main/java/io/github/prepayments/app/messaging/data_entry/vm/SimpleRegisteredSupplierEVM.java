@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class RegisteredSupplierEVM implements Serializable, ExcelViewModel {
+public class SimpleRegisteredSupplierEVM implements Serializable, SimpleExcelViewModel {
     private static final long serialVersionUID = 494926810094105583L;
     private long rowIndex;
     private String supplierName;
