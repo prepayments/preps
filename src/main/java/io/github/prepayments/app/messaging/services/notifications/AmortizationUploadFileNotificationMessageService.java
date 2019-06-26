@@ -1,7 +1,7 @@
 package io.github.prepayments.app.messaging.services.notifications;
 
 import io.github.prepayments.app.messaging.MessageService;
-import io.github.prepayments.app.messaging.notifications.AmortizationUploadFileUploadStream;
+import io.github.prepayments.app.messaging.notifications.AmortizationUploadFileUploadStreams;
 import io.github.prepayments.app.messaging.notifications.dto.AmortizationUploadFileUploadNotification;
 import io.github.prepayments.app.messaging.notifications.dto.FileUploadNotification;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AmortizationUploadFileNotificationMessageService extends FileUploadNotificationMessageService implements MessageService<FileUploadNotification> {
 
-    public AmortizationUploadFileNotificationMessageService(final AmortizationUploadFileUploadStream amortizationUploadFileUploadStream) {
-        super(amortizationUploadFileUploadStream.outboundAmortizationFileUploads());
+    public AmortizationUploadFileNotificationMessageService(final AmortizationUploadFileUploadStreams amortizationUploadFileUploadStreams) {
+        super(amortizationUploadFileUploadStreams.outboundAmortizationFileUploads());
     }
 
     /**
