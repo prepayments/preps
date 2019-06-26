@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Temporary setup to see if messagin works. We are going to listen to streams of data and upload it to the server
+ * Temporary setup to see if messaging works. We are going to listen to streams of data and upload it to the server
  */
 @Component
 @Slf4j
