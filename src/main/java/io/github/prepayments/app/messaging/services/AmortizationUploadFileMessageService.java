@@ -20,7 +20,7 @@ public class AmortizationUploadFileMessageService extends DataEntryMessageServic
 
     public long sendMessage(final AmortizationUploadEVM dataEntryItem) {
 
-        log.trace("Sending amortizationEntry {}", dataEntryItem.getRowIndex());
+        log.trace("Sending amortization upload {}", dataEntryItem.getRowIndex());
 
         return super.sendMessage(dataEntryItem);
     }
