@@ -82,109 +82,122 @@ management:
 
 spring:
   cloud:
-       stream:
-             kafka:
-               binder:
-                 brokers: localhost:9092
-             bindings:
-                 ## Data Entry
-                 # io.github.prepayments.data.messaging.data_entry package
-                 amortization-data-entry-in:
-                     destination: amortizationEntriesData
-                     contentType: application/json
-                 amortization-data-entry-out:
-                     destination: amortizationEntriesData
-                     contentType: application/json
-                 prepayment-data-entry-in:
-                     destination: prepaymentEntriesData
-                     contentType: application/json
-                 prepayment-data-entry-out:
-                     destination: prepaymentEntriesData
-                     contentType: application/json
-                 registered-supplier-data-entry-in:
-                     destination: supplierDataEntriesData
-                     contentType: application/json
-                 registered-supplier-data-entry-out:
-                     destination: supplierDataEntriesData
-                     contentType: application/json
-                 service-data-outlet-data-entry-in:
-                     destination: serviceOutletDataEntriesData
-                     contentType: application/json
-                 service-data-outlet-data-entry-out:
-                     destination: serviceOutletDataEntriesData
-                     contentType: application/json
-                 account-data-entry-in:
-                     destination: accountDataEntriesData
-                     contentType: application/json
-                 account-data-entry-out:
-                     destination: accountDataEntriesData
-                     contentType: application/json
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        ## Data Entry
+        # io.github.prepayments.data.messaging.data_entry package
+        amortization-data-entry-in:
+          destination: amortizationEntriesData
+          contentType: application/json
+        amortization-data-entry-out:
+          destination: amortizationEntriesData
+          contentType: application/json
+        prepayment-data-entry-in:
+          destination: prepaymentEntriesData
+          contentType: application/json
+        prepayment-data-entry-out:
+          destination: prepaymentEntriesData
+          contentType: application/json
+        registered-supplier-data-entry-in:
+          destination: supplierDataEntriesData
+          contentType: application/json
+        registered-supplier-data-entry-out:
+          destination: supplierDataEntriesData
+          contentType: application/json
+        service-data-outlet-data-entry-in:
+          destination: serviceOutletDataEntriesData
+          contentType: application/json
+        service-data-outlet-data-entry-out:
+          destination: serviceOutletDataEntriesData
+          contentType: application/json
+        account-data-entry-in:
+          destination: accountDataEntriesData
+          contentType: application/json
+        account-data-entry-out:
+          destination: accountDataEntriesData
+          contentType: application/json
 
-                  #### File Uploads and notifications####
-                  ### AMORTIZATION ##
-                 amortization-entry-in:
-                     destination: amortizationEntries
-                     contentType: application/json
-                 amortization-entry-out:
-                     destination: amortizationEntries
-                     contentType: application/json
-                 amortization-entry-file-uploaded-in:
-                      destination: amortizationFileUploads
-                      contentType: application/json
-                 amortization-entry-file-uploaded-out:
-                      destination: amortizationFileUploads
-                      contentType: application/json
-                   ## PREPAYMENTS ##
-                 prepayment-entry-in:
-                      destination: prepaymentEntries
-                      contentType: application/json
-                 prepayment-entry-out:
-                      destination: prepaymentEntries
-                      contentType: application/json
-                 prepayment-entry-file-uploaded-in:
-                      destination: prepaymentFileUploads
-                      contentType: application/json
-                 prepayment-entry-file-uploaded-out:
-                      destination: prepaymentFileUploads
-                      contentType: application/json
-                   ## SUPPLIER ##
-                 supplier-data-entry-in:
-                      destination: supplierDataEntries
-                      contentType: application/json
-                 supplier-data-entry-out:
-                      destination: supplierDataEntries
-                      contentType: application/json
-                 supplier-entry-file-uploaded-in:
-                      destination: supplierDataFileUploads
-                      contentType: application/json
-                 supplier-entry-file-uploaded-out:
-                      destination: supplierDataFileUploads
-                      contentType: application/json
-                   ## SERVICE OUTLET ##
-                 service-outlet-data-entry-in:
-                      destination: serviceOutletDataEntries
-                      contentType: application/json
-                 service-outlet-data-entry-out:
-                      destination: serviceOutletDataEntries
-                      contentType: application/json
-                 sol-entry-file-uploaded-in:
-                      destination: serviceOutletFileUploads
-                      contentType: application/json
-                 sol-entry-file-uploaded-out:
-                      destination: serviceOutletFileUploads
-                      contentType: application/json
-                 transaction-account-data-entry-in:
-                      destination: transactionAccountDataEntries
-                      contentType: application/json
-                 transaction-account-data-entry-out:
-                      destination: transactionAccountDataEntries
-                      contentType: application/json
-                 transaction-account-data-file-uploaded-in:
-                      destination: transactionAccountFileUploads
-                      contentType: application/json
-                 transaction-account-data-file-uploaded-out:
-                      destination: transactionAccountFileUploads
-                      contentType: application/json
+          #### File Uploads and notifications####
+          ### AMORTIZATION ##
+        amortization-entry-in:
+          destination: amortizationEntries
+          contentType: application/json
+        amortization-entry-out:
+          destination: amortizationEntries
+          contentType: application/json
+        amortization-entry-file-uploaded-in:
+          destination: amortizationFileUploads
+          contentType: application/json
+        amortization-entry-file-uploaded-out:
+          destination: amortizationFileUploads
+          contentType: application/json
+        # Amortization upload
+        amortization-upload-in:
+          destination: amortizationUploads
+          contentType: application/json
+        amortization-upload-out:
+          destination: amortizationUploads
+          contentType: application/json
+        amortization-upload-file-uploaded-in:
+          destination: amortizationUploadFileUploads
+          contentType: application/json
+        amortization-upload-file-uploaded-out:
+          destination: amortizationUploadFileUploads
+          contentType: application/json
+          ## PREPAYMENTS ##
+        prepayment-entry-in:
+          destination: prepaymentEntries
+          contentType: application/json
+        prepayment-entry-out:
+          destination: prepaymentEntries
+          contentType: application/json
+        prepayment-entry-file-uploaded-in:
+          destination: prepaymentFileUploads
+          contentType: application/json
+        prepayment-entry-file-uploaded-out:
+          destination: prepaymentFileUploads
+          contentType: application/json
+          ## SUPPLIER ##
+        supplier-data-entry-in:
+          destination: supplierDataEntries
+          contentType: application/json
+        supplier-data-entry-out:
+          destination: supplierDataEntries
+          contentType: application/json
+        supplier-entry-file-uploaded-in:
+          destination: supplierDataFileUploads
+          contentType: application/json
+        supplier-entry-file-uploaded-out:
+          destination: supplierDataFileUploads
+          contentType: application/json
+          ## SERVICE OUTLET ##
+        service-outlet-data-entry-in:
+          destination: serviceOutletDataEntries
+          contentType: application/json
+        service-outlet-data-entry-out:
+          destination: serviceOutletDataEntries
+          contentType: application/json
+        sol-entry-file-uploaded-in:
+          destination: serviceOutletFileUploads
+          contentType: application/json
+        sol-entry-file-uploaded-out:
+          destination: serviceOutletFileUploads
+          contentType: application/json
+        transaction-account-data-entry-in:
+          destination: transactionAccountDataEntries
+          contentType: application/json
+        transaction-account-data-entry-out:
+          destination: transactionAccountDataEntries
+          contentType: application/json
+        transaction-account-data-file-uploaded-in:
+          destination: transactionAccountFileUploads
+          contentType: application/json
+        transaction-account-data-file-uploaded-out:
+          destination: transactionAccountFileUploads
+          contentType: application/json
   autoconfigure:
     exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
   application:
@@ -254,18 +267,18 @@ jhipster:
   #     allow-credentials: true
   #     max-age: 1800
   mail:
-      from: preps@localhost
+    from: preps@localhost
   swagger:
-      default-include-pattern: /api/.*
-      title: PREPS APP API
-      description: Preps API documentation
-      version: 0.0.1
-      terms-of-service-url:
-      contact-name: Edwin Njeru
-      contact-url:
-      contact-email: mailnjeru@gmail.com
-      license: MIT
-      license-url:
+    default-include-pattern: /api/.*
+    title: PREPS APP API
+    description: Preps API documentation
+    version: 0.0.1
+    terms-of-service-url:
+    contact-name: Edwin Njeru
+    contact-url:
+    contact-email: mailnjeru@gmail.com
+    license: MIT
+    license-url:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
