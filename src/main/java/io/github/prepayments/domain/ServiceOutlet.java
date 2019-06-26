@@ -3,13 +3,18 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A ServiceOutlet.
@@ -77,17 +82,21 @@ public class ServiceOutlet implements Serializable {
         return serviceOutletName;
     }
 
+    public void setServiceOutletName(String serviceOutletName) {
+        this.serviceOutletName = serviceOutletName;
+    }
+
     public ServiceOutlet serviceOutletName(String serviceOutletName) {
         this.serviceOutletName = serviceOutletName;
         return this;
     }
 
-    public void setServiceOutletName(String serviceOutletName) {
-        this.serviceOutletName = serviceOutletName;
-    }
-
     public String getServiceOutletCode() {
         return serviceOutletCode;
+    }
+
+    public void setServiceOutletCode(String serviceOutletCode) {
+        this.serviceOutletCode = serviceOutletCode;
     }
 
     public ServiceOutlet serviceOutletCode(String serviceOutletCode) {
@@ -95,12 +104,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setServiceOutletCode(String serviceOutletCode) {
-        this.serviceOutletCode = serviceOutletCode;
-    }
-
     public String getServiceOutletLocation() {
         return serviceOutletLocation;
+    }
+
+    public void setServiceOutletLocation(String serviceOutletLocation) {
+        this.serviceOutletLocation = serviceOutletLocation;
     }
 
     public ServiceOutlet serviceOutletLocation(String serviceOutletLocation) {
@@ -108,12 +117,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setServiceOutletLocation(String serviceOutletLocation) {
-        this.serviceOutletLocation = serviceOutletLocation;
-    }
-
     public String getServiceOutletManager() {
         return serviceOutletManager;
+    }
+
+    public void setServiceOutletManager(String serviceOutletManager) {
+        this.serviceOutletManager = serviceOutletManager;
     }
 
     public ServiceOutlet serviceOutletManager(String serviceOutletManager) {
@@ -121,12 +130,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setServiceOutletManager(String serviceOutletManager) {
-        this.serviceOutletManager = serviceOutletManager;
-    }
-
     public Integer getNumberOfStaff() {
         return numberOfStaff;
+    }
+
+    public void setNumberOfStaff(Integer numberOfStaff) {
+        this.numberOfStaff = numberOfStaff;
     }
 
     public ServiceOutlet numberOfStaff(Integer numberOfStaff) {
@@ -134,12 +143,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setNumberOfStaff(Integer numberOfStaff) {
-        this.numberOfStaff = numberOfStaff;
-    }
-
     public String getBuilding() {
         return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
     }
 
     public ServiceOutlet building(String building) {
@@ -147,12 +156,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-
     public Integer getFloor() {
         return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
     }
 
     public ServiceOutlet floor(Integer floor) {
@@ -160,12 +169,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setFloor(Integer floor) {
-        this.floor = floor;
-    }
-
     public String getPostalAddress() {
         return postalAddress;
+    }
+
+    public void setPostalAddress(String postalAddress) {
+        this.postalAddress = postalAddress;
     }
 
     public ServiceOutlet postalAddress(String postalAddress) {
@@ -173,12 +182,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setPostalAddress(String postalAddress) {
-        this.postalAddress = postalAddress;
-    }
-
     public String getContactPersonName() {
         return contactPersonName;
+    }
+
+    public void setContactPersonName(String contactPersonName) {
+        this.contactPersonName = contactPersonName;
     }
 
     public ServiceOutlet contactPersonName(String contactPersonName) {
@@ -186,12 +195,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setContactPersonName(String contactPersonName) {
-        this.contactPersonName = contactPersonName;
-    }
-
     public String getContactEmail() {
         return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
     public ServiceOutlet contactEmail(String contactEmail) {
@@ -199,21 +208,17 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
     public String getStreet() {
         return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public ServiceOutlet street(String street) {
         this.street = street;
         return this;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -235,19 +240,9 @@ public class ServiceOutlet implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutlet{" +
-            "id=" + getId() +
-            ", serviceOutletName='" + getServiceOutletName() + "'" +
-            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
-            ", serviceOutletLocation='" + getServiceOutletLocation() + "'" +
-            ", serviceOutletManager='" + getServiceOutletManager() + "'" +
-            ", numberOfStaff=" + getNumberOfStaff() +
-            ", building='" + getBuilding() + "'" +
-            ", floor=" + getFloor() +
-            ", postalAddress='" + getPostalAddress() + "'" +
-            ", contactPersonName='" + getContactPersonName() + "'" +
-            ", contactEmail='" + getContactEmail() + "'" +
-            ", street='" + getStreet() + "'" +
-            "}";
+        return "ServiceOutlet{" + "id=" + getId() + ", serviceOutletName='" + getServiceOutletName() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", serviceOutletLocation='" +
+            getServiceOutletLocation() + "'" + ", serviceOutletManager='" + getServiceOutletManager() + "'" + ", numberOfStaff=" + getNumberOfStaff() + ", building='" + getBuilding() + "'" +
+            ", floor=" + getFloor() + ", postalAddress='" + getPostalAddress() + "'" + ", contactPersonName='" + getContactPersonName() + "'" + ", contactEmail='" + getContactEmail() + "'" +
+            ", street='" + getStreet() + "'" + "}";
     }
 }

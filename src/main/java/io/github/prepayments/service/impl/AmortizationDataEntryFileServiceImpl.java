@@ -1,13 +1,12 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.domain.AmortizationDataEntryFile;
 import io.github.prepayments.repository.AmortizationDataEntryFileRepository;
+import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
 import io.github.prepayments.service.mapper.AmortizationDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -57,8 +56,7 @@ public class AmortizationDataEntryFileServiceImpl implements AmortizationDataEnt
     @Transactional(readOnly = true)
     public Page<AmortizationDataEntryFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all AmortizationDataEntryFiles");
-        return amortizationDataEntryFileRepository.findAll(pageable)
-            .map(amortizationDataEntryFileMapper::toDto);
+        return amortizationDataEntryFileRepository.findAll(pageable).map(amortizationDataEntryFileMapper::toDto);
     }
 
 
@@ -72,8 +70,7 @@ public class AmortizationDataEntryFileServiceImpl implements AmortizationDataEnt
     @Transactional(readOnly = true)
     public Optional<AmortizationDataEntryFileDTO> findOne(Long id) {
         log.debug("Request to get AmortizationDataEntryFile : {}", id);
-        return amortizationDataEntryFileRepository.findById(id)
-            .map(amortizationDataEntryFileMapper::toDto);
+        return amortizationDataEntryFileRepository.findById(id).map(amortizationDataEntryFileMapper::toDto);
     }
 
     /**

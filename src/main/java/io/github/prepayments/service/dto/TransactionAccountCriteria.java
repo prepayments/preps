@@ -1,26 +1,20 @@
 package io.github.prepayments.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.TransactionAccount} entity. This class is used
- * in {@link io.github.prepayments.web.rest.TransactionAccountResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /transaction-accounts?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.TransactionAccount} entity. This class is used in {@link io.github.prepayments.web.rest.TransactionAccountResource} to receive all the
+ * possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /transaction-accounts?id
+ * .greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
  */
 public class TransactionAccountCriteria implements Serializable, Criteria {
 
@@ -38,10 +32,10 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter accountOpeningDateBalance;
 
-    public TransactionAccountCriteria(){
+    public TransactionAccountCriteria() {
     }
 
-    public TransactionAccountCriteria(TransactionAccountCriteria other){
+    public TransactionAccountCriteria(TransactionAccountCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.accountName = other.accountName == null ? null : other.accountName.copy();
         this.accountNumber = other.accountNumber == null ? null : other.accountNumber.copy();
@@ -113,37 +107,20 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
             return false;
         }
         final TransactionAccountCriteria that = (TransactionAccountCriteria) o;
-        return
-            Objects.equals(id, that.id) &&
-            Objects.equals(accountName, that.accountName) &&
-            Objects.equals(accountNumber, that.accountNumber) &&
-            Objects.equals(accountBalance, that.accountBalance) &&
-            Objects.equals(openingDate, that.openingDate) &&
-            Objects.equals(accountOpeningDateBalance, that.accountOpeningDateBalance);
+        return Objects.equals(id, that.id) && Objects.equals(accountName, that.accountName) && Objects.equals(accountNumber, that.accountNumber) &&
+            Objects.equals(accountBalance, that.accountBalance) && Objects.equals(openingDate, that.openingDate) && Objects.equals(accountOpeningDateBalance, that.accountOpeningDateBalance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        accountName,
-        accountNumber,
-        accountBalance,
-        openingDate,
-        accountOpeningDateBalance
-        );
+        return Objects.hash(id, accountName, accountNumber, accountBalance, openingDate, accountOpeningDateBalance);
     }
 
     @Override
     public String toString() {
-        return "TransactionAccountCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (accountName != null ? "accountName=" + accountName + ", " : "") +
-                (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
-                (accountBalance != null ? "accountBalance=" + accountBalance + ", " : "") +
-                (openingDate != null ? "openingDate=" + openingDate + ", " : "") +
-                (accountOpeningDateBalance != null ? "accountOpeningDateBalance=" + accountOpeningDateBalance + ", " : "") +
-            "}";
+        return "TransactionAccountCriteria{" + (id != null ? "id=" + id + ", " : "") + (accountName != null ? "accountName=" + accountName + ", " : "") +
+            (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") + (accountBalance != null ? "accountBalance=" + accountBalance + ", " : "") +
+            (openingDate != null ? "openingDate=" + openingDate + ", " : "") + (accountOpeningDateBalance != null ? "accountOpeningDateBalance=" + accountOpeningDateBalance + ", " : "") + "}";
     }
 
 }

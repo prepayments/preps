@@ -1,16 +1,14 @@
 package io.github.prepayments.service.mapper;
 
-import io.github.prepayments.domain.*;
+import io.github.prepayments.domain.ServiceOutlet;
 import io.github.prepayments.service.dto.ServiceOutletDTO;
-
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
 
 /**
  * Mapper for the entity {@link ServiceOutlet} and its DTO {@link ServiceOutletDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface ServiceOutletMapper extends EntityMapper<ServiceOutletDTO, ServiceOutlet> {
-
 
 
     default ServiceOutlet fromId(Long id) {

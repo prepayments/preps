@@ -20,15 +20,11 @@ public interface AmortizationDataEntryFileDTOMapper extends DtoMapper<Amortizati
         return amortizationEntryDTO;
     }
 
-    @Mappings({
-        @Mapping(target = "amortizationDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "amortizationDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     AmortizationEntryDTO toDTO(AmortizationEntryEVM amortizationEntryEVM);
 
-    @Mappings({
-        @Mapping(target = "amortizationDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "amortizationDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     AmortizationEntryEVM toEVM(AmortizationEntryDTO amortizationEntryDTO);
 

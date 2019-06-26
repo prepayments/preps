@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.domain.AmortizationUploadFile;
 import io.github.prepayments.repository.AmortizationUploadFileRepository;
 import io.github.prepayments.repository.search.AmortizationUploadFileSearchRepository;
+import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
 import io.github.prepayments.service.mapper.AmortizationUploadFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link AmortizationUploadFile}.
@@ -33,7 +32,8 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
 
     private final AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository;
 
-    public AmortizationUploadFileServiceImpl(AmortizationUploadFileRepository amortizationUploadFileRepository, AmortizationUploadFileMapper amortizationUploadFileMapper, AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository) {
+    public AmortizationUploadFileServiceImpl(AmortizationUploadFileRepository amortizationUploadFileRepository, AmortizationUploadFileMapper amortizationUploadFileMapper,
+                                             AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository) {
         this.amortizationUploadFileRepository = amortizationUploadFileRepository;
         this.amortizationUploadFileMapper = amortizationUploadFileMapper;
         this.amortizationUploadFileSearchRepository = amortizationUploadFileSearchRepository;
@@ -65,8 +65,7 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
     @Transactional(readOnly = true)
     public Page<AmortizationUploadFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all AmortizationUploadFiles");
-        return amortizationUploadFileRepository.findAll(pageable)
-            .map(amortizationUploadFileMapper::toDto);
+        return amortizationUploadFileRepository.findAll(pageable).map(amortizationUploadFileMapper::toDto);
     }
 
 
@@ -80,8 +79,7 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
     @Transactional(readOnly = true)
     public Optional<AmortizationUploadFileDTO> findOne(Long id) {
         log.debug("Request to get AmortizationUploadFile : {}", id);
-        return amortizationUploadFileRepository.findById(id)
-            .map(amortizationUploadFileMapper::toDto);
+        return amortizationUploadFileRepository.findById(id).map(amortizationUploadFileMapper::toDto);
     }
 
     /**
@@ -99,7 +97,7 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
     /**
      * Search for the amortizationUploadFile corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +105,6 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
     @Transactional(readOnly = true)
     public Page<AmortizationUploadFileDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of AmortizationUploadFiles for query {}", query);
-        return amortizationUploadFileSearchRepository.search(queryStringQuery(query), pageable)
-            .map(amortizationUploadFileMapper::toDto);
+        return amortizationUploadFileSearchRepository.search(queryStringQuery(query), pageable).map(amortizationUploadFileMapper::toDto);
     }
 }

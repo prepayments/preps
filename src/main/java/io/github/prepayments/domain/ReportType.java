@@ -1,15 +1,20 @@
 package io.github.prepayments.domain;
 
 
+import io.github.prepayments.domain.enumeration.ReportMediumTypes;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Objects;
-
-import io.github.prepayments.domain.enumeration.ReportMediumTypes;
 
 /**
  * A ReportType.
@@ -49,17 +54,21 @@ public class ReportType implements Serializable {
         return reportModelName;
     }
 
+    public void setReportModelName(String reportModelName) {
+        this.reportModelName = reportModelName;
+    }
+
     public ReportType reportModelName(String reportModelName) {
         this.reportModelName = reportModelName;
         return this;
     }
 
-    public void setReportModelName(String reportModelName) {
-        this.reportModelName = reportModelName;
-    }
-
     public ReportMediumTypes getReportMediumType() {
         return reportMediumType;
+    }
+
+    public void setReportMediumType(ReportMediumTypes reportMediumType) {
+        this.reportMediumType = reportMediumType;
     }
 
     public ReportType reportMediumType(ReportMediumTypes reportMediumType) {
@@ -67,21 +76,17 @@ public class ReportType implements Serializable {
         return this;
     }
 
-    public void setReportMediumType(ReportMediumTypes reportMediumType) {
-        this.reportMediumType = reportMediumType;
-    }
-
     public String getReportPassword() {
         return reportPassword;
+    }
+
+    public void setReportPassword(String reportPassword) {
+        this.reportPassword = reportPassword;
     }
 
     public ReportType reportPassword(String reportPassword) {
         this.reportPassword = reportPassword;
         return this;
-    }
-
-    public void setReportPassword(String reportPassword) {
-        this.reportPassword = reportPassword;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -103,11 +108,7 @@ public class ReportType implements Serializable {
 
     @Override
     public String toString() {
-        return "ReportType{" +
-            "id=" + getId() +
-            ", reportModelName='" + getReportModelName() + "'" +
-            ", reportMediumType='" + getReportMediumType() + "'" +
-            ", reportPassword='" + getReportPassword() + "'" +
-            "}";
+        return "ReportType{" + "id=" + getId() + ", reportModelName='" + getReportModelName() + "'" + ", reportMediumType='" + getReportMediumType() + "'" + ", reportPassword='" +
+            getReportPassword() + "'" + "}";
     }
 }

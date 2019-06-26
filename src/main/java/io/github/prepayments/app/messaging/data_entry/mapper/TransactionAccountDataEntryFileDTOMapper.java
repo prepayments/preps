@@ -19,15 +19,11 @@ public interface TransactionAccountDataEntryFileDTOMapper extends DtoMapper<Tran
         return transactionAccountDTO;
     }
 
-    @Mappings({
-        @Mapping(target = "openingDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "openingDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     TransactionAccountDTO toDTO(TransactionAccountEVM transactionAccountEVM);
 
-    @Mappings({
-        @Mapping(target = "openingDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "openingDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     TransactionAccountEVM toEVM(TransactionAccountDTO transactionAccountDTO);
 }

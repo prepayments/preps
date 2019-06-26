@@ -1,9 +1,12 @@
 package io.github.prepayments.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
+import io.github.prepayments.domain.TransactionAccountDataEntryFile;
+import io.github.prepayments.domain.TransactionAccountDataEntryFile_;
+import io.github.prepayments.repository.TransactionAccountDataEntryFileRepository;
+import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
+import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
+import io.github.prepayments.service.mapper.TransactionAccountDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,20 +15,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import io.github.prepayments.domain.TransactionAccountDataEntryFile;
-import io.github.prepayments.domain.*; // for static metamodels
-import io.github.prepayments.repository.TransactionAccountDataEntryFileRepository;
-import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
-import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
-import io.github.prepayments.service.mapper.TransactionAccountDataEntryFileMapper;
+import java.util.List;
 
 /**
- * Service for executing complex queries for {@link TransactionAccountDataEntryFile} entities in the database.
- * The main input is a {@link TransactionAccountDataEntryFileCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply.
- * It returns a {@link List} of {@link TransactionAccountDataEntryFileDTO} or a {@link Page} of {@link TransactionAccountDataEntryFileDTO} which fulfills the criteria.
+ * Service for executing complex queries for {@link TransactionAccountDataEntryFile} entities in the database. The main input is a {@link TransactionAccountDataEntryFileCriteria} which gets converted
+ * to {@link Specification}, in a way that all the filters must apply. It returns a {@link List} of {@link TransactionAccountDataEntryFileDTO} or a {@link Page} of {@link
+ * TransactionAccountDataEntryFileDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -37,13 +32,15 @@ public class TransactionAccountDataEntryFileQueryService extends QueryService<Tr
 
     private final TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper;
 
-    public TransactionAccountDataEntryFileQueryService(TransactionAccountDataEntryFileRepository transactionAccountDataEntryFileRepository, TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper) {
+    public TransactionAccountDataEntryFileQueryService(TransactionAccountDataEntryFileRepository transactionAccountDataEntryFileRepository,
+                                                       TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper) {
         this.transactionAccountDataEntryFileRepository = transactionAccountDataEntryFileRepository;
         this.transactionAccountDataEntryFileMapper = transactionAccountDataEntryFileMapper;
     }
 
     /**
      * Return a {@link List} of {@link TransactionAccountDataEntryFileDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -56,20 +53,21 @@ public class TransactionAccountDataEntryFileQueryService extends QueryService<Tr
 
     /**
      * Return a {@link Page} of {@link TransactionAccountDataEntryFileDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
     public Page<TransactionAccountDataEntryFileDTO> findByCriteria(TransactionAccountDataEntryFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<TransactionAccountDataEntryFile> specification = createSpecification(criteria);
-        return transactionAccountDataEntryFileRepository.findAll(specification, page)
-            .map(transactionAccountDataEntryFileMapper::toDto);
+        return transactionAccountDataEntryFileRepository.findAll(specification, page).map(transactionAccountDataEntryFileMapper::toDto);
     }
 
     /**
      * Return the number of matching entities in the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */

@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.ScannedDocumentService;
 import io.github.prepayments.domain.ScannedDocument;
 import io.github.prepayments.repository.ScannedDocumentRepository;
 import io.github.prepayments.repository.search.ScannedDocumentSearchRepository;
+import io.github.prepayments.service.ScannedDocumentService;
 import io.github.prepayments.service.dto.ScannedDocumentDTO;
 import io.github.prepayments.service.mapper.ScannedDocumentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link ScannedDocument}.
@@ -33,7 +32,8 @@ public class ScannedDocumentServiceImpl implements ScannedDocumentService {
 
     private final ScannedDocumentSearchRepository scannedDocumentSearchRepository;
 
-    public ScannedDocumentServiceImpl(ScannedDocumentRepository scannedDocumentRepository, ScannedDocumentMapper scannedDocumentMapper, ScannedDocumentSearchRepository scannedDocumentSearchRepository) {
+    public ScannedDocumentServiceImpl(ScannedDocumentRepository scannedDocumentRepository, ScannedDocumentMapper scannedDocumentMapper,
+                                      ScannedDocumentSearchRepository scannedDocumentSearchRepository) {
         this.scannedDocumentRepository = scannedDocumentRepository;
         this.scannedDocumentMapper = scannedDocumentMapper;
         this.scannedDocumentSearchRepository = scannedDocumentSearchRepository;
@@ -65,8 +65,7 @@ public class ScannedDocumentServiceImpl implements ScannedDocumentService {
     @Transactional(readOnly = true)
     public Page<ScannedDocumentDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ScannedDocuments");
-        return scannedDocumentRepository.findAll(pageable)
-            .map(scannedDocumentMapper::toDto);
+        return scannedDocumentRepository.findAll(pageable).map(scannedDocumentMapper::toDto);
     }
 
 
@@ -80,8 +79,7 @@ public class ScannedDocumentServiceImpl implements ScannedDocumentService {
     @Transactional(readOnly = true)
     public Optional<ScannedDocumentDTO> findOne(Long id) {
         log.debug("Request to get ScannedDocument : {}", id);
-        return scannedDocumentRepository.findById(id)
-            .map(scannedDocumentMapper::toDto);
+        return scannedDocumentRepository.findById(id).map(scannedDocumentMapper::toDto);
     }
 
     /**
@@ -99,7 +97,7 @@ public class ScannedDocumentServiceImpl implements ScannedDocumentService {
     /**
      * Search for the scannedDocument corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +105,6 @@ public class ScannedDocumentServiceImpl implements ScannedDocumentService {
     @Transactional(readOnly = true)
     public Page<ScannedDocumentDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ScannedDocuments for query {}", query);
-        return scannedDocumentSearchRepository.search(queryStringQuery(query), pageable)
-            .map(scannedDocumentMapper::toDto);
+        return scannedDocumentSearchRepository.search(queryStringQuery(query), pageable).map(scannedDocumentMapper::toDto);
     }
 }

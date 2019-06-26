@@ -1,9 +1,14 @@
 package io.github.prepayments.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
+import io.github.prepayments.domain.AmortizationEntry;
+import io.github.prepayments.domain.AmortizationEntry_;
+import io.github.prepayments.domain.PrepaymentEntry_;
+import io.github.prepayments.repository.AmortizationEntryRepository;
+import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
+import io.github.prepayments.service.dto.AmortizationEntryCriteria;
+import io.github.prepayments.service.dto.AmortizationEntryDTO;
+import io.github.prepayments.service.mapper.AmortizationEntryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,21 +17,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import io.github.prepayments.domain.AmortizationEntry;
-import io.github.prepayments.domain.*; // for static metamodels
-import io.github.prepayments.repository.AmortizationEntryRepository;
-import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
-import io.github.prepayments.service.dto.AmortizationEntryCriteria;
-import io.github.prepayments.service.dto.AmortizationEntryDTO;
-import io.github.prepayments.service.mapper.AmortizationEntryMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
- * Service for executing complex queries for {@link AmortizationEntry} entities in the database.
- * The main input is a {@link AmortizationEntryCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply.
- * It returns a {@link List} of {@link AmortizationEntryDTO} or a {@link Page} of {@link AmortizationEntryDTO} which fulfills the criteria.
+ * Service for executing complex queries for {@link AmortizationEntry} entities in the database. The main input is a {@link AmortizationEntryCriteria} which gets converted to {@link Specification}, in
+ * a way that all the filters must apply. It returns a {@link List} of {@link AmortizationEntryDTO} or a {@link Page} of {@link AmortizationEntryDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -40,7 +36,8 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
 
     private final AmortizationEntrySearchRepository amortizationEntrySearchRepository;
 
-    public AmortizationEntryQueryService(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper, AmortizationEntrySearchRepository amortizationEntrySearchRepository) {
+    public AmortizationEntryQueryService(AmortizationEntryRepository amortizationEntryRepository, AmortizationEntryMapper amortizationEntryMapper,
+                                         AmortizationEntrySearchRepository amortizationEntrySearchRepository) {
         this.amortizationEntryRepository = amortizationEntryRepository;
         this.amortizationEntryMapper = amortizationEntryMapper;
         this.amortizationEntrySearchRepository = amortizationEntrySearchRepository;
@@ -48,6 +45,7 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
 
     /**
      * Return a {@link List} of {@link AmortizationEntryDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -60,20 +58,21 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
 
     /**
      * Return a {@link Page} of {@link AmortizationEntryDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
     public Page<AmortizationEntryDTO> findByCriteria(AmortizationEntryCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<AmortizationEntry> specification = createSpecification(criteria);
-        return amortizationEntryRepository.findAll(specification, page)
-            .map(amortizationEntryMapper::toDto);
+        return amortizationEntryRepository.findAll(specification, page).map(amortizationEntryMapper::toDto);
     }
 
     /**
      * Return the number of matching entities in the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -115,8 +114,7 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
                 specification = specification.and(buildStringSpecification(criteria.getAccountName(), AmortizationEntry_.accountName));
             }
             if (criteria.getPrepaymentEntryId() != null) {
-                specification = specification.and(buildSpecification(criteria.getPrepaymentEntryId(),
-                    root -> root.join(AmortizationEntry_.prepaymentEntry, JoinType.LEFT).get(PrepaymentEntry_.id)));
+                specification = specification.and(buildSpecification(criteria.getPrepaymentEntryId(), root -> root.join(AmortizationEntry_.prepaymentEntry, JoinType.LEFT).get(PrepaymentEntry_.id)));
             }
         }
         return specification;

@@ -1,8 +1,11 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -100,13 +103,7 @@ public class TransactionAccountDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionAccountDTO{" +
-            "id=" + getId() +
-            ", accountName='" + getAccountName() + "'" +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", accountBalance=" + getAccountBalance() +
-            ", openingDate='" + getOpeningDate() + "'" +
-            ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() +
-            "}";
+        return "TransactionAccountDTO{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", accountNumber='" + getAccountNumber() + "'" + ", accountBalance=" + getAccountBalance() +
+            ", openingDate='" + getOpeningDate() + "'" + ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() + "}";
     }
 }

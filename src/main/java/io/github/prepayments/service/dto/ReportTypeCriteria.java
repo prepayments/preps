@@ -1,60 +1,30 @@
 package io.github.prepayments.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import io.github.prepayments.domain.enumeration.ReportMediumTypes;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.prepayments.domain.enumeration.ReportMediumTypes;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.ReportType} entity. This class is used
- * in {@link io.github.prepayments.web.rest.ReportTypeResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /report-types?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.ReportType} entity. This class is used in {@link io.github.prepayments.web.rest.ReportTypeResource} to receive all the possible filtering
+ * options from the Http GET request parameters. For example the following could be a valid request: {@code /report-types?id.greaterThan=5&attr1.contains=something&attr2.specified=false} As Spring is
+ * unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
  */
 public class ReportTypeCriteria implements Serializable, Criteria {
-    /**
-     * Class for filtering ReportMediumTypes
-     */
-    public static class ReportMediumTypesFilter extends Filter<ReportMediumTypes> {
-
-        public ReportMediumTypesFilter() {
-        }
-
-        public ReportMediumTypesFilter(ReportMediumTypesFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public ReportMediumTypesFilter copy() {
-            return new ReportMediumTypesFilter(this);
-        }
-
-    }
-
     private static final long serialVersionUID = 1L;
-
     private LongFilter id;
-
     private StringFilter reportModelName;
-
     private ReportMediumTypesFilter reportMediumType;
-
     private StringFilter reportPassword;
 
-    public ReportTypeCriteria(){
+    public ReportTypeCriteria() {
     }
 
-    public ReportTypeCriteria(ReportTypeCriteria other){
+    public ReportTypeCriteria(ReportTypeCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.reportModelName = other.reportModelName == null ? null : other.reportModelName.copy();
         this.reportMediumType = other.reportMediumType == null ? null : other.reportMediumType.copy();
@@ -98,7 +68,6 @@ public class ReportTypeCriteria implements Serializable, Criteria {
         this.reportPassword = reportPassword;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -108,31 +77,38 @@ public class ReportTypeCriteria implements Serializable, Criteria {
             return false;
         }
         final ReportTypeCriteria that = (ReportTypeCriteria) o;
-        return
-            Objects.equals(id, that.id) &&
-            Objects.equals(reportModelName, that.reportModelName) &&
-            Objects.equals(reportMediumType, that.reportMediumType) &&
+        return Objects.equals(id, that.id) && Objects.equals(reportModelName, that.reportModelName) && Objects.equals(reportMediumType, that.reportMediumType) &&
             Objects.equals(reportPassword, that.reportPassword);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        reportModelName,
-        reportMediumType,
-        reportPassword
-        );
+        return Objects.hash(id, reportModelName, reportMediumType, reportPassword);
     }
 
     @Override
     public String toString() {
-        return "ReportTypeCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (reportModelName != null ? "reportModelName=" + reportModelName + ", " : "") +
-                (reportMediumType != null ? "reportMediumType=" + reportMediumType + ", " : "") +
-                (reportPassword != null ? "reportPassword=" + reportPassword + ", " : "") +
-            "}";
+        return "ReportTypeCriteria{" + (id != null ? "id=" + id + ", " : "") + (reportModelName != null ? "reportModelName=" + reportModelName + ", " : "") +
+            (reportMediumType != null ? "reportMediumType=" + reportMediumType + ", " : "") + (reportPassword != null ? "reportPassword=" + reportPassword + ", " : "") + "}";
+    }
+
+    /**
+     * Class for filtering ReportMediumTypes
+     */
+    public static class ReportMediumTypesFilter extends Filter<ReportMediumTypes> {
+
+        public ReportMediumTypesFilter() {
+        }
+
+        public ReportMediumTypesFilter(ReportMediumTypesFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public ReportMediumTypesFilter copy() {
+            return new ReportMediumTypesFilter(this);
+        }
+
     }
 
 }

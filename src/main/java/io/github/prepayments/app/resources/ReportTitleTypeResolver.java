@@ -26,7 +26,8 @@ public class ReportTitleTypeResolver implements ReportTypeResolver {
     private final ReportTypeService reportTypeService;
     private final ReportTypeRepository reportTypeRepository;
 
-    public ReportTitleTypeResolver(final ReportTypeQueryService reportTypeQueryService, final ReportTypeMapper reportTypeMapper, final ReportTypeService reportTypeService, final ReportTypeRepository reportTypeRepository) {
+    public ReportTitleTypeResolver(final ReportTypeQueryService reportTypeQueryService, final ReportTypeMapper reportTypeMapper, final ReportTypeService reportTypeService,
+                                   final ReportTypeRepository reportTypeRepository) {
         this.reportTypeMapper = reportTypeMapper;
         this.reportTypeService = reportTypeService;
         this.reportTypeRepository = reportTypeRepository;
@@ -34,10 +35,9 @@ public class ReportTitleTypeResolver implements ReportTypeResolver {
 
     public List<ReportTypeDTO> getReportTypeDTOS(final ReportTypeCriteria reportTypeCriteria, ReportMediumTypes reportTypeMedium) {
 
-        log.info("Getting from server reportType of the criteria: {} using the medium: {}",reportTypeCriteria, reportTypeMedium.toString());
+        log.info("Getting from server reportType of the criteria: {} using the medium: {}", reportTypeCriteria, reportTypeMedium.toString());
 
-        List<ReportTypeDTO> reportTypes =
-            reportTypeMapper.toDto(Collections.singletonList(reportTypeRepository.findFirstByReportModelName(reportTypeCriteria.getReportModelName().getContains())));
+        List<ReportTypeDTO> reportTypes = reportTypeMapper.toDto(Collections.singletonList(reportTypeRepository.findFirstByReportModelName(reportTypeCriteria.getReportModelName().getContains())));
 
         if (reportTypes.isEmpty()) {
 

@@ -33,14 +33,13 @@ public abstract class AbstractGeneratedListingReportResource implements ReportRe
 
         LocalDate reportTime = LocalDate.now();
 
-        final ReportRequestEventDTO requestEventDTO =
-            ReportRequestEventDTO.builder()
-                                 .reportFile(generatedReportDTO.get().getReportFile())
-                                 .reportFileContentType(generatedReportDTO.get().getReportFileContentType())
-                                 .reportRequestDate(reportTime)
-                                 .reportTypeId(reportType.getId())
-                                 .requestedBy(getCurrentUserLogin().get())
-                                 .build();
+        final ReportRequestEventDTO requestEventDTO = ReportRequestEventDTO.builder()
+                                                                           .reportFile(generatedReportDTO.get().getReportFile())
+                                                                           .reportFileContentType(generatedReportDTO.get().getReportFileContentType())
+                                                                           .reportRequestDate(reportTime)
+                                                                           .reportTypeId(reportType.getId())
+                                                                           .requestedBy(getCurrentUserLogin().get())
+                                                                           .build();
 
         ReportRequestEventDTO result = reportRequestEventService.save(requestEventDTO);
 

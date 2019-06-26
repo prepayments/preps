@@ -31,8 +31,7 @@ public class AmortizationUploadExcelFileDeserializer extends BinaryExcelFileDese
 
         long time = System.currentTimeMillis();
 
-        List<AmortizationUploadEVM> amortizationUploadItems =
-            Poiji.fromExcel(amortizationUploadStream, PoijiExcelType.XLSX, AmortizationUploadEVM.class, poijiOptions);
+        List<AmortizationUploadEVM> amortizationUploadItems = Poiji.fromExcel(amortizationUploadStream, PoijiExcelType.XLSX, AmortizationUploadEVM.class, poijiOptions);
 
         long readTime = System.currentTimeMillis() - time;
 

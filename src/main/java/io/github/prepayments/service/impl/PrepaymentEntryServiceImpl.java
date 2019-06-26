@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
 import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
+import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link PrepaymentEntry}.
@@ -33,7 +32,8 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
 
     private final PrepaymentEntrySearchRepository prepaymentEntrySearchRepository;
 
-    public PrepaymentEntryServiceImpl(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper, PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
+    public PrepaymentEntryServiceImpl(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper,
+                                      PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
         this.prepaymentEntryRepository = prepaymentEntryRepository;
         this.prepaymentEntryMapper = prepaymentEntryMapper;
         this.prepaymentEntrySearchRepository = prepaymentEntrySearchRepository;
@@ -65,8 +65,7 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
     @Transactional(readOnly = true)
     public Page<PrepaymentEntryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all PrepaymentEntries");
-        return prepaymentEntryRepository.findAll(pageable)
-            .map(prepaymentEntryMapper::toDto);
+        return prepaymentEntryRepository.findAll(pageable).map(prepaymentEntryMapper::toDto);
     }
 
 
@@ -80,8 +79,7 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
     @Transactional(readOnly = true)
     public Optional<PrepaymentEntryDTO> findOne(Long id) {
         log.debug("Request to get PrepaymentEntry : {}", id);
-        return prepaymentEntryRepository.findById(id)
-            .map(prepaymentEntryMapper::toDto);
+        return prepaymentEntryRepository.findById(id).map(prepaymentEntryMapper::toDto);
     }
 
     /**
@@ -99,7 +97,7 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
     /**
      * Search for the prepaymentEntry corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +105,6 @@ public class PrepaymentEntryServiceImpl implements PrepaymentEntryService {
     @Transactional(readOnly = true)
     public Page<PrepaymentEntryDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of PrepaymentEntries for query {}", query);
-        return prepaymentEntrySearchRepository.search(queryStringQuery(query), pageable)
-            .map(prepaymentEntryMapper::toDto);
+        return prepaymentEntrySearchRepository.search(queryStringQuery(query), pageable).map(prepaymentEntryMapper::toDto);
     }
 }

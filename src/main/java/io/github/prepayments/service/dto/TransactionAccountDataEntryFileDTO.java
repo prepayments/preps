@@ -1,9 +1,10 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.TransactionAccountDataEntryFile} entity.
@@ -18,7 +19,7 @@ public class TransactionAccountDataEntryFileDTO implements Serializable {
     @NotNull
     private LocalDate periodTo;
 
-    
+
     @Lob
     private byte[] dataEntryFile;
 
@@ -107,13 +108,7 @@ public class TransactionAccountDataEntryFileDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionAccountDataEntryFileDTO{" +
-            "id=" + getId() +
-            ", periodFrom='" + getPeriodFrom() + "'" +
-            ", periodTo='" + getPeriodTo() + "'" +
-            ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" +
-            "}";
+        return "TransactionAccountDataEntryFileDTO{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", dataEntryFile='" + getDataEntryFile() +
+            "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + "}";
     }
 }

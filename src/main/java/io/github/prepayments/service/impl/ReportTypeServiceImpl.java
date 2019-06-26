@@ -1,13 +1,12 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.ReportTypeService;
 import io.github.prepayments.domain.ReportType;
 import io.github.prepayments.repository.ReportTypeRepository;
+import io.github.prepayments.service.ReportTypeService;
 import io.github.prepayments.service.dto.ReportTypeDTO;
 import io.github.prepayments.service.mapper.ReportTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,9 +56,7 @@ public class ReportTypeServiceImpl implements ReportTypeService {
     @Transactional(readOnly = true)
     public List<ReportTypeDTO> findAll() {
         log.debug("Request to get all ReportTypes");
-        return reportTypeRepository.findAll().stream()
-            .map(reportTypeMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return reportTypeRepository.findAll().stream().map(reportTypeMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
 
@@ -73,8 +70,7 @@ public class ReportTypeServiceImpl implements ReportTypeService {
     @Transactional(readOnly = true)
     public Optional<ReportTypeDTO> findOne(Long id) {
         log.debug("Request to get ReportType : {}", id);
-        return reportTypeRepository.findById(id)
-            .map(reportTypeMapper::toDto);
+        return reportTypeRepository.findById(id).map(reportTypeMapper::toDto);
     }
 
     /**

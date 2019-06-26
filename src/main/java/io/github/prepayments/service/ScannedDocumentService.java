@@ -1,7 +1,6 @@
 package io.github.prepayments.service;
 
 import io.github.prepayments.service.dto.ScannedDocumentDTO;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -47,8 +46,7 @@ public interface ScannedDocumentService {
     /**
      * Search for the scannedDocument corresponding to the query.
      *
-     * @param query the query of the search.
-     * 
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */

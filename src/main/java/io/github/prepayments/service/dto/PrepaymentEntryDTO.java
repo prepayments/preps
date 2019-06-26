@@ -1,8 +1,10 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -162,19 +164,9 @@ public class PrepaymentEntryDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "PrepaymentEntryDTO{" +
-            "id=" + getId() +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", accountName='" + getAccountName() + "'" +
-            ", prepaymentId='" + getPrepaymentId() + "'" +
-            ", prepaymentDate='" + getPrepaymentDate() + "'" +
-            ", particulars='" + getParticulars() + "'" +
-            ", serviceOutlet='" + getServiceOutlet() + "'" +
-            ", prepaymentAmount=" + getPrepaymentAmount() +
-            ", months=" + getMonths() +
-            ", supplierName='" + getSupplierName() + "'" +
-            ", invoiceNumber='" + getInvoiceNumber() + "'" +
-            ", scannedDocumentId=" + getScannedDocumentId() +
-            "}";
+        return "PrepaymentEntryDTO{" + "id=" + getId() + ", accountNumber='" + getAccountNumber() + "'" + ", accountName='" + getAccountName() + "'" + ", prepaymentId='" + getPrepaymentId() + "'" +
+            ", prepaymentDate='" + getPrepaymentDate() + "'" + ", particulars='" + getParticulars() + "'" + ", serviceOutlet='" + getServiceOutlet() + "'" + ", prepaymentAmount=" +
+            getPrepaymentAmount() + ", months=" + getMonths() + ", supplierName='" + getSupplierName() + "'" + ", invoiceNumber='" + getInvoiceNumber() + "'" + ", scannedDocumentId=" +
+            getScannedDocumentId() + "}";
     }
 }

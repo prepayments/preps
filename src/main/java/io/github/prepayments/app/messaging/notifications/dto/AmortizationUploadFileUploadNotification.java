@@ -8,15 +8,14 @@ import lombok.ToString;
 
 /**
  * This is a notification object about amortization upload files uploaded. We tried asynch calls but that wasn't good enough. So when a file is uploaded, this object will be sent as notification to
- * notify a
- * listener which can then deal with the file.
+ * notify a listener which can then deal with the file.
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 @ToString
-public class AmortizationUploadFileUploadNotification implements FileUploadNotification  {
+public class AmortizationUploadFileUploadNotification implements FileUploadNotification {
 
     private long id;
     private long timeStamp;

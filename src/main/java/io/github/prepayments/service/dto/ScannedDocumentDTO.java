@@ -1,9 +1,10 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.ScannedDocument} entity.
@@ -175,17 +176,8 @@ public class ScannedDocumentDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ScannedDocumentDTO{" +
-            "id=" + getId() +
-            ", documentName='" + getDocumentName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", invoiceNumber='" + getInvoiceNumber() + "'" +
-            ", transactionId='" + getTransactionId() + "'" +
-            ", transactionDate='" + getTransactionDate() + "'" +
-            ", invoiceDocument='" + getInvoiceDocument() + "'" +
-            ", requisitionDocument='" + getRequisitionDocument() + "'" +
-            ", approvalMemoDocument='" + getApprovalMemoDocument() + "'" +
-            ", otherScannedDocument='" + getOtherScannedDocument() + "'" +
-            "}";
+        return "ScannedDocumentDTO{" + "id=" + getId() + ", documentName='" + getDocumentName() + "'" + ", description='" + getDescription() + "'" + ", invoiceNumber='" + getInvoiceNumber() + "'" +
+            ", transactionId='" + getTransactionId() + "'" + ", transactionDate='" + getTransactionDate() + "'" + ", invoiceDocument='" + getInvoiceDocument() + "'" + ", requisitionDocument='" +
+            getRequisitionDocument() + "'" + ", approvalMemoDocument='" + getApprovalMemoDocument() + "'" + ", otherScannedDocument='" + getOtherScannedDocument() + "'" + "}";
     }
 }

@@ -3,15 +3,20 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A AccountingTransaction.
@@ -64,17 +69,21 @@ public class AccountingTransaction implements Serializable {
         return accountName;
     }
 
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
     public AccountingTransaction accountName(String accountName) {
         this.accountName = accountName;
         return this;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
     public String getAccountNumber() {
         return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public AccountingTransaction accountNumber(String accountNumber) {
@@ -82,12 +91,12 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public LocalDate getTransactionDate() {
         return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public AccountingTransaction transactionDate(LocalDate transactionDate) {
@@ -95,21 +104,17 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
     public BigDecimal getTransactionAmount() {
         return transactionAmount;
+    }
+
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
     public AccountingTransaction transactionAmount(BigDecimal transactionAmount) {
         this.transactionAmount = transactionAmount;
         return this;
-    }
-
-    public void setTransactionAmount(BigDecimal transactionAmount) {
-        this.transactionAmount = transactionAmount;
     }
 
     public Boolean isIncrementAccount() {
@@ -144,13 +149,7 @@ public class AccountingTransaction implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountingTransaction{" +
-            "id=" + getId() +
-            ", accountName='" + getAccountName() + "'" +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", transactionDate='" + getTransactionDate() + "'" +
-            ", transactionAmount=" + getTransactionAmount() +
-            ", incrementAccount='" + isIncrementAccount() + "'" +
-            "}";
+        return "AccountingTransaction{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", accountNumber='" + getAccountNumber() + "'" + ", transactionDate='" + getTransactionDate() +
+            "'" + ", transactionAmount=" + getTransactionAmount() + ", incrementAccount='" + isIncrementAccount() + "'" + "}";
     }
 }

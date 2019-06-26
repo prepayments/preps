@@ -55,7 +55,7 @@ public class AmortizationGeneratedReportResource extends AbstractGeneratedListin
     @Override
     Optional<GeneratedReportDTO> generateReport() {
 
-        return amortizationReportGeneratorService.generateReport(REPORT_TITLE + " Listing",REPORT_TITLE);
+        return amortizationReportGeneratorService.generateReport(REPORT_TITLE + " Listing", REPORT_TITLE);
     }
 
     @Override

@@ -1,25 +1,19 @@
 package io.github.prepayments.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.ScannedDocument} entity. This class is used
- * in {@link io.github.prepayments.web.rest.ScannedDocumentResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /scanned-documents?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.ScannedDocument} entity. This class is used in {@link io.github.prepayments.web.rest.ScannedDocumentResource} to receive all the possible
+ * filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /scanned-documents?id
+ * .greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
  */
 public class ScannedDocumentCriteria implements Serializable, Criteria {
 
@@ -37,10 +31,10 @@ public class ScannedDocumentCriteria implements Serializable, Criteria {
 
     private LocalDateFilter transactionDate;
 
-    public ScannedDocumentCriteria(){
+    public ScannedDocumentCriteria() {
     }
 
-    public ScannedDocumentCriteria(ScannedDocumentCriteria other){
+    public ScannedDocumentCriteria(ScannedDocumentCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.documentName = other.documentName == null ? null : other.documentName.copy();
         this.description = other.description == null ? null : other.description.copy();
@@ -112,37 +106,20 @@ public class ScannedDocumentCriteria implements Serializable, Criteria {
             return false;
         }
         final ScannedDocumentCriteria that = (ScannedDocumentCriteria) o;
-        return
-            Objects.equals(id, that.id) &&
-            Objects.equals(documentName, that.documentName) &&
-            Objects.equals(description, that.description) &&
-            Objects.equals(invoiceNumber, that.invoiceNumber) &&
-            Objects.equals(transactionId, that.transactionId) &&
-            Objects.equals(transactionDate, that.transactionDate);
+        return Objects.equals(id, that.id) && Objects.equals(documentName, that.documentName) && Objects.equals(description, that.description) && Objects.equals(invoiceNumber, that.invoiceNumber) &&
+            Objects.equals(transactionId, that.transactionId) && Objects.equals(transactionDate, that.transactionDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        documentName,
-        description,
-        invoiceNumber,
-        transactionId,
-        transactionDate
-        );
+        return Objects.hash(id, documentName, description, invoiceNumber, transactionId, transactionDate);
     }
 
     @Override
     public String toString() {
-        return "ScannedDocumentCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (documentName != null ? "documentName=" + documentName + ", " : "") +
-                (description != null ? "description=" + description + ", " : "") +
-                (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") +
-                (transactionId != null ? "transactionId=" + transactionId + ", " : "") +
-                (transactionDate != null ? "transactionDate=" + transactionDate + ", " : "") +
-            "}";
+        return "ScannedDocumentCriteria{" + (id != null ? "id=" + id + ", " : "") + (documentName != null ? "documentName=" + documentName + ", " : "") +
+            (description != null ? "description=" + description + ", " : "") + (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") +
+            (transactionId != null ? "transactionId=" + transactionId + ", " : "") + (transactionDate != null ? "transactionDate=" + transactionDate + ", " : "") + "}";
     }
 
 }

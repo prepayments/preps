@@ -1,8 +1,10 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -165,19 +167,9 @@ public class AmortizationUploadDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationUploadDTO{" +
-            "id=" + getId() +
-            ", accountName='" + getAccountName() + "'" +
-            ", particulars='" + getParticulars() + "'" +
-            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
-            ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
-            ", expenseAccountNumber='" + getExpenseAccountNumber() + "'" +
-            ", prepaymentTransactionId='" + getPrepaymentTransactionId() + "'" +
-            ", prepaymentTransactionDate='" + getPrepaymentTransactionDate() + "'" +
-            ", prepaymentTransactionAmount=" + getPrepaymentTransactionAmount() +
-            ", amortizationAmount=" + getAmortizationAmount() +
-            ", numberOfAmortizations=" + getNumberOfAmortizations() +
-            ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" +
-            "}";
+        return "AmortizationUploadDTO{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", particulars='" + getParticulars() + "'" + ", serviceOutletCode='" + getServiceOutletCode() +
+            "'" + ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" + ", expenseAccountNumber='" + getExpenseAccountNumber() + "'" + ", prepaymentTransactionId='" +
+            getPrepaymentTransactionId() + "'" + ", prepaymentTransactionDate='" + getPrepaymentTransactionDate() + "'" + ", prepaymentTransactionAmount=" + getPrepaymentTransactionAmount() +
+            ", amortizationAmount=" + getAmortizationAmount() + ", numberOfAmortizations=" + getNumberOfAmortizations() + ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" + "}";
     }
 }

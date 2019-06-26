@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.ReportRequestEventService;
 import io.github.prepayments.domain.ReportRequestEvent;
 import io.github.prepayments.repository.ReportRequestEventRepository;
 import io.github.prepayments.repository.search.ReportRequestEventSearchRepository;
+import io.github.prepayments.service.ReportRequestEventService;
 import io.github.prepayments.service.dto.ReportRequestEventDTO;
 import io.github.prepayments.service.mapper.ReportRequestEventMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link ReportRequestEvent}.
@@ -33,7 +32,8 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
 
     private final ReportRequestEventSearchRepository reportRequestEventSearchRepository;
 
-    public ReportRequestEventServiceImpl(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper, ReportRequestEventSearchRepository reportRequestEventSearchRepository) {
+    public ReportRequestEventServiceImpl(ReportRequestEventRepository reportRequestEventRepository, ReportRequestEventMapper reportRequestEventMapper,
+                                         ReportRequestEventSearchRepository reportRequestEventSearchRepository) {
         this.reportRequestEventRepository = reportRequestEventRepository;
         this.reportRequestEventMapper = reportRequestEventMapper;
         this.reportRequestEventSearchRepository = reportRequestEventSearchRepository;
@@ -65,8 +65,7 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
     @Transactional(readOnly = true)
     public Page<ReportRequestEventDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ReportRequestEvents");
-        return reportRequestEventRepository.findAll(pageable)
-            .map(reportRequestEventMapper::toDto);
+        return reportRequestEventRepository.findAll(pageable).map(reportRequestEventMapper::toDto);
     }
 
 
@@ -80,8 +79,7 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
     @Transactional(readOnly = true)
     public Optional<ReportRequestEventDTO> findOne(Long id) {
         log.debug("Request to get ReportRequestEvent : {}", id);
-        return reportRequestEventRepository.findById(id)
-            .map(reportRequestEventMapper::toDto);
+        return reportRequestEventRepository.findById(id).map(reportRequestEventMapper::toDto);
     }
 
     /**
@@ -99,7 +97,7 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
     /**
      * Search for the reportRequestEvent corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +105,6 @@ public class ReportRequestEventServiceImpl implements ReportRequestEventService 
     @Transactional(readOnly = true)
     public Page<ReportRequestEventDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ReportRequestEvents for query {}", query);
-        return reportRequestEventSearchRepository.search(queryStringQuery(query), pageable)
-            .map(reportRequestEventMapper::toDto);
+        return reportRequestEventSearchRepository.search(queryStringQuery(query), pageable).map(reportRequestEventMapper::toDto);
     }
 }

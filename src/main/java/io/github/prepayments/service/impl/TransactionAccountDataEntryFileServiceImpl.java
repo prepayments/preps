@@ -1,13 +1,12 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.domain.TransactionAccountDataEntryFile;
 import io.github.prepayments.repository.TransactionAccountDataEntryFileRepository;
+import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
 import io.github.prepayments.service.mapper.TransactionAccountDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,8 @@ public class TransactionAccountDataEntryFileServiceImpl implements TransactionAc
 
     private final TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper;
 
-    public TransactionAccountDataEntryFileServiceImpl(TransactionAccountDataEntryFileRepository transactionAccountDataEntryFileRepository, TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper) {
+    public TransactionAccountDataEntryFileServiceImpl(TransactionAccountDataEntryFileRepository transactionAccountDataEntryFileRepository,
+                                                      TransactionAccountDataEntryFileMapper transactionAccountDataEntryFileMapper) {
         this.transactionAccountDataEntryFileRepository = transactionAccountDataEntryFileRepository;
         this.transactionAccountDataEntryFileMapper = transactionAccountDataEntryFileMapper;
     }
@@ -57,8 +57,7 @@ public class TransactionAccountDataEntryFileServiceImpl implements TransactionAc
     @Transactional(readOnly = true)
     public Page<TransactionAccountDataEntryFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all TransactionAccountDataEntryFiles");
-        return transactionAccountDataEntryFileRepository.findAll(pageable)
-            .map(transactionAccountDataEntryFileMapper::toDto);
+        return transactionAccountDataEntryFileRepository.findAll(pageable).map(transactionAccountDataEntryFileMapper::toDto);
     }
 
 
@@ -72,8 +71,7 @@ public class TransactionAccountDataEntryFileServiceImpl implements TransactionAc
     @Transactional(readOnly = true)
     public Optional<TransactionAccountDataEntryFileDTO> findOne(Long id) {
         log.debug("Request to get TransactionAccountDataEntryFile : {}", id);
-        return transactionAccountDataEntryFileRepository.findById(id)
-            .map(transactionAccountDataEntryFileMapper::toDto);
+        return transactionAccountDataEntryFileRepository.findById(id).map(transactionAccountDataEntryFileMapper::toDto);
     }
 
     /**

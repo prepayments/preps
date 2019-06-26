@@ -1,5 +1,7 @@
 package io.github.prepayments.service.dto;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -155,19 +157,9 @@ public class ServiceOutletDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutletDTO{" +
-            "id=" + getId() +
-            ", serviceOutletName='" + getServiceOutletName() + "'" +
-            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
-            ", serviceOutletLocation='" + getServiceOutletLocation() + "'" +
-            ", serviceOutletManager='" + getServiceOutletManager() + "'" +
-            ", numberOfStaff=" + getNumberOfStaff() +
-            ", building='" + getBuilding() + "'" +
-            ", floor=" + getFloor() +
-            ", postalAddress='" + getPostalAddress() + "'" +
-            ", contactPersonName='" + getContactPersonName() + "'" +
-            ", contactEmail='" + getContactEmail() + "'" +
-            ", street='" + getStreet() + "'" +
-            "}";
+        return "ServiceOutletDTO{" + "id=" + getId() + ", serviceOutletName='" + getServiceOutletName() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", serviceOutletLocation='" +
+            getServiceOutletLocation() + "'" + ", serviceOutletManager='" + getServiceOutletManager() + "'" + ", numberOfStaff=" + getNumberOfStaff() + ", building='" + getBuilding() + "'" +
+            ", floor=" + getFloor() + ", postalAddress='" + getPostalAddress() + "'" + ", contactPersonName='" + getContactPersonName() + "'" + ", contactEmail='" + getContactEmail() + "'" +
+            ", street='" + getStreet() + "'" + "}";
     }
 }

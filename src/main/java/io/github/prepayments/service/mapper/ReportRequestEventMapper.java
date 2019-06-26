@@ -1,9 +1,9 @@
 package io.github.prepayments.service.mapper;
 
-import io.github.prepayments.domain.*;
+import io.github.prepayments.domain.ReportRequestEvent;
 import io.github.prepayments.service.dto.ReportRequestEventDTO;
-
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity {@link ReportRequestEvent} and its DTO {@link ReportRequestEventDTO}.

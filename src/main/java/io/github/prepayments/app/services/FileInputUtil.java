@@ -28,7 +28,7 @@ public class FileInputUtil {
         return bytes;
     }
 
-    public static  <T> byte[] createExcelFile(final List<T> dtoList, Class<T> dtoClass) {
+    public static <T> byte[] createExcelFile(final List<T> dtoList, Class<T> dtoClass) {
 
         ByteArrayOutputStream spreadsheetOutputStream = new ByteArrayOutputStream();
 

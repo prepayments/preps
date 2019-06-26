@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.ServiceOutletService;
 import io.github.prepayments.domain.ServiceOutlet;
 import io.github.prepayments.repository.ServiceOutletRepository;
 import io.github.prepayments.repository.search.ServiceOutletSearchRepository;
+import io.github.prepayments.service.ServiceOutletService;
 import io.github.prepayments.service.dto.ServiceOutletDTO;
 import io.github.prepayments.service.mapper.ServiceOutletMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link ServiceOutlet}.
@@ -65,8 +64,7 @@ public class ServiceOutletServiceImpl implements ServiceOutletService {
     @Transactional(readOnly = true)
     public Page<ServiceOutletDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ServiceOutlets");
-        return serviceOutletRepository.findAll(pageable)
-            .map(serviceOutletMapper::toDto);
+        return serviceOutletRepository.findAll(pageable).map(serviceOutletMapper::toDto);
     }
 
 
@@ -80,8 +78,7 @@ public class ServiceOutletServiceImpl implements ServiceOutletService {
     @Transactional(readOnly = true)
     public Optional<ServiceOutletDTO> findOne(Long id) {
         log.debug("Request to get ServiceOutlet : {}", id);
-        return serviceOutletRepository.findById(id)
-            .map(serviceOutletMapper::toDto);
+        return serviceOutletRepository.findById(id).map(serviceOutletMapper::toDto);
     }
 
     /**
@@ -99,7 +96,7 @@ public class ServiceOutletServiceImpl implements ServiceOutletService {
     /**
      * Search for the serviceOutlet corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +104,6 @@ public class ServiceOutletServiceImpl implements ServiceOutletService {
     @Transactional(readOnly = true)
     public Page<ServiceOutletDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ServiceOutlets for query {}", query);
-        return serviceOutletSearchRepository.search(queryStringQuery(query), pageable)
-            .map(serviceOutletMapper::toDto);
+        return serviceOutletSearchRepository.search(queryStringQuery(query), pageable).map(serviceOutletMapper::toDto);
     }
 }

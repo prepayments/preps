@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers;
 @Slf4j
 @Transactional
 @Service("amortizationUploadFileUploadNotificationListener")
-public class AmortizationUploadFileUploadNotificationListener implements UploadNotificationsStreamListener<AmortizationUploadFileUploadNotification>  {
+public class AmortizationUploadFileUploadNotificationListener implements UploadNotificationsStreamListener<AmortizationUploadFileUploadNotification> {
 
     private final AmortizationUploadFileQueueScheduler amortizationUploadFileQueueScheduler;
     private final AmortizationUploadFileService amortizationUploadFileService;
@@ -30,9 +30,9 @@ public class AmortizationUploadFileUploadNotificationListener implements UploadN
     public void handleDataStreamItem(@Payload AmortizationUploadFileUploadNotification dataStreamItem) {
         log.debug("Amortization upload file id #: {} has been uploaded to the prepayments system", dataStreamItem.getId());
 
-        AmortizationUploadFileDTO result =
-            amortizationUploadFileService.findOne(dataStreamItem.getId()).orElseThrow(() -> new IllegalArgumentException("Amortization upload file id : " + dataStreamItem.getId() + " was not " +
-                                                                                                                             "found!"));
+        AmortizationUploadFileDTO result = amortizationUploadFileService.findOne(dataStreamItem.getId())
+                                                                        .orElseThrow(
+                                                                            () -> new IllegalArgumentException("Amortization upload file id : " + dataStreamItem.getId() + " was not " + "found!"));
 
         result.setUploadSuccessful(true);
 

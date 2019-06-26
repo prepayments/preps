@@ -4,12 +4,17 @@ package io.github.prepayments.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A ServiceOutletDataEntryFile.
@@ -40,7 +45,7 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Column(name = "upload_processed")
     private Boolean uploadProcessed;
 
-    
+
     @Lob
     @Column(name = "data_entry_file", nullable = false)
     private byte[] dataEntryFile;
@@ -61,26 +66,26 @@ public class ServiceOutletDataEntryFile implements Serializable {
         return periodFrom;
     }
 
+    public void setPeriodFrom(LocalDate periodFrom) {
+        this.periodFrom = periodFrom;
+    }
+
     public ServiceOutletDataEntryFile periodFrom(LocalDate periodFrom) {
         this.periodFrom = periodFrom;
         return this;
-    }
-
-    public void setPeriodFrom(LocalDate periodFrom) {
-        this.periodFrom = periodFrom;
     }
 
     public LocalDate getPeriodTo() {
         return periodTo;
     }
 
+    public void setPeriodTo(LocalDate periodTo) {
+        this.periodTo = periodTo;
+    }
+
     public ServiceOutletDataEntryFile periodTo(LocalDate periodTo) {
         this.periodTo = periodTo;
         return this;
-    }
-
-    public void setPeriodTo(LocalDate periodTo) {
-        this.periodTo = periodTo;
     }
 
     public Boolean isUploadSuccessful() {
@@ -113,26 +118,26 @@ public class ServiceOutletDataEntryFile implements Serializable {
         return dataEntryFile;
     }
 
+    public void setDataEntryFile(byte[] dataEntryFile) {
+        this.dataEntryFile = dataEntryFile;
+    }
+
     public ServiceOutletDataEntryFile dataEntryFile(byte[] dataEntryFile) {
         this.dataEntryFile = dataEntryFile;
         return this;
-    }
-
-    public void setDataEntryFile(byte[] dataEntryFile) {
-        this.dataEntryFile = dataEntryFile;
     }
 
     public String getDataEntryFileContentType() {
         return dataEntryFileContentType;
     }
 
+    public void setDataEntryFileContentType(String dataEntryFileContentType) {
+        this.dataEntryFileContentType = dataEntryFileContentType;
+    }
+
     public ServiceOutletDataEntryFile dataEntryFileContentType(String dataEntryFileContentType) {
         this.dataEntryFileContentType = dataEntryFileContentType;
         return this;
-    }
-
-    public void setDataEntryFileContentType(String dataEntryFileContentType) {
-        this.dataEntryFileContentType = dataEntryFileContentType;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -154,14 +159,7 @@ public class ServiceOutletDataEntryFile implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutletDataEntryFile{" +
-            "id=" + getId() +
-            ", periodFrom='" + getPeriodFrom() + "'" +
-            ", periodTo='" + getPeriodTo() + "'" +
-            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" +
-            ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
-            "}";
+        return "ServiceOutletDataEntryFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + "}";
     }
 }

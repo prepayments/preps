@@ -34,7 +34,7 @@ public class DataSinkAmortizationStreamsListener {
     public void handleAmortizationEntryStreams(@Payload AmortizationEntryEVM amortizationEntryEVM) {
         log.info("Received amortizationEntry #: {} standby for persistence...", amortizationEntryEVM.getRowIndex());
 
-//        AmortizationEntryDTO dto = amortizationDataEntryFileDTOMapper.toDTO(amortizationEntryEVM);
+        //        AmortizationEntryDTO dto = amortizationDataEntryFileDTOMapper.toDTO(amortizationEntryEVM);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 

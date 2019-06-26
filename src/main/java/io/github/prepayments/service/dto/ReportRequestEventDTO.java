@@ -1,13 +1,13 @@
 package io.github.prepayments.service.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Lob;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.ReportRequestEvent} entity.
@@ -33,11 +33,7 @@ public class ReportRequestEventDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ReportRequestEventDTO{" +
-            "id=" + getId() +
-            ", reportRequestDate='" + getReportRequestDate() + "'" +
-            ", requestedBy='" + getRequestedBy() + "'" +
-            ", reportType=" + getReportTypeId() +
+        return "ReportRequestEventDTO{" + "id=" + getId() + ", reportRequestDate='" + getReportRequestDate() + "'" + ", requestedBy='" + getRequestedBy() + "'" + ", reportType=" + getReportTypeId() +
             "}";
     }
 }

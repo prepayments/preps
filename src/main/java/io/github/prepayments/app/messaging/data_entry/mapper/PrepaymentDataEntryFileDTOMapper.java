@@ -19,15 +19,11 @@ public interface PrepaymentDataEntryFileDTOMapper extends DtoMapper<PrepaymentEn
         return prepaymentEntryDTO;
     }
 
-    @Mappings({
-        @Mapping(target = "prepaymentDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "prepaymentDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     PrepaymentEntryDTO toDTO(PrepaymentEntryEVM prepaymentEntryEVM);
 
-    @Mappings({
-        @Mapping(target = "prepaymentDate", dateFormat = "yyyy/MM/dd"),
-    })
+    @Mappings( {@Mapping(target = "prepaymentDate", dateFormat = "yyyy/MM/dd"),})
     @Override
     PrepaymentEntryEVM toEVM(PrepaymentEntryDTO prepaymentEntryDTO);
 }

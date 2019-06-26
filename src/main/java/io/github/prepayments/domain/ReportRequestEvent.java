@@ -4,13 +4,19 @@ package io.github.prepayments.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A ReportRequestEvent.
@@ -59,17 +65,21 @@ public class ReportRequestEvent implements Serializable {
         return reportRequestDate;
     }
 
+    public void setReportRequestDate(LocalDate reportRequestDate) {
+        this.reportRequestDate = reportRequestDate;
+    }
+
     public ReportRequestEvent reportRequestDate(LocalDate reportRequestDate) {
         this.reportRequestDate = reportRequestDate;
         return this;
     }
 
-    public void setReportRequestDate(LocalDate reportRequestDate) {
-        this.reportRequestDate = reportRequestDate;
-    }
-
     public String getRequestedBy() {
         return requestedBy;
+    }
+
+    public void setRequestedBy(String requestedBy) {
+        this.requestedBy = requestedBy;
     }
 
     public ReportRequestEvent requestedBy(String requestedBy) {
@@ -77,12 +87,12 @@ public class ReportRequestEvent implements Serializable {
         return this;
     }
 
-    public void setRequestedBy(String requestedBy) {
-        this.requestedBy = requestedBy;
-    }
-
     public byte[] getReportFile() {
         return reportFile;
+    }
+
+    public void setReportFile(byte[] reportFile) {
+        this.reportFile = reportFile;
     }
 
     public ReportRequestEvent reportFile(byte[] reportFile) {
@@ -90,12 +100,12 @@ public class ReportRequestEvent implements Serializable {
         return this;
     }
 
-    public void setReportFile(byte[] reportFile) {
-        this.reportFile = reportFile;
-    }
-
     public String getReportFileContentType() {
         return reportFileContentType;
+    }
+
+    public void setReportFileContentType(String reportFileContentType) {
+        this.reportFileContentType = reportFileContentType;
     }
 
     public ReportRequestEvent reportFileContentType(String reportFileContentType) {
@@ -103,21 +113,17 @@ public class ReportRequestEvent implements Serializable {
         return this;
     }
 
-    public void setReportFileContentType(String reportFileContentType) {
-        this.reportFileContentType = reportFileContentType;
-    }
-
     public ReportType getReportType() {
         return reportType;
+    }
+
+    public void setReportType(ReportType reportType) {
+        this.reportType = reportType;
     }
 
     public ReportRequestEvent reportType(ReportType reportType) {
         this.reportType = reportType;
         return this;
-    }
-
-    public void setReportType(ReportType reportType) {
-        this.reportType = reportType;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -139,12 +145,7 @@ public class ReportRequestEvent implements Serializable {
 
     @Override
     public String toString() {
-        return "ReportRequestEvent{" +
-            "id=" + getId() +
-            ", reportRequestDate='" + getReportRequestDate() + "'" +
-            ", requestedBy='" + getRequestedBy() + "'" +
-            ", reportFile='" + getReportFile() + "'" +
-            ", reportFileContentType='" + getReportFileContentType() + "'" +
-            "}";
+        return "ReportRequestEvent{" + "id=" + getId() + ", reportRequestDate='" + getReportRequestDate() + "'" + ", requestedBy='" + getRequestedBy() + "'" + ", reportFile='" + getReportFile() +
+            "'" + ", reportFileContentType='" + getReportFileContentType() + "'" + "}";
     }
 }

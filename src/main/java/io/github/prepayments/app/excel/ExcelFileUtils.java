@@ -15,7 +15,6 @@ import io.github.prepayments.app.messaging.filing.vm.ServiceOutletEVM;
 import io.github.prepayments.app.messaging.filing.vm.TransactionAccountEVM;
 
 import java.time.format.DateTimeFormatter;
-import java.util.BitSet;
 import java.util.List;
 
 /**

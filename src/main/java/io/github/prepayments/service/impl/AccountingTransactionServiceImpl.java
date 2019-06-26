@@ -1,14 +1,13 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.domain.AccountingTransaction;
 import io.github.prepayments.repository.AccountingTransactionRepository;
 import io.github.prepayments.repository.search.AccountingTransactionSearchRepository;
+import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.service.dto.AccountingTransactionDTO;
 import io.github.prepayments.service.mapper.AccountingTransactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing {@link AccountingTransaction}.
@@ -33,7 +32,8 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
 
     private final AccountingTransactionSearchRepository accountingTransactionSearchRepository;
 
-    public AccountingTransactionServiceImpl(AccountingTransactionRepository accountingTransactionRepository, AccountingTransactionMapper accountingTransactionMapper, AccountingTransactionSearchRepository accountingTransactionSearchRepository) {
+    public AccountingTransactionServiceImpl(AccountingTransactionRepository accountingTransactionRepository, AccountingTransactionMapper accountingTransactionMapper,
+                                            AccountingTransactionSearchRepository accountingTransactionSearchRepository) {
         this.accountingTransactionRepository = accountingTransactionRepository;
         this.accountingTransactionMapper = accountingTransactionMapper;
         this.accountingTransactionSearchRepository = accountingTransactionSearchRepository;
@@ -65,8 +65,7 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
     @Transactional(readOnly = true)
     public Page<AccountingTransactionDTO> findAll(Pageable pageable) {
         log.debug("Request to get all AccountingTransactions");
-        return accountingTransactionRepository.findAll(pageable)
-            .map(accountingTransactionMapper::toDto);
+        return accountingTransactionRepository.findAll(pageable).map(accountingTransactionMapper::toDto);
     }
 
 
@@ -80,8 +79,7 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
     @Transactional(readOnly = true)
     public Optional<AccountingTransactionDTO> findOne(Long id) {
         log.debug("Request to get AccountingTransaction : {}", id);
-        return accountingTransactionRepository.findById(id)
-            .map(accountingTransactionMapper::toDto);
+        return accountingTransactionRepository.findById(id).map(accountingTransactionMapper::toDto);
     }
 
     /**
@@ -99,7 +97,7 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
     /**
      * Search for the accountingTransaction corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -107,7 +105,6 @@ public class AccountingTransactionServiceImpl implements AccountingTransactionSe
     @Transactional(readOnly = true)
     public Page<AccountingTransactionDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of AccountingTransactions for query {}", query);
-        return accountingTransactionSearchRepository.search(queryStringQuery(query), pageable)
-            .map(accountingTransactionMapper::toDto);
+        return accountingTransactionSearchRepository.search(queryStringQuery(query), pageable).map(accountingTransactionMapper::toDto);
     }
 }

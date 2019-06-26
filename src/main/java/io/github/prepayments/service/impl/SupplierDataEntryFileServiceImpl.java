@@ -1,13 +1,12 @@
 package io.github.prepayments.service.impl;
 
-import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.domain.SupplierDataEntryFile;
 import io.github.prepayments.repository.SupplierDataEntryFileRepository;
+import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import io.github.prepayments.service.mapper.SupplierDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -57,8 +56,7 @@ public class SupplierDataEntryFileServiceImpl implements SupplierDataEntryFileSe
     @Transactional(readOnly = true)
     public Page<SupplierDataEntryFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all SupplierDataEntryFiles");
-        return supplierDataEntryFileRepository.findAll(pageable)
-            .map(supplierDataEntryFileMapper::toDto);
+        return supplierDataEntryFileRepository.findAll(pageable).map(supplierDataEntryFileMapper::toDto);
     }
 
 
@@ -72,8 +70,7 @@ public class SupplierDataEntryFileServiceImpl implements SupplierDataEntryFileSe
     @Transactional(readOnly = true)
     public Optional<SupplierDataEntryFileDTO> findOne(Long id) {
         log.debug("Request to get SupplierDataEntryFile : {}", id);
-        return supplierDataEntryFileRepository.findById(id)
-            .map(supplierDataEntryFileMapper::toDto);
+        return supplierDataEntryFileRepository.findById(id).map(supplierDataEntryFileMapper::toDto);
     }
 
     /**

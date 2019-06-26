@@ -1,10 +1,5 @@
 package io.github.prepayments.config;
 
-import java.net.InetSocketAddress;
-import java.util.Iterator;
-
-import io.github.jhipster.config.JHipsterProperties;
-
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -16,6 +11,7 @@ import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.filter.EvaluatorFilter;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.FilterReply;
+import io.github.jhipster.config.JHipsterProperties;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
 import net.logstash.logback.composite.ContextJsonProvider;
 import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider;
@@ -38,6 +34,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
+import java.net.InetSocketAddress;
+import java.util.Iterator;
+
 @Configuration
 @RefreshScope
 public class LoggingConfiguration {
@@ -49,17 +48,12 @@ public class LoggingConfiguration {
     private static final String ASYNC_LOGSTASH_APPENDER_NAME = "ASYNC_LOGSTASH";
 
     private final Logger log = LoggerFactory.getLogger(LoggingConfiguration.class);
-
+    private final String appName;
+    private final String serverPort;
+    private final JHipsterProperties jHipsterProperties;
     private LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-    private final String appName;
-
-    private final String serverPort;
-
-    private final JHipsterProperties jHipsterProperties;
-
-    public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-         JHipsterProperties jHipsterProperties) {
+    public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort, JHipsterProperties jHipsterProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.jHipsterProperties = jHipsterProperties;
@@ -79,7 +73,7 @@ public class LoggingConfiguration {
 
     private void addJsonConsoleAppender(LoggerContext context) {
         log.info("Initializing Console logging");
-        
+
         // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
         ConsoleAppender<ILoggingEvent> consoleAppender = new ConsoleAppender<>();
         consoleAppender.setContext(context);
@@ -120,14 +114,14 @@ public class LoggingConfiguration {
         compositeJsonEncoder.start();
         return compositeJsonEncoder;
     }
-    
+
     private LogstashEncoder logstashEncoder() {
         final LogstashEncoder logstashEncoder = new LogstashEncoder();
         logstashEncoder.setThrowableConverter(throwableConverter());
         logstashEncoder.setCustomFields(customFields());
         return logstashEncoder;
     }
-    
+
     private LoggingEventJsonProviders jsonProviders(LoggerContext context) {
         final LoggingEventJsonProviders jsonProviders = new LoggingEventJsonProviders();
         jsonProviders.addArguments(new ArgumentsJsonProvider());
@@ -151,7 +145,7 @@ public class LoggingConfiguration {
         return customFieldsJsonProvider;
     }
 
-    private String customFields () {
+    private String customFields() {
         StringBuilder customFields = new StringBuilder();
         customFields.append("{");
         customFields.append("\"app_name\":\"").append(this.appName).append("\"");
@@ -159,13 +153,13 @@ public class LoggingConfiguration {
         customFields.append("}");
         return customFields.toString();
     }
-    
+
     private LoggerNameJsonProvider loggerNameJsonProvider() {
         final LoggerNameJsonProvider loggerNameJsonProvider = new LoggerNameJsonProvider();
         loggerNameJsonProvider.setShortenedLoggerNameLength(20);
         return loggerNameJsonProvider;
     }
-    
+
     private StackTraceJsonProvider stackTraceJsonProvider() {
         StackTraceJsonProvider stackTraceJsonProvider = new StackTraceJsonProvider();
         stackTraceJsonProvider.setThrowableConverter(throwableConverter());
@@ -177,7 +171,7 @@ public class LoggingConfiguration {
         throwableConverter.setRootCauseFirst(true);
         return throwableConverter;
     }
-    
+
     private LoggingEventFormattedTimestampJsonProvider timestampJsonProvider() {
         final LoggingEventFormattedTimestampJsonProvider timestampJsonProvider = new LoggingEventFormattedTimestampJsonProvider();
         timestampJsonProvider.setTimeZone("UTC");
@@ -205,10 +199,9 @@ public class LoggingConfiguration {
         metricsFilter.start();
 
         context.getLoggerList().forEach((logger) -> {
-            for (Iterator<Appender<ILoggingEvent>> it = logger.iteratorForAppenders(); it.hasNext();) {
+            for (Iterator<Appender<ILoggingEvent>> it = logger.iteratorForAppenders(); it.hasNext(); ) {
                 Appender<ILoggingEvent> appender = it.next();
-                if (!appender.getName().equals(ASYNC_LOGSTASH_APPENDER_NAME)
-                        && !(appender.getName().equals(CONSOLE_APPENDER_NAME) && this.jHipsterProperties.getLogging().isUseJsonFormat())) {
+                if (!appender.getName().equals(ASYNC_LOGSTASH_APPENDER_NAME) && !(appender.getName().equals(CONSOLE_APPENDER_NAME) && this.jHipsterProperties.getLogging().isUseJsonFormat())) {
                     log.debug("Filter metrics logs from the {} appender", appender.getName());
                     appender.setContext(context);
                     appender.addFilter(metricsFilter);
@@ -219,17 +212,16 @@ public class LoggingConfiguration {
     }
 
     /**
-     * Logback configuration is achieved by configuration file and API.
-     * When configuration file change is detected, the configuration is reset.
-     * This listener ensures that the programmatic configuration is also re-applied after reset.
+     * Logback configuration is achieved by configuration file and API. When configuration file change is detected, the configuration is reset. This listener ensures that the programmatic
+     * configuration is also re-applied after reset.
      */
     class LogbackLoggerContextListener extends ContextAwareBase implements LoggerContextListener {
         private final JHipsterProperties jHipsterProperties;
-        
+
         private LogbackLoggerContextListener(JHipsterProperties jHipsterProperties) {
             this.jHipsterProperties = jHipsterProperties;
         }
-        
+
         @Override
         public boolean isResetResistant() {
             return true;

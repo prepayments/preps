@@ -1,7 +1,8 @@
 package io.github.prepayments.repository;
 
 import io.github.prepayments.domain.TransactionAccount;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 

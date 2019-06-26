@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class AmortizationUploadEVM implements Serializable, ExcelViewModel  {
+public class AmortizationUploadEVM implements Serializable, ExcelViewModel {
 
     private static final long serialVersionUID = 4812288900845715487L;
     @ExcelRow

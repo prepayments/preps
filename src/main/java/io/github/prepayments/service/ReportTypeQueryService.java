@@ -1,9 +1,12 @@
 package io.github.prepayments.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
+import io.github.prepayments.domain.ReportType;
+import io.github.prepayments.domain.ReportType_;
+import io.github.prepayments.repository.ReportTypeRepository;
+import io.github.prepayments.service.dto.ReportTypeCriteria;
+import io.github.prepayments.service.dto.ReportTypeDTO;
+import io.github.prepayments.service.mapper.ReportTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,20 +15,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import io.github.prepayments.domain.ReportType;
-import io.github.prepayments.domain.*; // for static metamodels
-import io.github.prepayments.repository.ReportTypeRepository;
-import io.github.prepayments.service.dto.ReportTypeCriteria;
-import io.github.prepayments.service.dto.ReportTypeDTO;
-import io.github.prepayments.service.mapper.ReportTypeMapper;
+import java.util.List;
 
 /**
- * Service for executing complex queries for {@link ReportType} entities in the database.
- * The main input is a {@link ReportTypeCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply.
- * It returns a {@link List} of {@link ReportTypeDTO} or a {@link Page} of {@link ReportTypeDTO} which fulfills the criteria.
+ * Service for executing complex queries for {@link ReportType} entities in the database. The main input is a {@link ReportTypeCriteria} which gets converted to {@link Specification}, in a way that
+ * all the filters must apply. It returns a {@link List} of {@link ReportTypeDTO} or a {@link Page} of {@link ReportTypeDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -44,6 +38,7 @@ public class ReportTypeQueryService extends QueryService<ReportType> {
 
     /**
      * Return a {@link List} of {@link ReportTypeDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -56,20 +51,21 @@ public class ReportTypeQueryService extends QueryService<ReportType> {
 
     /**
      * Return a {@link Page} of {@link ReportTypeDTO} which matches the criteria from the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
     public Page<ReportTypeDTO> findByCriteria(ReportTypeCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<ReportType> specification = createSpecification(criteria);
-        return reportTypeRepository.findAll(specification, page)
-            .map(reportTypeMapper::toDto);
+        return reportTypeRepository.findAll(specification, page).map(reportTypeMapper::toDto);
     }
 
     /**
      * Return the number of matching entities in the database.
+     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
