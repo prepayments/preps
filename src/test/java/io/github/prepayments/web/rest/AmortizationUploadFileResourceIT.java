@@ -1,6 +1,7 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.services.notifications.AmortizationUploadFileNotificationMessageService;
 import io.github.prepayments.domain.AmortizationUploadFile;
 import io.github.prepayments.repository.AmortizationUploadFileRepository;
 import io.github.prepayments.repository.search.AmortizationUploadFileSearchRepository;
@@ -8,11 +9,11 @@ import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
 import io.github.prepayments.service.mapper.AmortizationUploadFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.AmortizationUploadFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,10 +104,14 @@ public class AmortizationUploadFileResourceIT {
 
     private AmortizationUploadFile amortizationUploadFile;
 
+    @Mock
+    private AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AmortizationUploadFileResource amortizationUploadFileResource = new AmortizationUploadFileResource(amortizationUploadFileService, amortizationUploadFileQueryService);
+        final AmortizationUploadFileResource amortizationUploadFileResource = new AmortizationUploadFileResource(amortizationUploadFileService, amortizationUploadFileQueryService,
+                                                                                                                 amortizationUploadFileNotificationMessageService);
         this.restAmortizationUploadFileMockMvc = MockMvcBuilders.standaloneSetup(amortizationUploadFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -260,7 +265,7 @@ public class AmortizationUploadFileResourceIT {
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getAmortizationUploadFile() throws Exception {
