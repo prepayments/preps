@@ -1,35 +1,37 @@
 package io.github.prepayments.web.rest;
 
-import io.github.prepayments.service.ScannedDocumentService;
-import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import io.github.prepayments.service.dto.ScannedDocumentDTO;
-import io.github.prepayments.service.dto.ScannedDocumentCriteria;
-import io.github.prepayments.service.ScannedDocumentQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.github.prepayments.service.ScannedDocumentQueryService;
+import io.github.prepayments.service.ScannedDocumentService;
+import io.github.prepayments.service.dto.ScannedDocumentCriteria;
+import io.github.prepayments.service.dto.ScannedDocumentDTO;
+import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.ScannedDocument}.
@@ -38,16 +40,12 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @RequestMapping("/api")
 public class ScannedDocumentResource {
 
-    private final Logger log = LoggerFactory.getLogger(ScannedDocumentResource.class);
-
     private static final String ENTITY_NAME = "scannedDocument";
-
+    private final Logger log = LoggerFactory.getLogger(ScannedDocumentResource.class);
+    private final ScannedDocumentService scannedDocumentService;
+    private final ScannedDocumentQueryService scannedDocumentQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final ScannedDocumentService scannedDocumentService;
-
-    private final ScannedDocumentQueryService scannedDocumentQueryService;
 
     public ScannedDocumentResource(ScannedDocumentService scannedDocumentService, ScannedDocumentQueryService scannedDocumentQueryService) {
         this.scannedDocumentService = scannedDocumentService;
@@ -69,17 +67,16 @@ public class ScannedDocumentResource {
         }
         ScannedDocumentDTO result = scannedDocumentService.save(scannedDocumentDTO);
         return ResponseEntity.created(new URI("/api/scanned-documents/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                             .body(result);
     }
 
     /**
      * {@code PUT  /scanned-documents} : Updates an existing scannedDocument.
      *
      * @param scannedDocumentDTO the scannedDocumentDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated scannedDocumentDTO,
-     * or with status {@code 400 (Bad Request)} if the scannedDocumentDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the scannedDocumentDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated scannedDocumentDTO, or with status {@code 400 (Bad Request)} if the scannedDocumentDTO is not valid, or
+     * with status {@code 500 (Internal Server Error)} if the scannedDocumentDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/scanned-documents")
@@ -89,9 +86,7 @@ public class ScannedDocumentResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ScannedDocumentDTO result = scannedDocumentService.save(scannedDocumentDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, scannedDocumentDTO.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, scannedDocumentDTO.getId().toString())).body(result);
     }
 
     /**
@@ -102,7 +97,8 @@ public class ScannedDocumentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of scannedDocuments in body.
      */
     @GetMapping("/scanned-documents")
-    public ResponseEntity<List<ScannedDocumentDTO>> getAllScannedDocuments(ScannedDocumentCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<ScannedDocumentDTO>> getAllScannedDocuments(ScannedDocumentCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+                                                                           UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get ScannedDocuments by criteria: {}", criteria);
         Page<ScannedDocumentDTO> page = scannedDocumentQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
@@ -110,11 +106,11 @@ public class ScannedDocumentResource {
     }
 
     /**
-    * {@code GET  /scanned-documents/count} : count all the scannedDocuments.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /scanned-documents/count} : count all the scannedDocuments.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/scanned-documents/count")
     public ResponseEntity<Long> countScannedDocuments(ScannedDocumentCriteria criteria) {
         log.debug("REST request to count ScannedDocuments by criteria: {}", criteria);
@@ -148,15 +144,15 @@ public class ScannedDocumentResource {
     }
 
     /**
-     * {@code SEARCH  /_search/scanned-documents?query=:query} : search for the scannedDocument corresponding
-     * to the query.
+     * {@code SEARCH  /_search/scanned-documents?query=:query} : search for the scannedDocument corresponding to the query.
      *
-     * @param query the query of the scannedDocument search.
+     * @param query    the query of the scannedDocument search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */
     @GetMapping("/_search/scanned-documents")
-    public ResponseEntity<List<ScannedDocumentDTO>> searchScannedDocuments(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<ScannedDocumentDTO>> searchScannedDocuments(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+                                                                           UriComponentsBuilder uriBuilder) {
         log.debug("REST request to search for a page of ScannedDocuments for query {}", query);
         Page<ScannedDocumentDTO> page = scannedDocumentService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);

@@ -1,22 +1,27 @@
 package io.github.prepayments.web.rest;
 
-import io.github.prepayments.service.ReportTypeService;
-import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import io.github.prepayments.service.dto.ReportTypeDTO;
-import io.github.prepayments.service.dto.ReportTypeCriteria;
-import io.github.prepayments.service.ReportTypeQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.github.prepayments.service.ReportTypeQueryService;
+import io.github.prepayments.service.ReportTypeService;
+import io.github.prepayments.service.dto.ReportTypeCriteria;
+import io.github.prepayments.service.dto.ReportTypeDTO;
+import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +32,12 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ReportTypeResource {
 
-    private final Logger log = LoggerFactory.getLogger(ReportTypeResource.class);
-
     private static final String ENTITY_NAME = "reportsReportType";
-
+    private final Logger log = LoggerFactory.getLogger(ReportTypeResource.class);
+    private final ReportTypeService reportTypeService;
+    private final ReportTypeQueryService reportTypeQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final ReportTypeService reportTypeService;
-
-    private final ReportTypeQueryService reportTypeQueryService;
 
     public ReportTypeResource(ReportTypeService reportTypeService, ReportTypeQueryService reportTypeQueryService) {
         this.reportTypeService = reportTypeService;
@@ -58,17 +59,16 @@ public class ReportTypeResource {
         }
         ReportTypeDTO result = reportTypeService.save(reportTypeDTO);
         return ResponseEntity.created(new URI("/api/report-types/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                             .body(result);
     }
 
     /**
      * {@code PUT  /report-types} : Updates an existing reportType.
      *
      * @param reportTypeDTO the reportTypeDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated reportTypeDTO,
-     * or with status {@code 400 (Bad Request)} if the reportTypeDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the reportTypeDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated reportTypeDTO, or with status {@code 400 (Bad Request)} if the reportTypeDTO is not valid, or with
+     * status {@code 500 (Internal Server Error)} if the reportTypeDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/report-types")
@@ -78,9 +78,7 @@ public class ReportTypeResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ReportTypeDTO result = reportTypeService.save(reportTypeDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, reportTypeDTO.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, reportTypeDTO.getId().toString())).body(result);
     }
 
     /**
@@ -97,11 +95,11 @@ public class ReportTypeResource {
     }
 
     /**
-    * {@code GET  /report-types/count} : count all the reportTypes.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /report-types/count} : count all the reportTypes.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/report-types/count")
     public ResponseEntity<Long> countReportTypes(ReportTypeCriteria criteria) {
         log.debug("REST request to count ReportTypes by criteria: {}", criteria);

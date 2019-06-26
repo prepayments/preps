@@ -1,31 +1,37 @@
 package io.github.prepayments.web.rest;
 
-import io.github.prepayments.app.messaging.notifications.dto.AmortizationFileUploadNotification;
-import io.github.prepayments.app.messaging.services.notifications.AmortizationDataFileMessageService;
-import io.github.prepayments.service.AmortizationDataEntryFileService;
-import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
-import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
-import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.github.prepayments.app.messaging.notifications.dto.AmortizationFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.AmortizationDataFileMessageService;
+import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
+import io.github.prepayments.service.AmortizationDataEntryFileService;
+import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
+import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
+import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,18 +42,13 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class AmortizationDataEntryFileResource {
 
-    private final Logger log = LoggerFactory.getLogger(AmortizationDataEntryFileResource.class);
-
     private static final String ENTITY_NAME = "dataEntryAmortizationDataEntryFile";
-
+    private final Logger log = LoggerFactory.getLogger(AmortizationDataEntryFileResource.class);
+    private final AmortizationDataFileMessageService amortizationDataFileMessageService;
+    private final AmortizationDataEntryFileService amortizationDataEntryFileService;
+    private final AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final AmortizationDataFileMessageService amortizationDataFileMessageService;
-
-    private final AmortizationDataEntryFileService amortizationDataEntryFileService;
-
-    private final AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService;
 
     public AmortizationDataEntryFileResource(AmortizationDataEntryFileService amortizationDataEntryFileService, AmortizationDataEntryFileQueryService amortizationDataEntryFileQueryService,
                                              final AmortizationDataFileMessageService amortizationDataFileMessageService) {
@@ -60,7 +61,8 @@ public class AmortizationDataEntryFileResource {
      * {@code POST  /amortization-data-entry-files} : Create a new amortizationDataEntryFile.
      *
      * @param amortizationDataEntryFileDTO the amortizationDataEntryFileDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new amortizationDataEntryFileDTO, or with status {@code 400 (Bad Request)} if the amortizationDataEntryFile has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new amortizationDataEntryFileDTO, or with status {@code 400 (Bad Request)} if the
+     * amortizationDataEntryFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/amortization-data-entry-files")
@@ -82,17 +84,16 @@ public class AmortizationDataEntryFileResource {
 
 
         return ResponseEntity.created(new URI("/api/amortization-data-entry-files/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                             .body(result);
     }
 
     /**
      * {@code PUT  /amortization-data-entry-files} : Updates an existing amortizationDataEntryFile.
      *
      * @param amortizationDataEntryFileDTO the amortizationDataEntryFileDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated amortizationDataEntryFileDTO,
-     * or with status {@code 400 (Bad Request)} if the amortizationDataEntryFileDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the amortizationDataEntryFileDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated amortizationDataEntryFileDTO, or with status {@code 400 (Bad Request)} if the
+     * amortizationDataEntryFileDTO is not valid, or with status {@code 500 (Internal Server Error)} if the amortizationDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/amortization-data-entry-files")
@@ -102,9 +103,7 @@ public class AmortizationDataEntryFileResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         AmortizationDataEntryFileDTO result = amortizationDataEntryFileService.save(amortizationDataEntryFileDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, amortizationDataEntryFileDTO.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, amortizationDataEntryFileDTO.getId().toString())).body(result);
     }
 
     /**
@@ -115,7 +114,8 @@ public class AmortizationDataEntryFileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of amortizationDataEntryFiles in body.
      */
     @GetMapping("/amortization-data-entry-files")
-    public ResponseEntity<List<AmortizationDataEntryFileDTO>> getAllAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<AmortizationDataEntryFileDTO>> getAllAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria, Pageable pageable,
+                                                                                               @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get AmortizationDataEntryFiles by criteria: {}", criteria);
         Page<AmortizationDataEntryFileDTO> page = amortizationDataEntryFileQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
@@ -123,11 +123,11 @@ public class AmortizationDataEntryFileResource {
     }
 
     /**
-    * {@code GET  /amortization-data-entry-files/count} : count all the amortizationDataEntryFiles.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /amortization-data-entry-files/count} : count all the amortizationDataEntryFiles.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/amortization-data-entry-files/count")
     public ResponseEntity<Long> countAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria) {
         log.debug("REST request to count AmortizationDataEntryFiles by criteria: {}", criteria);
