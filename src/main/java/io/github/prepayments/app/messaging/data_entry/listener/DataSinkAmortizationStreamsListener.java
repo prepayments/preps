@@ -1,7 +1,7 @@
 package io.github.prepayments.app.messaging.data_entry.listener;
 
 import io.github.prepayments.app.messaging.data_entry.service.IPrepaymentEntryIdService;
-import io.github.prepayments.app.messaging.data_entry.vm.AmortizationEntryEVM;
+import io.github.prepayments.app.messaging.data_entry.vm.SimpleAmortizationEntryEVM;
 import io.github.prepayments.app.messaging.filing.streams.FilingAmortizationEntryStreams;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
@@ -31,8 +31,8 @@ public class DataSinkAmortizationStreamsListener {
     }
 
     @StreamListener(FilingAmortizationEntryStreams.INPUT)
-    public void handleAmortizationEntryStreams(@Payload AmortizationEntryEVM amortizationEntryEVM) {
-        log.info("Received amortizationEntry #: {} standby for persistence...", amortizationEntryEVM.getRowIndex());
+    public void handleAmortizationEntryStreams(@Payload SimpleAmortizationEntryEVM simpleAmortizationEntryEVM) {
+        log.info("Received amortizationEntry #: {} standby for persistence...", simpleAmortizationEntryEVM.getRowIndex());
 
         //        AmortizationEntryDTO dto = amortizationDataEntryFileDTOMapper.toDTO(amortizationEntryEVM);
 
@@ -41,18 +41,18 @@ public class DataSinkAmortizationStreamsListener {
         // @formatter:off
         AmortizationEntryDTO dto = AmortizationEntryDTO.builder()
                                                        .amortizationDate(
-                                                           LocalDate.parse(amortizationEntryEVM.getAmortizationDate(), dtf))
-                                                       .amortizationAmount(BigDecimal.valueOf(Double.parseDouble(amortizationEntryEVM.getAmortizationAmount())))
-                                                       .particulars(amortizationEntryEVM.getParticulars())
+                                                           LocalDate.parse(simpleAmortizationEntryEVM.getAmortizationDate(), dtf))
+                                                       .amortizationAmount(BigDecimal.valueOf(Double.parseDouble(simpleAmortizationEntryEVM.getAmortizationAmount())))
+                                                       .particulars(simpleAmortizationEntryEVM.getParticulars())
                                                        .posted(false)
-                                                       .serviceOutlet(amortizationEntryEVM.getServiceOutlet())
-                                                       .accountNumber(amortizationEntryEVM.getAccountNumber())
-                                                       .accountName(amortizationEntryEVM.getAccountName())
+                                                       .serviceOutlet(simpleAmortizationEntryEVM.getServiceOutlet())
+                                                       .accountNumber(simpleAmortizationEntryEVM.getAccountNumber())
+                                                       .accountName(simpleAmortizationEntryEVM.getAccountName())
                                                        .build();
         // @formatter:on
 
         // PREPAYMENT ID is assumed to be id # as stored in the db for prepayments
-        dto.setPrepaymentEntryId(prepaymentEntryIdService.findByIdAndDate(amortizationEntryEVM.getPrepaymentEntryId(), amortizationEntryEVM.getPrepaymentEntryDate()));
+        dto.setPrepaymentEntryId(prepaymentEntryIdService.findByIdAndDate(simpleAmortizationEntryEVM.getPrepaymentEntryId(), simpleAmortizationEntryEVM.getPrepaymentEntryDate()));
         AmortizationEntryDTO result = amortizationEntryService.save(dto);
 
         log.debug("Amortization entry item saved : #{}", result.getId());

@@ -1,7 +1,7 @@
 package io.github.prepayments.app.messaging.data_entry.listener;
 
 import io.github.prepayments.app.messaging.data_entry.mapper.SupplierDataEntryFileDTOMapper;
-import io.github.prepayments.app.messaging.data_entry.vm.RegisteredSupplierEVM;
+import io.github.prepayments.app.messaging.data_entry.vm.SimpleRegisteredSupplierEVM;
 import io.github.prepayments.app.messaging.filing.streams.FilingSupplierDataEntryStreams;
 import io.github.prepayments.service.RegisteredSupplierService;
 import io.github.prepayments.service.dto.RegisteredSupplierDTO;
@@ -24,7 +24,7 @@ public class DataSinkSupplierDataEntryStreamsListener {
     }
 
     @StreamListener(FilingSupplierDataEntryStreams.INPUT)
-    public void handleUploadedSupplierData(@Payload RegisteredSupplierEVM supplierEVM) {
+    public void handleUploadedSupplierData(@Payload SimpleRegisteredSupplierEVM supplierEVM) {
         log.info("Received registeredSupplierEVM at index #: {} standby for persistence...", supplierEVM.getRowIndex());
 
         RegisteredSupplierDTO dto = supplierDataEntryFileDTOMapper.toDTO(supplierEVM);

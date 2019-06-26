@@ -1,7 +1,7 @@
 package io.github.prepayments.app.messaging.data_entry.listener;
 
 import io.github.prepayments.app.messaging.data_entry.mapper.TransactionAccountDataEntryFileDTOMapper;
-import io.github.prepayments.app.messaging.data_entry.vm.TransactionAccountEVM;
+import io.github.prepayments.app.messaging.data_entry.vm.SimpleTransactionAccountEVM;
 import io.github.prepayments.app.messaging.filing.streams.FilingTransactionAccountDataEntryStreams;
 import io.github.prepayments.service.TransactionAccountService;
 import io.github.prepayments.service.dto.TransactionAccountDTO;
@@ -24,10 +24,10 @@ public class DataSinkTransactionAccountDataEntryStreamsListener {
     }
 
     @StreamListener(FilingTransactionAccountDataEntryStreams.INPUT)
-    public void handleTransactionAccountUploaded(@Payload TransactionAccountEVM transactionAccountEVM) {
-        log.debug("Received transactionAccountEVM at index #: {} standby for persistence...", transactionAccountEVM.getRowIndex());
+    public void handleTransactionAccountUploaded(@Payload SimpleTransactionAccountEVM simpleTransactionAccountEVM) {
+        log.debug("Received transactionAccountEVM at index #: {} standby for persistence...", simpleTransactionAccountEVM.getRowIndex());
 
-        TransactionAccountDTO dto = transactionAccountDataEntryFileDTOMapper.toDTO(transactionAccountEVM);
+        TransactionAccountDTO dto = transactionAccountDataEntryFileDTOMapper.toDTO(simpleTransactionAccountEVM);
 
         TransactionAccountDTO result = transactionAccountService.save(dto);
 
