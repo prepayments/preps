@@ -1,11 +1,9 @@
 package io.github.prepayments.app.messaging.notifications.listener;
 
-import io.github.prepayments.app.messaging.notifications.AmortizationUploadFileUploadStream;
+import io.github.prepayments.app.messaging.notifications.AmortizationUploadFileUploadStreams;
 import io.github.prepayments.app.messaging.notifications.dto.AmortizationUploadFileUploadNotification;
 import io.github.prepayments.app.messaging.services.scheduler.AmortizationUploadFileQueueScheduler;
 import io.github.prepayments.service.AmortizationUploadFileService;
-import io.github.prepayments.service.AmortizationUploadService;
-import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -28,7 +26,7 @@ public class AmortizationUploadFileUploadNotificationListener implements UploadN
         this.amortizationUploadFileService = amortizationUploadFileService;
     }
 
-    @StreamListener(AmortizationUploadFileUploadStream.FILE_INPUT)
+    @StreamListener(AmortizationUploadFileUploadStreams.FILE_INPUT)
     public void handleDataStreamItem(@Payload AmortizationUploadFileUploadNotification dataStreamItem) {
         log.debug("Amortization upload file id #: {} has been uploaded to the prepayments system", dataStreamItem.getId());
 

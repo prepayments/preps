@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
-public interface AmortizationUploadFileUploadStream {
+public interface AmortizationUploadFileUploadStreams {
 
     String FILE_INPUT = "amortization-upload-file-uploaded-in";
     String FILE_OUTPUT = "amortization-upload-file-uploaded-out";
