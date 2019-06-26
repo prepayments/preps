@@ -95,6 +95,12 @@ spring:
         amortization-data-entry-out:
           destination: amortizationEntriesData
           contentType: application/json
+        amortization-upload-data-entry-in:
+          destination: amortizationUploadsData
+          contentType: application/json
+        amortization-upload-data-entry-out:
+          destination: amortizationUploadsData
+          contentType: application/json
         prepayment-data-entry-in:
           destination: prepaymentEntriesData
           contentType: application/json
