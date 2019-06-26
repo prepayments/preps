@@ -22,6 +22,9 @@ import java.time.LocalDate;
 @ToString
 public class AmortizationUploadDTO implements Serializable {
 
+
+    private static final long serialVersionUID = 7902455679046556695L;
+
     private Long id;
 
     @NotNull
