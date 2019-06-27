@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.service;
 
+import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,12 +33,20 @@ public class PrepaymentEntryIdService implements IPrepaymentEntryIdService {
     @Cacheable("prepaymentByIdAndDate")
     public Long findByIdAndDate(final String prepaymentEntryId, final String prepaymentEntryDate) {
 
+        Long findByIdAndDate;
+
         log.debug("Finding prepayment with the Id : {} dated : {}", prepaymentEntryId, prepaymentEntryDate);
 
         //TODO Convert this using system-wide converter
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
-        return Optional.of(prepaymentEntryRepository.findFirstByPrepaymentIdAndPrepaymentDate(prepaymentEntryId, LocalDate.parse(prepaymentEntryDate, dtf)).getId())
-                       .orElseThrow(() -> new IllegalStateException("Prepayment with business id: " + prepaymentEntryId + " and dated : " + prepaymentEntryDate + " was not found"));
+        PrepaymentEntry found = prepaymentEntryRepository.findFirstByPrepaymentIdAndPrepaymentDate(prepaymentEntryId, LocalDate.parse(prepaymentEntryDate, dtf));
+
+        if(found == null){
+            return 0l;
+        }
+        findByIdAndDate = found.getId();
+
+        return findByIdAndDate;
     }
 }
