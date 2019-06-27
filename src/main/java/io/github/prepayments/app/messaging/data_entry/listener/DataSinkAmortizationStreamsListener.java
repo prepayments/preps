@@ -32,7 +32,8 @@ public class DataSinkAmortizationStreamsListener {
 
     @StreamListener(FilingAmortizationEntryStreams.INPUT)
     public void handleAmortizationEntryStreams(@Payload SimpleAmortizationEntryEVM simpleAmortizationEntryEVM) {
-        log.info("Received amortizationEntry #: {} standby for persistence...", simpleAmortizationEntryEVM.getRowIndex());
+        log.info("Received amortizationEntry dated : {} for prepayment id #: {} dated : {} standby for persistence...", simpleAmortizationEntryEVM.getAmortizationDate(),
+                 simpleAmortizationEntryEVM.getPrepaymentEntryId(), simpleAmortizationEntryEVM.getPrepaymentEntryDate());
 
         //        AmortizationEntryDTO dto = amortizationDataEntryFileDTOMapper.toDTO(amortizationEntryEVM);
 
