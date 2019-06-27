@@ -43,7 +43,8 @@ public class PrepaymentEntryIdService implements IPrepaymentEntryIdService {
         PrepaymentEntry found = prepaymentEntryRepository.findFirstByPrepaymentIdAndPrepaymentDate(prepaymentEntryId, LocalDate.parse(prepaymentEntryDate, dtf));
 
         if(found == null){
-            return 0l;
+            log.debug("Prepayment Not found: Prepayment Id : {}, dated : {}", prepaymentEntryId, prepaymentEntryDate);
+            return 1L;
         }
         findByIdAndDate = found.getId();
 
