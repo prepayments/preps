@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -49,7 +50,7 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
 
         IntStream.rangeClosed(0, amortizationUploadDTO.getNumberOfAmortizations() - 1).forEach((sequence) -> {
 
-            String amortizationDateInstance = incrementDate(amortizationUploadDTO.getFirstAmortizationDate().format(dtf), sequence, dtf);
+            String amortizationDateInstance = incrementDate(amortizationUploadDTO.getFirstAmortizationDate(), sequence, dtf);
 
             log.debug("Sending for persistence the amortization instance for the date: {}", amortizationDateInstance);
 
@@ -73,7 +74,7 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
         return evms;
     }
 
-    private String incrementDate(final String amortizationDate, final int sequence, final DateTimeFormatter dtf) {
-        return dtf.format(LocalDate.parse(amortizationDate, dtf).plusMonths(sequence));
+    private String incrementDate(final LocalDate firstAmortizationDate, final int sequence, final DateTimeFormatter dtf) {
+        return dtf.format(firstAmortizationDate.plusMonths(sequence).with(TemporalAdjusters.firstDayOfMonth()).plusDays(20));
     }
 }
