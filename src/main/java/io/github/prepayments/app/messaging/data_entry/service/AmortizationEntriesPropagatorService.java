@@ -1,8 +1,10 @@
 package io.github.prepayments.app.messaging.data_entry.service;
 
+import io.github.prepayments.app.messaging.filing.vm.AmortizationEntryEVM;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public interface AmortizationEntriesPropagatorService {
 
@@ -11,7 +13,7 @@ public interface AmortizationEntriesPropagatorService {
      *
      * @param amortizationUploadDTO The upload to be propagated into constituent amortization-entries
      */
-    void propagateAmortizationEntries(AmortizationUploadDTO amortizationUploadDTO);
+    List<AmortizationEntryEVM> propagateAmortizationEntries(AmortizationUploadDTO amortizationUploadDTO);
 
     /**
      * Propagates the upload DTO into constituent amortization entries
@@ -19,5 +21,5 @@ public interface AmortizationEntriesPropagatorService {
      * @param dtf                   DateTimeFormatter for converting date items back to formatted string
      * @param amortizationUploadDTO The upload to be propagated into constituent amortization-entries
      */
-    void propagateAmortizationEntries(final DateTimeFormatter dtf, final AmortizationUploadDTO amortizationUploadDTO);
+    List<AmortizationEntryEVM> propagateAmortizationEntries(final DateTimeFormatter dtf, final AmortizationUploadDTO amortizationUploadDTO);
 }

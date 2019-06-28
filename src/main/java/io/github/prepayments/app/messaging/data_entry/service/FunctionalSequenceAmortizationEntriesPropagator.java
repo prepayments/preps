@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @Slf4j
@@ -30,8 +32,8 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
      * @param amortizationUploadDTO The upload to be propagated into constituent amortization-entries
      */
     @Override
-    public void propagateAmortizationEntries(final AmortizationUploadDTO amortizationUploadDTO) {
-        propagateAmortizationEntries(DateTimeFormatter.ofPattern("yyyy/MM/dd"), amortizationUploadDTO);
+    public List<AmortizationEntryEVM> propagateAmortizationEntries(final AmortizationUploadDTO amortizationUploadDTO) {
+        return propagateAmortizationEntries(DateTimeFormatter.ofPattern("yyyy/MM/dd"), amortizationUploadDTO);
     }
 
     /**
@@ -41,7 +43,9 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
      * @param amortizationUploadDTO The upload to be propagated into constituent amortization-entries
      */
     @Override
-    public void propagateAmortizationEntries(final DateTimeFormatter dtf, final AmortizationUploadDTO amortizationUploadDTO) {
+    public List<AmortizationEntryEVM> propagateAmortizationEntries(final DateTimeFormatter dtf, final AmortizationUploadDTO amortizationUploadDTO) {
+
+        List<AmortizationEntryEVM> evms = new ArrayList<>();
 
         IntStream.rangeClosed(0, amortizationUploadDTO.getNumberOfAmortizations() - 1).forEach((sequence) -> {
 
@@ -49,18 +53,24 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
 
             log.debug("Sending for persistence the amortization instance for the date: {}", amortizationDateInstance);
 
-            amortizationDataEntryMessageService.sendMessage(AmortizationEntryEVM.builder()
-                                                                                .amortizationDate(amortizationDateInstance)
-                                                                                .amortizationAmount(NumberUtils.toScaledBigDecimal(amortizationUploadDTO.getAmortizationAmount().toPlainString(), 2,
-                                                                                                                                   RoundingMode.HALF_EVEN).toPlainString())
-                                                                                .particulars(amortizationUploadDTO.getParticulars())
-                                                                                .serviceOutlet(amortizationUploadDTO.getServiceOutletCode())
-                                                                                .accountNumber(amortizationUploadDTO.getExpenseAccountNumber())
-                                                                                .accountName(amortizationUploadDTO.getAccountName())
-                                                                                .prepaymentEntryId(amortizationUploadDTO.getPrepaymentTransactionId())
-                                                                                .prepaymentEntryDate(amortizationUploadDTO.getPrepaymentTransactionDate().format(dtf))
-                                                                                .build());
+            AmortizationEntryEVM evm = AmortizationEntryEVM.builder()
+                                                           .amortizationDate(amortizationDateInstance)
+                                                           .amortizationAmount(NumberUtils.toScaledBigDecimal(amortizationUploadDTO.getAmortizationAmount().toPlainString(), 2,
+                                                                                                              RoundingMode.HALF_EVEN).toPlainString())
+                                                           .particulars(amortizationUploadDTO.getParticulars())
+                                                           .serviceOutlet(amortizationUploadDTO.getServiceOutletCode())
+                                                           .accountNumber(amortizationUploadDTO.getExpenseAccountNumber())
+                                                           .accountName(amortizationUploadDTO.getAccountName())
+                                                           .prepaymentEntryId(amortizationUploadDTO.getPrepaymentTransactionId())
+                                                           .prepaymentEntryDate(amortizationUploadDTO.getPrepaymentTransactionDate().format(dtf))
+                                                           .build();
+
+            amortizationDataEntryMessageService.sendMessage(evm);
+
+            evms.add(evm);
         });
+
+        return evms;
     }
 
     private String incrementDate(final String amortizationDate, final int sequence, final DateTimeFormatter dtf) {
