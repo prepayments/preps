@@ -55,7 +55,17 @@ public class DataSinkAmortizationUploadsStreamsListener {
 
         AmortizationUploadDTO result = amortizationUploadService.save(dto);
 
-        IntStream.rangeClosed(0,result.getNumberOfAmortizations()-1).forEach((sequence) -> {
+        propagateAmortizationEntries(simpleAmortizationUploadEVM, dtf, result);
+
+        log.debug("Amortization upload item saved : #{}", result.getId());
+    }
+
+    private void propagateAmortizationEntries(final @Payload SimpleAmortizationUploadEVM simpleAmortizationUploadEVM, final AmortizationUploadDTO result) {
+        propagateAmortizationEntries(simpleAmortizationUploadEVM, DateTimeFormatter.ofPattern("yyyy/MM/dd"), result);
+    }
+
+    private void propagateAmortizationEntries(final @Payload SimpleAmortizationUploadEVM simpleAmortizationUploadEVM, final DateTimeFormatter dtf, final AmortizationUploadDTO result) {
+        IntStream.rangeClosed(0, result.getNumberOfAmortizations()-1).forEach((sequence) -> {
 
             String amortizationDateInstance = incrementDate(simpleAmortizationUploadEVM.getFirstAmortizationDate(), sequence, dtf);
 
@@ -67,7 +77,7 @@ public class DataSinkAmortizationUploadsStreamsListener {
                                     .amortizationAmount(
                                         NumberUtils.toScaledBigDecimal(
                                             simpleAmortizationUploadEVM.getAmortizationAmount()
-                                                                       .replace(",",""),2, RoundingMode.HALF_EVEN).toPlainString())
+                                                                       .replace(",",""), 2, RoundingMode.HALF_EVEN).toPlainString())
                                     .particulars(result.getParticulars())
                                     .serviceOutlet(result.getServiceOutletCode())
                                     .accountNumber(result.getExpenseAccountNumber())
@@ -76,10 +86,6 @@ public class DataSinkAmortizationUploadsStreamsListener {
                                     .prepaymentEntryDate(simpleAmortizationUploadEVM.getPrepaymentTransactionDate())
                                     .build());
         });
-
-        log.debug("Amortization upload item saved : #{}", result.getId());
-
-
     }
 
     private String incrementDate(final String amortizationDate, final int sequence, final DateTimeFormatter dtf) {
