@@ -3,6 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
 import io.github.prepayments.service.AmortizationUploadQueryService;
 import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
@@ -44,12 +45,15 @@ public class AmortizationUploadResource {
     private final Logger log = LoggerFactory.getLogger(AmortizationUploadResource.class);
     private final AmortizationUploadService amortizationUploadService;
     private final AmortizationUploadQueryService amortizationUploadQueryService;
+    private final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public AmortizationUploadResource(AmortizationUploadService amortizationUploadService, AmortizationUploadQueryService amortizationUploadQueryService) {
+    public AmortizationUploadResource(AmortizationUploadService amortizationUploadService, AmortizationUploadQueryService amortizationUploadQueryService,
+                                      final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService) {
         this.amortizationUploadService = amortizationUploadService;
         this.amortizationUploadQueryService = amortizationUploadQueryService;
+        this.amortizationEntriesPropagatorService = amortizationEntriesPropagatorService;
     }
 
     /**
@@ -67,6 +71,7 @@ public class AmortizationUploadResource {
             throw new BadRequestAlertException("A new amortizationUpload cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AmortizationUploadDTO result = amortizationUploadService.save(amortizationUploadDTO);
+        amortizationEntriesPropagatorService.propagateAmortizationEntries(result);
         return ResponseEntity.created(new URI("/api/amortization-uploads/" + result.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                              .body(result);
