@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-4">
+        <createTable tableName="amortization_upload">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_uploadPK"/>
+            </column>
+            <column name="account_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_amount" type="numeric(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expense_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_amortization_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_amortizations" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="particulars" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_transaction_amount" type="numeric(21, 2)"/>
+            <column name="prepayment_transaction_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_transaction_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_outlet_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-5">
+        <createTable tableName="amortization_upload_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_upload_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-6">
+        <addForeignKeyConstraint baseColumnNames="prepayment_entry_id" baseTableName="amortization_entry" constraintName="FK6umenxi4x5eeyvphw37iwis2x" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="prepayment_entry" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-7">
+        <addForeignKeyConstraint baseColumnNames="report_type_id" baseTableName="report_request_event" constraintName="FKscyf4hsiesi8t16ubghr1bks2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="report_type" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-1">
+        <dropUniqueConstraint constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-2">
+        <dropUniqueConstraint constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561649856680-3">
+        <dropUniqueConstraint constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+</databaseChangeLog>
