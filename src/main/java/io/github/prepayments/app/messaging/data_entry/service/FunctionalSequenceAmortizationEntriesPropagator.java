@@ -75,6 +75,6 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
     }
 
     private String incrementDate(final LocalDate firstAmortizationDate, final int sequence, final DateTimeFormatter dtf) {
-        return dtf.format(firstAmortizationDate.plusMonths(sequence).with(TemporalAdjusters.firstDayOfMonth()).plusDays(20));
+        return dtf.format(firstAmortizationDate.plusMonths(sequence).with(TemporalAdjusters.firstDayOfMonth()).plusDays(19));
     }
 }

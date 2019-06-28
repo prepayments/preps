@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Component
@@ -47,7 +48,7 @@ public class DataSinkAmortizationUploadsStreamsListener {
                                                          .amortizationAmount(
                                                              NumberUtils.toScaledBigDecimal(simpleAmortizationUploadEVM.getAmortizationAmount().replace(",",""),2, RoundingMode.HALF_EVEN))
                                                          .numberOfAmortizations(NumberUtils.toInt(simpleAmortizationUploadEVM.getNumberOfAmortizations().replace(",","")))
-                                                         .firstAmortizationDate(LocalDate.parse(simpleAmortizationUploadEVM.getPrepaymentTransactionDate(), dtf))
+                                                         .firstAmortizationDate(LocalDate.parse(simpleAmortizationUploadEVM.getFirstAmortizationDate(), dtf))
                                                        .build();
         // @formatter:on
 
