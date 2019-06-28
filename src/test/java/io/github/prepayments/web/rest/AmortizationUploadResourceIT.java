@@ -1,18 +1,18 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
+import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
 import io.github.prepayments.domain.AmortizationUpload;
 import io.github.prepayments.repository.AmortizationUploadRepository;
 import io.github.prepayments.repository.search.AmortizationUploadSearchRepository;
+import io.github.prepayments.service.AmortizationUploadQueryService;
 import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.service.mapper.AmortizationUploadMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.AmortizationUploadCriteria;
-import io.github.prepayments.service.AmortizationUploadQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,9 +37,16 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests for the {@Link AmortizationUploadResource} REST controller.
@@ -119,10 +126,13 @@ public class AmortizationUploadResourceIT {
 
     private AmortizationUpload amortizationUpload;
 
+    @Mock
+    private AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AmortizationUploadResource amortizationUploadResource = new AmortizationUploadResource(amortizationUploadService, amortizationUploadQueryService);
+        final AmortizationUploadResource amortizationUploadResource = new AmortizationUploadResource(amortizationUploadService, amortizationUploadQueryService, amortizationEntriesPropagatorService);
         this.restAmortizationUploadMockMvc = MockMvcBuilders.standaloneSetup(amortizationUploadResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -448,7 +458,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].numberOfAmortizations").value(hasItem(DEFAULT_NUMBER_OF_AMORTIZATIONS)))
             .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAmortizationUpload() throws Exception {
