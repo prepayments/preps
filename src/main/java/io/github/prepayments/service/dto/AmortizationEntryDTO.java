@@ -45,6 +45,5 @@ public class AmortizationEntryDTO implements Serializable {
     @NotNull
     private String accountName;
 
-
     private Long prepaymentEntryId;
 }

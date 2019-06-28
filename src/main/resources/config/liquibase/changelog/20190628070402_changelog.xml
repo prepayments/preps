@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1561705496804-1">
+        <dropUniqueConstraint constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561705496804-2">
+        <dropUniqueConstraint constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1561705496804-3">
+        <dropUniqueConstraint constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+</databaseChangeLog>

@@ -66,7 +66,6 @@ public class AmortizationEntry implements Serializable {
     private String accountName;
 
     @ManyToOne(optional = false)
-    @NotNull
     @JsonIgnoreProperties("amortizationEntries")
     private PrepaymentEntry prepaymentEntry;
 
