@@ -8,29 +8,33 @@ import { ServiceOutletsComponent } from './service-outlets/service-outlets.compo
 import { RegisteredSuppliersComponent } from './registered-suppliers/registered-suppliers.component';
 import { TransactionAccountsComponent } from './transaction-accounts/transaction-accounts.component';
 import { DataTablesModule } from 'angular-datatables';
+import { PrepaymentBalanceComponent } from './prepayment-balance/prepayment-balance.component';
 
 @NgModule({
-    declarations: [
-        AmortizationEntriesComponent,
-        PrepaymentEntriesComponent,
-        ServiceOutletsComponent,
-        RegisteredSuppliersComponent,
-        TransactionAccountsComponent
-    ],
-    imports: [CommonModule, DataExportRoutingModule, DataTablesModule],
-    exports: [
-        AmortizationEntriesComponent,
-        PrepaymentEntriesComponent,
-        ServiceOutletsComponent,
-        RegisteredSuppliersComponent,
-        TransactionAccountsComponent
-    ],
-    entryComponents: [
-        AmortizationEntriesComponent,
-        PrepaymentEntriesComponent,
-        ServiceOutletsComponent,
-        RegisteredSuppliersComponent,
-        TransactionAccountsComponent
-    ]
+  declarations: [
+    AmortizationEntriesComponent,
+    PrepaymentEntriesComponent,
+    ServiceOutletsComponent,
+    RegisteredSuppliersComponent,
+    TransactionAccountsComponent,
+    PrepaymentBalanceComponent
+  ],
+  imports: [CommonModule, DataExportRoutingModule, DataTablesModule],
+  exports: [
+    AmortizationEntriesComponent,
+    PrepaymentEntriesComponent,
+    ServiceOutletsComponent,
+    RegisteredSuppliersComponent,
+    TransactionAccountsComponent,
+    PrepaymentBalanceComponent
+  ],
+  entryComponents: [
+    AmortizationEntriesComponent,
+    PrepaymentEntriesComponent,
+    ServiceOutletsComponent,
+    RegisteredSuppliersComponent,
+    TransactionAccountsComponent,
+    PrepaymentBalanceComponent
+  ]
 })
 export class DataExportModule {}
