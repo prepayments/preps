@@ -10,6 +10,10 @@
     <name>Preps</name>
 
     <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
         <!-- jhipster-needle-maven-repository -->
     </repositories>
 
@@ -138,6 +142,11 @@
             <artifactId>org.org.sep4j</artifactId>
             <version>2.0.5</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.github.ghacupha</groupId>
+            <artifactId>time-point</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
