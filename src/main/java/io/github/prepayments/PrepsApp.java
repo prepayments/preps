@@ -19,9 +19,9 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 
+//@EnableDiscoveryClient
 @SpringBootApplication
 @EnableConfigurationProperties( {LiquibaseProperties.class, ApplicationProperties.class})
-@EnableDiscoveryClient
 public class PrepsApp implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(PrepsApp.class);
