@@ -34,13 +34,13 @@ import { Component, OnInit } from '@angular/core';
         <li>
           <a
             class="dropdown-item"
-            routerLink="amortization-upload-file"
+            routerLink="amortization-upload"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="collapseNavbar()"
           >
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-            <span>Amortization Upload File</span>
+            <span>Amortization Upload</span>
           </a>
         </li>
         <li>
