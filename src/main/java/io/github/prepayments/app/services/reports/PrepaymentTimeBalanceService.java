@@ -9,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -36,17 +37,13 @@ public class PrepaymentTimeBalanceService implements ShouldGetBalance<String, Pr
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        List<PrepaymentTimeBalanceDTO> prepayments = new ArrayList<>();
-
-        prepaymentEntryReportService.findAll().stream().filter(prep -> {
-            return prep.getPrepaymentDate().isBefore(LocalDate.parse(balanceDate, dtf));
-        }).map(prep -> {
-            return onCallAmortizationService.amortize(LocalDate.parse(balanceDate, dtf), prep, amortizationEntryReportService);
-        }).forEach(prep -> {
-            prepayments.add(prep.findAny().get());
-        });
-
-        // TODO Collectors.collectingAndThen(Collectors.toList(), Collections::<PrepaymentTimeBalanceDTO>unmodifiableList)
-        return prepayments;
+        // @formatter:off
+        return prepaymentEntryReportService.findAll()
+                                           .stream()
+                                           .filter(prep -> prep.getPrepaymentDate().isBefore(LocalDate.parse(balanceDate, dtf)))
+                                           .map(prep -> onCallAmortizationService.amortize(LocalDate.parse(balanceDate, dtf), prep, amortizationEntryReportService))
+                                           .map(prep -> prep.findAny().get())
+                                           .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::<PrepaymentTimeBalanceDTO>unmodifiableList));
+        // @formatter:on
     }
 }
