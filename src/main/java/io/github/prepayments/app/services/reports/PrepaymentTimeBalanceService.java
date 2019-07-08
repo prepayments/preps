@@ -12,10 +12,13 @@ import java.util.List;
 @Slf4j
 @Transactional
 @Service("prepaymentTimeBalanceService")
-public class PrepaymentTimeBalanceService implements ShouldGetBalance<PrepaymentTimeBalanceDTO> {
+public class PrepaymentTimeBalanceService implements ShouldGetBalance<String, PrepaymentTimeBalanceDTO> {
 
     @Override
-    public List<PrepaymentTimeBalanceDTO> getBalance(final LocalDate balanceDate) {
+    public List<PrepaymentTimeBalanceDTO> getBalance(final String balanceDate) {
+
+        log.info("Request for prepayment balances for the date: {}", balanceDate);
+
         return null;
     }
 }
