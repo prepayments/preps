@@ -9,6 +9,8 @@ import { IPrepaymentTimeBalance } from 'app/preps/model/prepayment-time-balance.
 import { of } from 'rxjs/internal/observable/of';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import moment = require('moment');
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { IAmortizationEntry } from 'app/shared/model/prepayments/amortization-entry.model';
 
 type EntityArrayResponseType = HttpResponse<IPrepaymentTimeBalance[]>;
 
@@ -28,13 +30,22 @@ export class PrepaymentTimeBalanceService {
     })
   ): Observable<EntityArrayResponseType> {
     this.log.info(`Pulling data for prepayment balances as at the date: ${balanceQuery.balanceDate}`);
+    const copy = this.convertDateFromClient(balanceQuery);
     return this.http
-      .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceQuery.balanceDate, { observe: 'response' })
+      .post<IPrepaymentTimeBalance[]>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(
         tap((res: EntityArrayResponseType) => this.log.info(`fetched : ${res.body.length} prepayment balance items`)),
         catchError(this.handleError<IPrepaymentTimeBalance[]>('getEntities', []))
       )
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  protected convertDateFromClient(balanceQuery: IBalanceQuery): IAmortizationEntry {
+    const copy: IAmortizationEntry = Object.assign({}, balanceQuery, {
+      balanceDate:
+        balanceQuery.balanceDate != null && balanceQuery.balanceDate.isValid() ? balanceQuery.balanceDate.format(DATE_FORMAT) : null
+    });
+    return copy;
   }
 
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {

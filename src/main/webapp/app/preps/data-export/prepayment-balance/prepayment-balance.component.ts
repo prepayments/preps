@@ -37,6 +37,7 @@ export class PrepaymentBalanceComponent implements OnInit {
     protected transactionAccountsReportingService: TransactionAccountReportingService,
     private log: NGXLogger
   ) {
+    // TODO Call this with balanceQuery parameter
     this.prepaymentTimeBalanceService.getEntities().subscribe(
       res => {
         this.prepaymentBalances = res.body;
@@ -55,15 +56,6 @@ export class PrepaymentBalanceComponent implements OnInit {
       dom: 'Bfrtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
     };
-
-    this.prepaymentTimeBalanceService.getEntities().subscribe(
-      res => {
-        this.prepaymentBalances = res.body;
-        this.dtTrigger.next();
-      },
-      err => this.onError(err.toString()),
-      () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-    );
 
     this.serviceOutletReportingService.getEntities().subscribe(
       (data: HttpResponse<IServiceOutlet[]>) => {
@@ -86,6 +78,17 @@ export class PrepaymentBalanceComponent implements OnInit {
       dom: 'Bfrtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.prepaymentTimeBalanceService.getEntities(params['balanceQuery']).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
+    });
 
     this.transactionAccountsReportingService
       .getEntities()

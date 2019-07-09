@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from 'app/preps/model/question-base.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/balance-query-model-question.service';
 import { NGXLogger } from 'ngx-logger';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
+import { SERVER_API_URL } from 'app/app.constants';
 
 @Component({
   selector: 'gha-balance-query-modal',
@@ -15,6 +16,8 @@ export class BalanceQueryModalComponent implements OnInit {
   questions: QuestionBase<any>[];
   balanceQuery: IBalanceQuery;
   isSaving: boolean;
+
+  // prepaymentBalanceUrl = SERVER_API_URL + '/data-export/prepayment-balances';
 
   editForm = this.fb.group({
     balanceDate: [null, [Validators.required]],
@@ -52,6 +55,12 @@ export class BalanceQueryModalComponent implements OnInit {
         this.balanceQuery.serviceOutlet
       }; account name: ${this.balanceQuery.accountName}`
     );
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: this.balanceQuery
+    };
+
+    this.router.navigate(['data-export/prepayment-balances'], navigationExtras);
   }
 
   previousState() {
