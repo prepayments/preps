@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from 'app/preps/model/question-base.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/balance-query-model-question.service';
 import { NGXLogger } from 'ngx-logger';
+import { IBalanceQuery } from 'app/preps/model/balance-query.model';
 
 @Component({
   selector: 'gha-balance-query-modal',
@@ -12,13 +13,13 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class BalanceQueryModalComponent implements OnInit {
   questions: QuestionBase<any>[];
-
-  balanceDate: string;
-
+  balanceQuery: IBalanceQuery;
   isSaving: boolean;
 
   editForm = this.fb.group({
-    balanceDate: []
+    balanceDate: [null, [Validators.required]],
+    accountName: [],
+    serviceOutlet: []
   });
 
   constructor(
@@ -30,16 +31,10 @@ export class BalanceQueryModalComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
-    this.balanceDate = '';
+    this.balanceQuery = {};
     this.questions = this.questionService.getQuestions();
 
     this.log.debug(`Entering query for date of balance ...`);
-  }
-
-  updateForm(balanceDate: string) {
-    this.editForm.patchValue({
-      balanceDate
-    });
   }
 
   enquire() {
@@ -63,7 +58,7 @@ export class BalanceQueryModalComponent implements OnInit {
     this.isSaving = false;
   }
 
-  private createFromForm(): string {
+  private createFromForm(): IBalanceQuery {
     return this.editForm.get(['balanceDate']).value;
   }
 }
