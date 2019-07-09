@@ -1,15 +1,11 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <form name="editForm" role="form" novalidate (ngSubmit)="enquire()" [formGroup]="editForm">
             <h2 id="gha-service-outlet-heading">Prepayment Balance Date</h2>
             <div>
                 <gha-alert-error></gha-alert-error>
-                <!--<div class="form-group" [hidden]="!serviceOutlet.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                           readonly />
-                </div>-->
-                <gha-dynamic-form [questions]="questions" (model)="serviceOutlet" [queryForm]="editForm"></gha-dynamic-form>
+
+                <gha-dynamic-form [questions]="questions" (model)="balanceDate" [queryForm]="editForm"></gha-dynamic-form>
 
             </div>
         </form>
