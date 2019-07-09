@@ -38,7 +38,7 @@ export class BalanceQueryModalComponent implements OnInit {
 
   updateForm(balanceDate: string) {
     this.editForm.patchValue({
-      balanceDate: balanceDate
+      balanceDate
     });
   }
 
