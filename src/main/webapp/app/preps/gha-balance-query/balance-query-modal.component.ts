@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from 'app/preps/model/question-base.model';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/balance-query-model-question.service';
 import { NGXLogger } from 'ngx-logger';
-import { IBalanceQuery } from 'app/preps/model/balance-query.model';
+import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 
 @Component({
   selector: 'gha-balance-query-modal',
@@ -22,43 +22,48 @@ export class BalanceQueryModalComponent implements OnInit {
     serviceOutlet: []
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private log: NGXLogger,
-    protected activatedRoute: ActivatedRoute,
-    protected questionService: BalanceQueryModelQuestionService
-  ) {}
+  constructor(private fb: FormBuilder, private log: NGXLogger, private router: Router) {}
+
+  private static createFromForm(queryForm: FormGroup): IBalanceQuery {
+    return new BalanceQuery({
+      balanceDate: queryForm.get(['balanceDate']).value,
+      accountName: queryForm.get(['accountName']).value,
+      serviceOutlet: queryForm.get(['serviceOutlet']).value
+    });
+  }
 
   ngOnInit() {
     this.isSaving = false;
     this.balanceQuery = {};
-    this.questions = this.questionService.getQuestions();
-
+    this.questions = BalanceQueryModelQuestionService.getQuestions();
     this.log.debug(`Entering query for date of balance ...`);
   }
 
-  enquire() {
-    this.isSaving = true;
-    const balanceDate = this.createFromForm();
-    this.log.debug(`Query raised for the date : ${balanceDate}`);
+  updateBalanceQuery(queryForm: FormGroup) {
+    this.balanceQuery = BalanceQueryModalComponent.createFromForm(queryForm);
+    this.log.debug(`Balance query updated for date : ${this.balanceQuery.balanceDate}`);
 
-    // TODO navigate to balance date
+    this.enquire();
+  }
+
+  enquire() {
+    this.log.debug(
+      `Navigating to balances for date : ${this.balanceQuery.balanceDate}; service outlet: ${
+        this.balanceQuery.serviceOutlet
+      }; account name: ${this.balanceQuery.accountName}`
+    );
   }
 
   previousState() {
     window.history.back();
   }
 
-  protected onSaveSuccess() {
+  private onSaveSuccess() {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  private onSaveError() {
     this.isSaving = false;
-  }
-
-  private createFromForm(): IBalanceQuery {
-    return this.editForm.get(['balanceDate']).value;
   }
 }
