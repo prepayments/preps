@@ -9,6 +9,7 @@ import { TypeAheadComponent } from './type-ahead/type-ahead.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { QuestionnaireModule } from 'app/preps/questionnaire/questionnaire.module';
+import { GhaBalanceQueryModule } from './gha-balance-query/gha-balance-query.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
@@ -21,7 +22,8 @@ import { QuestionnaireModule } from 'app/preps/questionnaire/questionnaire.modul
     DataExportModule,
     ReportingModule,
     NavigationModule,
-    QuestionnaireModule
+    QuestionnaireModule,
+    GhaBalanceQueryModule
   ],
   exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule, PrepsMaterialModule, QuestionnaireModule]
 })
