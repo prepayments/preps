@@ -20,6 +20,7 @@ export class PrepaymentTimeBalanceService {
   constructor(protected http: HttpClient, private jhiAlertService: JhiAlertService, private log: NGXLogger) {}
 
   getEntities(balanceDate = '2019-01-01'): Observable<EntityArrayResponseType> {
+    this.log.info(`Pulling data for prepayment balances as at the date: ${balanceDate}`);
     return this.http
       .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceDate, { observe: 'response' })
       .pipe(
