@@ -12,6 +12,7 @@ import { HttpResponse } from '@angular/common/http';
 import { IServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-supplier.model';
 import { PrepaymentTimeBalanceService } from 'app/preps/data-export/prepayment-balance/prepayment-time-balance.service';
+import { BalanceQuery } from 'app/preps/model/balance-query.model';
 
 @Component({
   selector: 'gha-prepayment-balance',
@@ -25,6 +26,7 @@ export class PrepaymentBalanceComponent implements OnInit {
   transactionAccounts: ITransactionAccount[];
   serviceOutlets: IServiceOutlet[];
   suppliers: IRegisteredSupplier[];
+  reportDate: string;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -37,15 +39,24 @@ export class PrepaymentBalanceComponent implements OnInit {
     protected transactionAccountsReportingService: TransactionAccountReportingService,
     private log: NGXLogger
   ) {
-    // TODO Call this with balanceQuery parameter
-    this.prepaymentTimeBalanceService.getEntities().subscribe(
-      res => {
-        this.prepaymentBalances = res.body;
-        this.dtTrigger.next();
-      },
-      err => this.onError(err.toString()),
-      () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-    );
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.prepaymentTimeBalanceService
+        .getEntities(
+          new BalanceQuery({
+            balanceDate: params['balanceDate'],
+            serviceOutlet: params['serviceOutlet'],
+            accountName: params['accountName']
+          })
+        )
+        .subscribe(
+          res => {
+            this.prepaymentBalances = res.body;
+            this.dtTrigger.next();
+          },
+          err => this.onError(err.toString()),
+          () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+        );
+    });
 
     this.dtOptions = {
       searching: true,
@@ -80,14 +91,24 @@ export class PrepaymentBalanceComponent implements OnInit {
     };
 
     this.activatedRoute.queryParams.subscribe(params => {
-      this.prepaymentTimeBalanceService.getEntities(params['balanceQuery']).subscribe(
-        res => {
-          this.prepaymentBalances = res.body;
-          this.dtTrigger.next();
-        },
-        err => this.onError(err.toString()),
-        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-      );
+      this.prepaymentTimeBalanceService
+        .getEntities(
+          new BalanceQuery({
+            balanceDate: params['balanceDate'],
+            serviceOutlet: params['serviceOutlet'],
+            accountName: params['accountName']
+          })
+        )
+        .subscribe(
+          res => {
+            this.prepaymentBalances = res.body;
+            this.dtTrigger.next();
+          },
+          err => this.onError(err.toString()),
+          () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+        );
+
+      this.reportDate = params['balanceDate'];
     });
 
     this.transactionAccountsReportingService

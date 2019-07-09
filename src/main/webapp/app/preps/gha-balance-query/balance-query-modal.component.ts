@@ -5,7 +5,6 @@ import { NavigationExtras, Router } from '@angular/router';
 import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/balance-query-model-question.service';
 import { NGXLogger } from 'ngx-logger';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
-import { SERVER_API_URL } from 'app/app.constants';
 
 @Component({
   selector: 'gha-balance-query-modal',
@@ -46,18 +45,22 @@ export class BalanceQueryModalComponent implements OnInit {
     this.balanceQuery = BalanceQueryModalComponent.createFromForm(queryForm);
     this.log.debug(`Balance query updated for date : ${this.balanceQuery.balanceDate}`);
 
-    this.enquire();
+    this.enquire(this.balanceQuery);
   }
 
-  enquire() {
+  enquire(balanceQuery: IBalanceQuery) {
     this.log.debug(
-      `Navigating to balances for date : ${this.balanceQuery.balanceDate}; service outlet: ${
-        this.balanceQuery.serviceOutlet
-      }; account name: ${this.balanceQuery.accountName}`
+      `Navigating to balances for date : ${balanceQuery.balanceDate}; service outlet: ${balanceQuery.serviceOutlet}; account name: ${
+        balanceQuery.accountName
+      }`
     );
 
     const navigationExtras: NavigationExtras = {
-      queryParams: this.balanceQuery
+      queryParams: {
+        balanceDate: balanceQuery.balanceDate,
+        serviceOutlet: balanceQuery.serviceOutlet,
+        accountName: balanceQuery.accountName
+      }
     };
 
     this.router.navigate(['data-export/prepayment-balances'], navigationExtras);
