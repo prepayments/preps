@@ -22,8 +22,6 @@ export class BalanceQueryModalComponent implements OnInit {
     serviceOutlet: []
   });
 
-  constructor(private fb: FormBuilder, private log: NGXLogger, private router: Router) {}
-
   private static createFromForm(queryForm: FormGroup): IBalanceQuery {
     return new BalanceQuery({
       balanceDate: queryForm.get(['balanceDate']).value,
@@ -31,6 +29,8 @@ export class BalanceQueryModalComponent implements OnInit {
       serviceOutlet: queryForm.get(['serviceOutlet']).value
     });
   }
+
+  constructor(private fb: FormBuilder, private log: NGXLogger, private router: Router) {}
 
   ngOnInit() {
     this.isSaving = false;
