@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-query-modal.service';
 
 @Component({
   selector: 'gha-export-menu',
@@ -21,37 +22,37 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
       </a>
       <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
         <li>
-          <a class="dropdown-item" routerLink="data-export/amortization-entries" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" routerLink="data-export/amortization-entries" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Amortization Entries</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="data-export/prepayment-entries" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" routerLink="data-export/prepayment-entries" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Prepayment Entries</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="data-export/registered-suppliers" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" routerLink="data-export/registered-suppliers" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Registered Suppliers</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="data-export/service-outlets" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" routerLink="data-export/service-outlets" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Service Outlets</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="data-export/transaction-accounts" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" routerLink="data-export/transaction-accounts" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Transaction Accounts</span>
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="data-export/prepayment-balances" routerLinkActive="active" (click)="collapseNavbar()">
+          <a class="dropdown-item" (click)="prepaymentBalanceQuery()" routerLinkActive="active">
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Prepayment Balances</span>
           </a>
@@ -69,12 +70,17 @@ export class ExportMenuComponent implements OnInit {
     private loginService: LoginService,
     private accountService: AccountService,
     private loginModalService: LoginModalService,
+    private balanceQueryModalService: BalanceQueryModalService,
     private router: Router
   ) {
     this.isNavbarCollapsed = true;
   }
 
   ngOnInit() {}
+
+  prepaymentBalanceQuery() {
+    this.modalRef = this.balanceQueryModalService.open();
+  }
 
   collapseNavbar() {
     this.isNavbarCollapsed = true;
