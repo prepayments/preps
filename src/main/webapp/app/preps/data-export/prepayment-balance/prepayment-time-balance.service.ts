@@ -7,6 +7,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/index';
 import { IPrepaymentTimeBalance } from 'app/preps/model/prepayment-time-balance.model';
 import { of } from 'rxjs/internal/observable/of';
+import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import moment = require('moment');
 
 type EntityArrayResponseType = HttpResponse<IPrepaymentTimeBalance[]>;
@@ -15,14 +16,20 @@ type EntityArrayResponseType = HttpResponse<IPrepaymentTimeBalance[]>;
   providedIn: 'root'
 })
 export class PrepaymentTimeBalanceService {
-  public resourceUrl = SERVER_API_URL + '/api/reports/balances/prepayments?balanceDate=';
+  public resourceUrl = SERVER_API_URL + '/api/reports/balances/prepayments';
 
   constructor(protected http: HttpClient, private jhiAlertService: JhiAlertService, private log: NGXLogger) {}
 
-  getEntities(balanceDate = '2019-01-01'): Observable<EntityArrayResponseType> {
-    this.log.info(`Pulling data for prepayment balances as at the date: ${balanceDate}`);
+  getEntities(
+    balanceQuery: IBalanceQuery = new BalanceQuery({
+      balanceDate: moment('2019-01-01', 'YYYY-MM-DD'),
+      accountName: 'PREPAYMENT ACCOUNT',
+      serviceOutlet: '100'
+    })
+  ): Observable<EntityArrayResponseType> {
+    this.log.info(`Pulling data for prepayment balances as at the date: ${balanceQuery.balanceDate}`);
     return this.http
-      .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceDate, { observe: 'response' })
+      .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceQuery.balanceDate, { observe: 'response' })
       .pipe(
         tap((res: EntityArrayResponseType) => this.log.info(`fetched : ${res.body.length} prepayment balance items`)),
         catchError(this.handleError<IPrepaymentTimeBalance[]>('getEntities', []))
