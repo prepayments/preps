@@ -19,10 +19,9 @@ export class PrepaymentTimeBalanceService {
 
   constructor(protected http: HttpClient, private jhiAlertService: JhiAlertService, private log: NGXLogger) {}
 
-  // TODO Add date parameter and remove provided date
-  getEntities(): Observable<EntityArrayResponseType> {
+  getEntities(balanceDate = '2019-01-01'): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IPrepaymentTimeBalance[]>(this.resourceUrl + '2019-06-01', { observe: 'response' })
+      .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceDate, { observe: 'response' })
       .pipe(
         tap((res: EntityArrayResponseType) => this.log.info(`fetched : ${res.body.length} prepayment balance items`)),
         catchError(this.handleError<IPrepaymentTimeBalance[]>('getEntities', []))
