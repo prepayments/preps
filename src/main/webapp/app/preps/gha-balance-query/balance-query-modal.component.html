@@ -1,14 +1,17 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <!--<form name="editForm" role="form" novalidate (ngSubmit)="enquire()" [formGroup]="editForm">-->
-        <form name="editForm" role="form" novalidate [formGroup]="editForm">
-            <h2 id="gha-service-outlet-heading">Prepayment Balance Date</h2>
-            <div>
-                <gha-alert-error></gha-alert-error>
-
-                <gha-dynamic-form [questions]="questions" (model)='updateBalanceQuery($event)' [queryForm]="editForm"></gha-dynamic-form>
-
-            </div>
-        </form>
+<div class="modal-header">
+    <h3 class="modal-title">Prepayment Balance Params</h3>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <gha-alert-error></gha-alert-error>
+        <div class="col-8">
+            <form name="editForm" role="form" novalidate [formGroup]="editForm">
+                <div>
+                    <gha-dynamic-form [questions]="questions" (model)='updateBalanceQuery($event)' [queryForm]="editForm"></gha-dynamic-form>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
