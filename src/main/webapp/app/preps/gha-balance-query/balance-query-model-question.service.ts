@@ -10,7 +10,7 @@ export class BalanceQueryModelQuestionService {
    *
    * @returns {QuestionBase<any>[]}
    */
-  public getQuestions(): QuestionBase<any>[] {
+  static getQuestions(): QuestionBase<any>[] {
     const questions: QuestionBase<any>[] = [
       new TextBoxQuestion({
         key: 'balanceDate',
