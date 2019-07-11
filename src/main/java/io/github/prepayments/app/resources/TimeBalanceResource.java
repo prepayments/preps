@@ -5,15 +5,12 @@ import io.github.prepayments.app.models.PrepaymentTimeBalanceDTO;
 import io.github.prepayments.app.services.reports.ShouldGetBalance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,23 +30,31 @@ public class TimeBalanceResource {
         this.prepaymentTimeBalanceService = prepaymentTimeBalanceService;
     }
 
+    // @formatter:off
     /**
      * POST  /prepayment-balances-list : get all the balances for prepayment by particular date.
      *
-     * It's wierd I know but I do need to wrap the request in an object which is further used to create
-     * listing based on items in the object. This will enable in future to dynamically expand or reduce
+     * It's weird I know but I do need to wrap the request in an object which is further used to create
+     * listing based on items criteria specified in the object fields. This will enable in future to expand or reduce
      * the parameters required for this request to run.
      * This unfortunately gives the impression that we are saving something. If therefore the client does
      * not observe for the response, you are screwed. So watch out!
      * Basically the client on angular might induce the httpClient from the angular container like so:
      *
-     * return this.http
-     *       .get<IPrepaymentTimeBalance[]>(this.resourceUrl + balanceQuery.balanceDate, { observe: 'response' })
+     * getEntities(
+     *     balanceQuery: IBalanceQuery = new BalanceQuery({
+     *       balanceDate: moment('2019-01-01', 'YYYY-MM-DD'),
+     *       accountName: 'PREPAYMENT ACCOUNT',
+     *       serviceOutlet: '100'
+     *     })): Observable<EntityArrayResponseType> {
+     *
+     *     return this.http
+     *       .post<IPrepaymentTimeBalance[]>(this.resourceUrl, balanceQuery, { observe: 'response' })
      *       .pipe(
      *         tap((res: EntityArrayResponseType) => this.log.info(`fetched : ${res.body.length} prepayment balance items`)),
      *         catchError(this.handleError<IPrepaymentTimeBalance[]>('getEntities', []))
-     *       )
-     *       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+     *       ).pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+     *   }
      *
      *
      * Carefully note the observe response option in the get parameter
@@ -63,4 +68,5 @@ public class TimeBalanceResource {
         List<PrepaymentTimeBalanceDTO> prepaymentBalances = prepaymentTimeBalanceService.getBalance(dtf.format(balanceQuery.getBalanceDate()));
         return ResponseEntity.ok().body(prepaymentBalances);
     }
+    // @formatter:on
 }

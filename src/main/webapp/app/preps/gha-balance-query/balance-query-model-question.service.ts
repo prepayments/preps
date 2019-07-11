@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { QuestionBase, TextBoxQuestion } from 'app/preps/model/question-base.model';
 
+/**
+ * This service is used to provide field values in order for the QuestionnaireModule
+ * to construct a dynamic form in the modal deployed
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -5,8 +5,8 @@ import { BalanceQueryModalComponent } from 'app/preps/gha-balance-query/balance-
 const routes: Routes = [
   {
     // TODO test purposes only
-    path: 'report/balances/prepayments/modal',
-    component: BalanceQueryModalComponent
+    // path: 'report/balances/prepayments/modal',
+    // component: BalanceQueryModalComponent
   }
 ];
 

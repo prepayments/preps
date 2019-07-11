@@ -6,6 +6,10 @@ import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/ba
 import { NGXLogger } from 'ngx-logger';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 
+/**
+ * This is the component that displays the modal on which a dynamic form is drawn to exact
+ * further details on the query that goes server-side
+ */
 @Component({
   selector: 'gha-balance-query-modal',
   templateUrl: './balance-query-modal.component.html',
@@ -15,8 +19,6 @@ export class BalanceQueryModalComponent implements OnInit {
   questions: QuestionBase<any>[];
   balanceQuery: IBalanceQuery;
   isSaving: boolean;
-
-  // prepaymentBalanceUrl = SERVER_API_URL + '/data-export/prepayment-balances';
 
   editForm = this.fb.group({
     balanceDate: [null, [Validators.required]],
@@ -63,6 +65,8 @@ export class BalanceQueryModalComponent implements OnInit {
       }
     };
 
+    // TODO Retrive this as a navigation service, in which is another service for moving
+    // TODO ...navigation-extras data from this form to the final prepayment-balances-display component
     this.router.navigate(['data-export/prepayment-balances'], navigationExtras);
   }
 

@@ -12,6 +12,10 @@ import moment = require('moment');
 
 type EntityArrayResponseType = HttpResponse<IPrepaymentTimeBalance[]>;
 
+/**
+ *  This service provides filtered prepayments data for display as data-tables
+ *
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +24,7 @@ export class PrepaymentTimeBalanceService {
 
   constructor(protected http: HttpClient, private jhiAlertService: JhiAlertService, private log: NGXLogger) {}
 
+  // TODO install today's date as default for this query
   getEntities(
     balanceQuery: IBalanceQuery = new BalanceQuery({
       balanceDate: moment('2019-01-01', 'YYYY-MM-DD'),
@@ -38,7 +43,7 @@ export class PrepaymentTimeBalanceService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  /*protected convertDateFromClient(balanceQuery: IBalanceQuery): IBalanceQuery {
+  /* TODO protected convertDateFromClient(balanceQuery: IBalanceQuery): IBalanceQuery {
     const copy: IBalanceQuery = Object.assign({}, balanceQuery, {
       balanceDate:
         // balanceQuery.balanceDate != null && balanceQuery.balanceDate.isValid() ? balanceQuery.balanceDate.format(DATE_FORMAT) : null

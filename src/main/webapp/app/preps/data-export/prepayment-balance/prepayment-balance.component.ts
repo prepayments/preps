@@ -14,6 +14,10 @@ import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-sup
 import { PrepaymentTimeBalanceService } from 'app/preps/data-export/prepayment-balance/prepayment-time-balance.service';
 import { BalanceQuery } from 'app/preps/model/balance-query.model';
 
+/**
+ *  This component displays prepayment balances data as data-tables with full exportation options
+ *
+ */
 @Component({
   selector: 'gha-prepayment-balance',
   templateUrl: './prepayment-balance.component.html',
@@ -51,7 +55,8 @@ export class PrepaymentBalanceComponent implements OnInit {
         .subscribe(
           res => {
             this.prepaymentBalances = res.body;
-            this.dtTrigger.next();
+            // TODO Avoid Creating datatbales twice
+            // this.dtTrigger.next();
           },
           err => this.onError(err.toString()),
           () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
@@ -102,6 +107,7 @@ export class PrepaymentBalanceComponent implements OnInit {
         .subscribe(
           res => {
             this.prepaymentBalances = res.body;
+            // TODO test whether datatables are created once and only once
             this.dtTrigger.next();
           },
           err => this.onError(err.toString()),

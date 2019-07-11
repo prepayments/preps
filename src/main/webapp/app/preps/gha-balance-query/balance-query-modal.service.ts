@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BalanceQueryModalComponent } from 'app/preps/gha-balance-query/balance-query-modal.component';
 
+/**
+ * This service is used to deploy the BalanceQueryModalComponent as a modal on top of anything
+ * happening on the page
+ */
 @Injectable({
   providedIn: 'root'
 })
