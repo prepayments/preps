@@ -82,22 +82,12 @@ export class ExportMenuComponent implements OnInit {
     this.modalRef = this.balanceQueryModalService.open();
   }
 
-  collapseNavbar() {
-    this.isNavbarCollapsed = true;
-  }
-
   isAuthenticated() {
     return this.accountService.isAuthenticated();
   }
 
   login() {
     this.modalRef = this.loginModalService.open();
-  }
-
-  logout() {
-    this.collapseNavbar();
-    this.loginService.logout();
-    this.router.navigate(['']);
   }
 
   toggleNavbar() {
