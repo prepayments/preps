@@ -58,6 +58,7 @@ export class BalanceQueryModalComponent implements OnInit {
       }`
     );
 
+    // TODO handle input errors
     const navigationExtras: NavigationExtras = {
       queryParams: {
         balanceDate: balanceQuery.balanceDate,

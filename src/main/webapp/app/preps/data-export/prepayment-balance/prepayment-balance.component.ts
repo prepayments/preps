@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { IServiceOutlet } from 'app/shared/model/prepayments/service-outlet.mode
 import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-supplier.model';
 import { PrepaymentTimeBalanceService } from 'app/preps/data-export/prepayment-balance/prepayment-time-balance.service';
 import { BalanceQuery } from 'app/preps/model/balance-query.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  *  This component displays prepayment balances data as data-tables with full exportation options
@@ -23,7 +24,7 @@ import { BalanceQuery } from 'app/preps/model/balance-query.model';
   templateUrl: './prepayment-balance.component.html',
   styleUrls: ['./prepayment-balance.component.scss']
 })
-export class PrepaymentBalanceComponent implements OnInit {
+export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
   dtOptions: DataTables.Settings;
   dtTrigger: Subject<any> = new Subject<any>();
   prepaymentBalances: any[];
@@ -41,7 +42,8 @@ export class PrepaymentBalanceComponent implements OnInit {
     private registeredSupplierReportingService: RegisteredSuppliersReportingService,
     protected serviceOutletReportingService: ServiceOutletsReportingService,
     protected transactionAccountsReportingService: TransactionAccountReportingService,
-    private log: NGXLogger
+    private log: NGXLogger,
+    private modalService: NgbModal // For dismissing the balance-query modal
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.prepaymentTimeBalanceService
@@ -82,6 +84,11 @@ export class PrepaymentBalanceComponent implements OnInit {
         this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
       }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.log.debug(`Time to dismiss the query-modal...`);
+    this.modalService.dismissAll();
   }
 
   ngOnInit() {
