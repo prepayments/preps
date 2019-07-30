@@ -30,6 +30,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="serviceOutletCode"><span>Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="transactionDate"><span>Transaction Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,6 +43,8 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let accountingTransaction of accountingTransactions ;trackBy: trackId">
                 <td><a [routerLink]="['/accounting-transaction', accountingTransaction.id, 'view' ]">{{accountingTransaction.id}}</a></td>
+                <td>{{accountingTransaction.description}}</td>
+                <td>{{accountingTransaction.serviceOutletCode}}</td>
                 <td>{{accountingTransaction.accountName}}</td>
                 <td>{{accountingTransaction.accountNumber}}</td>
                 <td>{{accountingTransaction.transactionDate | date:'mediumDate'}}</td>

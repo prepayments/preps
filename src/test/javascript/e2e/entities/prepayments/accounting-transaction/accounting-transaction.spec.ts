@@ -44,11 +44,21 @@ describe('AccountingTransaction e2e test', () => {
 
     await accountingTransactionComponentsPage.clickOnCreateButton();
     await promise.all([
+      accountingTransactionUpdatePage.setDescriptionInput('description'),
+      accountingTransactionUpdatePage.setServiceOutletCodeInput('serviceOutletCode'),
       accountingTransactionUpdatePage.setAccountNameInput('accountName'),
       accountingTransactionUpdatePage.setAccountNumberInput('accountNumber'),
       accountingTransactionUpdatePage.setTransactionDateInput('2000-12-31'),
       accountingTransactionUpdatePage.setTransactionAmountInput('5')
     ]);
+    expect(await accountingTransactionUpdatePage.getDescriptionInput()).to.eq(
+      'description',
+      'Expected Description value to be equals to description'
+    );
+    expect(await accountingTransactionUpdatePage.getServiceOutletCodeInput()).to.eq(
+      'serviceOutletCode',
+      'Expected ServiceOutletCode value to be equals to serviceOutletCode'
+    );
     expect(await accountingTransactionUpdatePage.getAccountNameInput()).to.eq(
       'accountName',
       'Expected AccountName value to be equals to accountName'

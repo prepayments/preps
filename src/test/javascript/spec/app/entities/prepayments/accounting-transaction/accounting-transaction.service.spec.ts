@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AccountingTransaction(0, 'AAAAAAA', 'AAAAAAA', currentDate, 0, false);
+      elemDefault = new AccountingTransaction(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 0, false);
     });
 
     describe('Service methods', () => {
@@ -74,6 +74,8 @@ describe('Service Tests', () => {
       it('should update a AccountingTransaction', async () => {
         const returnedFromService = Object.assign(
           {
+            description: 'BBBBBB',
+            serviceOutletCode: 'BBBBBB',
             accountName: 'BBBBBB',
             accountNumber: 'BBBBBB',
             transactionDate: currentDate.format(DATE_FORMAT),
@@ -101,6 +103,8 @@ describe('Service Tests', () => {
       it('should return a list of AccountingTransaction', async () => {
         const returnedFromService = Object.assign(
           {
+            description: 'BBBBBB',
+            serviceOutletCode: 'BBBBBB',
             accountName: 'BBBBBB',
             accountNumber: 'BBBBBB',
             transactionDate: currentDate.format(DATE_FORMAT),

@@ -2,6 +2,8 @@ import { Moment } from 'moment';
 
 export interface IAccountingTransaction {
   id?: number;
+  description?: string;
+  serviceOutletCode?: string;
   accountName?: string;
   accountNumber?: string;
   transactionDate?: Moment;
@@ -12,6 +14,8 @@ export interface IAccountingTransaction {
 export class AccountingTransaction implements IAccountingTransaction {
   constructor(
     public id?: number,
+    public description?: string,
+    public serviceOutletCode?: string,
     public accountName?: string,
     public accountNumber?: string,
     public transactionDate?: Moment,

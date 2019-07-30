@@ -1,10 +1,8 @@
 package io.github.prepayments.service.dto;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -13,6 +11,12 @@ import java.util.Objects;
 public class AccountingTransactionDTO implements Serializable {
 
     private Long id;
+
+    private String description;
+
+    @NotNull
+    @Pattern(regexp = "^[0-9]{3}$")
+    private String serviceOutletCode;
 
     @NotNull
     private String accountName;
@@ -37,6 +41,22 @@ public class AccountingTransactionDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getServiceOutletCode() {
+        return serviceOutletCode;
+    }
+
+    public void setServiceOutletCode(String serviceOutletCode) {
+        this.serviceOutletCode = serviceOutletCode;
     }
 
     public String getAccountName() {
@@ -102,7 +122,15 @@ public class AccountingTransactionDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountingTransactionDTO{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", accountNumber='" + getAccountNumber() + "'" + ", transactionDate='" +
-            getTransactionDate() + "'" + ", transactionAmount=" + getTransactionAmount() + ", incrementAccount='" + isIncrementAccount() + "'" + "}";
+        return "AccountingTransactionDTO{" +
+            "id=" + getId() +
+            ", description='" + getDescription() + "'" +
+            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
+            ", accountName='" + getAccountName() + "'" +
+            ", accountNumber='" + getAccountNumber() + "'" +
+            ", transactionDate='" + getTransactionDate() + "'" +
+            ", transactionAmount=" + getTransactionAmount() +
+            ", incrementAccount='" + isIncrementAccount() + "'" +
+            "}";
     }
 }

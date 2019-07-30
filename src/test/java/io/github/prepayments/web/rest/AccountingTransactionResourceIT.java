@@ -47,6 +47,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PrepsApp.class)
 public class AccountingTransactionResourceIT {
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_SERVICE_OUTLET_CODE = "287";
+    private static final String UPDATED_SERVICE_OUTLET_CODE = "530";
+
     private static final String DEFAULT_ACCOUNT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
 
@@ -121,6 +127,8 @@ public class AccountingTransactionResourceIT {
      */
     public static AccountingTransaction createEntity(EntityManager em) {
         AccountingTransaction accountingTransaction = new AccountingTransaction()
+            .description(DEFAULT_DESCRIPTION)
+            .serviceOutletCode(DEFAULT_SERVICE_OUTLET_CODE)
             .accountName(DEFAULT_ACCOUNT_NAME)
             .accountNumber(DEFAULT_ACCOUNT_NUMBER)
             .transactionDate(DEFAULT_TRANSACTION_DATE)
@@ -136,6 +144,8 @@ public class AccountingTransactionResourceIT {
      */
     public static AccountingTransaction createUpdatedEntity(EntityManager em) {
         AccountingTransaction accountingTransaction = new AccountingTransaction()
+            .description(UPDATED_DESCRIPTION)
+            .serviceOutletCode(UPDATED_SERVICE_OUTLET_CODE)
             .accountName(UPDATED_ACCOUNT_NAME)
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
             .transactionDate(UPDATED_TRANSACTION_DATE)
@@ -165,6 +175,8 @@ public class AccountingTransactionResourceIT {
         List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
         assertThat(accountingTransactionList).hasSize(databaseSizeBeforeCreate + 1);
         AccountingTransaction testAccountingTransaction = accountingTransactionList.get(accountingTransactionList.size() - 1);
+        assertThat(testAccountingTransaction.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testAccountingTransaction.getServiceOutletCode()).isEqualTo(DEFAULT_SERVICE_OUTLET_CODE);
         assertThat(testAccountingTransaction.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
         assertThat(testAccountingTransaction.getAccountNumber()).isEqualTo(DEFAULT_ACCOUNT_NUMBER);
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(DEFAULT_TRANSACTION_DATE);
@@ -198,6 +210,25 @@ public class AccountingTransactionResourceIT {
         verify(mockAccountingTransactionSearchRepository, times(0)).save(accountingTransaction);
     }
 
+
+    @Test
+    @Transactional
+    public void checkServiceOutletCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = accountingTransactionRepository.findAll().size();
+        // set the field null
+        accountingTransaction.setServiceOutletCode(null);
+
+        // Create the AccountingTransaction, which fails.
+        AccountingTransactionDTO accountingTransactionDTO = accountingTransactionMapper.toDto(accountingTransaction);
+
+        restAccountingTransactionMockMvc.perform(post("/api/accounting-transactions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountingTransactionDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
+        assertThat(accountingTransactionList).hasSize(databaseSizeBeforeTest);
+    }
 
     @Test
     @Transactional
@@ -305,6 +336,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountingTransaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE.toString())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME.toString())))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
@@ -323,11 +356,91 @@ public class AccountingTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(accountingTransaction.getId().intValue()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.serviceOutletCode").value(DEFAULT_SERVICE_OUTLET_CODE.toString()))
             .andExpect(jsonPath("$.accountName").value(DEFAULT_ACCOUNT_NAME.toString()))
             .andExpect(jsonPath("$.accountNumber").value(DEFAULT_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.transactionDate").value(DEFAULT_TRANSACTION_DATE.toString()))
             .andExpect(jsonPath("$.transactionAmount").value(DEFAULT_TRANSACTION_AMOUNT.intValue()))
             .andExpect(jsonPath("$.incrementAccount").value(DEFAULT_INCREMENT_ACCOUNT.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where description equals to DEFAULT_DESCRIPTION
+        defaultAccountingTransactionShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the accountingTransactionList where description equals to UPDATED_DESCRIPTION
+        defaultAccountingTransactionShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+        defaultAccountingTransactionShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+
+        // Get all the accountingTransactionList where description equals to UPDATED_DESCRIPTION
+        defaultAccountingTransactionShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where description is not null
+        defaultAccountingTransactionShouldBeFound("description.specified=true");
+
+        // Get all the accountingTransactionList where description is null
+        defaultAccountingTransactionShouldNotBeFound("description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByServiceOutletCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where serviceOutletCode equals to DEFAULT_SERVICE_OUTLET_CODE
+        defaultAccountingTransactionShouldBeFound("serviceOutletCode.equals=" + DEFAULT_SERVICE_OUTLET_CODE);
+
+        // Get all the accountingTransactionList where serviceOutletCode equals to UPDATED_SERVICE_OUTLET_CODE
+        defaultAccountingTransactionShouldNotBeFound("serviceOutletCode.equals=" + UPDATED_SERVICE_OUTLET_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByServiceOutletCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where serviceOutletCode in DEFAULT_SERVICE_OUTLET_CODE or UPDATED_SERVICE_OUTLET_CODE
+        defaultAccountingTransactionShouldBeFound("serviceOutletCode.in=" + DEFAULT_SERVICE_OUTLET_CODE + "," + UPDATED_SERVICE_OUTLET_CODE);
+
+        // Get all the accountingTransactionList where serviceOutletCode equals to UPDATED_SERVICE_OUTLET_CODE
+        defaultAccountingTransactionShouldNotBeFound("serviceOutletCode.in=" + UPDATED_SERVICE_OUTLET_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByServiceOutletCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where serviceOutletCode is not null
+        defaultAccountingTransactionShouldBeFound("serviceOutletCode.specified=true");
+
+        // Get all the accountingTransactionList where serviceOutletCode is null
+        defaultAccountingTransactionShouldNotBeFound("serviceOutletCode.specified=false");
     }
 
     @Test
@@ -559,6 +672,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountingTransaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE)))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
@@ -611,6 +726,8 @@ public class AccountingTransactionResourceIT {
         // Disconnect from session so that the updates on updatedAccountingTransaction are not directly saved in db
         em.detach(updatedAccountingTransaction);
         updatedAccountingTransaction
+            .description(UPDATED_DESCRIPTION)
+            .serviceOutletCode(UPDATED_SERVICE_OUTLET_CODE)
             .accountName(UPDATED_ACCOUNT_NAME)
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
             .transactionDate(UPDATED_TRANSACTION_DATE)
@@ -627,6 +744,8 @@ public class AccountingTransactionResourceIT {
         List<AccountingTransaction> accountingTransactionList = accountingTransactionRepository.findAll();
         assertThat(accountingTransactionList).hasSize(databaseSizeBeforeUpdate);
         AccountingTransaction testAccountingTransaction = accountingTransactionList.get(accountingTransactionList.size() - 1);
+        assertThat(testAccountingTransaction.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testAccountingTransaction.getServiceOutletCode()).isEqualTo(UPDATED_SERVICE_OUTLET_CODE);
         assertThat(testAccountingTransaction.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testAccountingTransaction.getAccountNumber()).isEqualTo(UPDATED_ACCOUNT_NUMBER);
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(UPDATED_TRANSACTION_DATE);
@@ -692,6 +811,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(accountingTransaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE)))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))

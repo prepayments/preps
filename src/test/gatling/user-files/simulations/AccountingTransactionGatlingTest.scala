@@ -72,6 +72,8 @@ class AccountingTransactionGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "description":"SAMPLE_TEXT"
+                , "serviceOutletCode":"SAMPLE_TEXT"
                 , "accountName":"SAMPLE_TEXT"
                 , "accountNumber":"SAMPLE_TEXT"
                 , "transactionDate":"2020-01-01T00:00:00.000Z"

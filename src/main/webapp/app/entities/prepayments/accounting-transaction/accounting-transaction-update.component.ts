@@ -18,6 +18,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    description: [],
+    serviceOutletCode: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
     accountName: [null, [Validators.required]],
     accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{10,16}$')]],
     transactionDate: [null, [Validators.required]],
@@ -42,6 +44,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
   updateForm(accountingTransaction: IAccountingTransaction) {
     this.editForm.patchValue({
       id: accountingTransaction.id,
+      description: accountingTransaction.description,
+      serviceOutletCode: accountingTransaction.serviceOutletCode,
       accountName: accountingTransaction.accountName,
       accountNumber: accountingTransaction.accountNumber,
       transactionDate: accountingTransaction.transactionDate,
@@ -68,6 +72,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
     const entity = {
       ...new AccountingTransaction(),
       id: this.editForm.get(['id']).value,
+      description: this.editForm.get(['description']).value,
+      serviceOutletCode: this.editForm.get(['serviceOutletCode']).value,
       accountName: this.editForm.get(['accountName']).value,
       accountNumber: this.editForm.get(['accountNumber']).value,
       transactionDate: this.editForm.get(['transactionDate']).value,

@@ -26,6 +26,8 @@ export class AccountingTransactionUpdatePage {
   pageTitle = element(by.id('gha-accounting-transaction-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+  descriptionInput = element(by.id('field_description'));
+  serviceOutletCodeInput = element(by.id('field_serviceOutletCode'));
   accountNameInput = element(by.id('field_accountName'));
   accountNumberInput = element(by.id('field_accountNumber'));
   transactionDateInput = element(by.id('field_transactionDate'));
@@ -34,6 +36,22 @@ export class AccountingTransactionUpdatePage {
 
   async getPageTitle() {
     return this.pageTitle.getText();
+  }
+
+  async setDescriptionInput(description) {
+    await this.descriptionInput.sendKeys(description);
+  }
+
+  async getDescriptionInput() {
+    return await this.descriptionInput.getAttribute('value');
+  }
+
+  async setServiceOutletCodeInput(serviceOutletCode) {
+    await this.serviceOutletCodeInput.sendKeys(serviceOutletCode);
+  }
+
+  async getServiceOutletCodeInput() {
+    return await this.serviceOutletCodeInput.getAttribute('value');
   }
 
   async setAccountNameInput(accountName) {
