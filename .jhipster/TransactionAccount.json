@@ -7,7 +7,8 @@
             "fieldName": "accountName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
+                "required",
+                "unique"
             ]
         },
         {
@@ -15,7 +16,8 @@
             "fieldType": "String",
             "fieldValidateRules": [
                 "required",
-                "pattern"
+                "pattern",
+                "unique"
             ],
             "fieldValidateRulesPattern": "^[0-9]{10,16}$"
         },

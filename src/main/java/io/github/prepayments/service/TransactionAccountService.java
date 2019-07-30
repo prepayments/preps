@@ -1,6 +1,7 @@
 package io.github.prepayments.service;
 
 import io.github.prepayments.service.dto.TransactionAccountDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,7 +47,8 @@ public interface TransactionAccountService {
     /**
      * Search for the transactionAccount corresponding to the query.
      *
-     * @param query    the query of the search.
+     * @param query the query of the search.
+     * 
      * @param pageable the pagination information.
      * @return the list of entities.
      */

@@ -3,21 +3,15 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A TransactionAccount.
@@ -37,12 +31,12 @@ public class TransactionAccount implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "account_name", nullable = false)
+    @Column(name = "account_name", nullable = false, unique = true)
     private String accountName;
 
     @NotNull
     @Pattern(regexp = "^[0-9]{10,16}$")
-    @Column(name = "account_number", nullable = false)
+    @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
     @Column(name = "account_balance", precision = 21, scale = 2)
@@ -70,21 +64,17 @@ public class TransactionAccount implements Serializable {
         return accountName;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
     public TransactionAccount accountName(String accountName) {
         this.accountName = accountName;
         return this;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
     public TransactionAccount accountNumber(String accountNumber) {
@@ -92,12 +82,12 @@ public class TransactionAccount implements Serializable {
         return this;
     }
 
-    public BigDecimal getAccountBalance() {
-        return accountBalance;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public void setAccountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
+    public BigDecimal getAccountBalance() {
+        return accountBalance;
     }
 
     public TransactionAccount accountBalance(BigDecimal accountBalance) {
@@ -105,12 +95,12 @@ public class TransactionAccount implements Serializable {
         return this;
     }
 
-    public LocalDate getOpeningDate() {
-        return openingDate;
+    public void setAccountBalance(BigDecimal accountBalance) {
+        this.accountBalance = accountBalance;
     }
 
-    public void setOpeningDate(LocalDate openingDate) {
-        this.openingDate = openingDate;
+    public LocalDate getOpeningDate() {
+        return openingDate;
     }
 
     public TransactionAccount openingDate(LocalDate openingDate) {
@@ -118,17 +108,21 @@ public class TransactionAccount implements Serializable {
         return this;
     }
 
-    public BigDecimal getAccountOpeningDateBalance() {
-        return accountOpeningDateBalance;
+    public void setOpeningDate(LocalDate openingDate) {
+        this.openingDate = openingDate;
     }
 
-    public void setAccountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
-        this.accountOpeningDateBalance = accountOpeningDateBalance;
+    public BigDecimal getAccountOpeningDateBalance() {
+        return accountOpeningDateBalance;
     }
 
     public TransactionAccount accountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
         this.accountOpeningDateBalance = accountOpeningDateBalance;
         return this;
+    }
+
+    public void setAccountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
+        this.accountOpeningDateBalance = accountOpeningDateBalance;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -150,7 +144,13 @@ public class TransactionAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionAccount{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", accountNumber='" + getAccountNumber() + "'" + ", accountBalance=" + getAccountBalance() +
-            ", openingDate='" + getOpeningDate() + "'" + ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() + "}";
+        return "TransactionAccount{" +
+            "id=" + getId() +
+            ", accountName='" + getAccountName() + "'" +
+            ", accountNumber='" + getAccountNumber() + "'" +
+            ", accountBalance=" + getAccountBalance() +
+            ", openingDate='" + getOpeningDate() + "'" +
+            ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() +
+            "}";
     }
 }
