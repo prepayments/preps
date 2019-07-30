@@ -35,6 +35,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
+        'AAAAAAA',
         'AAAAAAA'
       );
     });
@@ -82,7 +83,8 @@ describe('Service Tests', () => {
             postalAddress: 'BBBBBB',
             contactPersonName: 'BBBBBB',
             contactEmail: 'BBBBBB',
-            street: 'BBBBBB'
+            street: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -110,7 +112,8 @@ describe('Service Tests', () => {
             postalAddress: 'BBBBBB',
             contactPersonName: 'BBBBBB',
             contactEmail: 'BBBBBB',
-            street: 'BBBBBB'
+            street: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

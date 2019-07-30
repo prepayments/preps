@@ -1,18 +1,24 @@
 package io.github.prepayments.service.dto;
 
+import java.io.Serializable;
+import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 /**
- * Criteria class for the {@link io.github.prepayments.domain.ServiceOutlet} entity. This class is used in {@link io.github.prepayments.web.rest.ServiceOutletResource} to receive all the possible
- * filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /service-outlets?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.ServiceOutlet} entity. This class is used
+ * in {@link io.github.prepayments.web.rest.ServiceOutletResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /service-outlets?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
  */
 public class ServiceOutletCriteria implements Serializable, Criteria {
 
@@ -42,10 +48,12 @@ public class ServiceOutletCriteria implements Serializable, Criteria {
 
     private StringFilter street;
 
-    public ServiceOutletCriteria() {
+    private StringFilter OriginatingFileToken;
+
+    public ServiceOutletCriteria(){
     }
 
-    public ServiceOutletCriteria(ServiceOutletCriteria other) {
+    public ServiceOutletCriteria(ServiceOutletCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.serviceOutletName = other.serviceOutletName == null ? null : other.serviceOutletName.copy();
         this.serviceOutletCode = other.serviceOutletCode == null ? null : other.serviceOutletCode.copy();
@@ -58,6 +66,7 @@ public class ServiceOutletCriteria implements Serializable, Criteria {
         this.contactPersonName = other.contactPersonName == null ? null : other.contactPersonName.copy();
         this.contactEmail = other.contactEmail == null ? null : other.contactEmail.copy();
         this.street = other.street == null ? null : other.street.copy();
+        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
     }
 
     @Override
@@ -161,6 +170,14 @@ public class ServiceOutletCriteria implements Serializable, Criteria {
         this.street = street;
     }
 
+    public StringFilter getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -171,26 +188,58 @@ public class ServiceOutletCriteria implements Serializable, Criteria {
             return false;
         }
         final ServiceOutletCriteria that = (ServiceOutletCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(serviceOutletName, that.serviceOutletName) && Objects.equals(serviceOutletCode, that.serviceOutletCode) &&
-            Objects.equals(serviceOutletLocation, that.serviceOutletLocation) && Objects.equals(serviceOutletManager, that.serviceOutletManager) && Objects.equals(numberOfStaff, that.numberOfStaff) &&
-            Objects.equals(building, that.building) && Objects.equals(floor, that.floor) && Objects.equals(postalAddress, that.postalAddress) &&
-            Objects.equals(contactPersonName, that.contactPersonName) && Objects.equals(contactEmail, that.contactEmail) && Objects.equals(street, that.street);
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(serviceOutletName, that.serviceOutletName) &&
+            Objects.equals(serviceOutletCode, that.serviceOutletCode) &&
+            Objects.equals(serviceOutletLocation, that.serviceOutletLocation) &&
+            Objects.equals(serviceOutletManager, that.serviceOutletManager) &&
+            Objects.equals(numberOfStaff, that.numberOfStaff) &&
+            Objects.equals(building, that.building) &&
+            Objects.equals(floor, that.floor) &&
+            Objects.equals(postalAddress, that.postalAddress) &&
+            Objects.equals(contactPersonName, that.contactPersonName) &&
+            Objects.equals(contactEmail, that.contactEmail) &&
+            Objects.equals(street, that.street) &&
+            Objects.equals(OriginatingFileToken, that.OriginatingFileToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serviceOutletName, serviceOutletCode, serviceOutletLocation, serviceOutletManager, numberOfStaff, building, floor, postalAddress, contactPersonName, contactEmail,
-                            street);
+        return Objects.hash(
+        id,
+        serviceOutletName,
+        serviceOutletCode,
+        serviceOutletLocation,
+        serviceOutletManager,
+        numberOfStaff,
+        building,
+        floor,
+        postalAddress,
+        contactPersonName,
+        contactEmail,
+        street,
+        OriginatingFileToken
+        );
     }
 
     @Override
     public String toString() {
-        return "ServiceOutletCriteria{" + (id != null ? "id=" + id + ", " : "") + (serviceOutletName != null ? "serviceOutletName=" + serviceOutletName + ", " : "") +
-            (serviceOutletCode != null ? "serviceOutletCode=" + serviceOutletCode + ", " : "") + (serviceOutletLocation != null ? "serviceOutletLocation=" + serviceOutletLocation + ", " : "") +
-            (serviceOutletManager != null ? "serviceOutletManager=" + serviceOutletManager + ", " : "") + (numberOfStaff != null ? "numberOfStaff=" + numberOfStaff + ", " : "") +
-            (building != null ? "building=" + building + ", " : "") + (floor != null ? "floor=" + floor + ", " : "") + (postalAddress != null ? "postalAddress=" + postalAddress + ", " : "") +
-            (contactPersonName != null ? "contactPersonName=" + contactPersonName + ", " : "") + (contactEmail != null ? "contactEmail=" + contactEmail + ", " : "") +
-            (street != null ? "street=" + street + ", " : "") + "}";
+        return "ServiceOutletCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (serviceOutletName != null ? "serviceOutletName=" + serviceOutletName + ", " : "") +
+                (serviceOutletCode != null ? "serviceOutletCode=" + serviceOutletCode + ", " : "") +
+                (serviceOutletLocation != null ? "serviceOutletLocation=" + serviceOutletLocation + ", " : "") +
+                (serviceOutletManager != null ? "serviceOutletManager=" + serviceOutletManager + ", " : "") +
+                (numberOfStaff != null ? "numberOfStaff=" + numberOfStaff + ", " : "") +
+                (building != null ? "building=" + building + ", " : "") +
+                (floor != null ? "floor=" + floor + ", " : "") +
+                (postalAddress != null ? "postalAddress=" + postalAddress + ", " : "") +
+                (contactPersonName != null ? "contactPersonName=" + contactPersonName + ", " : "") +
+                (contactEmail != null ? "contactEmail=" + contactEmail + ", " : "") +
+                (street != null ? "street=" + street + ", " : "") +
+                (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
+            "}";
     }
 
 }

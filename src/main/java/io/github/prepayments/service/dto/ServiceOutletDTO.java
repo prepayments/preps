@@ -1,7 +1,5 @@
 package io.github.prepayments.service.dto;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -36,6 +34,8 @@ public class ServiceOutletDTO implements Serializable {
     private String contactEmail;
 
     private String street;
+
+    private String OriginatingFileToken;
 
 
     public Long getId() {
@@ -134,6 +134,14 @@ public class ServiceOutletDTO implements Serializable {
         this.street = street;
     }
 
+    public String getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(String OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -157,9 +165,20 @@ public class ServiceOutletDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutletDTO{" + "id=" + getId() + ", serviceOutletName='" + getServiceOutletName() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", serviceOutletLocation='" +
-            getServiceOutletLocation() + "'" + ", serviceOutletManager='" + getServiceOutletManager() + "'" + ", numberOfStaff=" + getNumberOfStaff() + ", building='" + getBuilding() + "'" +
-            ", floor=" + getFloor() + ", postalAddress='" + getPostalAddress() + "'" + ", contactPersonName='" + getContactPersonName() + "'" + ", contactEmail='" + getContactEmail() + "'" +
-            ", street='" + getStreet() + "'" + "}";
+        return "ServiceOutletDTO{" +
+            "id=" + getId() +
+            ", serviceOutletName='" + getServiceOutletName() + "'" +
+            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
+            ", serviceOutletLocation='" + getServiceOutletLocation() + "'" +
+            ", serviceOutletManager='" + getServiceOutletManager() + "'" +
+            ", numberOfStaff=" + getNumberOfStaff() +
+            ", building='" + getBuilding() + "'" +
+            ", floor=" + getFloor() +
+            ", postalAddress='" + getPostalAddress() + "'" +
+            ", contactPersonName='" + getContactPersonName() + "'" +
+            ", contactEmail='" + getContactEmail() + "'" +
+            ", street='" + getStreet() + "'" +
+            ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

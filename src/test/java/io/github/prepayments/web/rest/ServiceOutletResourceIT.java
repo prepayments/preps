@@ -77,6 +77,9 @@ public class ServiceOutletResourceIT {
     private static final String DEFAULT_STREET = "AAAAAAAAAA";
     private static final String UPDATED_STREET = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private ServiceOutletRepository serviceOutletRepository;
 
@@ -146,7 +149,8 @@ public class ServiceOutletResourceIT {
             .postalAddress(DEFAULT_POSTAL_ADDRESS)
             .contactPersonName(DEFAULT_CONTACT_PERSON_NAME)
             .contactEmail(DEFAULT_CONTACT_EMAIL)
-            .street(DEFAULT_STREET);
+            .street(DEFAULT_STREET)
+            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return serviceOutlet;
     }
     /**
@@ -167,7 +171,8 @@ public class ServiceOutletResourceIT {
             .postalAddress(UPDATED_POSTAL_ADDRESS)
             .contactPersonName(UPDATED_CONTACT_PERSON_NAME)
             .contactEmail(UPDATED_CONTACT_EMAIL)
-            .street(UPDATED_STREET);
+            .street(UPDATED_STREET)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return serviceOutlet;
     }
 
@@ -203,6 +208,7 @@ public class ServiceOutletResourceIT {
         assertThat(testServiceOutlet.getContactPersonName()).isEqualTo(DEFAULT_CONTACT_PERSON_NAME);
         assertThat(testServiceOutlet.getContactEmail()).isEqualTo(DEFAULT_CONTACT_EMAIL);
         assertThat(testServiceOutlet.getStreet()).isEqualTo(DEFAULT_STREET);
+        assertThat(testServiceOutlet.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the ServiceOutlet in Elasticsearch
         verify(mockServiceOutletSearchRepository, times(1)).save(testServiceOutlet);
@@ -291,7 +297,8 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].postalAddress").value(hasItem(DEFAULT_POSTAL_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME.toString())))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL.toString())))
-            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET.toString())));
+            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET.toString())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -315,7 +322,8 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.postalAddress").value(DEFAULT_POSTAL_ADDRESS.toString()))
             .andExpect(jsonPath("$.contactPersonName").value(DEFAULT_CONTACT_PERSON_NAME.toString()))
             .andExpect(jsonPath("$.contactEmail").value(DEFAULT_CONTACT_EMAIL.toString()))
-            .andExpect(jsonPath("$.street").value(DEFAULT_STREET.toString()));
+            .andExpect(jsonPath("$.street").value(DEFAULT_STREET.toString()))
+            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -800,6 +808,45 @@ public class ServiceOutletResourceIT {
         // Get all the serviceOutletList where street is null
         defaultServiceOutletShouldNotBeFound("street.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllServiceOutletsByOriginatingFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        serviceOutletRepository.saveAndFlush(serviceOutlet);
+
+        // Get all the serviceOutletList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+
+        // Get all the serviceOutletList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceOutletsByOriginatingFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        serviceOutletRepository.saveAndFlush(serviceOutlet);
+
+        // Get all the serviceOutletList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+
+        // Get all the serviceOutletList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceOutletsByOriginatingFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        serviceOutletRepository.saveAndFlush(serviceOutlet);
+
+        // Get all the serviceOutletList where OriginatingFileToken is not null
+        defaultServiceOutletShouldBeFound("OriginatingFileToken.specified=true");
+
+        // Get all the serviceOutletList where OriginatingFileToken is null
+        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -818,7 +865,8 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].postalAddress").value(hasItem(DEFAULT_POSTAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME)))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL)))
-            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)));
+            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restServiceOutletMockMvc.perform(get("/api/service-outlets/count?sort=id,desc&" + filter))
@@ -876,7 +924,8 @@ public class ServiceOutletResourceIT {
             .postalAddress(UPDATED_POSTAL_ADDRESS)
             .contactPersonName(UPDATED_CONTACT_PERSON_NAME)
             .contactEmail(UPDATED_CONTACT_EMAIL)
-            .street(UPDATED_STREET);
+            .street(UPDATED_STREET)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         ServiceOutletDTO serviceOutletDTO = serviceOutletMapper.toDto(updatedServiceOutlet);
 
         restServiceOutletMockMvc.perform(put("/api/service-outlets")
@@ -899,6 +948,7 @@ public class ServiceOutletResourceIT {
         assertThat(testServiceOutlet.getContactPersonName()).isEqualTo(UPDATED_CONTACT_PERSON_NAME);
         assertThat(testServiceOutlet.getContactEmail()).isEqualTo(UPDATED_CONTACT_EMAIL);
         assertThat(testServiceOutlet.getStreet()).isEqualTo(UPDATED_STREET);
+        assertThat(testServiceOutlet.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the ServiceOutlet in Elasticsearch
         verify(mockServiceOutletSearchRepository, times(1)).save(testServiceOutlet);
@@ -969,7 +1019,8 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].postalAddress").value(hasItem(DEFAULT_POSTAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME)))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL)))
-            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)));
+            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

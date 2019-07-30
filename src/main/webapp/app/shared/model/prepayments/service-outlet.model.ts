@@ -11,6 +11,7 @@ export interface IServiceOutlet {
   contactPersonName?: string;
   contactEmail?: string;
   street?: string;
+  OriginatingFileToken?: string;
 }
 
 export class ServiceOutlet implements IServiceOutlet {
@@ -26,6 +27,7 @@ export class ServiceOutlet implements IServiceOutlet {
     public postalAddress?: string,
     public contactPersonName?: string,
     public contactEmail?: string,
-    public street?: string
+    public street?: string,
+    public OriginatingFileToken?: string
   ) {}
 }

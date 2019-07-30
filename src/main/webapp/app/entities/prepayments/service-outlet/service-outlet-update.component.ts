@@ -26,7 +26,8 @@ export class ServiceOutletUpdateComponent implements OnInit {
     postalAddress: [],
     contactPersonName: [],
     contactEmail: [],
-    street: []
+    street: [],
+    OriginatingFileToken: []
   });
 
   constructor(protected serviceOutletService: ServiceOutletService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -52,7 +53,8 @@ export class ServiceOutletUpdateComponent implements OnInit {
       postalAddress: serviceOutlet.postalAddress,
       contactPersonName: serviceOutlet.contactPersonName,
       contactEmail: serviceOutlet.contactEmail,
-      street: serviceOutlet.street
+      street: serviceOutlet.street,
+      OriginatingFileToken: serviceOutlet.OriginatingFileToken
     });
   }
 
@@ -84,7 +86,8 @@ export class ServiceOutletUpdateComponent implements OnInit {
       postalAddress: this.editForm.get(['postalAddress']).value,
       contactPersonName: this.editForm.get(['contactPersonName']).value,
       contactEmail: this.editForm.get(['contactEmail']).value,
-      street: this.editForm.get(['street']).value
+      street: this.editForm.get(['street']).value,
+      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
     };
     return entity;
   }

@@ -1,6 +1,7 @@
 package io.github.prepayments.service;
 
 import io.github.prepayments.service.dto.ServiceOutletDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,7 +47,8 @@ public interface ServiceOutletService {
     /**
      * Search for the serviceOutlet corresponding to the query.
      *
-     * @param query    the query of the search.
+     * @param query the query of the search.
+     * 
      * @param pageable the pagination information.
      * @return the list of entities.
      */
