@@ -1,21 +1,26 @@
 package io.github.prepayments.service.dto;
 
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-
 import java.io.Serializable;
 import java.util.Objects;
+import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.PrepaymentEntry} entity. This class is used in {@link io.github.prepayments.web.rest.PrepaymentEntryResource} to receive all the possible
- * filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /prepayment-entries?id
- * .greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.PrepaymentEntry} entity. This class is used
+ * in {@link io.github.prepayments.web.rest.PrepaymentEntryResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /prepayment-entries?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
  */
 public class PrepaymentEntryCriteria implements Serializable, Criteria {
 
@@ -45,12 +50,14 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
 
     private LongFilter scannedDocumentId;
 
+    private StringFilter OriginatingFileToken;
+
     private LongFilter amortizationEntryId;
 
-    public PrepaymentEntryCriteria() {
+    public PrepaymentEntryCriteria(){
     }
 
-    public PrepaymentEntryCriteria(PrepaymentEntryCriteria other) {
+    public PrepaymentEntryCriteria(PrepaymentEntryCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.accountNumber = other.accountNumber == null ? null : other.accountNumber.copy();
         this.accountName = other.accountName == null ? null : other.accountName.copy();
@@ -63,6 +70,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         this.supplierName = other.supplierName == null ? null : other.supplierName.copy();
         this.invoiceNumber = other.invoiceNumber == null ? null : other.invoiceNumber.copy();
         this.scannedDocumentId = other.scannedDocumentId == null ? null : other.scannedDocumentId.copy();
+        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
         this.amortizationEntryId = other.amortizationEntryId == null ? null : other.amortizationEntryId.copy();
     }
 
@@ -167,6 +175,14 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         this.scannedDocumentId = scannedDocumentId;
     }
 
+    public StringFilter getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
+    }
+
     public LongFilter getAmortizationEntryId() {
         return amortizationEntryId;
     }
@@ -185,27 +201,61 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
             return false;
         }
         final PrepaymentEntryCriteria that = (PrepaymentEntryCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(accountNumber, that.accountNumber) && Objects.equals(accountName, that.accountName) && Objects.equals(prepaymentId, that.prepaymentId) &&
-            Objects.equals(prepaymentDate, that.prepaymentDate) && Objects.equals(particulars, that.particulars) && Objects.equals(serviceOutlet, that.serviceOutlet) &&
-            Objects.equals(prepaymentAmount, that.prepaymentAmount) && Objects.equals(months, that.months) && Objects.equals(supplierName, that.supplierName) &&
-            Objects.equals(invoiceNumber, that.invoiceNumber) && Objects.equals(scannedDocumentId, that.scannedDocumentId) && Objects.equals(amortizationEntryId, that.amortizationEntryId);
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(accountNumber, that.accountNumber) &&
+            Objects.equals(accountName, that.accountName) &&
+            Objects.equals(prepaymentId, that.prepaymentId) &&
+            Objects.equals(prepaymentDate, that.prepaymentDate) &&
+            Objects.equals(particulars, that.particulars) &&
+            Objects.equals(serviceOutlet, that.serviceOutlet) &&
+            Objects.equals(prepaymentAmount, that.prepaymentAmount) &&
+            Objects.equals(months, that.months) &&
+            Objects.equals(supplierName, that.supplierName) &&
+            Objects.equals(invoiceNumber, that.invoiceNumber) &&
+            Objects.equals(scannedDocumentId, that.scannedDocumentId) &&
+            Objects.equals(OriginatingFileToken, that.OriginatingFileToken) &&
+            Objects.equals(amortizationEntryId, that.amortizationEntryId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountNumber, accountName, prepaymentId, prepaymentDate, particulars, serviceOutlet, prepaymentAmount, months, supplierName, invoiceNumber, scannedDocumentId,
-                            amortizationEntryId);
+        return Objects.hash(
+        id,
+        accountNumber,
+        accountName,
+        prepaymentId,
+        prepaymentDate,
+        particulars,
+        serviceOutlet,
+        prepaymentAmount,
+        months,
+        supplierName,
+        invoiceNumber,
+        scannedDocumentId,
+        OriginatingFileToken,
+        amortizationEntryId
+        );
     }
 
     @Override
     public String toString() {
-        return "PrepaymentEntryCriteria{" + (id != null ? "id=" + id + ", " : "") + (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
-            (accountName != null ? "accountName=" + accountName + ", " : "") + (prepaymentId != null ? "prepaymentId=" + prepaymentId + ", " : "") +
-            (prepaymentDate != null ? "prepaymentDate=" + prepaymentDate + ", " : "") + (particulars != null ? "particulars=" + particulars + ", " : "") +
-            (serviceOutlet != null ? "serviceOutlet=" + serviceOutlet + ", " : "") + (prepaymentAmount != null ? "prepaymentAmount=" + prepaymentAmount + ", " : "") +
-            (months != null ? "months=" + months + ", " : "") + (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
-            (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") + (scannedDocumentId != null ? "scannedDocumentId=" + scannedDocumentId + ", " : "") +
-            (amortizationEntryId != null ? "amortizationEntryId=" + amortizationEntryId + ", " : "") + "}";
+        return "PrepaymentEntryCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
+                (accountName != null ? "accountName=" + accountName + ", " : "") +
+                (prepaymentId != null ? "prepaymentId=" + prepaymentId + ", " : "") +
+                (prepaymentDate != null ? "prepaymentDate=" + prepaymentDate + ", " : "") +
+                (particulars != null ? "particulars=" + particulars + ", " : "") +
+                (serviceOutlet != null ? "serviceOutlet=" + serviceOutlet + ", " : "") +
+                (prepaymentAmount != null ? "prepaymentAmount=" + prepaymentAmount + ", " : "") +
+                (months != null ? "months=" + months + ", " : "") +
+                (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
+                (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") +
+                (scannedDocumentId != null ? "scannedDocumentId=" + scannedDocumentId + ", " : "") +
+                (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
+                (amortizationEntryId != null ? "amortizationEntryId=" + amortizationEntryId + ", " : "") +
+            "}";
     }
 
 }

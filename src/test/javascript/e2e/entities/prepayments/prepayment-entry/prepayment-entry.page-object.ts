@@ -37,6 +37,7 @@ export class PrepaymentEntryUpdatePage {
   supplierNameInput = element(by.id('field_supplierName'));
   invoiceNumberInput = element(by.id('field_invoiceNumber'));
   scannedDocumentIdInput = element(by.id('field_scannedDocumentId'));
+  OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -128,6 +129,14 @@ export class PrepaymentEntryUpdatePage {
 
   async getScannedDocumentIdInput() {
     return await this.scannedDocumentIdInput.getAttribute('value');
+  }
+
+  async setOriginatingFileTokenInput(OriginatingFileToken) {
+    await this.OriginatingFileTokenInput.sendKeys(OriginatingFileToken);
+  }
+
+  async getOriginatingFileTokenInput() {
+    return await this.OriginatingFileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

@@ -50,7 +50,8 @@ describe('PrepaymentEntry e2e test', () => {
       prepaymentEntryUpdatePage.setMonthsInput('5'),
       prepaymentEntryUpdatePage.setSupplierNameInput('supplierName'),
       prepaymentEntryUpdatePage.setInvoiceNumberInput('invoiceNumber'),
-      prepaymentEntryUpdatePage.setScannedDocumentIdInput('5')
+      prepaymentEntryUpdatePage.setScannedDocumentIdInput('5'),
+      prepaymentEntryUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
     ]);
     expect(await prepaymentEntryUpdatePage.getAccountNumberInput()).to.eq(
       'accountNumber',
@@ -87,6 +88,10 @@ describe('PrepaymentEntry e2e test', () => {
       'Expected InvoiceNumber value to be equals to invoiceNumber'
     );
     expect(await prepaymentEntryUpdatePage.getScannedDocumentIdInput()).to.eq('5', 'Expected scannedDocumentId value to be equals to 5');
+    expect(await prepaymentEntryUpdatePage.getOriginatingFileTokenInput()).to.eq(
+      'OriginatingFileToken',
+      'Expected OriginatingFileToken value to be equals to OriginatingFileToken'
+    );
     await prepaymentEntryUpdatePage.save();
     expect(await prepaymentEntryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

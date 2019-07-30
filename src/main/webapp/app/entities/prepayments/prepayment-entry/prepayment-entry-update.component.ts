@@ -28,7 +28,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
     months: [],
     supplierName: [],
     invoiceNumber: [],
-    scannedDocumentId: []
+    scannedDocumentId: [],
+    OriginatingFileToken: []
   });
 
   constructor(
@@ -58,7 +59,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       months: prepaymentEntry.months,
       supplierName: prepaymentEntry.supplierName,
       invoiceNumber: prepaymentEntry.invoiceNumber,
-      scannedDocumentId: prepaymentEntry.scannedDocumentId
+      scannedDocumentId: prepaymentEntry.scannedDocumentId,
+      OriginatingFileToken: prepaymentEntry.OriginatingFileToken
     });
   }
 
@@ -90,7 +92,8 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       months: this.editForm.get(['months']).value,
       supplierName: this.editForm.get(['supplierName']).value,
       invoiceNumber: this.editForm.get(['invoiceNumber']).value,
-      scannedDocumentId: this.editForm.get(['scannedDocumentId']).value
+      scannedDocumentId: this.editForm.get(['scannedDocumentId']).value,
+      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
     };
     return entity;
   }

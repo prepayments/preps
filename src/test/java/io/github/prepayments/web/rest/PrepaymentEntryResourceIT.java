@@ -81,6 +81,9 @@ public class PrepaymentEntryResourceIT {
     private static final Long DEFAULT_SCANNED_DOCUMENT_ID = 1L;
     private static final Long UPDATED_SCANNED_DOCUMENT_ID = 2L;
 
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private PrepaymentEntryRepository prepaymentEntryRepository;
 
@@ -150,7 +153,8 @@ public class PrepaymentEntryResourceIT {
             .months(DEFAULT_MONTHS)
             .supplierName(DEFAULT_SUPPLIER_NAME)
             .invoiceNumber(DEFAULT_INVOICE_NUMBER)
-            .scannedDocumentId(DEFAULT_SCANNED_DOCUMENT_ID);
+            .scannedDocumentId(DEFAULT_SCANNED_DOCUMENT_ID)
+            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return prepaymentEntry;
     }
     /**
@@ -171,7 +175,8 @@ public class PrepaymentEntryResourceIT {
             .months(UPDATED_MONTHS)
             .supplierName(UPDATED_SUPPLIER_NAME)
             .invoiceNumber(UPDATED_INVOICE_NUMBER)
-            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID);
+            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return prepaymentEntry;
     }
 
@@ -207,6 +212,7 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(DEFAULT_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(DEFAULT_INVOICE_NUMBER);
         assertThat(testPrepaymentEntry.getScannedDocumentId()).isEqualTo(DEFAULT_SCANNED_DOCUMENT_ID);
+        assertThat(testPrepaymentEntry.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the PrepaymentEntry in Elasticsearch
         verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
@@ -371,7 +377,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME.toString())))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER.toString())))
-            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -395,7 +402,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.months").value(DEFAULT_MONTHS))
             .andExpect(jsonPath("$.supplierName").value(DEFAULT_SUPPLIER_NAME.toString()))
             .andExpect(jsonPath("$.invoiceNumber").value(DEFAULT_INVOICE_NUMBER.toString()))
-            .andExpect(jsonPath("$.scannedDocumentId").value(DEFAULT_SCANNED_DOCUMENT_ID.intValue()));
+            .andExpect(jsonPath("$.scannedDocumentId").value(DEFAULT_SCANNED_DOCUMENT_ID.intValue()))
+            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -910,6 +918,45 @@ public class PrepaymentEntryResourceIT {
 
     @Test
     @Transactional
+    public void getAllPrepaymentEntriesByOriginatingFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+
+        // Get all the prepaymentEntryList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByOriginatingFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+
+        // Get all the prepaymentEntryList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPrepaymentEntriesByOriginatingFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
+
+        // Get all the prepaymentEntryList where OriginatingFileToken is not null
+        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.specified=true");
+
+        // Get all the prepaymentEntryList where OriginatingFileToken is null
+        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllPrepaymentEntriesByAmortizationEntryIsEqualToSomething() throws Exception {
         // Initialize the database
         AmortizationEntry amortizationEntry = AmortizationEntryResourceIT.createEntity(em);
@@ -944,7 +991,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
-            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restPrepaymentEntryMockMvc.perform(get("/api/prepayment-entries/count?sort=id,desc&" + filter))
@@ -1002,7 +1050,8 @@ public class PrepaymentEntryResourceIT {
             .months(UPDATED_MONTHS)
             .supplierName(UPDATED_SUPPLIER_NAME)
             .invoiceNumber(UPDATED_INVOICE_NUMBER)
-            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID);
+            .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         PrepaymentEntryDTO prepaymentEntryDTO = prepaymentEntryMapper.toDto(updatedPrepaymentEntry);
 
         restPrepaymentEntryMockMvc.perform(put("/api/prepayment-entries")
@@ -1025,6 +1074,7 @@ public class PrepaymentEntryResourceIT {
         assertThat(testPrepaymentEntry.getSupplierName()).isEqualTo(UPDATED_SUPPLIER_NAME);
         assertThat(testPrepaymentEntry.getInvoiceNumber()).isEqualTo(UPDATED_INVOICE_NUMBER);
         assertThat(testPrepaymentEntry.getScannedDocumentId()).isEqualTo(UPDATED_SCANNED_DOCUMENT_ID);
+        assertThat(testPrepaymentEntry.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the PrepaymentEntry in Elasticsearch
         verify(mockPrepaymentEntrySearchRepository, times(1)).save(testPrepaymentEntry);
@@ -1095,7 +1145,8 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].months").value(hasItem(DEFAULT_MONTHS)))
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
-            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())));
+            .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

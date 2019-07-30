@@ -1,11 +1,8 @@
 package io.github.prepayments.repository;
 
 import io.github.prepayments.domain.PrepaymentEntry;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
 
 
 /**
@@ -15,5 +12,4 @@ import java.time.LocalDate;
 @Repository
 public interface PrepaymentEntryRepository extends JpaRepository<PrepaymentEntry, Long>, JpaSpecificationExecutor<PrepaymentEntry> {
 
-    PrepaymentEntry findFirstByPrepaymentIdAndPrepaymentDate(String prepaymentEntryId, LocalDate prepaymentDate);
 }

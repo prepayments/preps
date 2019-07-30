@@ -1,14 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.AmortizationEntry_;
-import io.github.prepayments.domain.PrepaymentEntry;
-import io.github.prepayments.domain.PrepaymentEntry_;
-import io.github.prepayments.repository.PrepaymentEntryRepository;
-import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
-import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
-import io.github.prepayments.service.dto.PrepaymentEntryDTO;
-import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,12 +12,21 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.PrepaymentEntry;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.PrepaymentEntryRepository;
+import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
+import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
+import io.github.prepayments.service.dto.PrepaymentEntryDTO;
+import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
 
 /**
- * Service for executing complex queries for {@link PrepaymentEntry} entities in the database. The main input is a {@link PrepaymentEntryCriteria} which gets converted to {@link Specification}, in a
- * way that all the filters must apply. It returns a {@link List} of {@link PrepaymentEntryDTO} or a {@link Page} of {@link PrepaymentEntryDTO} which fulfills the criteria.
+ * Service for executing complex queries for {@link PrepaymentEntry} entities in the database.
+ * The main input is a {@link PrepaymentEntryCriteria} which gets converted to {@link Specification},
+ * in a way that all the filters must apply.
+ * It returns a {@link List} of {@link PrepaymentEntryDTO} or a {@link Page} of {@link PrepaymentEntryDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -36,8 +40,7 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
 
     private final PrepaymentEntrySearchRepository prepaymentEntrySearchRepository;
 
-    public PrepaymentEntryQueryService(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper,
-                                       PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
+    public PrepaymentEntryQueryService(PrepaymentEntryRepository prepaymentEntryRepository, PrepaymentEntryMapper prepaymentEntryMapper, PrepaymentEntrySearchRepository prepaymentEntrySearchRepository) {
         this.prepaymentEntryRepository = prepaymentEntryRepository;
         this.prepaymentEntryMapper = prepaymentEntryMapper;
         this.prepaymentEntrySearchRepository = prepaymentEntrySearchRepository;
@@ -45,7 +48,6 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
 
     /**
      * Return a {@link List} of {@link PrepaymentEntryDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -58,21 +60,20 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
 
     /**
      * Return a {@link Page} of {@link PrepaymentEntryDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page     The page, which should be returned.
+     * @param page The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
     public Page<PrepaymentEntryDTO> findByCriteria(PrepaymentEntryCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<PrepaymentEntry> specification = createSpecification(criteria);
-        return prepaymentEntryRepository.findAll(specification, page).map(prepaymentEntryMapper::toDto);
+        return prepaymentEntryRepository.findAll(specification, page)
+            .map(prepaymentEntryMapper::toDto);
     }
 
     /**
      * Return the number of matching entities in the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -125,9 +126,12 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
             if (criteria.getScannedDocumentId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getScannedDocumentId(), PrepaymentEntry_.scannedDocumentId));
             }
+            if (criteria.getOriginatingFileToken() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), PrepaymentEntry_.OriginatingFileToken));
+            }
             if (criteria.getAmortizationEntryId() != null) {
-                specification =
-                    specification.and(buildSpecification(criteria.getAmortizationEntryId(), root -> root.join(PrepaymentEntry_.amortizationEntries, JoinType.LEFT).get(AmortizationEntry_.id)));
+                specification = specification.and(buildSpecification(criteria.getAmortizationEntryId(),
+                    root -> root.join(PrepaymentEntry_.amortizationEntries, JoinType.LEFT).get(AmortizationEntry_.id)));
             }
         }
         return specification;

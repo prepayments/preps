@@ -39,7 +39,8 @@ describe('Service Tests', () => {
         0,
         'AAAAAAA',
         'AAAAAAA',
-        0
+        0,
+        'AAAAAAA'
       );
     });
 
@@ -97,7 +98,8 @@ describe('Service Tests', () => {
             months: 1,
             supplierName: 'BBBBBB',
             invoiceNumber: 'BBBBBB',
-            scannedDocumentId: 1
+            scannedDocumentId: 1,
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -130,7 +132,8 @@ describe('Service Tests', () => {
             months: 1,
             supplierName: 'BBBBBB',
             invoiceNumber: 'BBBBBB',
-            scannedDocumentId: 1
+            scannedDocumentId: 1,
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

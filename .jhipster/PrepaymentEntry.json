@@ -76,6 +76,10 @@
         {
             "fieldName": "scannedDocumentId",
             "fieldType": "Long"
+        },
+        {
+          "fieldName": "OriginatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190429150304",

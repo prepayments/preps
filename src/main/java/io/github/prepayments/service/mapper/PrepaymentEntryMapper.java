@@ -1,9 +1,9 @@
 package io.github.prepayments.service.mapper;
 
-import io.github.prepayments.domain.PrepaymentEntry;
+import io.github.prepayments.domain.*;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link PrepaymentEntry} and its DTO {@link PrepaymentEntryDTO}.
