@@ -1,6 +1,7 @@
 package io.github.prepayments.service;
 
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -42,4 +43,14 @@ public interface TransactionAccountDataEntryFileService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Search for the transactionAccountDataEntryFile corresponding to the query.
+     *
+     * @param query the query of the search.
+     * 
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<TransactionAccountDataEntryFileDTO> search(String query, Pageable pageable);
 }

@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ServiceOutletDataEntryFile(0, currentDate, currentDate, false, false, 'image/png', 'AAAAAAA');
+      elemDefault = new ServiceOutletDataEntryFile(0, currentDate, currentDate, false, false, 'image/png', 'AAAAAAA', 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -81,7 +81,9 @@ describe('Service Tests', () => {
             periodTo: currentDate.format(DATE_FORMAT),
             uploadSuccessful: true,
             uploadProcessed: true,
-            dataEntryFile: 'BBBBBB'
+            dataEntryFile: 'BBBBBB',
+            entriesCount: 1,
+            fileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -109,7 +111,9 @@ describe('Service Tests', () => {
             periodTo: currentDate.format(DATE_FORMAT),
             uploadSuccessful: true,
             uploadProcessed: true,
-            dataEntryFile: 'BBBBBB'
+            dataEntryFile: 'BBBBBB',
+            entriesCount: 1,
+            fileToken: 'BBBBBB'
           },
           elemDefault
         );

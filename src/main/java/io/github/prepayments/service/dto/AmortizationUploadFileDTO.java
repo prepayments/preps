@@ -1,10 +1,9 @@
 package io.github.prepayments.service.dto;
-
-import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.AmortizationUploadFile} entity.
@@ -19,7 +18,7 @@ public class AmortizationUploadFileDTO implements Serializable {
     @NotNull
     private LocalDate periodTo;
 
-
+    
     @Lob
     private byte[] dataEntryFile;
 
@@ -128,8 +127,15 @@ public class AmortizationUploadFileDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationUploadFileDTO{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" +
+        return "AmortizationUploadFileDTO{" +
+            "id=" + getId() +
+            ", periodFrom='" + getPeriodFrom() + "'" +
+            ", periodTo='" + getPeriodTo() + "'" +
+            ", dataEntryFile='" + getDataEntryFile() + "'" +
+            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", entriesCount=" + getEntriesCount() +
+            ", fileToken='" + getFileToken() + "'" +
             "}";
     }
 }

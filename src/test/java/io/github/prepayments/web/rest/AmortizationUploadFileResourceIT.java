@@ -1,7 +1,6 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.app.messaging.services.notifications.AmortizationUploadFileNotificationMessageService;
 import io.github.prepayments.domain.AmortizationUploadFile;
 import io.github.prepayments.repository.AmortizationUploadFileRepository;
 import io.github.prepayments.repository.search.AmortizationUploadFileSearchRepository;
@@ -9,11 +8,11 @@ import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
 import io.github.prepayments.service.mapper.AmortizationUploadFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.AmortizationUploadFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,6 +64,12 @@ public class AmortizationUploadFileResourceIT {
     private static final Boolean DEFAULT_UPLOAD_PROCESSED = false;
     private static final Boolean UPDATED_UPLOAD_PROCESSED = true;
 
+    private static final Integer DEFAULT_ENTRIES_COUNT = 1;
+    private static final Integer UPDATED_ENTRIES_COUNT = 2;
+
+    private static final String DEFAULT_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private AmortizationUploadFileRepository amortizationUploadFileRepository;
 
@@ -104,14 +109,10 @@ public class AmortizationUploadFileResourceIT {
 
     private AmortizationUploadFile amortizationUploadFile;
 
-    @Mock
-    private AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AmortizationUploadFileResource amortizationUploadFileResource = new AmortizationUploadFileResource(amortizationUploadFileService, amortizationUploadFileQueryService,
-                                                                                                                 amortizationUploadFileNotificationMessageService);
+        final AmortizationUploadFileResource amortizationUploadFileResource = new AmortizationUploadFileResource(amortizationUploadFileService, amortizationUploadFileQueryService);
         this.restAmortizationUploadFileMockMvc = MockMvcBuilders.standaloneSetup(amortizationUploadFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -133,7 +134,9 @@ public class AmortizationUploadFileResourceIT {
             .dataEntryFile(DEFAULT_DATA_ENTRY_FILE)
             .dataEntryFileContentType(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED);
+            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED)
+            .entriesCount(DEFAULT_ENTRIES_COUNT)
+            .fileToken(DEFAULT_FILE_TOKEN);
         return amortizationUploadFile;
     }
     /**
@@ -149,7 +152,9 @@ public class AmortizationUploadFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         return amortizationUploadFile;
     }
 
@@ -180,6 +185,8 @@ public class AmortizationUploadFileResourceIT {
         assertThat(testAmortizationUploadFile.getDataEntryFileContentType()).isEqualTo(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testAmortizationUploadFile.isUploadSuccessful()).isEqualTo(DEFAULT_UPLOAD_SUCCESSFUL);
         assertThat(testAmortizationUploadFile.isUploadProcessed()).isEqualTo(DEFAULT_UPLOAD_PROCESSED);
+        assertThat(testAmortizationUploadFile.getEntriesCount()).isEqualTo(DEFAULT_ENTRIES_COUNT);
+        assertThat(testAmortizationUploadFile.getFileToken()).isEqualTo(DEFAULT_FILE_TOKEN);
 
         // Validate the AmortizationUploadFile in Elasticsearch
         verify(mockAmortizationUploadFileSearchRepository, times(1)).save(testAmortizationUploadFile);
@@ -263,9 +270,11 @@ public class AmortizationUploadFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAmortizationUploadFile() throws Exception {
@@ -282,7 +291,9 @@ public class AmortizationUploadFileResourceIT {
             .andExpect(jsonPath("$.dataEntryFileContentType").value(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.dataEntryFile").value(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE)))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
-            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()));
+            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()))
+            .andExpect(jsonPath("$.entriesCount").value(DEFAULT_ENTRIES_COUNT))
+            .andExpect(jsonPath("$.fileToken").value(DEFAULT_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -494,6 +505,111 @@ public class AmortizationUploadFileResourceIT {
         // Get all the amortizationUploadFileList where uploadProcessed is null
         defaultAmortizationUploadFileShouldNotBeFound("uploadProcessed.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByEntriesCountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where entriesCount equals to DEFAULT_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldBeFound("entriesCount.equals=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the amortizationUploadFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldNotBeFound("entriesCount.equals=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByEntriesCountIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where entriesCount in DEFAULT_ENTRIES_COUNT or UPDATED_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldBeFound("entriesCount.in=" + DEFAULT_ENTRIES_COUNT + "," + UPDATED_ENTRIES_COUNT);
+
+        // Get all the amortizationUploadFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldNotBeFound("entriesCount.in=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByEntriesCountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where entriesCount is not null
+        defaultAmortizationUploadFileShouldBeFound("entriesCount.specified=true");
+
+        // Get all the amortizationUploadFileList where entriesCount is null
+        defaultAmortizationUploadFileShouldNotBeFound("entriesCount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByEntriesCountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where entriesCount greater than or equals to DEFAULT_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldBeFound("entriesCount.greaterOrEqualThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the amortizationUploadFileList where entriesCount greater than or equals to UPDATED_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldNotBeFound("entriesCount.greaterOrEqualThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByEntriesCountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where entriesCount less than or equals to DEFAULT_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldNotBeFound("entriesCount.lessThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the amortizationUploadFileList where entriesCount less than or equals to UPDATED_ENTRIES_COUNT
+        defaultAmortizationUploadFileShouldBeFound("entriesCount.lessThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where fileToken equals to DEFAULT_FILE_TOKEN
+        defaultAmortizationUploadFileShouldBeFound("fileToken.equals=" + DEFAULT_FILE_TOKEN);
+
+        // Get all the amortizationUploadFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultAmortizationUploadFileShouldNotBeFound("fileToken.equals=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where fileToken in DEFAULT_FILE_TOKEN or UPDATED_FILE_TOKEN
+        defaultAmortizationUploadFileShouldBeFound("fileToken.in=" + DEFAULT_FILE_TOKEN + "," + UPDATED_FILE_TOKEN);
+
+        // Get all the amortizationUploadFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultAmortizationUploadFileShouldNotBeFound("fileToken.in=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadFilesByFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadFileRepository.saveAndFlush(amortizationUploadFile);
+
+        // Get all the amortizationUploadFileList where fileToken is not null
+        defaultAmortizationUploadFileShouldBeFound("fileToken.specified=true");
+
+        // Get all the amortizationUploadFileList where fileToken is null
+        defaultAmortizationUploadFileShouldNotBeFound("fileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -507,7 +623,9 @@ public class AmortizationUploadFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restAmortizationUploadFileMockMvc.perform(get("/api/amortization-upload-files/count?sort=id,desc&" + filter))
@@ -560,7 +678,9 @@ public class AmortizationUploadFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         AmortizationUploadFileDTO amortizationUploadFileDTO = amortizationUploadFileMapper.toDto(updatedAmortizationUploadFile);
 
         restAmortizationUploadFileMockMvc.perform(put("/api/amortization-upload-files")
@@ -578,6 +698,8 @@ public class AmortizationUploadFileResourceIT {
         assertThat(testAmortizationUploadFile.getDataEntryFileContentType()).isEqualTo(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testAmortizationUploadFile.isUploadSuccessful()).isEqualTo(UPDATED_UPLOAD_SUCCESSFUL);
         assertThat(testAmortizationUploadFile.isUploadProcessed()).isEqualTo(UPDATED_UPLOAD_PROCESSED);
+        assertThat(testAmortizationUploadFile.getEntriesCount()).isEqualTo(UPDATED_ENTRIES_COUNT);
+        assertThat(testAmortizationUploadFile.getFileToken()).isEqualTo(UPDATED_FILE_TOKEN);
 
         // Validate the AmortizationUploadFile in Elasticsearch
         verify(mockAmortizationUploadFileSearchRepository, times(1)).save(testAmortizationUploadFile);
@@ -643,7 +765,9 @@ public class AmortizationUploadFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
     }
 
     @Test

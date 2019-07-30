@@ -8,6 +8,8 @@ export interface ISupplierDataEntryFile {
   dataEntryFile?: any;
   uploadSuccessful?: boolean;
   uploadProcessed?: boolean;
+  entriesCount?: number;
+  fileToken?: string;
 }
 
 export class SupplierDataEntryFile implements ISupplierDataEntryFile {
@@ -18,7 +20,9 @@ export class SupplierDataEntryFile implements ISupplierDataEntryFile {
     public dataEntryFileContentType?: string,
     public dataEntryFile?: any,
     public uploadSuccessful?: boolean,
-    public uploadProcessed?: boolean
+    public uploadProcessed?: boolean,
+    public entriesCount?: number,
+    public fileToken?: string
   ) {
     this.uploadSuccessful = this.uploadSuccessful || false;
     this.uploadProcessed = this.uploadProcessed || false;

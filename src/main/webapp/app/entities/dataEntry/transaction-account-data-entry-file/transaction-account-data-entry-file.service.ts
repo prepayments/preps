@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<ITransactionAccountDataEntryFile[]>;
 @Injectable({ providedIn: 'root' })
 export class TransactionAccountDataEntryFileService {
   public resourceUrl = SERVER_API_URL + 'api/transaction-account-data-entry-files';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/transaction-account-data-entry-files';
 
   constructor(protected http: HttpClient) {}
 
@@ -47,6 +48,13 @@ export class TransactionAccountDataEntryFileService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ITransactionAccountDataEntryFile[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   protected convertDateFromClient(transactionAccountDataEntryFile: ITransactionAccountDataEntryFile): ITransactionAccountDataEntryFile {

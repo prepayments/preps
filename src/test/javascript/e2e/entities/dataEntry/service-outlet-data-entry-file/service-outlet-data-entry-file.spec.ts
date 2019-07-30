@@ -50,7 +50,9 @@ describe('ServiceOutletDataEntryFile e2e test', () => {
     await promise.all([
       serviceOutletDataEntryFileUpdatePage.setPeriodFromInput('2000-12-31'),
       serviceOutletDataEntryFileUpdatePage.setPeriodToInput('2000-12-31'),
-      serviceOutletDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath)
+      serviceOutletDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath),
+      serviceOutletDataEntryFileUpdatePage.setEntriesCountInput('5'),
+      serviceOutletDataEntryFileUpdatePage.setFileTokenInput('fileToken')
     ]);
     expect(await serviceOutletDataEntryFileUpdatePage.getPeriodFromInput()).to.eq(
       '2000-12-31',
@@ -87,6 +89,11 @@ describe('ServiceOutletDataEntryFile e2e test', () => {
     expect(await serviceOutletDataEntryFileUpdatePage.getDataEntryFileInput()).to.endsWith(
       fileNameToUpload,
       'Expected DataEntryFile value to be end with ' + fileNameToUpload
+    );
+    expect(await serviceOutletDataEntryFileUpdatePage.getEntriesCountInput()).to.eq('5', 'Expected entriesCount value to be equals to 5');
+    expect(await serviceOutletDataEntryFileUpdatePage.getFileTokenInput()).to.eq(
+      'fileToken',
+      'Expected FileToken value to be equals to fileToken'
     );
     await serviceOutletDataEntryFileUpdatePage.save();
     expect(await serviceOutletDataEntryFileUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

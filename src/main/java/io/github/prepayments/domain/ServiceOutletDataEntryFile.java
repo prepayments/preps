@@ -4,17 +4,13 @@ package io.github.prepayments.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A ServiceOutletDataEntryFile.
@@ -22,6 +18,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "service_outlet_data_entry_file")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "serviceoutletdataentryfile")
 public class ServiceOutletDataEntryFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +26,7 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @org.springframework.data.elasticsearch.annotations.Field(type = FieldType.Keyword)
     private Long id;
 
     @NotNull
@@ -45,7 +43,7 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Column(name = "upload_processed")
     private Boolean uploadProcessed;
 
-
+    
     @Lob
     @Column(name = "data_entry_file", nullable = false)
     private byte[] dataEntryFile;
@@ -150,26 +148,26 @@ public class ServiceOutletDataEntryFile implements Serializable {
         return entriesCount;
     }
 
-    public void setEntriesCount(Integer entriesCount) {
-        this.entriesCount = entriesCount;
-    }
-
     public ServiceOutletDataEntryFile entriesCount(Integer entriesCount) {
         this.entriesCount = entriesCount;
         return this;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
     }
 
     public String getFileToken() {
         return fileToken;
     }
 
-    public void setFileToken(String fileToken) {
-        this.fileToken = fileToken;
-    }
-
     public ServiceOutletDataEntryFile fileToken(String fileToken) {
         this.fileToken = fileToken;
         return this;
+    }
+
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -191,8 +189,16 @@ public class ServiceOutletDataEntryFile implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutletDataEntryFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
-            ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" + "}";
+        return "ServiceOutletDataEntryFile{" +
+            "id=" + getId() +
+            ", periodFrom='" + getPeriodFrom() + "'" +
+            ", periodTo='" + getPeriodTo() + "'" +
+            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", dataEntryFile='" + getDataEntryFile() + "'" +
+            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
+            ", entriesCount=" + getEntriesCount() +
+            ", fileToken='" + getFileToken() + "'" +
+            "}";
     }
 }

@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IServiceOutletDataEntryFile[]>;
 @Injectable({ providedIn: 'root' })
 export class ServiceOutletDataEntryFileService {
   public resourceUrl = SERVER_API_URL + 'api/service-outlet-data-entry-files';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/service-outlet-data-entry-files';
 
   constructor(protected http: HttpClient) {}
 
@@ -47,6 +48,13 @@ export class ServiceOutletDataEntryFileService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IServiceOutletDataEntryFile[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   protected convertDateFromClient(serviceOutletDataEntryFile: IServiceOutletDataEntryFile): IServiceOutletDataEntryFile {

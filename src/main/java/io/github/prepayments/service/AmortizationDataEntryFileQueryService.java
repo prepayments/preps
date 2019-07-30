@@ -1,12 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.AmortizationDataEntryFile;
-import io.github.prepayments.domain.AmortizationDataEntryFile_;
-import io.github.prepayments.repository.AmortizationDataEntryFileRepository;
-import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
-import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
-import io.github.prepayments.service.mapper.AmortizationDataEntryFileMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.AmortizationDataEntryFile;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.AmortizationDataEntryFileRepository;
+import io.github.prepayments.repository.search.AmortizationDataEntryFileSearchRepository;
+import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
+import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
+import io.github.prepayments.service.mapper.AmortizationDataEntryFileMapper;
 
 /**
  * Service for executing complex queries for {@link AmortizationDataEntryFile} entities in the database.
@@ -33,9 +38,12 @@ public class AmortizationDataEntryFileQueryService extends QueryService<Amortiza
 
     private final AmortizationDataEntryFileMapper amortizationDataEntryFileMapper;
 
-    public AmortizationDataEntryFileQueryService(AmortizationDataEntryFileRepository amortizationDataEntryFileRepository, AmortizationDataEntryFileMapper amortizationDataEntryFileMapper) {
+    private final AmortizationDataEntryFileSearchRepository amortizationDataEntryFileSearchRepository;
+
+    public AmortizationDataEntryFileQueryService(AmortizationDataEntryFileRepository amortizationDataEntryFileRepository, AmortizationDataEntryFileMapper amortizationDataEntryFileMapper, AmortizationDataEntryFileSearchRepository amortizationDataEntryFileSearchRepository) {
         this.amortizationDataEntryFileRepository = amortizationDataEntryFileRepository;
         this.amortizationDataEntryFileMapper = amortizationDataEntryFileMapper;
+        this.amortizationDataEntryFileSearchRepository = amortizationDataEntryFileSearchRepository;
     }
 
     /**
@@ -60,7 +68,8 @@ public class AmortizationDataEntryFileQueryService extends QueryService<Amortiza
     public Page<AmortizationDataEntryFileDTO> findByCriteria(AmortizationDataEntryFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<AmortizationDataEntryFile> specification = createSpecification(criteria);
-        return amortizationDataEntryFileRepository.findAll(specification, page).map(amortizationDataEntryFileMapper::toDto);
+        return amortizationDataEntryFileRepository.findAll(specification, page)
+            .map(amortizationDataEntryFileMapper::toDto);
     }
 
     /**

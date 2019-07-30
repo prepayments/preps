@@ -1,12 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.ServiceOutletDataEntryFile;
-import io.github.prepayments.domain.ServiceOutletDataEntryFile_;
-import io.github.prepayments.repository.ServiceOutletDataEntryFileRepository;
-import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
-import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
-import io.github.prepayments.service.mapper.ServiceOutletDataEntryFileMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.ServiceOutletDataEntryFile;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.ServiceOutletDataEntryFileRepository;
+import io.github.prepayments.repository.search.ServiceOutletDataEntryFileSearchRepository;
+import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
+import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
+import io.github.prepayments.service.mapper.ServiceOutletDataEntryFileMapper;
 
 /**
  * Service for executing complex queries for {@link ServiceOutletDataEntryFile} entities in the database.
@@ -33,9 +38,12 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
 
     private final ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper;
 
-    public ServiceOutletDataEntryFileQueryService(ServiceOutletDataEntryFileRepository serviceOutletDataEntryFileRepository, ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper) {
+    private final ServiceOutletDataEntryFileSearchRepository serviceOutletDataEntryFileSearchRepository;
+
+    public ServiceOutletDataEntryFileQueryService(ServiceOutletDataEntryFileRepository serviceOutletDataEntryFileRepository, ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper, ServiceOutletDataEntryFileSearchRepository serviceOutletDataEntryFileSearchRepository) {
         this.serviceOutletDataEntryFileRepository = serviceOutletDataEntryFileRepository;
         this.serviceOutletDataEntryFileMapper = serviceOutletDataEntryFileMapper;
+        this.serviceOutletDataEntryFileSearchRepository = serviceOutletDataEntryFileSearchRepository;
     }
 
     /**
@@ -60,7 +68,8 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
     public Page<ServiceOutletDataEntryFileDTO> findByCriteria(ServiceOutletDataEntryFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<ServiceOutletDataEntryFile> specification = createSpecification(criteria);
-        return serviceOutletDataEntryFileRepository.findAll(specification, page).map(serviceOutletDataEntryFileMapper::toDto);
+        return serviceOutletDataEntryFileRepository.findAll(specification, page)
+            .map(serviceOutletDataEntryFileMapper::toDto);
     }
 
     /**

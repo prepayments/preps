@@ -1,21 +1,23 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
 import io.github.prepayments.domain.TransactionAccountDataEntryFile;
 import io.github.prepayments.repository.TransactionAccountDataEntryFileRepository;
+import io.github.prepayments.repository.search.TransactionAccountDataEntryFileSearchRepository;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
 import io.github.prepayments.service.mapper.TransactionAccountDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
 import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +30,14 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +64,12 @@ public class TransactionAccountDataEntryFileResourceIT {
     private static final Boolean DEFAULT_UPLOAD_PROCESSED = false;
     private static final Boolean UPDATED_UPLOAD_PROCESSED = true;
 
+    private static final Integer DEFAULT_ENTRIES_COUNT = 1;
+    private static final Integer UPDATED_ENTRIES_COUNT = 2;
+
+    private static final String DEFAULT_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private TransactionAccountDataEntryFileRepository transactionAccountDataEntryFileRepository;
 
@@ -67,6 +78,14 @@ public class TransactionAccountDataEntryFileResourceIT {
 
     @Autowired
     private TransactionAccountDataEntryFileService transactionAccountDataEntryFileService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.TransactionAccountDataEntryFileSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private TransactionAccountDataEntryFileSearchRepository mockTransactionAccountDataEntryFileSearchRepository;
 
     @Autowired
     private TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService;
@@ -90,13 +109,10 @@ public class TransactionAccountDataEntryFileResourceIT {
 
     private TransactionAccountDataEntryFile transactionAccountDataEntryFile;
 
-    @Mock private TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResource = new TransactionAccountDataEntryFileResource(transactionAccountDataEntryFileService, transactionAccountDataEntryFileQueryService,
-                                                                                                                                            transactionAccountDataFileMessageService);
+        final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResource = new TransactionAccountDataEntryFileResource(transactionAccountDataEntryFileService, transactionAccountDataEntryFileQueryService);
         this.restTransactionAccountDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(transactionAccountDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -118,7 +134,9 @@ public class TransactionAccountDataEntryFileResourceIT {
             .dataEntryFile(DEFAULT_DATA_ENTRY_FILE)
             .dataEntryFileContentType(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED);
+            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED)
+            .entriesCount(DEFAULT_ENTRIES_COUNT)
+            .fileToken(DEFAULT_FILE_TOKEN);
         return transactionAccountDataEntryFile;
     }
     /**
@@ -134,7 +152,9 @@ public class TransactionAccountDataEntryFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         return transactionAccountDataEntryFile;
     }
 
@@ -165,6 +185,11 @@ public class TransactionAccountDataEntryFileResourceIT {
         assertThat(testTransactionAccountDataEntryFile.getDataEntryFileContentType()).isEqualTo(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testTransactionAccountDataEntryFile.isUploadSuccessful()).isEqualTo(DEFAULT_UPLOAD_SUCCESSFUL);
         assertThat(testTransactionAccountDataEntryFile.isUploadProcessed()).isEqualTo(DEFAULT_UPLOAD_PROCESSED);
+        assertThat(testTransactionAccountDataEntryFile.getEntriesCount()).isEqualTo(DEFAULT_ENTRIES_COUNT);
+        assertThat(testTransactionAccountDataEntryFile.getFileToken()).isEqualTo(DEFAULT_FILE_TOKEN);
+
+        // Validate the TransactionAccountDataEntryFile in Elasticsearch
+        verify(mockTransactionAccountDataEntryFileSearchRepository, times(1)).save(testTransactionAccountDataEntryFile);
     }
 
     @Test
@@ -185,6 +210,9 @@ public class TransactionAccountDataEntryFileResourceIT {
         // Validate the TransactionAccountDataEntryFile in the database
         List<TransactionAccountDataEntryFile> transactionAccountDataEntryFileList = transactionAccountDataEntryFileRepository.findAll();
         assertThat(transactionAccountDataEntryFileList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the TransactionAccountDataEntryFile in Elasticsearch
+        verify(mockTransactionAccountDataEntryFileSearchRepository, times(0)).save(transactionAccountDataEntryFile);
     }
 
 
@@ -242,9 +270,11 @@ public class TransactionAccountDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getTransactionAccountDataEntryFile() throws Exception {
@@ -261,7 +291,9 @@ public class TransactionAccountDataEntryFileResourceIT {
             .andExpect(jsonPath("$.dataEntryFileContentType").value(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.dataEntryFile").value(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE)))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
-            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()));
+            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()))
+            .andExpect(jsonPath("$.entriesCount").value(DEFAULT_ENTRIES_COUNT))
+            .andExpect(jsonPath("$.fileToken").value(DEFAULT_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -473,6 +505,111 @@ public class TransactionAccountDataEntryFileResourceIT {
         // Get all the transactionAccountDataEntryFileList where uploadProcessed is null
         defaultTransactionAccountDataEntryFileShouldNotBeFound("uploadProcessed.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByEntriesCountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount equals to DEFAULT_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldBeFound("entriesCount.equals=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("entriesCount.equals=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByEntriesCountIsInShouldWork() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount in DEFAULT_ENTRIES_COUNT or UPDATED_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldBeFound("entriesCount.in=" + DEFAULT_ENTRIES_COUNT + "," + UPDATED_ENTRIES_COUNT);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("entriesCount.in=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByEntriesCountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount is not null
+        defaultTransactionAccountDataEntryFileShouldBeFound("entriesCount.specified=true");
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount is null
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("entriesCount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByEntriesCountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount greater than or equals to DEFAULT_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldBeFound("entriesCount.greaterOrEqualThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount greater than or equals to UPDATED_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("entriesCount.greaterOrEqualThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByEntriesCountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount less than or equals to DEFAULT_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("entriesCount.lessThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the transactionAccountDataEntryFileList where entriesCount less than or equals to UPDATED_ENTRIES_COUNT
+        defaultTransactionAccountDataEntryFileShouldBeFound("entriesCount.lessThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where fileToken equals to DEFAULT_FILE_TOKEN
+        defaultTransactionAccountDataEntryFileShouldBeFound("fileToken.equals=" + DEFAULT_FILE_TOKEN);
+
+        // Get all the transactionAccountDataEntryFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("fileToken.equals=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where fileToken in DEFAULT_FILE_TOKEN or UPDATED_FILE_TOKEN
+        defaultTransactionAccountDataEntryFileShouldBeFound("fileToken.in=" + DEFAULT_FILE_TOKEN + "," + UPDATED_FILE_TOKEN);
+
+        // Get all the transactionAccountDataEntryFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("fileToken.in=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTransactionAccountDataEntryFilesByFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+
+        // Get all the transactionAccountDataEntryFileList where fileToken is not null
+        defaultTransactionAccountDataEntryFileShouldBeFound("fileToken.specified=true");
+
+        // Get all the transactionAccountDataEntryFileList where fileToken is null
+        defaultTransactionAccountDataEntryFileShouldNotBeFound("fileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -486,7 +623,9 @@ public class TransactionAccountDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restTransactionAccountDataEntryFileMockMvc.perform(get("/api/transaction-account-data-entry-files/count?sort=id,desc&" + filter))
@@ -539,7 +678,9 @@ public class TransactionAccountDataEntryFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         TransactionAccountDataEntryFileDTO transactionAccountDataEntryFileDTO = transactionAccountDataEntryFileMapper.toDto(updatedTransactionAccountDataEntryFile);
 
         restTransactionAccountDataEntryFileMockMvc.perform(put("/api/transaction-account-data-entry-files")
@@ -557,6 +698,11 @@ public class TransactionAccountDataEntryFileResourceIT {
         assertThat(testTransactionAccountDataEntryFile.getDataEntryFileContentType()).isEqualTo(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testTransactionAccountDataEntryFile.isUploadSuccessful()).isEqualTo(UPDATED_UPLOAD_SUCCESSFUL);
         assertThat(testTransactionAccountDataEntryFile.isUploadProcessed()).isEqualTo(UPDATED_UPLOAD_PROCESSED);
+        assertThat(testTransactionAccountDataEntryFile.getEntriesCount()).isEqualTo(UPDATED_ENTRIES_COUNT);
+        assertThat(testTransactionAccountDataEntryFile.getFileToken()).isEqualTo(UPDATED_FILE_TOKEN);
+
+        // Validate the TransactionAccountDataEntryFile in Elasticsearch
+        verify(mockTransactionAccountDataEntryFileSearchRepository, times(1)).save(testTransactionAccountDataEntryFile);
     }
 
     @Test
@@ -576,6 +722,9 @@ public class TransactionAccountDataEntryFileResourceIT {
         // Validate the TransactionAccountDataEntryFile in the database
         List<TransactionAccountDataEntryFile> transactionAccountDataEntryFileList = transactionAccountDataEntryFileRepository.findAll();
         assertThat(transactionAccountDataEntryFileList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the TransactionAccountDataEntryFile in Elasticsearch
+        verify(mockTransactionAccountDataEntryFileSearchRepository, times(0)).save(transactionAccountDataEntryFile);
     }
 
     @Test
@@ -594,6 +743,31 @@ public class TransactionAccountDataEntryFileResourceIT {
         // Validate the database is empty
         List<TransactionAccountDataEntryFile> transactionAccountDataEntryFileList = transactionAccountDataEntryFileRepository.findAll();
         assertThat(transactionAccountDataEntryFileList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the TransactionAccountDataEntryFile in Elasticsearch
+        verify(mockTransactionAccountDataEntryFileSearchRepository, times(1)).deleteById(transactionAccountDataEntryFile.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchTransactionAccountDataEntryFile() throws Exception {
+        // Initialize the database
+        transactionAccountDataEntryFileRepository.saveAndFlush(transactionAccountDataEntryFile);
+        when(mockTransactionAccountDataEntryFileSearchRepository.search(queryStringQuery("id:" + transactionAccountDataEntryFile.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(transactionAccountDataEntryFile), PageRequest.of(0, 1), 1));
+        // Search the transactionAccountDataEntryFile
+        restTransactionAccountDataEntryFileMockMvc.perform(get("/api/_search/transaction-account-data-entry-files?query=id:" + transactionAccountDataEntryFile.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(transactionAccountDataEntryFile.getId().intValue())))
+            .andExpect(jsonPath("$.[*].periodFrom").value(hasItem(DEFAULT_PERIOD_FROM.toString())))
+            .andExpect(jsonPath("$.[*].periodTo").value(hasItem(DEFAULT_PERIOD_TO.toString())))
+            .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
+            .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
     }
 
     @Test

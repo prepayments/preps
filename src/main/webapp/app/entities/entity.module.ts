@@ -153,6 +153,58 @@ import { RouterModule } from '@angular/router';
       {
         path: 'transaction-account',
         loadChildren: './prepayments/transaction-account/transaction-account.module#PrepsTransactionAccountModule'
+      },
+      {
+        path: 'amortization-data-entry-file',
+        loadChildren: './dataEntry/amortization-data-entry-file/amortization-data-entry-file.module#PrepsAmortizationDataEntryFileModule'
+      },
+      {
+        path: 'amortization-upload-file',
+        loadChildren: './dataEntry/amortization-upload-file/amortization-upload-file.module#PrepsAmortizationUploadFileModule'
+      },
+      {
+        path: 'prepayment-data-entry-file',
+        loadChildren: './dataEntry/prepayment-data-entry-file/prepayment-data-entry-file.module#PrepsPrepaymentDataEntryFileModule'
+      },
+      {
+        path: 'service-outlet-data-entry-file',
+        loadChildren:
+          './dataEntry/service-outlet-data-entry-file/service-outlet-data-entry-file.module#PrepsServiceOutletDataEntryFileModule'
+      },
+      {
+        path: 'supplier-data-entry-file',
+        loadChildren: './dataEntry/supplier-data-entry-file/supplier-data-entry-file.module#PrepsSupplierDataEntryFileModule'
+      },
+      {
+        path: 'transaction-account-data-entry-file',
+        loadChildren:
+          './dataEntry/transaction-account-data-entry-file/transaction-account-data-entry-file.module#PrepsTransactionAccountDataEntryFileModule'
+      },
+      {
+        path: 'amortization-data-entry-file',
+        loadChildren: './dataEntry/amortization-data-entry-file/amortization-data-entry-file.module#PrepsAmortizationDataEntryFileModule'
+      },
+      {
+        path: 'amortization-upload-file',
+        loadChildren: './dataEntry/amortization-upload-file/amortization-upload-file.module#PrepsAmortizationUploadFileModule'
+      },
+      {
+        path: 'prepayment-data-entry-file',
+        loadChildren: './dataEntry/prepayment-data-entry-file/prepayment-data-entry-file.module#PrepsPrepaymentDataEntryFileModule'
+      },
+      {
+        path: 'service-outlet-data-entry-file',
+        loadChildren:
+          './dataEntry/service-outlet-data-entry-file/service-outlet-data-entry-file.module#PrepsServiceOutletDataEntryFileModule'
+      },
+      {
+        path: 'supplier-data-entry-file',
+        loadChildren: './dataEntry/supplier-data-entry-file/supplier-data-entry-file.module#PrepsSupplierDataEntryFileModule'
+      },
+      {
+        path: 'transaction-account-data-entry-file',
+        loadChildren:
+          './dataEntry/transaction-account-data-entry-file/transaction-account-data-entry-file.module#PrepsTransactionAccountDataEntryFileModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

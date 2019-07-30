@@ -32,11 +32,19 @@
         {
             "fieldName": "uploadProcessed",
             "fieldType": "Boolean"
+        },
+        {
+          "fieldName": "entriesCount",
+          "fieldType": "Integer"
+        },
+        {
+          "fieldName": "fileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190507123913",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "transaction_account_data_entry_file",
     "databaseType": "sql",

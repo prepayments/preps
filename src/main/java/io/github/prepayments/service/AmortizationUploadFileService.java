@@ -1,6 +1,7 @@
 package io.github.prepayments.service;
 
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -47,7 +48,7 @@ public interface AmortizationUploadFileService {
      * Search for the amortizationUploadFile corresponding to the query.
      *
      * @param query the query of the search.
-     *
+     * 
      * @param pageable the pagination information.
      * @return the list of entities.
      */

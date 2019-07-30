@@ -159,4 +159,21 @@ public class AmortizationDataEntryFileResource {
         amortizationDataEntryFileService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/amortization-data-entry-files?query=:query} : search for the amortizationDataEntryFile corresponding to the query.
+     *
+     * @param query    the query of the amortizationDataEntryFile search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/amortization-data-entry-files")
+    public ResponseEntity<List<AmortizationDataEntryFileDTO>> searchAmortizationDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+                                                                                               UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of AmortizationDataEntryFiles for query {}", query);
+        Page<AmortizationDataEntryFileDTO> page = amortizationDataEntryFileService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

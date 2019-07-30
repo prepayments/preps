@@ -31,6 +31,8 @@ export class AmortizationUploadFileUpdatePage {
   dataEntryFileInput = element(by.id('file_dataEntryFile'));
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadProcessedInput = element(by.id('field_uploadProcessed'));
+  entriesCountInput = element(by.id('field_entriesCount'));
+  fileTokenInput = element(by.id('field_fileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -66,6 +68,22 @@ export class AmortizationUploadFileUpdatePage {
   getUploadProcessedInput(timeout?: number) {
     return this.uploadProcessedInput;
   }
+  async setEntriesCountInput(entriesCount) {
+    await this.entriesCountInput.sendKeys(entriesCount);
+  }
+
+  async getEntriesCountInput() {
+    return await this.entriesCountInput.getAttribute('value');
+  }
+
+  async setFileTokenInput(fileToken) {
+    await this.fileTokenInput.sendKeys(fileToken);
+  }
+
+  async getFileTokenInput() {
+    return await this.fileTokenInput.getAttribute('value');
+  }
+
   async save(timeout?: number) {
     await this.saveButton.click();
   }

@@ -1,18 +1,22 @@
 package io.github.prepayments.service.impl;
 
+import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.domain.ServiceOutletDataEntryFile;
 import io.github.prepayments.repository.ServiceOutletDataEntryFileRepository;
-import io.github.prepayments.service.ServiceOutletDataEntryFileService;
+import io.github.prepayments.repository.search.ServiceOutletDataEntryFileSearchRepository;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
 import io.github.prepayments.service.mapper.ServiceOutletDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link ServiceOutletDataEntryFile}.
@@ -27,9 +31,12 @@ public class ServiceOutletDataEntryFileServiceImpl implements ServiceOutletDataE
 
     private final ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper;
 
-    public ServiceOutletDataEntryFileServiceImpl(ServiceOutletDataEntryFileRepository serviceOutletDataEntryFileRepository, ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper) {
+    private final ServiceOutletDataEntryFileSearchRepository serviceOutletDataEntryFileSearchRepository;
+
+    public ServiceOutletDataEntryFileServiceImpl(ServiceOutletDataEntryFileRepository serviceOutletDataEntryFileRepository, ServiceOutletDataEntryFileMapper serviceOutletDataEntryFileMapper, ServiceOutletDataEntryFileSearchRepository serviceOutletDataEntryFileSearchRepository) {
         this.serviceOutletDataEntryFileRepository = serviceOutletDataEntryFileRepository;
         this.serviceOutletDataEntryFileMapper = serviceOutletDataEntryFileMapper;
+        this.serviceOutletDataEntryFileSearchRepository = serviceOutletDataEntryFileSearchRepository;
     }
 
     /**
@@ -43,7 +50,9 @@ public class ServiceOutletDataEntryFileServiceImpl implements ServiceOutletDataE
         log.debug("Request to save ServiceOutletDataEntryFile : {}", serviceOutletDataEntryFileDTO);
         ServiceOutletDataEntryFile serviceOutletDataEntryFile = serviceOutletDataEntryFileMapper.toEntity(serviceOutletDataEntryFileDTO);
         serviceOutletDataEntryFile = serviceOutletDataEntryFileRepository.save(serviceOutletDataEntryFile);
-        return serviceOutletDataEntryFileMapper.toDto(serviceOutletDataEntryFile);
+        ServiceOutletDataEntryFileDTO result = serviceOutletDataEntryFileMapper.toDto(serviceOutletDataEntryFile);
+        serviceOutletDataEntryFileSearchRepository.save(serviceOutletDataEntryFile);
+        return result;
     }
 
     /**
@@ -56,7 +65,8 @@ public class ServiceOutletDataEntryFileServiceImpl implements ServiceOutletDataE
     @Transactional(readOnly = true)
     public Page<ServiceOutletDataEntryFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ServiceOutletDataEntryFiles");
-        return serviceOutletDataEntryFileRepository.findAll(pageable).map(serviceOutletDataEntryFileMapper::toDto);
+        return serviceOutletDataEntryFileRepository.findAll(pageable)
+            .map(serviceOutletDataEntryFileMapper::toDto);
     }
 
 
@@ -70,7 +80,8 @@ public class ServiceOutletDataEntryFileServiceImpl implements ServiceOutletDataE
     @Transactional(readOnly = true)
     public Optional<ServiceOutletDataEntryFileDTO> findOne(Long id) {
         log.debug("Request to get ServiceOutletDataEntryFile : {}", id);
-        return serviceOutletDataEntryFileRepository.findById(id).map(serviceOutletDataEntryFileMapper::toDto);
+        return serviceOutletDataEntryFileRepository.findById(id)
+            .map(serviceOutletDataEntryFileMapper::toDto);
     }
 
     /**
@@ -82,5 +93,21 @@ public class ServiceOutletDataEntryFileServiceImpl implements ServiceOutletDataE
     public void delete(Long id) {
         log.debug("Request to delete ServiceOutletDataEntryFile : {}", id);
         serviceOutletDataEntryFileRepository.deleteById(id);
+        serviceOutletDataEntryFileSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the serviceOutletDataEntryFile corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ServiceOutletDataEntryFileDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of ServiceOutletDataEntryFiles for query {}", query);
+        return serviceOutletDataEntryFileSearchRepository.search(queryStringQuery(query), pageable)
+            .map(serviceOutletDataEntryFileMapper::toDto);
     }
 }

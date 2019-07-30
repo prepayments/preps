@@ -1,10 +1,9 @@
 package io.github.prepayments.service.dto;
-
-import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.ServiceOutletDataEntryFile} entity.
@@ -23,7 +22,7 @@ public class ServiceOutletDataEntryFileDTO implements Serializable {
 
     private Boolean uploadProcessed;
 
-
+    
     @Lob
     private byte[] dataEntryFile;
 
@@ -128,8 +127,15 @@ public class ServiceOutletDataEntryFileDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutletDataEntryFileDTO{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", uploadSuccessful='" + isUploadSuccessful() +
-            "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" +
+        return "ServiceOutletDataEntryFileDTO{" +
+            "id=" + getId() +
+            ", periodFrom='" + getPeriodFrom() + "'" +
+            ", periodTo='" + getPeriodTo() + "'" +
+            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", dataEntryFile='" + getDataEntryFile() + "'" +
+            ", entriesCount=" + getEntriesCount() +
+            ", fileToken='" + getFileToken() + "'" +
             "}";
     }
 }

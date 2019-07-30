@@ -38,6 +38,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="entries_count" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="file_token" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
@@ -64,6 +72,8 @@
             <column name="data_entry_file_content_type" type="string"/>
             <column name="upload_successful" type="boolean"/>
             <column name="upload_processed" type="boolean"/>
+            <column name="entries_count" type="numeric"/>
+            <column name="file_token" type="string"/>
         </loadData>
     </changeSet>
 

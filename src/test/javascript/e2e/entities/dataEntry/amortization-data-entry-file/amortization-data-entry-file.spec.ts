@@ -50,7 +50,9 @@ describe('AmortizationDataEntryFile e2e test', () => {
     await promise.all([
       amortizationDataEntryFileUpdatePage.setPeriodFromInput('2000-12-31'),
       amortizationDataEntryFileUpdatePage.setPeriodToInput('2000-12-31'),
-      amortizationDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath)
+      amortizationDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath),
+      amortizationDataEntryFileUpdatePage.setEntriesCountInput('5'),
+      amortizationDataEntryFileUpdatePage.setFileTokenInput('fileToken')
     ]);
     expect(await amortizationDataEntryFileUpdatePage.getPeriodFromInput()).to.eq(
       '2000-12-31',
@@ -88,6 +90,11 @@ describe('AmortizationDataEntryFile e2e test', () => {
       expect(await amortizationDataEntryFileUpdatePage.getUploadProcessedInput().isSelected(), 'Expected uploadProcessed to be selected').to
         .be.true;
     }
+    expect(await amortizationDataEntryFileUpdatePage.getEntriesCountInput()).to.eq('5', 'Expected entriesCount value to be equals to 5');
+    expect(await amortizationDataEntryFileUpdatePage.getFileTokenInput()).to.eq(
+      'fileToken',
+      'Expected FileToken value to be equals to fileToken'
+    );
     await amortizationDataEntryFileUpdatePage.save();
     expect(await amortizationDataEntryFileUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

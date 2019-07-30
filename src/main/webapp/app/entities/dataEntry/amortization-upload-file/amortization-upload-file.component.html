@@ -35,6 +35,8 @@
             <th jhiSortBy="dataEntryFile"><span>Data Entry File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadSuccessful"><span>Upload Successful</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadProcessed"><span>Upload Processed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="entriesCount"><span>Entries Count</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fileToken"><span>File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -49,6 +51,8 @@
                 </td>
                 <td>{{amortizationUploadFile.uploadSuccessful}}</td>
                 <td>{{amortizationUploadFile.uploadProcessed}}</td>
+                <td>{{amortizationUploadFile.entriesCount}}</td>
+                <td>{{amortizationUploadFile.fileToken}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

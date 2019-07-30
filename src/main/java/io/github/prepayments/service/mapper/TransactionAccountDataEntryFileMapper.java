@@ -1,14 +1,16 @@
 package io.github.prepayments.service.mapper;
 
-import io.github.prepayments.domain.TransactionAccountDataEntryFile;
+import io.github.prepayments.domain.*;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
-import org.mapstruct.Mapper;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link TransactionAccountDataEntryFile} and its DTO {@link TransactionAccountDataEntryFileDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface TransactionAccountDataEntryFileMapper extends EntityMapper<TransactionAccountDataEntryFileDTO, TransactionAccountDataEntryFile> {
+
 
 
     default TransactionAccountDataEntryFile fromId(Long id) {

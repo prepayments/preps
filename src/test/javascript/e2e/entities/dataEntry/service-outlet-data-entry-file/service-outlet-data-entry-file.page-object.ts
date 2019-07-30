@@ -31,6 +31,8 @@ export class ServiceOutletDataEntryFileUpdatePage {
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadProcessedInput = element(by.id('field_uploadProcessed'));
   dataEntryFileInput = element(by.id('file_dataEntryFile'));
+  entriesCountInput = element(by.id('field_entriesCount'));
+  fileTokenInput = element(by.id('field_fileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -64,6 +66,22 @@ export class ServiceOutletDataEntryFileUpdatePage {
 
   async getDataEntryFileInput() {
     return await this.dataEntryFileInput.getAttribute('value');
+  }
+
+  async setEntriesCountInput(entriesCount) {
+    await this.entriesCountInput.sendKeys(entriesCount);
+  }
+
+  async getEntriesCountInput() {
+    return await this.entriesCountInput.getAttribute('value');
+  }
+
+  async setFileTokenInput(fileToken) {
+    await this.fileTokenInput.sendKeys(fileToken);
+  }
+
+  async getFileTokenInput() {
+    return await this.fileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

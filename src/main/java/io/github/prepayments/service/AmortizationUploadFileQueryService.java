@@ -1,13 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.AmortizationUploadFile;
-import io.github.prepayments.domain.AmortizationUploadFile_;
-import io.github.prepayments.repository.AmortizationUploadFileRepository;
-import io.github.prepayments.repository.search.AmortizationUploadFileSearchRepository;
-import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
-import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
-import io.github.prepayments.service.mapper.AmortizationUploadFileMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,7 +12,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.AmortizationUploadFile;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.AmortizationUploadFileRepository;
+import io.github.prepayments.repository.search.AmortizationUploadFileSearchRepository;
+import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
+import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
+import io.github.prepayments.service.mapper.AmortizationUploadFileMapper;
 
 /**
  * Service for executing complex queries for {@link AmortizationUploadFile} entities in the database.
@@ -36,8 +40,7 @@ public class AmortizationUploadFileQueryService extends QueryService<Amortizatio
 
     private final AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository;
 
-    public AmortizationUploadFileQueryService(AmortizationUploadFileRepository amortizationUploadFileRepository, AmortizationUploadFileMapper amortizationUploadFileMapper,
-                                              AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository) {
+    public AmortizationUploadFileQueryService(AmortizationUploadFileRepository amortizationUploadFileRepository, AmortizationUploadFileMapper amortizationUploadFileMapper, AmortizationUploadFileSearchRepository amortizationUploadFileSearchRepository) {
         this.amortizationUploadFileRepository = amortizationUploadFileRepository;
         this.amortizationUploadFileMapper = amortizationUploadFileMapper;
         this.amortizationUploadFileSearchRepository = amortizationUploadFileSearchRepository;
@@ -65,7 +68,8 @@ public class AmortizationUploadFileQueryService extends QueryService<Amortizatio
     public Page<AmortizationUploadFileDTO> findByCriteria(AmortizationUploadFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<AmortizationUploadFile> specification = createSpecification(criteria);
-        return amortizationUploadFileRepository.findAll(specification, page).map(amortizationUploadFileMapper::toDto);
+        return amortizationUploadFileRepository.findAll(specification, page)
+            .map(amortizationUploadFileMapper::toDto);
     }
 
     /**

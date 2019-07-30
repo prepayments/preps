@@ -50,7 +50,9 @@ describe('TransactionAccountDataEntryFile e2e test', () => {
     await promise.all([
       transactionAccountDataEntryFileUpdatePage.setPeriodFromInput('2000-12-31'),
       transactionAccountDataEntryFileUpdatePage.setPeriodToInput('2000-12-31'),
-      transactionAccountDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath)
+      transactionAccountDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath),
+      transactionAccountDataEntryFileUpdatePage.setEntriesCountInput('5'),
+      transactionAccountDataEntryFileUpdatePage.setFileTokenInput('fileToken')
     ]);
     expect(await transactionAccountDataEntryFileUpdatePage.getPeriodFromInput()).to.eq(
       '2000-12-31',
@@ -92,6 +94,14 @@ describe('TransactionAccountDataEntryFile e2e test', () => {
         'Expected uploadProcessed to be selected'
       ).to.be.true;
     }
+    expect(await transactionAccountDataEntryFileUpdatePage.getEntriesCountInput()).to.eq(
+      '5',
+      'Expected entriesCount value to be equals to 5'
+    );
+    expect(await transactionAccountDataEntryFileUpdatePage.getFileTokenInput()).to.eq(
+      'fileToken',
+      'Expected FileToken value to be equals to fileToken'
+    );
     await transactionAccountDataEntryFileUpdatePage.save();
     expect(await transactionAccountDataEntryFileUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

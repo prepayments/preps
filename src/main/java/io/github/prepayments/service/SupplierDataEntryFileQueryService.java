@@ -1,12 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.SupplierDataEntryFile;
-import io.github.prepayments.domain.SupplierDataEntryFile_;
-import io.github.prepayments.repository.SupplierDataEntryFileRepository;
-import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
-import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
-import io.github.prepayments.service.mapper.SupplierDataEntryFileMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.SupplierDataEntryFile;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.SupplierDataEntryFileRepository;
+import io.github.prepayments.repository.search.SupplierDataEntryFileSearchRepository;
+import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
+import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
+import io.github.prepayments.service.mapper.SupplierDataEntryFileMapper;
 
 /**
  * Service for executing complex queries for {@link SupplierDataEntryFile} entities in the database.
@@ -33,9 +38,12 @@ public class SupplierDataEntryFileQueryService extends QueryService<SupplierData
 
     private final SupplierDataEntryFileMapper supplierDataEntryFileMapper;
 
-    public SupplierDataEntryFileQueryService(SupplierDataEntryFileRepository supplierDataEntryFileRepository, SupplierDataEntryFileMapper supplierDataEntryFileMapper) {
+    private final SupplierDataEntryFileSearchRepository supplierDataEntryFileSearchRepository;
+
+    public SupplierDataEntryFileQueryService(SupplierDataEntryFileRepository supplierDataEntryFileRepository, SupplierDataEntryFileMapper supplierDataEntryFileMapper, SupplierDataEntryFileSearchRepository supplierDataEntryFileSearchRepository) {
         this.supplierDataEntryFileRepository = supplierDataEntryFileRepository;
         this.supplierDataEntryFileMapper = supplierDataEntryFileMapper;
+        this.supplierDataEntryFileSearchRepository = supplierDataEntryFileSearchRepository;
     }
 
     /**
@@ -60,7 +68,8 @@ public class SupplierDataEntryFileQueryService extends QueryService<SupplierData
     public Page<SupplierDataEntryFileDTO> findByCriteria(SupplierDataEntryFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<SupplierDataEntryFile> specification = createSpecification(criteria);
-        return supplierDataEntryFileRepository.findAll(specification, page).map(supplierDataEntryFileMapper::toDto);
+        return supplierDataEntryFileRepository.findAll(specification, page)
+            .map(supplierDataEntryFileMapper::toDto);
     }
 
     /**

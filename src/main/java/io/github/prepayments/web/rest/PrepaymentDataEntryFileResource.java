@@ -159,4 +159,21 @@ public class PrepaymentDataEntryFileResource {
         prepaymentDataEntryFileService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/prepayment-data-entry-files?query=:query} : search for the prepaymentDataEntryFile corresponding to the query.
+     *
+     * @param query    the query of the prepaymentDataEntryFile search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/prepayment-data-entry-files")
+    public ResponseEntity<List<PrepaymentDataEntryFileDTO>> searchPrepaymentDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+                                                                                           UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of PrepaymentDataEntryFiles for query {}", query);
+        Page<PrepaymentDataEntryFileDTO> page = prepaymentDataEntryFileService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

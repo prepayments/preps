@@ -28,7 +28,9 @@ export class TransactionAccountDataEntryFileUpdateComponent implements OnInit {
     dataEntryFile: [null, [Validators.required]],
     dataEntryFileContentType: [],
     uploadSuccessful: [],
-    uploadProcessed: []
+    uploadProcessed: [],
+    entriesCount: [],
+    fileToken: []
   });
 
   constructor(
@@ -55,7 +57,9 @@ export class TransactionAccountDataEntryFileUpdateComponent implements OnInit {
       dataEntryFile: transactionAccountDataEntryFile.dataEntryFile,
       dataEntryFileContentType: transactionAccountDataEntryFile.dataEntryFileContentType,
       uploadSuccessful: transactionAccountDataEntryFile.uploadSuccessful,
-      uploadProcessed: transactionAccountDataEntryFile.uploadProcessed
+      uploadProcessed: transactionAccountDataEntryFile.uploadProcessed,
+      entriesCount: transactionAccountDataEntryFile.entriesCount,
+      fileToken: transactionAccountDataEntryFile.fileToken
     });
   }
 
@@ -114,7 +118,9 @@ export class TransactionAccountDataEntryFileUpdateComponent implements OnInit {
       dataEntryFileContentType: this.editForm.get(['dataEntryFileContentType']).value,
       dataEntryFile: this.editForm.get(['dataEntryFile']).value,
       uploadSuccessful: this.editForm.get(['uploadSuccessful']).value,
-      uploadProcessed: this.editForm.get(['uploadProcessed']).value
+      uploadProcessed: this.editForm.get(['uploadProcessed']).value,
+      entriesCount: this.editForm.get(['entriesCount']).value,
+      fileToken: this.editForm.get(['fileToken']).value
     };
     return entity;
   }

@@ -32,11 +32,19 @@
         {
             "fieldName": "uploadSuccessful",
             "fieldType": "Boolean"
+        },
+        {
+          "fieldName": "entriesCount",
+          "fieldType": "Integer"
+        },
+        {
+          "fieldName": "fileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190507113834",
     "dto": "mapstruct",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
     "entityTableName": "prepayment_data_entry_file",
     "databaseType": "sql",

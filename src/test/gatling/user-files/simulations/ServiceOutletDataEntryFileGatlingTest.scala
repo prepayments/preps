@@ -77,6 +77,8 @@ class ServiceOutletDataEntryFileGatlingTest extends Simulation {
                 , "uploadSuccessful":null
                 , "uploadProcessed":null
                 , "dataEntryFile":null
+                , "entriesCount":"0"
+                , "fileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_serviceOutletDataEntryFile_url"))).exitHereIfFailed

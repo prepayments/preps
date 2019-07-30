@@ -1,15 +1,16 @@
 package io.github.prepayments.service.dto;
 
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-
 import java.io.Serializable;
 import java.util.Objects;
+import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link io.github.prepayments.domain.PrepaymentDataEntryFile} entity. This class is used
@@ -38,10 +39,10 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
 
     private StringFilter fileToken;
 
-    public PrepaymentDataEntryFileCriteria() {
+    public PrepaymentDataEntryFileCriteria(){
     }
 
-    public PrepaymentDataEntryFileCriteria(PrepaymentDataEntryFileCriteria other) {
+    public PrepaymentDataEntryFileCriteria(PrepaymentDataEntryFileCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.periodFrom = other.periodFrom == null ? null : other.periodFrom.copy();
         this.periodTo = other.periodTo == null ? null : other.periodTo.copy();
@@ -122,21 +123,40 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
             return false;
         }
         final PrepaymentDataEntryFileCriteria that = (PrepaymentDataEntryFileCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(periodFrom, that.periodFrom) && Objects.equals(periodTo, that.periodTo) && Objects.equals(uploadProcessed, that.uploadProcessed) &&
-            Objects.equals(uploadSuccessful, that.uploadSuccessful) && Objects.equals(entriesCount, that.entriesCount) && Objects.equals(fileToken, that.fileToken);
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(periodFrom, that.periodFrom) &&
+            Objects.equals(periodTo, that.periodTo) &&
+            Objects.equals(uploadProcessed, that.uploadProcessed) &&
+            Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
+            Objects.equals(entriesCount, that.entriesCount) &&
+            Objects.equals(fileToken, that.fileToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, periodFrom, periodTo, uploadProcessed, uploadSuccessful, entriesCount, fileToken);
+        return Objects.hash(
+        id,
+        periodFrom,
+        periodTo,
+        uploadProcessed,
+        uploadSuccessful,
+        entriesCount,
+        fileToken
+        );
     }
 
     @Override
     public String toString() {
-        return "PrepaymentDataEntryFileCriteria{" + (id != null ? "id=" + id + ", " : "") + (periodFrom != null ? "periodFrom=" + periodFrom + ", " : "") +
-            (periodTo != null ? "periodTo=" + periodTo + ", " : "") + (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") +
-            (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") + (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +
-            (fileToken != null ? "fileToken=" + fileToken + ", " : "") + "}";
+        return "PrepaymentDataEntryFileCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (periodFrom != null ? "periodFrom=" + periodFrom + ", " : "") +
+                (periodTo != null ? "periodTo=" + periodTo + ", " : "") +
+                (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") +
+                (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
+                (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +
+                (fileToken != null ? "fileToken=" + fileToken + ", " : "") +
+            "}";
     }
 
 }

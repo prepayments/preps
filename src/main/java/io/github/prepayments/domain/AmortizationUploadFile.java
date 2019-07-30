@@ -3,19 +3,14 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A AmortizationUploadFile.
@@ -42,7 +37,7 @@ public class AmortizationUploadFile implements Serializable {
     @Column(name = "period_to", nullable = false)
     private LocalDate periodTo;
 
-
+    
     @Lob
     @Column(name = "data_entry_file", nullable = false)
     private byte[] dataEntryFile;
@@ -153,26 +148,26 @@ public class AmortizationUploadFile implements Serializable {
         return entriesCount;
     }
 
-    public void setEntriesCount(Integer entriesCount) {
-        this.entriesCount = entriesCount;
-    }
-
     public AmortizationUploadFile entriesCount(Integer entriesCount) {
         this.entriesCount = entriesCount;
         return this;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
     }
 
     public String getFileToken() {
         return fileToken;
     }
 
-    public void setFileToken(String fileToken) {
-        this.fileToken = fileToken;
-    }
-
     public AmortizationUploadFile fileToken(String fileToken) {
         this.fileToken = fileToken;
         return this;
+    }
+
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -194,8 +189,16 @@ public class AmortizationUploadFile implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationUploadFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" +
-            ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" + "}";
+        return "AmortizationUploadFile{" +
+            "id=" + getId() +
+            ", periodFrom='" + getPeriodFrom() + "'" +
+            ", periodTo='" + getPeriodTo() + "'" +
+            ", dataEntryFile='" + getDataEntryFile() + "'" +
+            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
+            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", entriesCount=" + getEntriesCount() +
+            ", fileToken='" + getFileToken() + "'" +
+            "}";
     }
 }

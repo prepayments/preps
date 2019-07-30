@@ -1,18 +1,22 @@
 package io.github.prepayments.service.impl;
 
+import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.domain.PrepaymentDataEntryFile;
 import io.github.prepayments.repository.PrepaymentDataEntryFileRepository;
-import io.github.prepayments.service.PrepaymentDataEntryFileService;
+import io.github.prepayments.repository.search.PrepaymentDataEntryFileSearchRepository;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
 import io.github.prepayments.service.mapper.PrepaymentDataEntryFileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link PrepaymentDataEntryFile}.
@@ -27,9 +31,12 @@ public class PrepaymentDataEntryFileServiceImpl implements PrepaymentDataEntryFi
 
     private final PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper;
 
-    public PrepaymentDataEntryFileServiceImpl(PrepaymentDataEntryFileRepository prepaymentDataEntryFileRepository, PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper) {
+    private final PrepaymentDataEntryFileSearchRepository prepaymentDataEntryFileSearchRepository;
+
+    public PrepaymentDataEntryFileServiceImpl(PrepaymentDataEntryFileRepository prepaymentDataEntryFileRepository, PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper, PrepaymentDataEntryFileSearchRepository prepaymentDataEntryFileSearchRepository) {
         this.prepaymentDataEntryFileRepository = prepaymentDataEntryFileRepository;
         this.prepaymentDataEntryFileMapper = prepaymentDataEntryFileMapper;
+        this.prepaymentDataEntryFileSearchRepository = prepaymentDataEntryFileSearchRepository;
     }
 
     /**
@@ -43,7 +50,9 @@ public class PrepaymentDataEntryFileServiceImpl implements PrepaymentDataEntryFi
         log.debug("Request to save PrepaymentDataEntryFile : {}", prepaymentDataEntryFileDTO);
         PrepaymentDataEntryFile prepaymentDataEntryFile = prepaymentDataEntryFileMapper.toEntity(prepaymentDataEntryFileDTO);
         prepaymentDataEntryFile = prepaymentDataEntryFileRepository.save(prepaymentDataEntryFile);
-        return prepaymentDataEntryFileMapper.toDto(prepaymentDataEntryFile);
+        PrepaymentDataEntryFileDTO result = prepaymentDataEntryFileMapper.toDto(prepaymentDataEntryFile);
+        prepaymentDataEntryFileSearchRepository.save(prepaymentDataEntryFile);
+        return result;
     }
 
     /**
@@ -56,7 +65,8 @@ public class PrepaymentDataEntryFileServiceImpl implements PrepaymentDataEntryFi
     @Transactional(readOnly = true)
     public Page<PrepaymentDataEntryFileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all PrepaymentDataEntryFiles");
-        return prepaymentDataEntryFileRepository.findAll(pageable).map(prepaymentDataEntryFileMapper::toDto);
+        return prepaymentDataEntryFileRepository.findAll(pageable)
+            .map(prepaymentDataEntryFileMapper::toDto);
     }
 
 
@@ -70,7 +80,8 @@ public class PrepaymentDataEntryFileServiceImpl implements PrepaymentDataEntryFi
     @Transactional(readOnly = true)
     public Optional<PrepaymentDataEntryFileDTO> findOne(Long id) {
         log.debug("Request to get PrepaymentDataEntryFile : {}", id);
-        return prepaymentDataEntryFileRepository.findById(id).map(prepaymentDataEntryFileMapper::toDto);
+        return prepaymentDataEntryFileRepository.findById(id)
+            .map(prepaymentDataEntryFileMapper::toDto);
     }
 
     /**
@@ -82,5 +93,21 @@ public class PrepaymentDataEntryFileServiceImpl implements PrepaymentDataEntryFi
     public void delete(Long id) {
         log.debug("Request to delete PrepaymentDataEntryFile : {}", id);
         prepaymentDataEntryFileRepository.deleteById(id);
+        prepaymentDataEntryFileSearchRepository.deleteById(id);
+    }
+
+    /**
+     * Search for the prepaymentDataEntryFile corresponding to the query.
+     *
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PrepaymentDataEntryFileDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of PrepaymentDataEntryFiles for query {}", query);
+        return prepaymentDataEntryFileSearchRepository.search(queryStringQuery(query), pageable)
+            .map(prepaymentDataEntryFileMapper::toDto);
     }
 }

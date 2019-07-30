@@ -50,7 +50,9 @@ describe('SupplierDataEntryFile e2e test', () => {
     await promise.all([
       supplierDataEntryFileUpdatePage.setPeriodFromInput('2000-12-31'),
       supplierDataEntryFileUpdatePage.setPeriodToInput('2000-12-31'),
-      supplierDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath)
+      supplierDataEntryFileUpdatePage.setDataEntryFileInput(absolutePath),
+      supplierDataEntryFileUpdatePage.setEntriesCountInput('5'),
+      supplierDataEntryFileUpdatePage.setFileTokenInput('fileToken')
     ]);
     expect(await supplierDataEntryFileUpdatePage.getPeriodFromInput()).to.eq(
       '2000-12-31',
@@ -84,6 +86,11 @@ describe('SupplierDataEntryFile e2e test', () => {
       expect(await supplierDataEntryFileUpdatePage.getUploadProcessedInput().isSelected(), 'Expected uploadProcessed to be selected').to.be
         .true;
     }
+    expect(await supplierDataEntryFileUpdatePage.getEntriesCountInput()).to.eq('5', 'Expected entriesCount value to be equals to 5');
+    expect(await supplierDataEntryFileUpdatePage.getFileTokenInput()).to.eq(
+      'fileToken',
+      'Expected FileToken value to be equals to fileToken'
+    );
     await supplierDataEntryFileUpdatePage.save();
     expect(await supplierDataEntryFileUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

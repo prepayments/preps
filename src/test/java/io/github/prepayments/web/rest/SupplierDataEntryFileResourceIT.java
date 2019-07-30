@@ -1,21 +1,23 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.app.messaging.services.notifications.SupplierDataFileMessageService;
 import io.github.prepayments.domain.SupplierDataEntryFile;
 import io.github.prepayments.repository.SupplierDataEntryFileRepository;
+import io.github.prepayments.repository.search.SupplierDataEntryFileSearchRepository;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import io.github.prepayments.service.mapper.SupplierDataEntryFileMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.SupplierDataEntryFileQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +30,14 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static io.github.prepayments.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +64,12 @@ public class SupplierDataEntryFileResourceIT {
     private static final Boolean DEFAULT_UPLOAD_PROCESSED = false;
     private static final Boolean UPDATED_UPLOAD_PROCESSED = true;
 
+    private static final Integer DEFAULT_ENTRIES_COUNT = 1;
+    private static final Integer UPDATED_ENTRIES_COUNT = 2;
+
+    private static final String DEFAULT_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private SupplierDataEntryFileRepository supplierDataEntryFileRepository;
 
@@ -67,6 +78,14 @@ public class SupplierDataEntryFileResourceIT {
 
     @Autowired
     private SupplierDataEntryFileService supplierDataEntryFileService;
+
+    /**
+     * This repository is mocked in the io.github.prepayments.repository.search test package.
+     *
+     * @see io.github.prepayments.repository.search.SupplierDataEntryFileSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private SupplierDataEntryFileSearchRepository mockSupplierDataEntryFileSearchRepository;
 
     @Autowired
     private SupplierDataEntryFileQueryService supplierDataEntryFileQueryService;
@@ -90,13 +109,10 @@ public class SupplierDataEntryFileResourceIT {
 
     private SupplierDataEntryFile supplierDataEntryFile;
 
-    @Mock private SupplierDataFileMessageService supplierDataFileMessageService;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SupplierDataEntryFileResource supplierDataEntryFileResource = new SupplierDataEntryFileResource(supplierDataEntryFileService, supplierDataEntryFileQueryService,
-                                                                                                              supplierDataFileMessageService);
+        final SupplierDataEntryFileResource supplierDataEntryFileResource = new SupplierDataEntryFileResource(supplierDataEntryFileService, supplierDataEntryFileQueryService);
         this.restSupplierDataEntryFileMockMvc = MockMvcBuilders.standaloneSetup(supplierDataEntryFileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -118,7 +134,9 @@ public class SupplierDataEntryFileResourceIT {
             .dataEntryFile(DEFAULT_DATA_ENTRY_FILE)
             .dataEntryFileContentType(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED);
+            .uploadProcessed(DEFAULT_UPLOAD_PROCESSED)
+            .entriesCount(DEFAULT_ENTRIES_COUNT)
+            .fileToken(DEFAULT_FILE_TOKEN);
         return supplierDataEntryFile;
     }
     /**
@@ -134,7 +152,9 @@ public class SupplierDataEntryFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         return supplierDataEntryFile;
     }
 
@@ -165,6 +185,11 @@ public class SupplierDataEntryFileResourceIT {
         assertThat(testSupplierDataEntryFile.getDataEntryFileContentType()).isEqualTo(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testSupplierDataEntryFile.isUploadSuccessful()).isEqualTo(DEFAULT_UPLOAD_SUCCESSFUL);
         assertThat(testSupplierDataEntryFile.isUploadProcessed()).isEqualTo(DEFAULT_UPLOAD_PROCESSED);
+        assertThat(testSupplierDataEntryFile.getEntriesCount()).isEqualTo(DEFAULT_ENTRIES_COUNT);
+        assertThat(testSupplierDataEntryFile.getFileToken()).isEqualTo(DEFAULT_FILE_TOKEN);
+
+        // Validate the SupplierDataEntryFile in Elasticsearch
+        verify(mockSupplierDataEntryFileSearchRepository, times(1)).save(testSupplierDataEntryFile);
     }
 
     @Test
@@ -185,6 +210,9 @@ public class SupplierDataEntryFileResourceIT {
         // Validate the SupplierDataEntryFile in the database
         List<SupplierDataEntryFile> supplierDataEntryFileList = supplierDataEntryFileRepository.findAll();
         assertThat(supplierDataEntryFileList).hasSize(databaseSizeBeforeCreate);
+
+        // Validate the SupplierDataEntryFile in Elasticsearch
+        verify(mockSupplierDataEntryFileSearchRepository, times(0)).save(supplierDataEntryFile);
     }
 
 
@@ -242,9 +270,11 @@ public class SupplierDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getSupplierDataEntryFile() throws Exception {
@@ -261,7 +291,9 @@ public class SupplierDataEntryFileResourceIT {
             .andExpect(jsonPath("$.dataEntryFileContentType").value(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.dataEntryFile").value(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE)))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
-            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()));
+            .andExpect(jsonPath("$.uploadProcessed").value(DEFAULT_UPLOAD_PROCESSED.booleanValue()))
+            .andExpect(jsonPath("$.entriesCount").value(DEFAULT_ENTRIES_COUNT))
+            .andExpect(jsonPath("$.fileToken").value(DEFAULT_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -473,6 +505,111 @@ public class SupplierDataEntryFileResourceIT {
         // Get all the supplierDataEntryFileList where uploadProcessed is null
         defaultSupplierDataEntryFileShouldNotBeFound("uploadProcessed.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByEntriesCountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where entriesCount equals to DEFAULT_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldBeFound("entriesCount.equals=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the supplierDataEntryFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldNotBeFound("entriesCount.equals=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByEntriesCountIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where entriesCount in DEFAULT_ENTRIES_COUNT or UPDATED_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldBeFound("entriesCount.in=" + DEFAULT_ENTRIES_COUNT + "," + UPDATED_ENTRIES_COUNT);
+
+        // Get all the supplierDataEntryFileList where entriesCount equals to UPDATED_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldNotBeFound("entriesCount.in=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByEntriesCountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where entriesCount is not null
+        defaultSupplierDataEntryFileShouldBeFound("entriesCount.specified=true");
+
+        // Get all the supplierDataEntryFileList where entriesCount is null
+        defaultSupplierDataEntryFileShouldNotBeFound("entriesCount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByEntriesCountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where entriesCount greater than or equals to DEFAULT_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldBeFound("entriesCount.greaterOrEqualThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the supplierDataEntryFileList where entriesCount greater than or equals to UPDATED_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldNotBeFound("entriesCount.greaterOrEqualThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByEntriesCountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where entriesCount less than or equals to DEFAULT_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldNotBeFound("entriesCount.lessThan=" + DEFAULT_ENTRIES_COUNT);
+
+        // Get all the supplierDataEntryFileList where entriesCount less than or equals to UPDATED_ENTRIES_COUNT
+        defaultSupplierDataEntryFileShouldBeFound("entriesCount.lessThan=" + UPDATED_ENTRIES_COUNT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where fileToken equals to DEFAULT_FILE_TOKEN
+        defaultSupplierDataEntryFileShouldBeFound("fileToken.equals=" + DEFAULT_FILE_TOKEN);
+
+        // Get all the supplierDataEntryFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultSupplierDataEntryFileShouldNotBeFound("fileToken.equals=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where fileToken in DEFAULT_FILE_TOKEN or UPDATED_FILE_TOKEN
+        defaultSupplierDataEntryFileShouldBeFound("fileToken.in=" + DEFAULT_FILE_TOKEN + "," + UPDATED_FILE_TOKEN);
+
+        // Get all the supplierDataEntryFileList where fileToken equals to UPDATED_FILE_TOKEN
+        defaultSupplierDataEntryFileShouldNotBeFound("fileToken.in=" + UPDATED_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplierDataEntryFilesByFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+
+        // Get all the supplierDataEntryFileList where fileToken is not null
+        defaultSupplierDataEntryFileShouldBeFound("fileToken.specified=true");
+
+        // Get all the supplierDataEntryFileList where fileToken is null
+        defaultSupplierDataEntryFileShouldNotBeFound("fileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -486,7 +623,9 @@ public class SupplierDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
-            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restSupplierDataEntryFileMockMvc.perform(get("/api/supplier-data-entry-files/count?sort=id,desc&" + filter))
@@ -539,7 +678,9 @@ public class SupplierDataEntryFileResourceIT {
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
-            .uploadProcessed(UPDATED_UPLOAD_PROCESSED);
+            .uploadProcessed(UPDATED_UPLOAD_PROCESSED)
+            .entriesCount(UPDATED_ENTRIES_COUNT)
+            .fileToken(UPDATED_FILE_TOKEN);
         SupplierDataEntryFileDTO supplierDataEntryFileDTO = supplierDataEntryFileMapper.toDto(updatedSupplierDataEntryFile);
 
         restSupplierDataEntryFileMockMvc.perform(put("/api/supplier-data-entry-files")
@@ -557,6 +698,11 @@ public class SupplierDataEntryFileResourceIT {
         assertThat(testSupplierDataEntryFile.getDataEntryFileContentType()).isEqualTo(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE);
         assertThat(testSupplierDataEntryFile.isUploadSuccessful()).isEqualTo(UPDATED_UPLOAD_SUCCESSFUL);
         assertThat(testSupplierDataEntryFile.isUploadProcessed()).isEqualTo(UPDATED_UPLOAD_PROCESSED);
+        assertThat(testSupplierDataEntryFile.getEntriesCount()).isEqualTo(UPDATED_ENTRIES_COUNT);
+        assertThat(testSupplierDataEntryFile.getFileToken()).isEqualTo(UPDATED_FILE_TOKEN);
+
+        // Validate the SupplierDataEntryFile in Elasticsearch
+        verify(mockSupplierDataEntryFileSearchRepository, times(1)).save(testSupplierDataEntryFile);
     }
 
     @Test
@@ -576,6 +722,9 @@ public class SupplierDataEntryFileResourceIT {
         // Validate the SupplierDataEntryFile in the database
         List<SupplierDataEntryFile> supplierDataEntryFileList = supplierDataEntryFileRepository.findAll();
         assertThat(supplierDataEntryFileList).hasSize(databaseSizeBeforeUpdate);
+
+        // Validate the SupplierDataEntryFile in Elasticsearch
+        verify(mockSupplierDataEntryFileSearchRepository, times(0)).save(supplierDataEntryFile);
     }
 
     @Test
@@ -594,6 +743,31 @@ public class SupplierDataEntryFileResourceIT {
         // Validate the database is empty
         List<SupplierDataEntryFile> supplierDataEntryFileList = supplierDataEntryFileRepository.findAll();
         assertThat(supplierDataEntryFileList).hasSize(databaseSizeBeforeDelete - 1);
+
+        // Validate the SupplierDataEntryFile in Elasticsearch
+        verify(mockSupplierDataEntryFileSearchRepository, times(1)).deleteById(supplierDataEntryFile.getId());
+    }
+
+    @Test
+    @Transactional
+    public void searchSupplierDataEntryFile() throws Exception {
+        // Initialize the database
+        supplierDataEntryFileRepository.saveAndFlush(supplierDataEntryFile);
+        when(mockSupplierDataEntryFileSearchRepository.search(queryStringQuery("id:" + supplierDataEntryFile.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(supplierDataEntryFile), PageRequest.of(0, 1), 1));
+        // Search the supplierDataEntryFile
+        restSupplierDataEntryFileMockMvc.perform(get("/api/_search/supplier-data-entry-files?query=id:" + supplierDataEntryFile.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(supplierDataEntryFile.getId().intValue())))
+            .andExpect(jsonPath("$.[*].periodFrom").value(hasItem(DEFAULT_PERIOD_FROM.toString())))
+            .andExpect(jsonPath("$.[*].periodTo").value(hasItem(DEFAULT_PERIOD_TO.toString())))
+            .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
+            .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
+            .andExpect(jsonPath("$.[*].uploadProcessed").value(hasItem(DEFAULT_UPLOAD_PROCESSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
+            .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN)));
     }
 
     @Test

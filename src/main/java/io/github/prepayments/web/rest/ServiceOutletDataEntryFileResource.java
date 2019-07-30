@@ -158,4 +158,21 @@ public class ServiceOutletDataEntryFileResource {
         serviceOutletDataEntryFileService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * {@code SEARCH  /_search/service-outlet-data-entry-files?query=:query} : search for the serviceOutletDataEntryFile corresponding to the query.
+     *
+     * @param query    the query of the serviceOutletDataEntryFile search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/service-outlet-data-entry-files")
+    public ResponseEntity<List<ServiceOutletDataEntryFileDTO>> searchServiceOutletDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+                                                                                                 UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to search for a page of ServiceOutletDataEntryFiles for query {}", query);
+        Page<ServiceOutletDataEntryFileDTO> page = serviceOutletDataEntryFileService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 }

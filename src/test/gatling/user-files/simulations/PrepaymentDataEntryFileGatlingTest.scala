@@ -77,6 +77,8 @@ class PrepaymentDataEntryFileGatlingTest extends Simulation {
                 , "dataEntryFile":null
                 , "uploadProcessed":null
                 , "uploadSuccessful":null
+                , "entriesCount":"0"
+                , "fileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_prepaymentDataEntryFile_url"))).exitHereIfFailed

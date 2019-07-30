@@ -32,6 +32,14 @@
         {
             "fieldName": "uploadProcessed",
             "fieldType": "Boolean"
+        },
+        {
+          "fieldName": "entriesCount",
+          "fieldType": "Integer"
+        },
+        {
+          "fieldName": "fileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190625152306",

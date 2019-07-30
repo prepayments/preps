@@ -8,6 +8,8 @@ export interface IPrepaymentDataEntryFile {
   dataEntryFile?: any;
   uploadProcessed?: boolean;
   uploadSuccessful?: boolean;
+  entriesCount?: number;
+  fileToken?: string;
 }
 
 export class PrepaymentDataEntryFile implements IPrepaymentDataEntryFile {
@@ -18,7 +20,9 @@ export class PrepaymentDataEntryFile implements IPrepaymentDataEntryFile {
     public dataEntryFileContentType?: string,
     public dataEntryFile?: any,
     public uploadProcessed?: boolean,
-    public uploadSuccessful?: boolean
+    public uploadSuccessful?: boolean,
+    public entriesCount?: number,
+    public fileToken?: string
   ) {
     this.uploadProcessed = this.uploadProcessed || false;
     this.uploadSuccessful = this.uploadSuccessful || false;

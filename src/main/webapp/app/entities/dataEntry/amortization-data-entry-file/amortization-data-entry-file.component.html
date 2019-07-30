@@ -3,12 +3,27 @@
         <span>Amortization Data Entry Files</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-amortization-data-entry-file" [routerLink]="['/amortization-data-entry-file/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
+            <span class="hidden-sm-down" >
             Create new Amortization Data Entry File
             </span>
         </button>
     </h2>
     <gha-alert></gha-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <br/>
     <div class="table-responsive" *ngIf="amortizationDataEntryFiles">
         <table class="table table-striped">
@@ -20,6 +35,8 @@
             <th jhiSortBy="dataEntryFile"><span>Data Entry File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadSuccessful"><span>Upload Successful</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadProcessed"><span>Upload Processed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="entriesCount"><span>Entries Count</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fileToken"><span>File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -34,6 +51,8 @@
                 </td>
                 <td>{{amortizationDataEntryFile.uploadSuccessful}}</td>
                 <td>{{amortizationDataEntryFile.uploadProcessed}}</td>
+                <td>{{amortizationDataEntryFile.entriesCount}}</td>
+                <td>{{amortizationDataEntryFile.fileToken}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

@@ -1,12 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.PrepaymentDataEntryFile;
-import io.github.prepayments.domain.PrepaymentDataEntryFile_;
-import io.github.prepayments.repository.PrepaymentDataEntryFileRepository;
-import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
-import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
-import io.github.prepayments.service.mapper.PrepaymentDataEntryFileMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.PrepaymentDataEntryFile;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.PrepaymentDataEntryFileRepository;
+import io.github.prepayments.repository.search.PrepaymentDataEntryFileSearchRepository;
+import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
+import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
+import io.github.prepayments.service.mapper.PrepaymentDataEntryFileMapper;
 
 /**
  * Service for executing complex queries for {@link PrepaymentDataEntryFile} entities in the database.
@@ -33,9 +38,12 @@ public class PrepaymentDataEntryFileQueryService extends QueryService<Prepayment
 
     private final PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper;
 
-    public PrepaymentDataEntryFileQueryService(PrepaymentDataEntryFileRepository prepaymentDataEntryFileRepository, PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper) {
+    private final PrepaymentDataEntryFileSearchRepository prepaymentDataEntryFileSearchRepository;
+
+    public PrepaymentDataEntryFileQueryService(PrepaymentDataEntryFileRepository prepaymentDataEntryFileRepository, PrepaymentDataEntryFileMapper prepaymentDataEntryFileMapper, PrepaymentDataEntryFileSearchRepository prepaymentDataEntryFileSearchRepository) {
         this.prepaymentDataEntryFileRepository = prepaymentDataEntryFileRepository;
         this.prepaymentDataEntryFileMapper = prepaymentDataEntryFileMapper;
+        this.prepaymentDataEntryFileSearchRepository = prepaymentDataEntryFileSearchRepository;
     }
 
     /**
@@ -60,7 +68,8 @@ public class PrepaymentDataEntryFileQueryService extends QueryService<Prepayment
     public Page<PrepaymentDataEntryFileDTO> findByCriteria(PrepaymentDataEntryFileCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<PrepaymentDataEntryFile> specification = createSpecification(criteria);
-        return prepaymentDataEntryFileRepository.findAll(specification, page).map(prepaymentDataEntryFileMapper::toDto);
+        return prepaymentDataEntryFileRepository.findAll(specification, page)
+            .map(prepaymentDataEntryFileMapper::toDto);
     }
 
     /**
