@@ -54,6 +54,10 @@
         {
             "fieldName": "taxAuthorityPIN",
             "fieldType": "String"
+        },
+        {
+          "fieldName": "OriginatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190430163600",

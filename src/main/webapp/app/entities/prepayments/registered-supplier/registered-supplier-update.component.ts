@@ -27,7 +27,8 @@ export class RegisteredSupplierUpdateComponent implements OnInit {
     bankSwiftCode: [],
     bankPhysicalAddress: [],
     locallyDomiciled: [],
-    taxAuthorityPIN: []
+    taxAuthorityPIN: [],
+    OriginatingFileToken: []
   });
 
   constructor(
@@ -58,7 +59,8 @@ export class RegisteredSupplierUpdateComponent implements OnInit {
       bankSwiftCode: registeredSupplier.bankSwiftCode,
       bankPhysicalAddress: registeredSupplier.bankPhysicalAddress,
       locallyDomiciled: registeredSupplier.locallyDomiciled,
-      taxAuthorityPIN: registeredSupplier.taxAuthorityPIN
+      taxAuthorityPIN: registeredSupplier.taxAuthorityPIN,
+      OriginatingFileToken: registeredSupplier.OriginatingFileToken
     });
   }
 
@@ -91,7 +93,8 @@ export class RegisteredSupplierUpdateComponent implements OnInit {
       bankSwiftCode: this.editForm.get(['bankSwiftCode']).value,
       bankPhysicalAddress: this.editForm.get(['bankPhysicalAddress']).value,
       locallyDomiciled: this.editForm.get(['locallyDomiciled']).value,
-      taxAuthorityPIN: this.editForm.get(['taxAuthorityPIN']).value
+      taxAuthorityPIN: this.editForm.get(['taxAuthorityPIN']).value,
+      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
     };
     return entity;
   }

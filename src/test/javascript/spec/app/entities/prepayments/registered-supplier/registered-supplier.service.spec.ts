@@ -36,6 +36,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         false,
+        'AAAAAAA',
         'AAAAAAA'
       );
     });
@@ -84,7 +85,8 @@ describe('Service Tests', () => {
             bankSwiftCode: 'BBBBBB',
             bankPhysicalAddress: 'BBBBBB',
             locallyDomiciled: true,
-            taxAuthorityPIN: 'BBBBBB'
+            taxAuthorityPIN: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -113,7 +115,8 @@ describe('Service Tests', () => {
             bankSwiftCode: 'BBBBBB',
             bankPhysicalAddress: 'BBBBBB',
             locallyDomiciled: true,
-            taxAuthorityPIN: 'BBBBBB'
+            taxAuthorityPIN: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

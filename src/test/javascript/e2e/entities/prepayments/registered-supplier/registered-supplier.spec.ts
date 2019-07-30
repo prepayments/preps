@@ -54,7 +54,8 @@ describe('RegisteredSupplier e2e test', () => {
       registeredSupplierUpdatePage.setSupplierBankBranchInput('supplierBankBranch'),
       registeredSupplierUpdatePage.setBankSwiftCodeInput('bankSwiftCode'),
       registeredSupplierUpdatePage.setBankPhysicalAddressInput('bankPhysicalAddress'),
-      registeredSupplierUpdatePage.setTaxAuthorityPINInput('taxAuthorityPIN')
+      registeredSupplierUpdatePage.setTaxAuthorityPINInput('taxAuthorityPIN'),
+      registeredSupplierUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
     ]);
     expect(await registeredSupplierUpdatePage.getSupplierNameInput()).to.eq(
       'supplierName',
@@ -109,6 +110,10 @@ describe('RegisteredSupplier e2e test', () => {
     expect(await registeredSupplierUpdatePage.getTaxAuthorityPINInput()).to.eq(
       'taxAuthorityPIN',
       'Expected TaxAuthorityPIN value to be equals to taxAuthorityPIN'
+    );
+    expect(await registeredSupplierUpdatePage.getOriginatingFileTokenInput()).to.eq(
+      'OriginatingFileToken',
+      'Expected OriginatingFileToken value to be equals to OriginatingFileToken'
     );
     await registeredSupplierUpdatePage.save();
     expect(await registeredSupplierUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

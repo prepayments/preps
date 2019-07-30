@@ -1,19 +1,24 @@
 package io.github.prepayments.service.dto;
 
+import java.io.Serializable;
+import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 /**
- * Criteria class for the {@link io.github.prepayments.domain.RegisteredSupplier} entity. This class is used in {@link io.github.prepayments.web.rest.RegisteredSupplierResource} to receive all the
- * possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /registered-suppliers?id
- * .greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.RegisteredSupplier} entity. This class is used
+ * in {@link io.github.prepayments.web.rest.RegisteredSupplierResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /registered-suppliers?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
  */
 public class RegisteredSupplierCriteria implements Serializable, Criteria {
 
@@ -45,10 +50,12 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
 
     private StringFilter taxAuthorityPIN;
 
-    public RegisteredSupplierCriteria() {
+    private StringFilter OriginatingFileToken;
+
+    public RegisteredSupplierCriteria(){
     }
 
-    public RegisteredSupplierCriteria(RegisteredSupplierCriteria other) {
+    public RegisteredSupplierCriteria(RegisteredSupplierCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.supplierName = other.supplierName == null ? null : other.supplierName.copy();
         this.supplierAddress = other.supplierAddress == null ? null : other.supplierAddress.copy();
@@ -62,6 +69,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
         this.bankPhysicalAddress = other.bankPhysicalAddress == null ? null : other.bankPhysicalAddress.copy();
         this.locallyDomiciled = other.locallyDomiciled == null ? null : other.locallyDomiciled.copy();
         this.taxAuthorityPIN = other.taxAuthorityPIN == null ? null : other.taxAuthorityPIN.copy();
+        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
     }
 
     @Override
@@ -173,6 +181,14 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
         this.taxAuthorityPIN = taxAuthorityPIN;
     }
 
+    public StringFilter getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -183,28 +199,61 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
             return false;
         }
         final RegisteredSupplierCriteria that = (RegisteredSupplierCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(supplierName, that.supplierName) && Objects.equals(supplierAddress, that.supplierAddress) &&
-            Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(supplierEmail, that.supplierEmail) && Objects.equals(bankAccountName, that.bankAccountName) &&
-            Objects.equals(bankAccountNumber, that.bankAccountNumber) && Objects.equals(supplierBankName, that.supplierBankName) && Objects.equals(supplierBankBranch, that.supplierBankBranch) &&
-            Objects.equals(bankSwiftCode, that.bankSwiftCode) && Objects.equals(bankPhysicalAddress, that.bankPhysicalAddress) && Objects.equals(locallyDomiciled, that.locallyDomiciled) &&
-            Objects.equals(taxAuthorityPIN, that.taxAuthorityPIN);
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(supplierName, that.supplierName) &&
+            Objects.equals(supplierAddress, that.supplierAddress) &&
+            Objects.equals(phoneNumber, that.phoneNumber) &&
+            Objects.equals(supplierEmail, that.supplierEmail) &&
+            Objects.equals(bankAccountName, that.bankAccountName) &&
+            Objects.equals(bankAccountNumber, that.bankAccountNumber) &&
+            Objects.equals(supplierBankName, that.supplierBankName) &&
+            Objects.equals(supplierBankBranch, that.supplierBankBranch) &&
+            Objects.equals(bankSwiftCode, that.bankSwiftCode) &&
+            Objects.equals(bankPhysicalAddress, that.bankPhysicalAddress) &&
+            Objects.equals(locallyDomiciled, that.locallyDomiciled) &&
+            Objects.equals(taxAuthorityPIN, that.taxAuthorityPIN) &&
+            Objects.equals(OriginatingFileToken, that.OriginatingFileToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, supplierName, supplierAddress, phoneNumber, supplierEmail, bankAccountName, bankAccountNumber, supplierBankName, supplierBankBranch, bankSwiftCode, bankPhysicalAddress,
-                            locallyDomiciled, taxAuthorityPIN);
+        return Objects.hash(
+        id,
+        supplierName,
+        supplierAddress,
+        phoneNumber,
+        supplierEmail,
+        bankAccountName,
+        bankAccountNumber,
+        supplierBankName,
+        supplierBankBranch,
+        bankSwiftCode,
+        bankPhysicalAddress,
+        locallyDomiciled,
+        taxAuthorityPIN,
+        OriginatingFileToken
+        );
     }
 
     @Override
     public String toString() {
-        return "RegisteredSupplierCriteria{" + (id != null ? "id=" + id + ", " : "") + (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
-            (supplierAddress != null ? "supplierAddress=" + supplierAddress + ", " : "") + (phoneNumber != null ? "phoneNumber=" + phoneNumber + ", " : "") +
-            (supplierEmail != null ? "supplierEmail=" + supplierEmail + ", " : "") + (bankAccountName != null ? "bankAccountName=" + bankAccountName + ", " : "") +
-            (bankAccountNumber != null ? "bankAccountNumber=" + bankAccountNumber + ", " : "") + (supplierBankName != null ? "supplierBankName=" + supplierBankName + ", " : "") +
-            (supplierBankBranch != null ? "supplierBankBranch=" + supplierBankBranch + ", " : "") + (bankSwiftCode != null ? "bankSwiftCode=" + bankSwiftCode + ", " : "") +
-            (bankPhysicalAddress != null ? "bankPhysicalAddress=" + bankPhysicalAddress + ", " : "") + (locallyDomiciled != null ? "locallyDomiciled=" + locallyDomiciled + ", " : "") +
-            (taxAuthorityPIN != null ? "taxAuthorityPIN=" + taxAuthorityPIN + ", " : "") + "}";
+        return "RegisteredSupplierCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
+                (supplierAddress != null ? "supplierAddress=" + supplierAddress + ", " : "") +
+                (phoneNumber != null ? "phoneNumber=" + phoneNumber + ", " : "") +
+                (supplierEmail != null ? "supplierEmail=" + supplierEmail + ", " : "") +
+                (bankAccountName != null ? "bankAccountName=" + bankAccountName + ", " : "") +
+                (bankAccountNumber != null ? "bankAccountNumber=" + bankAccountNumber + ", " : "") +
+                (supplierBankName != null ? "supplierBankName=" + supplierBankName + ", " : "") +
+                (supplierBankBranch != null ? "supplierBankBranch=" + supplierBankBranch + ", " : "") +
+                (bankSwiftCode != null ? "bankSwiftCode=" + bankSwiftCode + ", " : "") +
+                (bankPhysicalAddress != null ? "bankPhysicalAddress=" + bankPhysicalAddress + ", " : "") +
+                (locallyDomiciled != null ? "locallyDomiciled=" + locallyDomiciled + ", " : "") +
+                (taxAuthorityPIN != null ? "taxAuthorityPIN=" + taxAuthorityPIN + ", " : "") +
+                (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
+            "}";
     }
 
 }

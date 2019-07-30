@@ -3,15 +3,9 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="now" value="now()" dbms="h2"/>
-
-    <property name="now" value="current_timestamp" dbms="postgresql"/>
-
-    <property name="floatType" value="float4" dbms="postgresql, h2"/>
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
         Added the entity RegisteredSupplier.
@@ -69,8 +63,47 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="originating_file_token" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+
+    </changeSet>
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20190430163600-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/data/registered_supplier.csv"
+                  separator=";"
+                  tableName="registered_supplier"
+                  context="dev">
+            <column name="id" type="numeric"/>
+            <column name="supplier_name" type="string"/>
+            <column name="supplier_address" type="string"/>
+            <column name="phone_number" type="string"/>
+            <column name="supplier_email" type="string"/>
+            <column name="bank_account_name" type="string"/>
+            <column name="bank_account_number" type="string"/>
+            <column name="supplier_bank_name" type="string"/>
+            <column name="supplier_bank_branch" type="string"/>
+            <column name="bank_swift_code" type="string"/>
+            <column name="bank_physical_address" type="string"/>
+            <column name="locally_domiciled" type="boolean"/>
+            <column name="tax_authority_pin" type="string"/>
+            <column name="originating_file_token" type="string"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="20190430163600-1-relations" author="jhipster">
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

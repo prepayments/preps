@@ -1,13 +1,9 @@
 package io.github.prepayments.service;
 
-import io.github.jhipster.service.QueryService;
-import io.github.prepayments.domain.RegisteredSupplier;
-import io.github.prepayments.domain.RegisteredSupplier_;
-import io.github.prepayments.repository.RegisteredSupplierRepository;
-import io.github.prepayments.repository.search.RegisteredSupplierSearchRepository;
-import io.github.prepayments.service.dto.RegisteredSupplierCriteria;
-import io.github.prepayments.service.dto.RegisteredSupplierDTO;
-import io.github.prepayments.service.mapper.RegisteredSupplierMapper;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,11 +12,21 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import io.github.prepayments.domain.RegisteredSupplier;
+import io.github.prepayments.domain.*; // for static metamodels
+import io.github.prepayments.repository.RegisteredSupplierRepository;
+import io.github.prepayments.repository.search.RegisteredSupplierSearchRepository;
+import io.github.prepayments.service.dto.RegisteredSupplierCriteria;
+import io.github.prepayments.service.dto.RegisteredSupplierDTO;
+import io.github.prepayments.service.mapper.RegisteredSupplierMapper;
 
 /**
- * Service for executing complex queries for {@link RegisteredSupplier} entities in the database. The main input is a {@link RegisteredSupplierCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply. It returns a {@link List} of {@link RegisteredSupplierDTO} or a {@link Page} of {@link RegisteredSupplierDTO} which fulfills the criteria.
+ * Service for executing complex queries for {@link RegisteredSupplier} entities in the database.
+ * The main input is a {@link RegisteredSupplierCriteria} which gets converted to {@link Specification},
+ * in a way that all the filters must apply.
+ * It returns a {@link List} of {@link RegisteredSupplierDTO} or a {@link Page} of {@link RegisteredSupplierDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -34,8 +40,7 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
 
     private final RegisteredSupplierSearchRepository registeredSupplierSearchRepository;
 
-    public RegisteredSupplierQueryService(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper,
-                                          RegisteredSupplierSearchRepository registeredSupplierSearchRepository) {
+    public RegisteredSupplierQueryService(RegisteredSupplierRepository registeredSupplierRepository, RegisteredSupplierMapper registeredSupplierMapper, RegisteredSupplierSearchRepository registeredSupplierSearchRepository) {
         this.registeredSupplierRepository = registeredSupplierRepository;
         this.registeredSupplierMapper = registeredSupplierMapper;
         this.registeredSupplierSearchRepository = registeredSupplierSearchRepository;
@@ -43,7 +48,6 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
 
     /**
      * Return a {@link List} of {@link RegisteredSupplierDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -56,21 +60,20 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
 
     /**
      * Return a {@link Page} of {@link RegisteredSupplierDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page     The page, which should be returned.
+     * @param page The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
     public Page<RegisteredSupplierDTO> findByCriteria(RegisteredSupplierCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<RegisteredSupplier> specification = createSpecification(criteria);
-        return registeredSupplierRepository.findAll(specification, page).map(registeredSupplierMapper::toDto);
+        return registeredSupplierRepository.findAll(specification, page)
+            .map(registeredSupplierMapper::toDto);
     }
 
     /**
      * Return the number of matching entities in the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -125,6 +128,9 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
             }
             if (criteria.getTaxAuthorityPIN() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTaxAuthorityPIN(), RegisteredSupplier_.taxAuthorityPIN));
+            }
+            if (criteria.getOriginatingFileToken() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), RegisteredSupplier_.OriginatingFileToken));
             }
         }
         return specification;

@@ -84,6 +84,7 @@ class RegisteredSupplierGatlingTest extends Simulation {
                 , "bankPhysicalAddress":"SAMPLE_TEXT"
                 , "locallyDomiciled":null
                 , "taxAuthorityPIN":"SAMPLE_TEXT"
+                , "OriginatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_registeredSupplier_url"))).exitHereIfFailed

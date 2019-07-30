@@ -1,6 +1,5 @@
 package io.github.prepayments.service.dto;
-
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -35,6 +34,8 @@ public class RegisteredSupplierDTO implements Serializable {
     private Boolean locallyDomiciled;
 
     private String taxAuthorityPIN;
+
+    private String OriginatingFileToken;
 
 
     public Long getId() {
@@ -141,6 +142,14 @@ public class RegisteredSupplierDTO implements Serializable {
         this.taxAuthorityPIN = taxAuthorityPIN;
     }
 
+    public String getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(String OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -164,9 +173,21 @@ public class RegisteredSupplierDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisteredSupplierDTO{" + "id=" + getId() + ", supplierName='" + getSupplierName() + "'" + ", supplierAddress='" + getSupplierAddress() + "'" + ", phoneNumber='" + getPhoneNumber() +
-            "'" + ", supplierEmail='" + getSupplierEmail() + "'" + ", bankAccountName='" + getBankAccountName() + "'" + ", bankAccountNumber='" + getBankAccountNumber() + "'" +
-            ", supplierBankName='" + getSupplierBankName() + "'" + ", supplierBankBranch='" + getSupplierBankBranch() + "'" + ", bankSwiftCode='" + getBankSwiftCode() + "'" +
-            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" + ", locallyDomiciled='" + isLocallyDomiciled() + "'" + ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" + "}";
+        return "RegisteredSupplierDTO{" +
+            "id=" + getId() +
+            ", supplierName='" + getSupplierName() + "'" +
+            ", supplierAddress='" + getSupplierAddress() + "'" +
+            ", phoneNumber='" + getPhoneNumber() + "'" +
+            ", supplierEmail='" + getSupplierEmail() + "'" +
+            ", bankAccountName='" + getBankAccountName() + "'" +
+            ", bankAccountNumber='" + getBankAccountNumber() + "'" +
+            ", supplierBankName='" + getSupplierBankName() + "'" +
+            ", supplierBankBranch='" + getSupplierBankBranch() + "'" +
+            ", bankSwiftCode='" + getBankSwiftCode() + "'" +
+            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" +
+            ", locallyDomiciled='" + isLocallyDomiciled() + "'" +
+            ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" +
+            ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

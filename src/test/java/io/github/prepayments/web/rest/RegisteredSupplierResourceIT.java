@@ -80,6 +80,9 @@ public class RegisteredSupplierResourceIT {
     private static final String DEFAULT_TAX_AUTHORITY_PIN = "AAAAAAAAAA";
     private static final String UPDATED_TAX_AUTHORITY_PIN = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
+
     @Autowired
     private RegisteredSupplierRepository registeredSupplierRepository;
 
@@ -150,7 +153,8 @@ public class RegisteredSupplierResourceIT {
             .bankSwiftCode(DEFAULT_BANK_SWIFT_CODE)
             .bankPhysicalAddress(DEFAULT_BANK_PHYSICAL_ADDRESS)
             .locallyDomiciled(DEFAULT_LOCALLY_DOMICILED)
-            .taxAuthorityPIN(DEFAULT_TAX_AUTHORITY_PIN);
+            .taxAuthorityPIN(DEFAULT_TAX_AUTHORITY_PIN)
+            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return registeredSupplier;
     }
     /**
@@ -172,7 +176,8 @@ public class RegisteredSupplierResourceIT {
             .bankSwiftCode(UPDATED_BANK_SWIFT_CODE)
             .bankPhysicalAddress(UPDATED_BANK_PHYSICAL_ADDRESS)
             .locallyDomiciled(UPDATED_LOCALLY_DOMICILED)
-            .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN);
+            .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return registeredSupplier;
     }
 
@@ -209,6 +214,7 @@ public class RegisteredSupplierResourceIT {
         assertThat(testRegisteredSupplier.getBankPhysicalAddress()).isEqualTo(DEFAULT_BANK_PHYSICAL_ADDRESS);
         assertThat(testRegisteredSupplier.isLocallyDomiciled()).isEqualTo(DEFAULT_LOCALLY_DOMICILED);
         assertThat(testRegisteredSupplier.getTaxAuthorityPIN()).isEqualTo(DEFAULT_TAX_AUTHORITY_PIN);
+        assertThat(testRegisteredSupplier.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the RegisteredSupplier in Elasticsearch
         verify(mockRegisteredSupplierSearchRepository, times(1)).save(testRegisteredSupplier);
@@ -279,7 +285,8 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankSwiftCode").value(hasItem(DEFAULT_BANK_SWIFT_CODE.toString())))
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].locallyDomiciled").value(hasItem(DEFAULT_LOCALLY_DOMICILED.booleanValue())))
-            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN.toString())));
+            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN.toString())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -304,7 +311,8 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.bankSwiftCode").value(DEFAULT_BANK_SWIFT_CODE.toString()))
             .andExpect(jsonPath("$.bankPhysicalAddress").value(DEFAULT_BANK_PHYSICAL_ADDRESS.toString()))
             .andExpect(jsonPath("$.locallyDomiciled").value(DEFAULT_LOCALLY_DOMICILED.booleanValue()))
-            .andExpect(jsonPath("$.taxAuthorityPIN").value(DEFAULT_TAX_AUTHORITY_PIN.toString()));
+            .andExpect(jsonPath("$.taxAuthorityPIN").value(DEFAULT_TAX_AUTHORITY_PIN.toString()))
+            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -774,6 +782,45 @@ public class RegisteredSupplierResourceIT {
         // Get all the registeredSupplierList where taxAuthorityPIN is null
         defaultRegisteredSupplierShouldNotBeFound("taxAuthorityPIN.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllRegisteredSuppliersByOriginatingFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        registeredSupplierRepository.saveAndFlush(registeredSupplier);
+
+        // Get all the registeredSupplierList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+
+        // Get all the registeredSupplierList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRegisteredSuppliersByOriginatingFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        registeredSupplierRepository.saveAndFlush(registeredSupplier);
+
+        // Get all the registeredSupplierList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+
+        // Get all the registeredSupplierList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRegisteredSuppliersByOriginatingFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        registeredSupplierRepository.saveAndFlush(registeredSupplier);
+
+        // Get all the registeredSupplierList where OriginatingFileToken is not null
+        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.specified=true");
+
+        // Get all the registeredSupplierList where OriginatingFileToken is null
+        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -793,7 +840,8 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankSwiftCode").value(hasItem(DEFAULT_BANK_SWIFT_CODE)))
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].locallyDomiciled").value(hasItem(DEFAULT_LOCALLY_DOMICILED.booleanValue())))
-            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)));
+            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restRegisteredSupplierMockMvc.perform(get("/api/registered-suppliers/count?sort=id,desc&" + filter))
@@ -852,7 +900,8 @@ public class RegisteredSupplierResourceIT {
             .bankSwiftCode(UPDATED_BANK_SWIFT_CODE)
             .bankPhysicalAddress(UPDATED_BANK_PHYSICAL_ADDRESS)
             .locallyDomiciled(UPDATED_LOCALLY_DOMICILED)
-            .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN);
+            .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         RegisteredSupplierDTO registeredSupplierDTO = registeredSupplierMapper.toDto(updatedRegisteredSupplier);
 
         restRegisteredSupplierMockMvc.perform(put("/api/registered-suppliers")
@@ -876,6 +925,7 @@ public class RegisteredSupplierResourceIT {
         assertThat(testRegisteredSupplier.getBankPhysicalAddress()).isEqualTo(UPDATED_BANK_PHYSICAL_ADDRESS);
         assertThat(testRegisteredSupplier.isLocallyDomiciled()).isEqualTo(UPDATED_LOCALLY_DOMICILED);
         assertThat(testRegisteredSupplier.getTaxAuthorityPIN()).isEqualTo(UPDATED_TAX_AUTHORITY_PIN);
+        assertThat(testRegisteredSupplier.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the RegisteredSupplier in Elasticsearch
         verify(mockRegisteredSupplierSearchRepository, times(1)).save(testRegisteredSupplier);
@@ -947,7 +997,8 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankSwiftCode").value(hasItem(DEFAULT_BANK_SWIFT_CODE)))
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].locallyDomiciled").value(hasItem(DEFAULT_LOCALLY_DOMICILED.booleanValue())))
-            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)));
+            .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test
