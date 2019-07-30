@@ -74,9 +74,9 @@ class TransactionAccountGatlingTest extends Simulation {
                 "id":null
                 , "accountName":"SAMPLE_TEXT"
                 , "accountNumber":"SAMPLE_TEXT"
-                , "accountBalance":"0"
+                , "accountType":"PREPAYMENT"
                 , "openingDate":"2020-01-01T00:00:00.000Z"
-                , "accountOpeningDateBalance":"0"
+                , "originatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_transactionAccount_url"))).exitHereIfFailed

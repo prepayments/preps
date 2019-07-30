@@ -46,9 +46,9 @@ describe('TransactionAccount e2e test', () => {
     await promise.all([
       transactionAccountUpdatePage.setAccountNameInput('accountName'),
       transactionAccountUpdatePage.setAccountNumberInput('accountNumber'),
-      transactionAccountUpdatePage.setAccountBalanceInput('5'),
+      transactionAccountUpdatePage.accountTypeSelectLastOption(),
       transactionAccountUpdatePage.setOpeningDateInput('2000-12-31'),
-      transactionAccountUpdatePage.setAccountOpeningDateBalanceInput('5')
+      transactionAccountUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
     ]);
     expect(await transactionAccountUpdatePage.getAccountNameInput()).to.eq(
       'accountName',
@@ -58,14 +58,13 @@ describe('TransactionAccount e2e test', () => {
       'accountNumber',
       'Expected AccountNumber value to be equals to accountNumber'
     );
-    expect(await transactionAccountUpdatePage.getAccountBalanceInput()).to.eq('5', 'Expected accountBalance value to be equals to 5');
     expect(await transactionAccountUpdatePage.getOpeningDateInput()).to.eq(
       '2000-12-31',
       'Expected openingDate value to be equals to 2000-12-31'
     );
-    expect(await transactionAccountUpdatePage.getAccountOpeningDateBalanceInput()).to.eq(
-      '5',
-      'Expected accountOpeningDateBalance value to be equals to 5'
+    expect(await transactionAccountUpdatePage.getOriginatingFileTokenInput()).to.eq(
+      'originatingFileToken',
+      'Expected OriginatingFileToken value to be equals to originatingFileToken'
     );
     await transactionAccountUpdatePage.save();
     expect(await transactionAccountUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

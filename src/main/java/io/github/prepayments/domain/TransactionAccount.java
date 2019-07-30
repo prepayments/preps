@@ -9,9 +9,10 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import io.github.prepayments.domain.enumeration.AccountTypes;
 
 /**
  * A TransactionAccount.
@@ -35,21 +36,18 @@ public class TransactionAccount implements Serializable {
     private String accountName;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{10,16}$")
     @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
-    @Column(name = "account_balance", precision = 21, scale = 2)
-    private BigDecimal accountBalance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_type")
+    private AccountTypes accountType;
 
-    @NotNull
-    @Column(name = "opening_date", nullable = false)
+    @Column(name = "opening_date")
     private LocalDate openingDate;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    @Column(name = "account_opening_date_balance", precision = 21, scale = 2, nullable = false)
-    private BigDecimal accountOpeningDateBalance;
+    @Column(name = "originating_file_token")
+    private String originatingFileToken;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -86,17 +84,17 @@ public class TransactionAccount implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public BigDecimal getAccountBalance() {
-        return accountBalance;
+    public AccountTypes getAccountType() {
+        return accountType;
     }
 
-    public TransactionAccount accountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
+    public TransactionAccount accountType(AccountTypes accountType) {
+        this.accountType = accountType;
         return this;
     }
 
-    public void setAccountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setAccountType(AccountTypes accountType) {
+        this.accountType = accountType;
     }
 
     public LocalDate getOpeningDate() {
@@ -112,17 +110,17 @@ public class TransactionAccount implements Serializable {
         this.openingDate = openingDate;
     }
 
-    public BigDecimal getAccountOpeningDateBalance() {
-        return accountOpeningDateBalance;
+    public String getOriginatingFileToken() {
+        return originatingFileToken;
     }
 
-    public TransactionAccount accountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
-        this.accountOpeningDateBalance = accountOpeningDateBalance;
+    public TransactionAccount originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
     }
 
-    public void setAccountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
-        this.accountOpeningDateBalance = accountOpeningDateBalance;
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -148,9 +146,9 @@ public class TransactionAccount implements Serializable {
             "id=" + getId() +
             ", accountName='" + getAccountName() + "'" +
             ", accountNumber='" + getAccountNumber() + "'" +
-            ", accountBalance=" + getAccountBalance() +
+            ", accountType='" + getAccountType() + "'" +
             ", openingDate='" + getOpeningDate() + "'" +
-            ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
             "}";
     }
 }

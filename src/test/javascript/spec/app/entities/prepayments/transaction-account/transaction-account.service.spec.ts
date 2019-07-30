@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { TransactionAccountService } from 'app/entities/prepayments/transaction-account/transaction-account.service';
-import { ITransactionAccount, TransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
+import { ITransactionAccount, TransactionAccount, AccountTypes } from 'app/shared/model/prepayments/transaction-account.model';
 
 describe('Service Tests', () => {
   describe('TransactionAccount Service', () => {
@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new TransactionAccount(0, 'AAAAAAA', 'AAAAAAA', 0, currentDate, 0);
+      elemDefault = new TransactionAccount(0, 'AAAAAAA', 'AAAAAAA', AccountTypes.PREPAYMENT, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -76,9 +76,9 @@ describe('Service Tests', () => {
           {
             accountName: 'BBBBBB',
             accountNumber: 'BBBBBB',
-            accountBalance: 1,
+            accountType: 'BBBBBB',
             openingDate: currentDate.format(DATE_FORMAT),
-            accountOpeningDateBalance: 1
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -103,9 +103,9 @@ describe('Service Tests', () => {
           {
             accountName: 'BBBBBB',
             accountNumber: 'BBBBBB',
-            accountBalance: 1,
+            accountType: 'BBBBBB',
             openingDate: currentDate.format(DATE_FORMAT),
-            accountOpeningDateBalance: 1
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

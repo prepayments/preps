@@ -32,9 +32,9 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountBalance"><span>Account Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountType"><span>Account Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="openingDate"><span>Opening Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountOpeningDateBalance"><span>Account Opening Date Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -43,9 +43,9 @@
                 <td><a [routerLink]="['/transaction-account', transactionAccount.id, 'view' ]">{{transactionAccount.id}}</a></td>
                 <td>{{transactionAccount.accountName}}</td>
                 <td>{{transactionAccount.accountNumber}}</td>
-                <td>{{transactionAccount.accountBalance}}</td>
+                <td>{{transactionAccount.accountType}}</td>
                 <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
-                <td>{{transactionAccount.accountOpeningDateBalance}}</td>
+                <td>{{transactionAccount.originatingFileToken}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

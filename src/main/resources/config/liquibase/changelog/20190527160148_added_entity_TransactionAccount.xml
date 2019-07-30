@@ -23,16 +23,16 @@
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_transaction_account_account_number" />
             </column>
 
-            <column name="account_balance" type="decimal(21,2)">
+            <column name="account_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
             <column name="opening_date" type="date">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
-            <column name="account_opening_date_balance" type="decimal(21,2)">
-                <constraints nullable="false" />
+            <column name="originating_file_token" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -57,9 +57,9 @@
             <column name="id" type="numeric"/>
             <column name="account_name" type="string"/>
             <column name="account_number" type="string"/>
-            <column name="account_balance" type="numeric"/>
+            <column name="account_type" type="string"/>
             <column name="opening_date" type="date"/>
-            <column name="account_opening_date_balance" type="numeric"/>
+            <column name="originating_file_token" type="string"/>
         </loadData>
     </changeSet>
 

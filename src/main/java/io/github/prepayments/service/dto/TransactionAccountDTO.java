@@ -2,8 +2,8 @@ package io.github.prepayments.service.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
+import io.github.prepayments.domain.enumeration.AccountTypes;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.TransactionAccount} entity.
@@ -16,17 +16,13 @@ public class TransactionAccountDTO implements Serializable {
     private String accountName;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{10,16}$")
     private String accountNumber;
 
-    private BigDecimal accountBalance;
+    private AccountTypes accountType;
 
-    @NotNull
     private LocalDate openingDate;
 
-    @NotNull
-    @DecimalMin(value = "0")
-    private BigDecimal accountOpeningDateBalance;
+    private String originatingFileToken;
 
 
     public Long getId() {
@@ -53,12 +49,12 @@ public class TransactionAccountDTO implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public BigDecimal getAccountBalance() {
-        return accountBalance;
+    public AccountTypes getAccountType() {
+        return accountType;
     }
 
-    public void setAccountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setAccountType(AccountTypes accountType) {
+        this.accountType = accountType;
     }
 
     public LocalDate getOpeningDate() {
@@ -69,12 +65,12 @@ public class TransactionAccountDTO implements Serializable {
         this.openingDate = openingDate;
     }
 
-    public BigDecimal getAccountOpeningDateBalance() {
-        return accountOpeningDateBalance;
+    public String getOriginatingFileToken() {
+        return originatingFileToken;
     }
 
-    public void setAccountOpeningDateBalance(BigDecimal accountOpeningDateBalance) {
-        this.accountOpeningDateBalance = accountOpeningDateBalance;
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
 
     @Override
@@ -104,9 +100,9 @@ public class TransactionAccountDTO implements Serializable {
             "id=" + getId() +
             ", accountName='" + getAccountName() + "'" +
             ", accountNumber='" + getAccountNumber() + "'" +
-            ", accountBalance=" + getAccountBalance() +
+            ", accountType='" + getAccountType() + "'" +
             ", openingDate='" + getOpeningDate() + "'" +
-            ", accountOpeningDateBalance=" + getAccountOpeningDateBalance() +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
             "}";
     }
 }

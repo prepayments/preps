@@ -29,16 +29,14 @@
                                *ngIf="editForm.get('accountNumber').errors.required">
                         This field is required.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountNumber').errors.pattern">
-                            This field should follow pattern for "Account Number".
-                        </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_accountBalance">Account Balance</label>
-                    <input type="number" class="form-control" name="accountBalance" id="field_accountBalance"
-                           formControlName="accountBalance"/>
+                    <label class="form-control-label" for="field_accountType">Account Type</label>
+                    <select class="form-control" name="accountType" formControlName="accountType" id="field_accountType">
+                        <option value="PREPAYMENT">PREPAYMENT</option>
+                        <option value="AMORTIZATION">AMORTIZATION</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_openingDate">Opening Date</label>
@@ -48,31 +46,11 @@
                             <button type="button" class="btn btn-secondary" (click)="openingDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                    <div *ngIf="editForm.get('openingDate').invalid && (editForm.get('openingDate').dirty || editForm.get('openingDate').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('openingDate').errors.required">
-                        This field is required.
-                        </small>
-                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_accountOpeningDateBalance">Account Opening Date Balance</label>
-                    <input type="number" class="form-control" name="accountOpeningDateBalance" id="field_accountOpeningDateBalance"
-                           formControlName="accountOpeningDateBalance"/>
-                    <div *ngIf="editForm.get('accountOpeningDateBalance').invalid && (editForm.get('accountOpeningDateBalance').dirty || editForm.get('accountOpeningDateBalance').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountOpeningDateBalance').errors.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountOpeningDateBalance').errors.min">
-                            This field should be at least 0.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('accountOpeningDateBalance')?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
+                    <label class="form-control-label" for="field_originatingFileToken">Originating File Token</label>
+                    <input type="text" class="form-control" name="originatingFileToken" id="field_originatingFileToken"
+                           formControlName="originatingFileToken"/>
                 </div>
 
             </div>

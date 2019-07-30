@@ -3,6 +3,7 @@ package io.github.prepayments.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import io.github.prepayments.domain.enumeration.AccountTypes;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -10,7 +11,6 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -23,6 +23,24 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class TransactionAccountCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering AccountTypes
+     */
+    public static class AccountTypesFilter extends Filter<AccountTypes> {
+
+        public AccountTypesFilter() {
+        }
+
+        public AccountTypesFilter(AccountTypesFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public AccountTypesFilter copy() {
+            return new AccountTypesFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -32,11 +50,11 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
 
     private StringFilter accountNumber;
 
-    private BigDecimalFilter accountBalance;
+    private AccountTypesFilter accountType;
 
     private LocalDateFilter openingDate;
 
-    private BigDecimalFilter accountOpeningDateBalance;
+    private StringFilter originatingFileToken;
 
     public TransactionAccountCriteria(){
     }
@@ -45,9 +63,9 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.accountName = other.accountName == null ? null : other.accountName.copy();
         this.accountNumber = other.accountNumber == null ? null : other.accountNumber.copy();
-        this.accountBalance = other.accountBalance == null ? null : other.accountBalance.copy();
+        this.accountType = other.accountType == null ? null : other.accountType.copy();
         this.openingDate = other.openingDate == null ? null : other.openingDate.copy();
-        this.accountOpeningDateBalance = other.accountOpeningDateBalance == null ? null : other.accountOpeningDateBalance.copy();
+        this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
     }
 
     @Override
@@ -79,12 +97,12 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
         this.accountNumber = accountNumber;
     }
 
-    public BigDecimalFilter getAccountBalance() {
-        return accountBalance;
+    public AccountTypesFilter getAccountType() {
+        return accountType;
     }
 
-    public void setAccountBalance(BigDecimalFilter accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setAccountType(AccountTypesFilter accountType) {
+        this.accountType = accountType;
     }
 
     public LocalDateFilter getOpeningDate() {
@@ -95,12 +113,12 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
         this.openingDate = openingDate;
     }
 
-    public BigDecimalFilter getAccountOpeningDateBalance() {
-        return accountOpeningDateBalance;
+    public StringFilter getOriginatingFileToken() {
+        return originatingFileToken;
     }
 
-    public void setAccountOpeningDateBalance(BigDecimalFilter accountOpeningDateBalance) {
-        this.accountOpeningDateBalance = accountOpeningDateBalance;
+    public void setOriginatingFileToken(StringFilter originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
 
 
@@ -117,9 +135,9 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(accountName, that.accountName) &&
             Objects.equals(accountNumber, that.accountNumber) &&
-            Objects.equals(accountBalance, that.accountBalance) &&
+            Objects.equals(accountType, that.accountType) &&
             Objects.equals(openingDate, that.openingDate) &&
-            Objects.equals(accountOpeningDateBalance, that.accountOpeningDateBalance);
+            Objects.equals(originatingFileToken, that.originatingFileToken);
     }
 
     @Override
@@ -128,9 +146,9 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
         id,
         accountName,
         accountNumber,
-        accountBalance,
+        accountType,
         openingDate,
-        accountOpeningDateBalance
+        originatingFileToken
         );
     }
 
@@ -140,9 +158,9 @@ public class TransactionAccountCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (accountName != null ? "accountName=" + accountName + ", " : "") +
                 (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
-                (accountBalance != null ? "accountBalance=" + accountBalance + ", " : "") +
+                (accountType != null ? "accountType=" + accountType + ", " : "") +
                 (openingDate != null ? "openingDate=" + openingDate + ", " : "") +
-                (accountOpeningDateBalance != null ? "accountOpeningDateBalance=" + accountOpeningDateBalance + ", " : "") +
+                (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") +
             "}";
     }
 

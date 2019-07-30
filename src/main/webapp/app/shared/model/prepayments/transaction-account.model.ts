@@ -1,12 +1,17 @@
 import { Moment } from 'moment';
 
+export const enum AccountTypes {
+  PREPAYMENT = 'PREPAYMENT',
+  AMORTIZATION = 'AMORTIZATION'
+}
+
 export interface ITransactionAccount {
   id?: number;
   accountName?: string;
   accountNumber?: string;
-  accountBalance?: number;
+  accountType?: AccountTypes;
   openingDate?: Moment;
-  accountOpeningDateBalance?: number;
+  originatingFileToken?: string;
 }
 
 export class TransactionAccount implements ITransactionAccount {
@@ -14,8 +19,8 @@ export class TransactionAccount implements ITransactionAccount {
     public id?: number,
     public accountName?: string,
     public accountNumber?: string,
-    public accountBalance?: number,
+    public accountType?: AccountTypes,
     public openingDate?: Moment,
-    public accountOpeningDateBalance?: number
+    public originatingFileToken?: string
   ) {}
 }

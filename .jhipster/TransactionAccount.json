@@ -16,30 +16,21 @@
             "fieldType": "String",
             "fieldValidateRules": [
                 "required",
-                "pattern",
                 "unique"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{10,16}$"
-        },
-        {
-            "fieldName": "accountBalance",
-            "fieldType": "BigDecimal"
-        },
-        {
-            "fieldName": "openingDate",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": [
-                "required"
             ]
         },
         {
-            "fieldName": "accountOpeningDateBalance",
-            "fieldType": "BigDecimal",
-            "fieldValidateRules": [
-                "required",
-                "min"
-            ],
-            "fieldValidateRulesMin": 0
+          "fieldName": "accountType",
+          "fieldType": "AccountTypes",
+          "fieldValues": "PREPAYMENT,AMORTIZATION"
+        },
+      {
+        "fieldName": "openingDate",
+        "fieldType": "LocalDate"
+      },
+        {
+          "fieldName": "originatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190527160148",

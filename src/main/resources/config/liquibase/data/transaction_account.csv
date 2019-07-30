@@ -1,11 +1,11 @@
-id;account_name;account_number;account_balance;opening_date;account_opening_date_balance
-1;Money Market Account;Directives application Home Loan Account;15601;2019-07-29T22:00:05;15599
-2;Checking Account;Trace;33370;2019-07-29T18:16:29;14286
-3;Credit Card Account;Movies Producer;83244;2019-07-29T10:10:35;21233
-4;Checking Account;Officer;61748;2019-07-30T01:23:59;61165
-5;Home Loan Account;web-readiness;29122;2019-07-29T20:06:25;61185
-6;Investment Account;Gorgeous Frozen Pants;23277;2019-07-29T21:45:21;9060
-7;Auto Loan Account;grey Cambridgeshire;59241;2019-07-29T21:29:57;4645
-8;Auto Loan Account;Yuan Renminbi Centers;1326;2019-07-29T09:55:42;94220
-9;Personal Loan Account;cross-platform access;9767;2019-07-30T03:09:36;68423
-10;Savings Account;Bahamian Dollar Investment Account;83319;2019-07-30T07:52:34;17336
+id;account_name;account_number;account_type;opening_date;originating_file_token
+1;Money Market Account;Directives application Home Loan Account;PREPAYMENT;2019-07-30T11:41:20;Trace
+2;Money Market Account;Metal deposit;PREPAYMENT;2019-07-29T18:06:35;red Chips Soap
+3;Money Market Account;Albania web-readiness;PREPAYMENT;2019-07-30T04:29:30;Gorgeous Frozen Pants
+4;Savings Account;Licensed Savings Account;PREPAYMENT;2019-07-30T12:58:24;Credit Card Account Table Small Frozen Sausages
+5;Personal Loan Account;cross-platform access;PREPAYMENT;2019-07-30T08:18:13;Bahamian Dollar Investment Account
+6;Auto Loan Account;Salad;PREPAYMENT;2019-07-30T06:36:26;Costa Rica Mayotte
+7;Savings Account;Facilitator;PREPAYMENT;2019-07-29T20:38:02;archive Georgia Aruba
+8;Personal Loan Account;navigating;PREPAYMENT;2019-07-30T07:20:45;Faroe Islands Plastic
+9;Auto Loan Account;Small;PREPAYMENT;2019-07-30T13:45:01;magenta monitor 1080p
+10;Home Loan Account;Identity;PREPAYMENT;2019-07-29T23:07:45;archive Fantastic Plastic Chicken

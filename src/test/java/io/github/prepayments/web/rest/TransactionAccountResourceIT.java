@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -41,6 +40,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import io.github.prepayments.domain.enumeration.AccountTypes;
 /**
  * Integration tests for the {@Link TransactionAccountResource} REST controller.
  */
@@ -50,17 +50,17 @@ public class TransactionAccountResourceIT {
     private static final String DEFAULT_ACCOUNT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ACCOUNT_NUMBER = "0835839974";
-    private static final String UPDATED_ACCOUNT_NUMBER = "9770114069195299";
+    private static final String DEFAULT_ACCOUNT_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_ACCOUNT_NUMBER = "BBBBBBBBBB";
 
-    private static final BigDecimal DEFAULT_ACCOUNT_BALANCE = new BigDecimal(1);
-    private static final BigDecimal UPDATED_ACCOUNT_BALANCE = new BigDecimal(2);
+    private static final AccountTypes DEFAULT_ACCOUNT_TYPE = AccountTypes.PREPAYMENT;
+    private static final AccountTypes UPDATED_ACCOUNT_TYPE = AccountTypes.AMORTIZATION;
 
     private static final LocalDate DEFAULT_OPENING_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_OPENING_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final BigDecimal DEFAULT_ACCOUNT_OPENING_DATE_BALANCE = new BigDecimal(0);
-    private static final BigDecimal UPDATED_ACCOUNT_OPENING_DATE_BALANCE = new BigDecimal(1);
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
 
     @Autowired
     private TransactionAccountRepository transactionAccountRepository;
@@ -123,9 +123,9 @@ public class TransactionAccountResourceIT {
         TransactionAccount transactionAccount = new TransactionAccount()
             .accountName(DEFAULT_ACCOUNT_NAME)
             .accountNumber(DEFAULT_ACCOUNT_NUMBER)
-            .accountBalance(DEFAULT_ACCOUNT_BALANCE)
+            .accountType(DEFAULT_ACCOUNT_TYPE)
             .openingDate(DEFAULT_OPENING_DATE)
-            .accountOpeningDateBalance(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return transactionAccount;
     }
     /**
@@ -138,9 +138,9 @@ public class TransactionAccountResourceIT {
         TransactionAccount transactionAccount = new TransactionAccount()
             .accountName(UPDATED_ACCOUNT_NAME)
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
-            .accountBalance(UPDATED_ACCOUNT_BALANCE)
+            .accountType(UPDATED_ACCOUNT_TYPE)
             .openingDate(UPDATED_OPENING_DATE)
-            .accountOpeningDateBalance(UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return transactionAccount;
     }
 
@@ -167,9 +167,9 @@ public class TransactionAccountResourceIT {
         TransactionAccount testTransactionAccount = transactionAccountList.get(transactionAccountList.size() - 1);
         assertThat(testTransactionAccount.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
         assertThat(testTransactionAccount.getAccountNumber()).isEqualTo(DEFAULT_ACCOUNT_NUMBER);
-        assertThat(testTransactionAccount.getAccountBalance()).isEqualTo(DEFAULT_ACCOUNT_BALANCE);
+        assertThat(testTransactionAccount.getAccountType()).isEqualTo(DEFAULT_ACCOUNT_TYPE);
         assertThat(testTransactionAccount.getOpeningDate()).isEqualTo(DEFAULT_OPENING_DATE);
-        assertThat(testTransactionAccount.getAccountOpeningDateBalance()).isEqualTo(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE);
+        assertThat(testTransactionAccount.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the TransactionAccount in Elasticsearch
         verify(mockTransactionAccountSearchRepository, times(1)).save(testTransactionAccount);
@@ -239,44 +239,6 @@ public class TransactionAccountResourceIT {
 
     @Test
     @Transactional
-    public void checkOpeningDateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = transactionAccountRepository.findAll().size();
-        // set the field null
-        transactionAccount.setOpeningDate(null);
-
-        // Create the TransactionAccount, which fails.
-        TransactionAccountDTO transactionAccountDTO = transactionAccountMapper.toDto(transactionAccount);
-
-        restTransactionAccountMockMvc.perform(post("/api/transaction-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(transactionAccountDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<TransactionAccount> transactionAccountList = transactionAccountRepository.findAll();
-        assertThat(transactionAccountList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkAccountOpeningDateBalanceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = transactionAccountRepository.findAll().size();
-        // set the field null
-        transactionAccount.setAccountOpeningDateBalance(null);
-
-        // Create the TransactionAccount, which fails.
-        TransactionAccountDTO transactionAccountDTO = transactionAccountMapper.toDto(transactionAccount);
-
-        restTransactionAccountMockMvc.perform(post("/api/transaction-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(transactionAccountDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<TransactionAccount> transactionAccountList = transactionAccountRepository.findAll();
-        assertThat(transactionAccountList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllTransactionAccounts() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
@@ -288,9 +250,9 @@ public class TransactionAccountResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(transactionAccount.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME.toString())))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER.toString())))
-            .andExpect(jsonPath("$.[*].accountBalance").value(hasItem(DEFAULT_ACCOUNT_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].accountType").value(hasItem(DEFAULT_ACCOUNT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].openingDate").value(hasItem(DEFAULT_OPENING_DATE.toString())))
-            .andExpect(jsonPath("$.[*].accountOpeningDateBalance").value(hasItem(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE.intValue())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -306,9 +268,9 @@ public class TransactionAccountResourceIT {
             .andExpect(jsonPath("$.id").value(transactionAccount.getId().intValue()))
             .andExpect(jsonPath("$.accountName").value(DEFAULT_ACCOUNT_NAME.toString()))
             .andExpect(jsonPath("$.accountNumber").value(DEFAULT_ACCOUNT_NUMBER.toString()))
-            .andExpect(jsonPath("$.accountBalance").value(DEFAULT_ACCOUNT_BALANCE.intValue()))
+            .andExpect(jsonPath("$.accountType").value(DEFAULT_ACCOUNT_TYPE.toString()))
             .andExpect(jsonPath("$.openingDate").value(DEFAULT_OPENING_DATE.toString()))
-            .andExpect(jsonPath("$.accountOpeningDateBalance").value(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE.intValue()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -391,41 +353,41 @@ public class TransactionAccountResourceIT {
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountBalanceIsEqualToSomething() throws Exception {
+    public void getAllTransactionAccountsByAccountTypeIsEqualToSomething() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountBalance equals to DEFAULT_ACCOUNT_BALANCE
-        defaultTransactionAccountShouldBeFound("accountBalance.equals=" + DEFAULT_ACCOUNT_BALANCE);
+        // Get all the transactionAccountList where accountType equals to DEFAULT_ACCOUNT_TYPE
+        defaultTransactionAccountShouldBeFound("accountType.equals=" + DEFAULT_ACCOUNT_TYPE);
 
-        // Get all the transactionAccountList where accountBalance equals to UPDATED_ACCOUNT_BALANCE
-        defaultTransactionAccountShouldNotBeFound("accountBalance.equals=" + UPDATED_ACCOUNT_BALANCE);
+        // Get all the transactionAccountList where accountType equals to UPDATED_ACCOUNT_TYPE
+        defaultTransactionAccountShouldNotBeFound("accountType.equals=" + UPDATED_ACCOUNT_TYPE);
     }
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountBalanceIsInShouldWork() throws Exception {
+    public void getAllTransactionAccountsByAccountTypeIsInShouldWork() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountBalance in DEFAULT_ACCOUNT_BALANCE or UPDATED_ACCOUNT_BALANCE
-        defaultTransactionAccountShouldBeFound("accountBalance.in=" + DEFAULT_ACCOUNT_BALANCE + "," + UPDATED_ACCOUNT_BALANCE);
+        // Get all the transactionAccountList where accountType in DEFAULT_ACCOUNT_TYPE or UPDATED_ACCOUNT_TYPE
+        defaultTransactionAccountShouldBeFound("accountType.in=" + DEFAULT_ACCOUNT_TYPE + "," + UPDATED_ACCOUNT_TYPE);
 
-        // Get all the transactionAccountList where accountBalance equals to UPDATED_ACCOUNT_BALANCE
-        defaultTransactionAccountShouldNotBeFound("accountBalance.in=" + UPDATED_ACCOUNT_BALANCE);
+        // Get all the transactionAccountList where accountType equals to UPDATED_ACCOUNT_TYPE
+        defaultTransactionAccountShouldNotBeFound("accountType.in=" + UPDATED_ACCOUNT_TYPE);
     }
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountBalanceIsNullOrNotNull() throws Exception {
+    public void getAllTransactionAccountsByAccountTypeIsNullOrNotNull() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountBalance is not null
-        defaultTransactionAccountShouldBeFound("accountBalance.specified=true");
+        // Get all the transactionAccountList where accountType is not null
+        defaultTransactionAccountShouldBeFound("accountType.specified=true");
 
-        // Get all the transactionAccountList where accountBalance is null
-        defaultTransactionAccountShouldNotBeFound("accountBalance.specified=false");
+        // Get all the transactionAccountList where accountType is null
+        defaultTransactionAccountShouldNotBeFound("accountType.specified=false");
     }
 
     @Test
@@ -496,41 +458,41 @@ public class TransactionAccountResourceIT {
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountOpeningDateBalanceIsEqualToSomething() throws Exception {
+    public void getAllTransactionAccountsByOriginatingFileTokenIsEqualToSomething() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountOpeningDateBalance equals to DEFAULT_ACCOUNT_OPENING_DATE_BALANCE
-        defaultTransactionAccountShouldBeFound("accountOpeningDateBalance.equals=" + DEFAULT_ACCOUNT_OPENING_DATE_BALANCE);
+        // Get all the transactionAccountList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultTransactionAccountShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
 
-        // Get all the transactionAccountList where accountOpeningDateBalance equals to UPDATED_ACCOUNT_OPENING_DATE_BALANCE
-        defaultTransactionAccountShouldNotBeFound("accountOpeningDateBalance.equals=" + UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+        // Get all the transactionAccountList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultTransactionAccountShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountOpeningDateBalanceIsInShouldWork() throws Exception {
+    public void getAllTransactionAccountsByOriginatingFileTokenIsInShouldWork() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountOpeningDateBalance in DEFAULT_ACCOUNT_OPENING_DATE_BALANCE or UPDATED_ACCOUNT_OPENING_DATE_BALANCE
-        defaultTransactionAccountShouldBeFound("accountOpeningDateBalance.in=" + DEFAULT_ACCOUNT_OPENING_DATE_BALANCE + "," + UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+        // Get all the transactionAccountList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultTransactionAccountShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
 
-        // Get all the transactionAccountList where accountOpeningDateBalance equals to UPDATED_ACCOUNT_OPENING_DATE_BALANCE
-        defaultTransactionAccountShouldNotBeFound("accountOpeningDateBalance.in=" + UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+        // Get all the transactionAccountList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultTransactionAccountShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
     @Transactional
-    public void getAllTransactionAccountsByAccountOpeningDateBalanceIsNullOrNotNull() throws Exception {
+    public void getAllTransactionAccountsByOriginatingFileTokenIsNullOrNotNull() throws Exception {
         // Initialize the database
         transactionAccountRepository.saveAndFlush(transactionAccount);
 
-        // Get all the transactionAccountList where accountOpeningDateBalance is not null
-        defaultTransactionAccountShouldBeFound("accountOpeningDateBalance.specified=true");
+        // Get all the transactionAccountList where originatingFileToken is not null
+        defaultTransactionAccountShouldBeFound("originatingFileToken.specified=true");
 
-        // Get all the transactionAccountList where accountOpeningDateBalance is null
-        defaultTransactionAccountShouldNotBeFound("accountOpeningDateBalance.specified=false");
+        // Get all the transactionAccountList where originatingFileToken is null
+        defaultTransactionAccountShouldNotBeFound("originatingFileToken.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -542,9 +504,9 @@ public class TransactionAccountResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(transactionAccount.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
-            .andExpect(jsonPath("$.[*].accountBalance").value(hasItem(DEFAULT_ACCOUNT_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].accountType").value(hasItem(DEFAULT_ACCOUNT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].openingDate").value(hasItem(DEFAULT_OPENING_DATE.toString())))
-            .andExpect(jsonPath("$.[*].accountOpeningDateBalance").value(hasItem(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE.intValue())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restTransactionAccountMockMvc.perform(get("/api/transaction-accounts/count?sort=id,desc&" + filter))
@@ -594,9 +556,9 @@ public class TransactionAccountResourceIT {
         updatedTransactionAccount
             .accountName(UPDATED_ACCOUNT_NAME)
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
-            .accountBalance(UPDATED_ACCOUNT_BALANCE)
+            .accountType(UPDATED_ACCOUNT_TYPE)
             .openingDate(UPDATED_OPENING_DATE)
-            .accountOpeningDateBalance(UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         TransactionAccountDTO transactionAccountDTO = transactionAccountMapper.toDto(updatedTransactionAccount);
 
         restTransactionAccountMockMvc.perform(put("/api/transaction-accounts")
@@ -610,9 +572,9 @@ public class TransactionAccountResourceIT {
         TransactionAccount testTransactionAccount = transactionAccountList.get(transactionAccountList.size() - 1);
         assertThat(testTransactionAccount.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testTransactionAccount.getAccountNumber()).isEqualTo(UPDATED_ACCOUNT_NUMBER);
-        assertThat(testTransactionAccount.getAccountBalance()).isEqualTo(UPDATED_ACCOUNT_BALANCE);
+        assertThat(testTransactionAccount.getAccountType()).isEqualTo(UPDATED_ACCOUNT_TYPE);
         assertThat(testTransactionAccount.getOpeningDate()).isEqualTo(UPDATED_OPENING_DATE);
-        assertThat(testTransactionAccount.getAccountOpeningDateBalance()).isEqualTo(UPDATED_ACCOUNT_OPENING_DATE_BALANCE);
+        assertThat(testTransactionAccount.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the TransactionAccount in Elasticsearch
         verify(mockTransactionAccountSearchRepository, times(1)).save(testTransactionAccount);
@@ -675,9 +637,9 @@ public class TransactionAccountResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(transactionAccount.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
-            .andExpect(jsonPath("$.[*].accountBalance").value(hasItem(DEFAULT_ACCOUNT_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].accountType").value(hasItem(DEFAULT_ACCOUNT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].openingDate").value(hasItem(DEFAULT_OPENING_DATE.toString())))
-            .andExpect(jsonPath("$.[*].accountOpeningDateBalance").value(hasItem(DEFAULT_ACCOUNT_OPENING_DATE_BALANCE.intValue())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

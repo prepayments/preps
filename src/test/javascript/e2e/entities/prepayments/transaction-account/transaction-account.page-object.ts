@@ -28,9 +28,9 @@ export class TransactionAccountUpdatePage {
   cancelButton = element(by.id('cancel-save'));
   accountNameInput = element(by.id('field_accountName'));
   accountNumberInput = element(by.id('field_accountNumber'));
-  accountBalanceInput = element(by.id('field_accountBalance'));
+  accountTypeSelect = element(by.id('field_accountType'));
   openingDateInput = element(by.id('field_openingDate'));
-  accountOpeningDateBalanceInput = element(by.id('field_accountOpeningDateBalance'));
+  originatingFileTokenInput = element(by.id('field_originatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -52,12 +52,19 @@ export class TransactionAccountUpdatePage {
     return await this.accountNumberInput.getAttribute('value');
   }
 
-  async setAccountBalanceInput(accountBalance) {
-    await this.accountBalanceInput.sendKeys(accountBalance);
+  async setAccountTypeSelect(accountType) {
+    await this.accountTypeSelect.sendKeys(accountType);
   }
 
-  async getAccountBalanceInput() {
-    return await this.accountBalanceInput.getAttribute('value');
+  async getAccountTypeSelect() {
+    return await this.accountTypeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async accountTypeSelectLastOption(timeout?: number) {
+    await this.accountTypeSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
   }
 
   async setOpeningDateInput(openingDate) {
@@ -68,12 +75,12 @@ export class TransactionAccountUpdatePage {
     return await this.openingDateInput.getAttribute('value');
   }
 
-  async setAccountOpeningDateBalanceInput(accountOpeningDateBalance) {
-    await this.accountOpeningDateBalanceInput.sendKeys(accountOpeningDateBalance);
+  async setOriginatingFileTokenInput(originatingFileToken) {
+    await this.originatingFileTokenInput.sendKeys(originatingFileToken);
   }
 
-  async getAccountOpeningDateBalanceInput() {
-    return await this.accountOpeningDateBalanceInput.getAttribute('value');
+  async getOriginatingFileTokenInput() {
+    return await this.originatingFileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

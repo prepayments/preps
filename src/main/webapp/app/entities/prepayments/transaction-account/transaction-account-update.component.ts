@@ -19,10 +19,10 @@ export class TransactionAccountUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     accountName: [null, [Validators.required]],
-    accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{10,16}$')]],
-    accountBalance: [],
-    openingDate: [null, [Validators.required]],
-    accountOpeningDateBalance: [null, [Validators.required, Validators.min(0)]]
+    accountNumber: [null, [Validators.required]],
+    accountType: [],
+    openingDate: [],
+    originatingFileToken: []
   });
 
   constructor(
@@ -44,9 +44,9 @@ export class TransactionAccountUpdateComponent implements OnInit {
       id: transactionAccount.id,
       accountName: transactionAccount.accountName,
       accountNumber: transactionAccount.accountNumber,
-      accountBalance: transactionAccount.accountBalance,
+      accountType: transactionAccount.accountType,
       openingDate: transactionAccount.openingDate,
-      accountOpeningDateBalance: transactionAccount.accountOpeningDateBalance
+      originatingFileToken: transactionAccount.originatingFileToken
     });
   }
 
@@ -70,9 +70,9 @@ export class TransactionAccountUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       accountName: this.editForm.get(['accountName']).value,
       accountNumber: this.editForm.get(['accountNumber']).value,
-      accountBalance: this.editForm.get(['accountBalance']).value,
+      accountType: this.editForm.get(['accountType']).value,
       openingDate: this.editForm.get(['openingDate']).value,
-      accountOpeningDateBalance: this.editForm.get(['accountOpeningDateBalance']).value
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value
     };
     return entity;
   }
