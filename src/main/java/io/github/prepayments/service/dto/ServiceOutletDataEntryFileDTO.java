@@ -28,6 +28,10 @@ public class ServiceOutletDataEntryFileDTO implements Serializable {
     private byte[] dataEntryFile;
 
     private String dataEntryFileContentType;
+    private Integer entriesCount;
+
+    private String fileToken;
+
 
     public Long getId() {
         return id;
@@ -85,6 +89,22 @@ public class ServiceOutletDataEntryFileDTO implements Serializable {
         this.dataEntryFileContentType = dataEntryFileContentType;
     }
 
+    public Integer getEntriesCount() {
+        return entriesCount;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
+    public String getFileToken() {
+        return fileToken;
+    }
+
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -109,6 +129,7 @@ public class ServiceOutletDataEntryFileDTO implements Serializable {
     @Override
     public String toString() {
         return "ServiceOutletDataEntryFileDTO{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", uploadSuccessful='" + isUploadSuccessful() +
-            "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + "}";
+            "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" +
+            "}";
     }
 }

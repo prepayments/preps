@@ -3,17 +3,22 @@ package io.github.prepayments.service.dto;
 import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.PrepaymentDataEntryFile} entity. This class is used in {@link io.github.prepayments.web.rest.PrepaymentDataEntryFileResource} to receive
- * all the possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /prepayment-data-entry-files?id
- * .greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.PrepaymentDataEntryFile} entity. This class is used
+ * in {@link io.github.prepayments.web.rest.PrepaymentDataEntryFileResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /prepayment-data-entry-files?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
  */
 public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
 
@@ -29,6 +34,10 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
 
     private BooleanFilter uploadSuccessful;
 
+    private IntegerFilter entriesCount;
+
+    private StringFilter fileToken;
+
     public PrepaymentDataEntryFileCriteria() {
     }
 
@@ -38,6 +47,8 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
         this.periodTo = other.periodTo == null ? null : other.periodTo.copy();
         this.uploadProcessed = other.uploadProcessed == null ? null : other.uploadProcessed.copy();
         this.uploadSuccessful = other.uploadSuccessful == null ? null : other.uploadSuccessful.copy();
+        this.entriesCount = other.entriesCount == null ? null : other.entriesCount.copy();
+        this.fileToken = other.fileToken == null ? null : other.fileToken.copy();
     }
 
     @Override
@@ -85,6 +96,22 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
         this.uploadSuccessful = uploadSuccessful;
     }
 
+    public IntegerFilter getEntriesCount() {
+        return entriesCount;
+    }
+
+    public void setEntriesCount(IntegerFilter entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
+    public StringFilter getFileToken() {
+        return fileToken;
+    }
+
+    public void setFileToken(StringFilter fileToken) {
+        this.fileToken = fileToken;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -96,19 +123,20 @@ public class PrepaymentDataEntryFileCriteria implements Serializable, Criteria {
         }
         final PrepaymentDataEntryFileCriteria that = (PrepaymentDataEntryFileCriteria) o;
         return Objects.equals(id, that.id) && Objects.equals(periodFrom, that.periodFrom) && Objects.equals(periodTo, that.periodTo) && Objects.equals(uploadProcessed, that.uploadProcessed) &&
-            Objects.equals(uploadSuccessful, that.uploadSuccessful);
+            Objects.equals(uploadSuccessful, that.uploadSuccessful) && Objects.equals(entriesCount, that.entriesCount) && Objects.equals(fileToken, that.fileToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, periodFrom, periodTo, uploadProcessed, uploadSuccessful);
+        return Objects.hash(id, periodFrom, periodTo, uploadProcessed, uploadSuccessful, entriesCount, fileToken);
     }
 
     @Override
     public String toString() {
         return "PrepaymentDataEntryFileCriteria{" + (id != null ? "id=" + id + ", " : "") + (periodFrom != null ? "periodFrom=" + periodFrom + ", " : "") +
             (periodTo != null ? "periodTo=" + periodTo + ", " : "") + (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") +
-            (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") + "}";
+            (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") + (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +
+            (fileToken != null ? "fileToken=" + fileToken + ", " : "") + "}";
     }
 
 }

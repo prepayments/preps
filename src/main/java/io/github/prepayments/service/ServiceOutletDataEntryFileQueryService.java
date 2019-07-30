@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Service for executing complex queries for {@link ServiceOutletDataEntryFile} entities in the database. The main input is a {@link ServiceOutletDataEntryFileCriteria} which gets converted to {@link
- * Specification}, in a way that all the filters must apply. It returns a {@link List} of {@link ServiceOutletDataEntryFileDTO} or a {@link Page} of {@link ServiceOutletDataEntryFileDTO} which
- * fulfills the criteria.
+ * Service for executing complex queries for {@link ServiceOutletDataEntryFile} entities in the database.
+ * The main input is a {@link ServiceOutletDataEntryFileCriteria} which gets converted to {@link Specification},
+ * in a way that all the filters must apply.
+ * It returns a {@link List} of {@link ServiceOutletDataEntryFileDTO} or a {@link Page} of {@link ServiceOutletDataEntryFileDTO} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -39,7 +40,6 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
 
     /**
      * Return a {@link List} of {@link ServiceOutletDataEntryFileDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -52,9 +52,8 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
 
     /**
      * Return a {@link Page} of {@link ServiceOutletDataEntryFileDTO} which matches the criteria from the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page     The page, which should be returned.
+     * @param page The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
@@ -66,7 +65,6 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
 
     /**
      * Return the number of matching entities in the database.
-     *
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the number of matching entities.
      */
@@ -97,6 +95,12 @@ public class ServiceOutletDataEntryFileQueryService extends QueryService<Service
             }
             if (criteria.getUploadProcessed() != null) {
                 specification = specification.and(buildSpecification(criteria.getUploadProcessed(), ServiceOutletDataEntryFile_.uploadProcessed));
+            }
+            if (criteria.getEntriesCount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEntriesCount(), ServiceOutletDataEntryFile_.entriesCount));
+            }
+            if (criteria.getFileToken() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFileToken(), ServiceOutletDataEntryFile_.fileToken));
             }
         }
         return specification;

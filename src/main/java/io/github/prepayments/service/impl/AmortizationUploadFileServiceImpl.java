@@ -97,7 +97,7 @@ public class AmortizationUploadFileServiceImpl implements AmortizationUploadFile
     /**
      * Search for the amortizationUploadFile corresponding to the query.
      *
-     * @param query    the query of the search.
+     * @param query the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */

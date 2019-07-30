@@ -162,7 +162,7 @@ public class AmortizationUploadFileResource {
     /**
      * {@code SEARCH  /_search/amortization-upload-files?query=:query} : search for the amortizationUploadFile corresponding to the query.
      *
-     * @param query    the query of the amortizationUploadFile search.
+     * @param query the query of the amortizationUploadFile search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */

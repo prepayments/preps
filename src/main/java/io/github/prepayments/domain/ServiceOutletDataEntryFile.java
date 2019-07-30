@@ -53,6 +53,12 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Column(name = "data_entry_file_content_type", nullable = false)
     private String dataEntryFileContentType;
 
+    @Column(name = "entries_count")
+    private Integer entriesCount;
+
+    @Column(name = "file_token")
+    private String fileToken;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -66,26 +72,26 @@ public class ServiceOutletDataEntryFile implements Serializable {
         return periodFrom;
     }
 
-    public void setPeriodFrom(LocalDate periodFrom) {
-        this.periodFrom = periodFrom;
-    }
-
     public ServiceOutletDataEntryFile periodFrom(LocalDate periodFrom) {
         this.periodFrom = periodFrom;
         return this;
+    }
+
+    public void setPeriodFrom(LocalDate periodFrom) {
+        this.periodFrom = periodFrom;
     }
 
     public LocalDate getPeriodTo() {
         return periodTo;
     }
 
-    public void setPeriodTo(LocalDate periodTo) {
-        this.periodTo = periodTo;
-    }
-
     public ServiceOutletDataEntryFile periodTo(LocalDate periodTo) {
         this.periodTo = periodTo;
         return this;
+    }
+
+    public void setPeriodTo(LocalDate periodTo) {
+        this.periodTo = periodTo;
     }
 
     public Boolean isUploadSuccessful() {
@@ -118,25 +124,51 @@ public class ServiceOutletDataEntryFile implements Serializable {
         return dataEntryFile;
     }
 
-    public void setDataEntryFile(byte[] dataEntryFile) {
-        this.dataEntryFile = dataEntryFile;
-    }
-
     public ServiceOutletDataEntryFile dataEntryFile(byte[] dataEntryFile) {
         this.dataEntryFile = dataEntryFile;
         return this;
+    }
+
+    public void setDataEntryFile(byte[] dataEntryFile) {
+        this.dataEntryFile = dataEntryFile;
     }
 
     public String getDataEntryFileContentType() {
         return dataEntryFileContentType;
     }
 
+    public ServiceOutletDataEntryFile dataEntryFileContentType(String dataEntryFileContentType) {
+        this.dataEntryFileContentType = dataEntryFileContentType;
+        return this;
+    }
+
     public void setDataEntryFileContentType(String dataEntryFileContentType) {
         this.dataEntryFileContentType = dataEntryFileContentType;
     }
 
-    public ServiceOutletDataEntryFile dataEntryFileContentType(String dataEntryFileContentType) {
-        this.dataEntryFileContentType = dataEntryFileContentType;
+    public Integer getEntriesCount() {
+        return entriesCount;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
+    public ServiceOutletDataEntryFile entriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+        return this;
+    }
+
+    public String getFileToken() {
+        return fileToken;
+    }
+
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
+    }
+
+    public ServiceOutletDataEntryFile fileToken(String fileToken) {
+        this.fileToken = fileToken;
         return this;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
@@ -160,6 +192,7 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Override
     public String toString() {
         return "ServiceOutletDataEntryFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + "}";
+            ", uploadProcessed='" + isUploadProcessed() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" + ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
+            ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" + "}";
     }
 }

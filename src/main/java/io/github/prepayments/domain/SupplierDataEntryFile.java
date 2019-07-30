@@ -53,6 +53,12 @@ public class SupplierDataEntryFile implements Serializable {
     @Column(name = "upload_processed")
     private Boolean uploadProcessed;
 
+    @Column(name = "entries_count")
+    private Integer entriesCount;
+
+    @Column(name = "file_token")
+    private String fileToken;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -66,21 +72,17 @@ public class SupplierDataEntryFile implements Serializable {
         return periodFrom;
     }
 
-    public void setPeriodFrom(LocalDate periodFrom) {
-        this.periodFrom = periodFrom;
-    }
-
     public SupplierDataEntryFile periodFrom(LocalDate periodFrom) {
         this.periodFrom = periodFrom;
         return this;
     }
 
-    public LocalDate getPeriodTo() {
-        return periodTo;
+    public void setPeriodFrom(LocalDate periodFrom) {
+        this.periodFrom = periodFrom;
     }
 
-    public void setPeriodTo(LocalDate periodTo) {
-        this.periodTo = periodTo;
+    public LocalDate getPeriodTo() {
+        return periodTo;
     }
 
     public SupplierDataEntryFile periodTo(LocalDate periodTo) {
@@ -88,12 +90,12 @@ public class SupplierDataEntryFile implements Serializable {
         return this;
     }
 
-    public byte[] getDataEntryFile() {
-        return dataEntryFile;
+    public void setPeriodTo(LocalDate periodTo) {
+        this.periodTo = periodTo;
     }
 
-    public void setDataEntryFile(byte[] dataEntryFile) {
-        this.dataEntryFile = dataEntryFile;
+    public byte[] getDataEntryFile() {
+        return dataEntryFile;
     }
 
     public SupplierDataEntryFile dataEntryFile(byte[] dataEntryFile) {
@@ -101,17 +103,21 @@ public class SupplierDataEntryFile implements Serializable {
         return this;
     }
 
-    public String getDataEntryFileContentType() {
-        return dataEntryFileContentType;
+    public void setDataEntryFile(byte[] dataEntryFile) {
+        this.dataEntryFile = dataEntryFile;
     }
 
-    public void setDataEntryFileContentType(String dataEntryFileContentType) {
-        this.dataEntryFileContentType = dataEntryFileContentType;
+    public String getDataEntryFileContentType() {
+        return dataEntryFileContentType;
     }
 
     public SupplierDataEntryFile dataEntryFileContentType(String dataEntryFileContentType) {
         this.dataEntryFileContentType = dataEntryFileContentType;
         return this;
+    }
+
+    public void setDataEntryFileContentType(String dataEntryFileContentType) {
+        this.dataEntryFileContentType = dataEntryFileContentType;
     }
 
     public Boolean isUploadSuccessful() {
@@ -139,6 +145,32 @@ public class SupplierDataEntryFile implements Serializable {
     public void setUploadProcessed(Boolean uploadProcessed) {
         this.uploadProcessed = uploadProcessed;
     }
+
+    public Integer getEntriesCount() {
+        return entriesCount;
+    }
+
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
+    public SupplierDataEntryFile entriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+        return this;
+    }
+
+    public String getFileToken() {
+        return fileToken;
+    }
+
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
+    }
+
+    public SupplierDataEntryFile fileToken(String fileToken) {
+        this.fileToken = fileToken;
+        return this;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -160,6 +192,7 @@ public class SupplierDataEntryFile implements Serializable {
     @Override
     public String toString() {
         return "SupplierDataEntryFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" + "}";
+            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" + "}";
     }
 }
