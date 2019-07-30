@@ -45,71 +45,69 @@
                            formControlName="particulars"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_posted">Posted</label>
-                    <input type="checkbox" class="form-control" name="posted" id="field_posted"
-                           formControlName="posted"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutlet">Service Outlet</label>
-                    <input type="text" class="form-control" name="serviceOutlet" id="field_serviceOutlet"
-                           formControlName="serviceOutlet"/>
-                    <div *ngIf="editForm.get('serviceOutlet').invalid && (editForm.get('serviceOutlet').dirty || editForm.get('serviceOutlet').touched)">
+                    <label class="form-control-label" for="field_prepaymentServiceOutlet">Prepayment Service Outlet</label>
+                    <input type="text" class="form-control" name="prepaymentServiceOutlet" id="field_prepaymentServiceOutlet"
+                           formControlName="prepaymentServiceOutlet"/>
+                    <div *ngIf="editForm.get('prepaymentServiceOutlet').invalid && (editForm.get('prepaymentServiceOutlet').dirty || editForm.get('prepaymentServiceOutlet').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutlet').errors.required">
+                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutlet').errors.pattern">
-                            This field should follow pattern for "Service Outlet".
+                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.pattern">
+                            This field should follow pattern for "Prepayment Service Outlet".
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_accountNumber">Account Number</label>
-                    <input type="text" class="form-control" name="accountNumber" id="field_accountNumber"
-                           formControlName="accountNumber"/>
-                    <div *ngIf="editForm.get('accountNumber').invalid && (editForm.get('accountNumber').dirty || editForm.get('accountNumber').touched)">
+                    <label class="form-control-label" for="field_prepaymentAccountNumber">Prepayment Account Number</label>
+                    <input type="text" class="form-control" name="prepaymentAccountNumber" id="field_prepaymentAccountNumber"
+                           formControlName="prepaymentAccountNumber"/>
+                    <div *ngIf="editForm.get('prepaymentAccountNumber').invalid && (editForm.get('prepaymentAccountNumber').dirty || editForm.get('prepaymentAccountNumber').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountNumber').errors.required">
+                               *ngIf="editForm.get('prepaymentAccountNumber').errors.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountNumber').errors.pattern">
-                            This field should follow pattern for "Account Number".
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_accountName">Account Name</label>
-                    <input type="text" class="form-control" name="accountName" id="field_accountName"
-                           formControlName="accountName"/>
-                    <div *ngIf="editForm.get('accountName').invalid && (editForm.get('accountName').dirty || editForm.get('accountName').touched)">
+                    <label class="form-control-label" for="field_amortizationServiceOutlet">Amortization Service Outlet</label>
+                    <input type="text" class="form-control" name="amortizationServiceOutlet" id="field_amortizationServiceOutlet"
+                           formControlName="amortizationServiceOutlet"/>
+                    <div *ngIf="editForm.get('amortizationServiceOutlet').invalid && (editForm.get('amortizationServiceOutlet').dirty || editForm.get('amortizationServiceOutlet').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountName').errors.required">
+                               *ngIf="editForm.get('amortizationServiceOutlet').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationServiceOutlet').errors.pattern">
+                            This field should follow pattern for "Amortization Service Outlet".
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationAccountNumber">Amortization Account Number</label>
+                    <input type="text" class="form-control" name="amortizationAccountNumber" id="field_amortizationAccountNumber"
+                           formControlName="amortizationAccountNumber"/>
+                    <div *ngIf="editForm.get('amortizationAccountNumber').invalid && (editForm.get('amortizationAccountNumber').dirty || editForm.get('amortizationAccountNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationAccountNumber').errors.required">
                         This field is required.
                         </small>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_OriginatingFileToken">Originating File Token</label>
+                    <input type="text" class="form-control" name="OriginatingFileToken" id="field_OriginatingFileToken"
+                           formControlName="OriginatingFileToken"/>
                 </div>
 
-                <!--<div class="form-group">
+                <div class="form-group">
                     <label class="form-control-label" for="field_prepaymentEntry">Prepayment Entry</label>
                     <select class="form-control" id="field_prepaymentEntry" name="prepaymentEntry" formControlName="prepaymentEntryId">
                         <option *ngIf="!editForm.get('prepaymentEntry').value" [ngValue]="null" selected></option>
                         <option [ngValue]="prepaymentEntryOption.id" *ngFor="let prepaymentEntryOption of prepaymententries; trackBy: trackPrepaymentEntryById">{{prepaymentEntryOption.id}}</option>
                     </select>
-                </div>-->
-                <div class="form-group">
-                    <label class="form-control-label" for="field_prepaymentEntry">Prepayment Entry</label>
-                    <div class="row">
-                        <input type="number" class="form-control col-5" name="prepaymentEntry" id="field_prepaymentEntry"
-                               formControlName="prepaymentEntryId"/>
-                        <a id="jh-create-entity" class="form-control col-3" [routerLink]="['/prepayment-entry/new']">
-                            <fa-icon [icon]="'plus'"></fa-icon>
-                            <span class="hidden-sm-down" >
-                            New Prepayment Entry
-                            </span>
-                        </a>
-                    </div>
                 </div>
                 <div *ngIf="editForm.get('prepaymentEntry').invalid && (editForm.get('prepaymentEntry').dirty || editForm.get('prepaymentEntry').touched)">
                     <small class="form-text text-danger"

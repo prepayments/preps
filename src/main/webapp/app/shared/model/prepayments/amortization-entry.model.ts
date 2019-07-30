@@ -5,10 +5,11 @@ export interface IAmortizationEntry {
   amortizationDate?: Moment;
   amortizationAmount?: number;
   particulars?: string;
-  posted?: boolean;
-  serviceOutlet?: string;
-  accountNumber?: string;
-  accountName?: string;
+  prepaymentServiceOutlet?: string;
+  prepaymentAccountNumber?: string;
+  amortizationServiceOutlet?: string;
+  amortizationAccountNumber?: string;
+  OriginatingFileToken?: string;
   prepaymentEntryId?: number;
 }
 
@@ -18,12 +19,11 @@ export class AmortizationEntry implements IAmortizationEntry {
     public amortizationDate?: Moment,
     public amortizationAmount?: number,
     public particulars?: string,
-    public posted?: boolean,
-    public serviceOutlet?: string,
-    public accountNumber?: string,
-    public accountName?: string,
+    public prepaymentServiceOutlet?: string,
+    public prepaymentAccountNumber?: string,
+    public amortizationServiceOutlet?: string,
+    public amortizationAccountNumber?: string,
+    public OriginatingFileToken?: string,
     public prepaymentEntryId?: number
-  ) {
-    this.posted = this.posted || false;
-  }
+  ) {}
 }

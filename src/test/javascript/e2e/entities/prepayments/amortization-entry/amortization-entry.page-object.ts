@@ -29,10 +29,11 @@ export class AmortizationEntryUpdatePage {
   amortizationDateInput = element(by.id('field_amortizationDate'));
   amortizationAmountInput = element(by.id('field_amortizationAmount'));
   particularsInput = element(by.id('field_particulars'));
-  postedInput = element(by.id('field_posted'));
-  serviceOutletInput = element(by.id('field_serviceOutlet'));
-  accountNumberInput = element(by.id('field_accountNumber'));
-  accountNameInput = element(by.id('field_accountName'));
+  prepaymentServiceOutletInput = element(by.id('field_prepaymentServiceOutlet'));
+  prepaymentAccountNumberInput = element(by.id('field_prepaymentAccountNumber'));
+  amortizationServiceOutletInput = element(by.id('field_amortizationServiceOutlet'));
+  amortizationAccountNumberInput = element(by.id('field_amortizationAccountNumber'));
+  OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
   prepaymentEntrySelect = element(by.id('field_prepaymentEntry'));
 
   async getPageTitle() {
@@ -63,31 +64,44 @@ export class AmortizationEntryUpdatePage {
     return await this.particularsInput.getAttribute('value');
   }
 
-  getPostedInput(timeout?: number) {
-    return this.postedInput;
-  }
-  async setServiceOutletInput(serviceOutlet) {
-    await this.serviceOutletInput.sendKeys(serviceOutlet);
+  async setPrepaymentServiceOutletInput(prepaymentServiceOutlet) {
+    await this.prepaymentServiceOutletInput.sendKeys(prepaymentServiceOutlet);
   }
 
-  async getServiceOutletInput() {
-    return await this.serviceOutletInput.getAttribute('value');
+  async getPrepaymentServiceOutletInput() {
+    return await this.prepaymentServiceOutletInput.getAttribute('value');
   }
 
-  async setAccountNumberInput(accountNumber) {
-    await this.accountNumberInput.sendKeys(accountNumber);
+  async setPrepaymentAccountNumberInput(prepaymentAccountNumber) {
+    await this.prepaymentAccountNumberInput.sendKeys(prepaymentAccountNumber);
   }
 
-  async getAccountNumberInput() {
-    return await this.accountNumberInput.getAttribute('value');
+  async getPrepaymentAccountNumberInput() {
+    return await this.prepaymentAccountNumberInput.getAttribute('value');
   }
 
-  async setAccountNameInput(accountName) {
-    await this.accountNameInput.sendKeys(accountName);
+  async setAmortizationServiceOutletInput(amortizationServiceOutlet) {
+    await this.amortizationServiceOutletInput.sendKeys(amortizationServiceOutlet);
   }
 
-  async getAccountNameInput() {
-    return await this.accountNameInput.getAttribute('value');
+  async getAmortizationServiceOutletInput() {
+    return await this.amortizationServiceOutletInput.getAttribute('value');
+  }
+
+  async setAmortizationAccountNumberInput(amortizationAccountNumber) {
+    await this.amortizationAccountNumberInput.sendKeys(amortizationAccountNumber);
+  }
+
+  async getAmortizationAccountNumberInput() {
+    return await this.amortizationAccountNumberInput.getAttribute('value');
+  }
+
+  async setOriginatingFileTokenInput(OriginatingFileToken) {
+    await this.OriginatingFileTokenInput.sendKeys(OriginatingFileToken);
+  }
+
+  async getOriginatingFileTokenInput() {
+    return await this.OriginatingFileTokenInput.getAttribute('value');
   }
 
   async prepaymentEntrySelectLastOption(timeout?: number) {

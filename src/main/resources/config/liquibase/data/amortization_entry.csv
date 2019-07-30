@@ -1,11 +1,11 @@
-id;amortization_date;amortization_amount;particulars;posted;service_outlet;account_number;account_name;prepayment_entry_id
-1;2019-06-10T22:10:56;79654;Fish multi-byte Savings Account;false;Small;FTP Savings Account;Credit Card Account;7
-2;2019-06-11T06:40:38;5641;transmitter Implementation Electronics;true;Money Market Account;Albania web-readiness;Money Market Account;6
-3;2019-06-10T16:29:13;39986;Gorgeous Frozen Pants;false;Licensed Savings Account;Cambridgeshire Mississippi;Checking Account;9
-4;2019-06-10T16:35:25;68030;Centers;false;Usability South Dakota envisioneer;Intelligent;Credit Card Account;3
-5;2019-06-10T20:36:27;68326;Investment Account;true;Salad;Digitized invoice;Money Market Account;5
-6;2019-06-10T18:41:23;20794;Georgia Industrial;true;Views e-enable Communications;National Awesome sky blue;Checking Account;10
-7;2019-06-10T23:21:48;84453;compress South Georgia and the South Sandwich Islands;true;Specialist Home Loan Account;Plastic;Auto Loan Account;2
-8;2019-06-11T05:22:55;1563;deliverables reinvent 24 hour;false;magenta monitor 1080p;Unbranded Plastic Tuna Frozen;Auto Loan Account;9
-9;2019-06-10T16:12:44;44945;Ergonomic;false;Lempira;pixel withdrawal;Personal Loan Account;6
-10;2019-06-10T19:50:17;38292;Developer;true;hard drive Robust Networked;Poland;Investment Account;2
+id;amortization_date;amortization_amount;particulars;prepayment_service_outlet;prepayment_account_number;amortization_service_outlet;amortization_account_number;originating_file_token;prepayment_entry_id
+1;2019-07-30T00:02:26;79654;Fish multi-byte Savings Account;Computer Practical Fresh Pants;Metal deposit;Producer;Implementation Electronics Officer;methodology Albania;5
+2;2019-07-30T08:28:33;29122;Investment Account Steel;Coordinator;Common;Savings Account syndicate Planner;Refined Rubber Chicken Table;Automotive;10
+3;2019-07-29T09:51:16;56328;envisioneer Music Public-key;infomediaries;Investment Account;Games Regional Digitized;copy convergence;Mayotte;2
+4;2019-07-30T08:16:40;96958;connect Markets Chief;capacitor archive;sky blue Tasty Plastic Pizza;compress South Georgia and the South Sandwich Islands;compelling mission-critical;bifurcated scalable;2
+5;2019-07-30T07:14:25;1563;deliverables reinvent 24 hour;overriding;monitor 1080p Checking Account;world-class Frozen IB;Highway Ergonomic;moratorium moratorium;8
+6;2019-07-29T18:50:18;63755;COM;embrace Developer;synthesize Idaho compress;Sleek Metal Table Small;Intelligent Outdoors;Harbor Montana;7
+7;2019-07-29T11:14:53;13933;Investment Account;override User-centric;Money Market Account;Salad Web virtual;Refined Squares;maroon;9
+8;2019-07-29T11:49:51;53934;back-end;granular Direct contextually-based;synergies copying;ability Hat Iraq;magenta Concrete;User-centric Gloves;3
+9;2019-07-29T20:34:43;55810;facilitate Tasty Concrete Chips Exclusive;Buckinghamshire capability zero tolerance;mission-critical;Berkshire Small Plastic Pants Investor;Canadian Dollar;Berkshire Designer;3
+10;2019-07-29T18:48:17;67213;navigate;Re-contextualized;web-enabled invoice withdrawal;bypassing optical;installation;Argentine Peso;9

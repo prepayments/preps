@@ -1,21 +1,26 @@
 package io.github.prepayments.service.dto;
 
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-
 import java.io.Serializable;
 import java.util.Objects;
+import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.AmortizationEntry} entity. This class is used in {@link io.github.prepayments.web.rest.AmortizationEntryResource} to receive all the
- * possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /amortization-entries?id
- * .greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.AmortizationEntry} entity. This class is used
+ * in {@link io.github.prepayments.web.rest.AmortizationEntryResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /amortization-entries?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
  */
 public class AmortizationEntryCriteria implements Serializable, Criteria {
 
@@ -29,28 +34,31 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
 
     private StringFilter particulars;
 
-    private BooleanFilter posted;
+    private StringFilter prepaymentServiceOutlet;
 
-    private StringFilter serviceOutlet;
+    private StringFilter prepaymentAccountNumber;
 
-    private StringFilter accountNumber;
+    private StringFilter amortizationServiceOutlet;
 
-    private StringFilter accountName;
+    private StringFilter amortizationAccountNumber;
+
+    private StringFilter OriginatingFileToken;
 
     private LongFilter prepaymentEntryId;
 
-    public AmortizationEntryCriteria() {
+    public AmortizationEntryCriteria(){
     }
 
-    public AmortizationEntryCriteria(AmortizationEntryCriteria other) {
+    public AmortizationEntryCriteria(AmortizationEntryCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.amortizationDate = other.amortizationDate == null ? null : other.amortizationDate.copy();
         this.amortizationAmount = other.amortizationAmount == null ? null : other.amortizationAmount.copy();
         this.particulars = other.particulars == null ? null : other.particulars.copy();
-        this.posted = other.posted == null ? null : other.posted.copy();
-        this.serviceOutlet = other.serviceOutlet == null ? null : other.serviceOutlet.copy();
-        this.accountNumber = other.accountNumber == null ? null : other.accountNumber.copy();
-        this.accountName = other.accountName == null ? null : other.accountName.copy();
+        this.prepaymentServiceOutlet = other.prepaymentServiceOutlet == null ? null : other.prepaymentServiceOutlet.copy();
+        this.prepaymentAccountNumber = other.prepaymentAccountNumber == null ? null : other.prepaymentAccountNumber.copy();
+        this.amortizationServiceOutlet = other.amortizationServiceOutlet == null ? null : other.amortizationServiceOutlet.copy();
+        this.amortizationAccountNumber = other.amortizationAccountNumber == null ? null : other.amortizationAccountNumber.copy();
+        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
         this.prepaymentEntryId = other.prepaymentEntryId == null ? null : other.prepaymentEntryId.copy();
     }
 
@@ -91,36 +99,44 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
         this.particulars = particulars;
     }
 
-    public BooleanFilter getPosted() {
-        return posted;
+    public StringFilter getPrepaymentServiceOutlet() {
+        return prepaymentServiceOutlet;
     }
 
-    public void setPosted(BooleanFilter posted) {
-        this.posted = posted;
+    public void setPrepaymentServiceOutlet(StringFilter prepaymentServiceOutlet) {
+        this.prepaymentServiceOutlet = prepaymentServiceOutlet;
     }
 
-    public StringFilter getServiceOutlet() {
-        return serviceOutlet;
+    public StringFilter getPrepaymentAccountNumber() {
+        return prepaymentAccountNumber;
     }
 
-    public void setServiceOutlet(StringFilter serviceOutlet) {
-        this.serviceOutlet = serviceOutlet;
+    public void setPrepaymentAccountNumber(StringFilter prepaymentAccountNumber) {
+        this.prepaymentAccountNumber = prepaymentAccountNumber;
     }
 
-    public StringFilter getAccountNumber() {
-        return accountNumber;
+    public StringFilter getAmortizationServiceOutlet() {
+        return amortizationServiceOutlet;
     }
 
-    public void setAccountNumber(StringFilter accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAmortizationServiceOutlet(StringFilter amortizationServiceOutlet) {
+        this.amortizationServiceOutlet = amortizationServiceOutlet;
     }
 
-    public StringFilter getAccountName() {
-        return accountName;
+    public StringFilter getAmortizationAccountNumber() {
+        return amortizationAccountNumber;
     }
 
-    public void setAccountName(StringFilter accountName) {
-        this.accountName = accountName;
+    public void setAmortizationAccountNumber(StringFilter amortizationAccountNumber) {
+        this.amortizationAccountNumber = amortizationAccountNumber;
+    }
+
+    public StringFilter getOriginatingFileToken() {
+        return OriginatingFileToken;
+    }
+
+    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
+        this.OriginatingFileToken = OriginatingFileToken;
     }
 
     public LongFilter getPrepaymentEntryId() {
@@ -141,23 +157,49 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
             return false;
         }
         final AmortizationEntryCriteria that = (AmortizationEntryCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(amortizationDate, that.amortizationDate) && Objects.equals(amortizationAmount, that.amortizationAmount) &&
-            Objects.equals(particulars, that.particulars) && Objects.equals(posted, that.posted) && Objects.equals(serviceOutlet, that.serviceOutlet) &&
-            Objects.equals(accountNumber, that.accountNumber) && Objects.equals(accountName, that.accountName) && Objects.equals(prepaymentEntryId, that.prepaymentEntryId);
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(amortizationDate, that.amortizationDate) &&
+            Objects.equals(amortizationAmount, that.amortizationAmount) &&
+            Objects.equals(particulars, that.particulars) &&
+            Objects.equals(prepaymentServiceOutlet, that.prepaymentServiceOutlet) &&
+            Objects.equals(prepaymentAccountNumber, that.prepaymentAccountNumber) &&
+            Objects.equals(amortizationServiceOutlet, that.amortizationServiceOutlet) &&
+            Objects.equals(amortizationAccountNumber, that.amortizationAccountNumber) &&
+            Objects.equals(OriginatingFileToken, that.OriginatingFileToken) &&
+            Objects.equals(prepaymentEntryId, that.prepaymentEntryId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amortizationDate, amortizationAmount, particulars, posted, serviceOutlet, accountNumber, accountName, prepaymentEntryId);
+        return Objects.hash(
+        id,
+        amortizationDate,
+        amortizationAmount,
+        particulars,
+        prepaymentServiceOutlet,
+        prepaymentAccountNumber,
+        amortizationServiceOutlet,
+        amortizationAccountNumber,
+        OriginatingFileToken,
+        prepaymentEntryId
+        );
     }
 
     @Override
     public String toString() {
-        return "AmortizationEntryCriteria{" + (id != null ? "id=" + id + ", " : "") + (amortizationDate != null ? "amortizationDate=" + amortizationDate + ", " : "") +
-            (amortizationAmount != null ? "amortizationAmount=" + amortizationAmount + ", " : "") + (particulars != null ? "particulars=" + particulars + ", " : "") +
-            (posted != null ? "posted=" + posted + ", " : "") + (serviceOutlet != null ? "serviceOutlet=" + serviceOutlet + ", " : "") +
-            (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") + (accountName != null ? "accountName=" + accountName + ", " : "") +
-            (prepaymentEntryId != null ? "prepaymentEntryId=" + prepaymentEntryId + ", " : "") + "}";
+        return "AmortizationEntryCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (amortizationDate != null ? "amortizationDate=" + amortizationDate + ", " : "") +
+                (amortizationAmount != null ? "amortizationAmount=" + amortizationAmount + ", " : "") +
+                (particulars != null ? "particulars=" + particulars + ", " : "") +
+                (prepaymentServiceOutlet != null ? "prepaymentServiceOutlet=" + prepaymentServiceOutlet + ", " : "") +
+                (prepaymentAccountNumber != null ? "prepaymentAccountNumber=" + prepaymentAccountNumber + ", " : "") +
+                (amortizationServiceOutlet != null ? "amortizationServiceOutlet=" + amortizationServiceOutlet + ", " : "") +
+                (amortizationAccountNumber != null ? "amortizationAccountNumber=" + amortizationAccountNumber + ", " : "") +
+                (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
+                (prepaymentEntryId != null ? "prepaymentEntryId=" + prepaymentEntryId + ", " : "") +
+            "}";
     }
 
 }

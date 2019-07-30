@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AmortizationEntry(0, currentDate, 0, 'AAAAAAA', false, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new AmortizationEntry(0, currentDate, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -77,10 +77,11 @@ describe('Service Tests', () => {
             amortizationDate: currentDate.format(DATE_FORMAT),
             amortizationAmount: 1,
             particulars: 'BBBBBB',
-            posted: true,
-            serviceOutlet: 'BBBBBB',
-            accountNumber: 'BBBBBB',
-            accountName: 'BBBBBB'
+            prepaymentServiceOutlet: 'BBBBBB',
+            prepaymentAccountNumber: 'BBBBBB',
+            amortizationServiceOutlet: 'BBBBBB',
+            amortizationAccountNumber: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -106,10 +107,11 @@ describe('Service Tests', () => {
             amortizationDate: currentDate.format(DATE_FORMAT),
             amortizationAmount: 1,
             particulars: 'BBBBBB',
-            posted: true,
-            serviceOutlet: 'BBBBBB',
-            accountNumber: 'BBBBBB',
-            accountName: 'BBBBBB'
+            prepaymentServiceOutlet: 'BBBBBB',
+            prepaymentAccountNumber: 'BBBBBB',
+            amortizationServiceOutlet: 'BBBBBB',
+            amortizationAccountNumber: 'BBBBBB',
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

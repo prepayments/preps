@@ -75,10 +75,11 @@ class AmortizationEntryGatlingTest extends Simulation {
                 , "amortizationDate":"2020-01-01T00:00:00.000Z"
                 , "amortizationAmount":"0"
                 , "particulars":"SAMPLE_TEXT"
-                , "posted":null
-                , "serviceOutlet":"SAMPLE_TEXT"
-                , "accountNumber":"SAMPLE_TEXT"
-                , "accountName":"SAMPLE_TEXT"
+                , "prepaymentServiceOutlet":"SAMPLE_TEXT"
+                , "prepaymentAccountNumber":"SAMPLE_TEXT"
+                , "amortizationServiceOutlet":"SAMPLE_TEXT"
+                , "amortizationAccountNumber":"SAMPLE_TEXT"
+                , "OriginatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_amortizationEntry_url"))).exitHereIfFailed

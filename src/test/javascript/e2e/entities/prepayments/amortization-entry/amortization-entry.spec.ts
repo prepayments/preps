@@ -47,25 +47,21 @@ describe('AmortizationEntry e2e test', () => {
             amortizationEntryUpdatePage.setAmortizationDateInput('2000-12-31'),
             amortizationEntryUpdatePage.setAmortizationAmountInput('5'),
             amortizationEntryUpdatePage.setParticularsInput('particulars'),
-            amortizationEntryUpdatePage.setServiceOutletInput('serviceOutlet'),
-            amortizationEntryUpdatePage.setAccountNumberInput('accountNumber'),
-            amortizationEntryUpdatePage.setAccountNameInput('accountName'),
+            amortizationEntryUpdatePage.setPrepaymentServiceOutletInput('prepaymentServiceOutlet'),
+            amortizationEntryUpdatePage.setPrepaymentAccountNumberInput('prepaymentAccountNumber'),
+            amortizationEntryUpdatePage.setAmortizationServiceOutletInput('amortizationServiceOutlet'),
+            amortizationEntryUpdatePage.setAmortizationAccountNumberInput('amortizationAccountNumber'),
+            amortizationEntryUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken'),
             amortizationEntryUpdatePage.prepaymentEntrySelectLastOption(),
         ]);
         expect(await amortizationEntryUpdatePage.getAmortizationDateInput()).to.eq('2000-12-31', 'Expected amortizationDate value to be equals to 2000-12-31');
         expect(await amortizationEntryUpdatePage.getAmortizationAmountInput()).to.eq('5', 'Expected amortizationAmount value to be equals to 5');
         expect(await amortizationEntryUpdatePage.getParticularsInput()).to.eq('particulars', 'Expected Particulars value to be equals to particulars');
-        const selectedPosted = amortizationEntryUpdatePage.getPostedInput();
-        if (await selectedPosted.isSelected()) {
-            await amortizationEntryUpdatePage.getPostedInput().click();
-            expect(await amortizationEntryUpdatePage.getPostedInput().isSelected(), 'Expected posted not to be selected').to.be.false;
-        } else {
-            await amortizationEntryUpdatePage.getPostedInput().click();
-            expect(await amortizationEntryUpdatePage.getPostedInput().isSelected(), 'Expected posted to be selected').to.be.true;
-        }
-        expect(await amortizationEntryUpdatePage.getServiceOutletInput()).to.eq('serviceOutlet', 'Expected ServiceOutlet value to be equals to serviceOutlet');
-        expect(await amortizationEntryUpdatePage.getAccountNumberInput()).to.eq('accountNumber', 'Expected AccountNumber value to be equals to accountNumber');
-        expect(await amortizationEntryUpdatePage.getAccountNameInput()).to.eq('accountName', 'Expected AccountName value to be equals to accountName');
+        expect(await amortizationEntryUpdatePage.getPrepaymentServiceOutletInput()).to.eq('prepaymentServiceOutlet', 'Expected PrepaymentServiceOutlet value to be equals to prepaymentServiceOutlet');
+        expect(await amortizationEntryUpdatePage.getPrepaymentAccountNumberInput()).to.eq('prepaymentAccountNumber', 'Expected PrepaymentAccountNumber value to be equals to prepaymentAccountNumber');
+        expect(await amortizationEntryUpdatePage.getAmortizationServiceOutletInput()).to.eq('amortizationServiceOutlet', 'Expected AmortizationServiceOutlet value to be equals to amortizationServiceOutlet');
+        expect(await amortizationEntryUpdatePage.getAmortizationAccountNumberInput()).to.eq('amortizationAccountNumber', 'Expected AmortizationAccountNumber value to be equals to amortizationAccountNumber');
+        expect(await amortizationEntryUpdatePage.getOriginatingFileTokenInput()).to.eq('OriginatingFileToken', 'Expected OriginatingFileToken value to be equals to OriginatingFileToken');
         await amortizationEntryUpdatePage.save();
         expect(await amortizationEntryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

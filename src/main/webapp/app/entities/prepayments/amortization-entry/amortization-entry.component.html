@@ -33,10 +33,11 @@
             <th jhiSortBy="amortizationDate"><span>Amortization Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amortizationAmount"><span>Amortization Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="particulars"><span>Particulars</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="posted"><span>Posted</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="serviceOutlet"><span>Service Outlet</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentServiceOutlet"><span>Prepayment Service Outlet</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentAccountNumber"><span>Prepayment Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amortizationServiceOutlet"><span>Amortization Service Outlet</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amortizationAccountNumber"><span>Amortization Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="OriginatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="prepaymentEntryId"><span>Prepayment Entry</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -47,10 +48,11 @@
                 <td>{{amortizationEntry.amortizationDate | date:'mediumDate'}}</td>
                 <td>{{amortizationEntry.amortizationAmount}}</td>
                 <td>{{amortizationEntry.particulars}}</td>
-                <td>{{amortizationEntry.posted}}</td>
-                <td><a (click)="onSelectServiceOutletCode(amortizationEntry.serviceOutlet)">{{amortizationEntry.serviceOutlet}}</a></td>
-                <td><a (click)="onSelectAccountNumber(amortizationEntry.accountNumber)">{{amortizationEntry.accountNumber}}</a></td>
-                <td><a (click)="onSelectAccountName(amortizationEntry.accountName)">{{amortizationEntry.accountName}}</a></td>
+                <td>{{amortizationEntry.prepaymentServiceOutlet}}</td>
+                <td>{{amortizationEntry.prepaymentAccountNumber}}</td>
+                <td>{{amortizationEntry.amortizationServiceOutlet}}</td>
+                <td>{{amortizationEntry.amortizationAccountNumber}}</td>
+                <td>{{amortizationEntry.OriginatingFileToken}}</td>
                 <td>
                     <div *ngIf="amortizationEntry.prepaymentEntryId">
                         <a [routerLink]="['../prepayment-entry', amortizationEntry.prepaymentEntryId , 'view' ]" >{{amortizationEntry.prepaymentEntryId}}</a>

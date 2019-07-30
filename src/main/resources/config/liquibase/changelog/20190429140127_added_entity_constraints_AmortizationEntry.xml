@@ -2,12 +2,12 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <!--
         Added the constraints for entity AmortizationEntry.
     -->
     <changeSet id="20190429140127-2" author="jhipster">
-
+        
         <addForeignKeyConstraint baseColumnNames="prepayment_entry_id"
                                  baseTableName="amortization_entry"
                                  constraintName="fk_amortization_entry_prepayment_entry_id"

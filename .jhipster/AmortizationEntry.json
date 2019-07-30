@@ -34,11 +34,7 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "posted",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "serviceOutlet",
+            "fieldName": "prepaymentServiceOutlet",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required",
@@ -47,20 +43,31 @@
             "fieldValidateRulesPattern": "^[0-9]{3}$"
         },
         {
-            "fieldName": "accountNumber",
+          "fieldName": "prepaymentAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+            "fieldName": "amortizationServiceOutlet",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required",
                 "pattern"
             ],
-            "fieldValidateRulesPattern": "^[0-9]{10,16}$"
+            "fieldValidateRulesPattern": "^[0-9]{3}$"
         },
         {
-            "fieldName": "accountName",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+          "fieldName": "amortizationAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+          "fieldName": "OriginatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190429140127",

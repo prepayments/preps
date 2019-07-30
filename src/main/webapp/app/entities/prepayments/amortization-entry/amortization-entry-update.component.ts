@@ -27,10 +27,11 @@ export class AmortizationEntryUpdateComponent implements OnInit {
     amortizationDate: [null, [Validators.required]],
     amortizationAmount: [null, [Validators.required]],
     particulars: [],
-    posted: [],
-    serviceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
-    accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{10,16}$')]],
-    accountName: [null, [Validators.required]],
+    prepaymentServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    prepaymentAccountNumber: [null, [Validators.required]],
+    amortizationServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    amortizationAccountNumber: [null, [Validators.required]],
+    OriginatingFileToken: [],
     prepaymentEntryId: [null, Validators.required]
   });
 
@@ -63,10 +64,11 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       amortizationDate: amortizationEntry.amortizationDate,
       amortizationAmount: amortizationEntry.amortizationAmount,
       particulars: amortizationEntry.particulars,
-      posted: amortizationEntry.posted,
-      serviceOutlet: amortizationEntry.serviceOutlet,
-      accountNumber: amortizationEntry.accountNumber,
-      accountName: amortizationEntry.accountName,
+      prepaymentServiceOutlet: amortizationEntry.prepaymentServiceOutlet,
+      prepaymentAccountNumber: amortizationEntry.prepaymentAccountNumber,
+      amortizationServiceOutlet: amortizationEntry.amortizationServiceOutlet,
+      amortizationAccountNumber: amortizationEntry.amortizationAccountNumber,
+      OriginatingFileToken: amortizationEntry.OriginatingFileToken,
       prepaymentEntryId: amortizationEntry.prepaymentEntryId
     });
   }
@@ -92,10 +94,11 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       amortizationDate: this.editForm.get(['amortizationDate']).value,
       amortizationAmount: this.editForm.get(['amortizationAmount']).value,
       particulars: this.editForm.get(['particulars']).value,
-      posted: this.editForm.get(['posted']).value,
-      serviceOutlet: this.editForm.get(['serviceOutlet']).value,
-      accountNumber: this.editForm.get(['accountNumber']).value,
-      accountName: this.editForm.get(['accountName']).value,
+      prepaymentServiceOutlet: this.editForm.get(['prepaymentServiceOutlet']).value,
+      prepaymentAccountNumber: this.editForm.get(['prepaymentAccountNumber']).value,
+      amortizationServiceOutlet: this.editForm.get(['amortizationServiceOutlet']).value,
+      amortizationAccountNumber: this.editForm.get(['amortizationAccountNumber']).value,
+      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value,
       prepaymentEntryId: this.editForm.get(['prepaymentEntryId']).value
     };
     return entity;
