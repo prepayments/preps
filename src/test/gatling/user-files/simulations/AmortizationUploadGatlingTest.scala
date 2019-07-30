@@ -74,7 +74,8 @@ class AmortizationUploadGatlingTest extends Simulation {
                 "id":null
                 , "accountName":"SAMPLE_TEXT"
                 , "particulars":"SAMPLE_TEXT"
-                , "serviceOutletCode":"SAMPLE_TEXT"
+                , "amortizationServiceOutletCode":"SAMPLE_TEXT"
+                , "prepaymentServiceOutletCode":"SAMPLE_TEXT"
                 , "prepaymentAccountNumber":"SAMPLE_TEXT"
                 , "expenseAccountNumber":"SAMPLE_TEXT"
                 , "prepaymentTransactionId":"SAMPLE_TEXT"
@@ -83,6 +84,9 @@ class AmortizationUploadGatlingTest extends Simulation {
                 , "amortizationAmount":"0"
                 , "numberOfAmortizations":"0"
                 , "firstAmortizationDate":"2020-01-01T00:00:00.000Z"
+                , "uploadSuccessful":null
+                , "uploadOrphaned":null
+                , "OriginatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_amortizationUpload_url"))).exitHereIfFailed

@@ -21,7 +21,8 @@ export class AmortizationUploadUpdateComponent implements OnInit {
     id: [],
     accountName: [null, [Validators.required]],
     particulars: [null, [Validators.required]],
-    serviceOutletCode: [null, [Validators.required]],
+    amortizationServiceOutletCode: [null, [Validators.required]],
+    prepaymentServiceOutletCode: [null, [Validators.required]],
     prepaymentAccountNumber: [null, [Validators.required]],
     expenseAccountNumber: [null, [Validators.required]],
     prepaymentTransactionId: [null, [Validators.required]],
@@ -29,7 +30,10 @@ export class AmortizationUploadUpdateComponent implements OnInit {
     prepaymentTransactionAmount: [],
     amortizationAmount: [null, [Validators.required]],
     numberOfAmortizations: [null, [Validators.required, Validators.min(1)]],
-    firstAmortizationDate: [null, [Validators.required]]
+    firstAmortizationDate: [null, [Validators.required]],
+    uploadSuccessful: [],
+    uploadOrphaned: [],
+    OriginatingFileToken: []
   });
 
   constructor(
@@ -51,7 +55,8 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       id: amortizationUpload.id,
       accountName: amortizationUpload.accountName,
       particulars: amortizationUpload.particulars,
-      serviceOutletCode: amortizationUpload.serviceOutletCode,
+      amortizationServiceOutletCode: amortizationUpload.amortizationServiceOutletCode,
+      prepaymentServiceOutletCode: amortizationUpload.prepaymentServiceOutletCode,
       prepaymentAccountNumber: amortizationUpload.prepaymentAccountNumber,
       expenseAccountNumber: amortizationUpload.expenseAccountNumber,
       prepaymentTransactionId: amortizationUpload.prepaymentTransactionId,
@@ -59,7 +64,10 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       prepaymentTransactionAmount: amortizationUpload.prepaymentTransactionAmount,
       amortizationAmount: amortizationUpload.amortizationAmount,
       numberOfAmortizations: amortizationUpload.numberOfAmortizations,
-      firstAmortizationDate: amortizationUpload.firstAmortizationDate
+      firstAmortizationDate: amortizationUpload.firstAmortizationDate,
+      uploadSuccessful: amortizationUpload.uploadSuccessful,
+      uploadOrphaned: amortizationUpload.uploadOrphaned,
+      OriginatingFileToken: amortizationUpload.OriginatingFileToken
     });
   }
 
@@ -83,7 +91,8 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       accountName: this.editForm.get(['accountName']).value,
       particulars: this.editForm.get(['particulars']).value,
-      serviceOutletCode: this.editForm.get(['serviceOutletCode']).value,
+      amortizationServiceOutletCode: this.editForm.get(['amortizationServiceOutletCode']).value,
+      prepaymentServiceOutletCode: this.editForm.get(['prepaymentServiceOutletCode']).value,
       prepaymentAccountNumber: this.editForm.get(['prepaymentAccountNumber']).value,
       expenseAccountNumber: this.editForm.get(['expenseAccountNumber']).value,
       prepaymentTransactionId: this.editForm.get(['prepaymentTransactionId']).value,
@@ -91,7 +100,10 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       prepaymentTransactionAmount: this.editForm.get(['prepaymentTransactionAmount']).value,
       amortizationAmount: this.editForm.get(['amortizationAmount']).value,
       numberOfAmortizations: this.editForm.get(['numberOfAmortizations']).value,
-      firstAmortizationDate: this.editForm.get(['firstAmortizationDate']).value
+      firstAmortizationDate: this.editForm.get(['firstAmortizationDate']).value,
+      uploadSuccessful: this.editForm.get(['uploadSuccessful']).value,
+      uploadOrphaned: this.editForm.get(['uploadOrphaned']).value,
+      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
     };
     return entity;
   }

@@ -18,7 +18,14 @@
             ]
         },
         {
-            "fieldName": "serviceOutletCode",
+            "fieldName": "amortizationServiceOutletCode",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "prepaymentServiceOutletCode",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
@@ -78,6 +85,18 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "uploadSuccessful",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "uploadOrphaned",
+            "fieldType": "Boolean"
+        },
+        {
+          "fieldName": "OriginatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190625061634",

@@ -28,7 +28,8 @@ export class AmortizationUploadUpdatePage {
   cancelButton = element(by.id('cancel-save'));
   accountNameInput = element(by.id('field_accountName'));
   particularsInput = element(by.id('field_particulars'));
-  serviceOutletCodeInput = element(by.id('field_serviceOutletCode'));
+  amortizationServiceOutletCodeInput = element(by.id('field_amortizationServiceOutletCode'));
+  prepaymentServiceOutletCodeInput = element(by.id('field_prepaymentServiceOutletCode'));
   prepaymentAccountNumberInput = element(by.id('field_prepaymentAccountNumber'));
   expenseAccountNumberInput = element(by.id('field_expenseAccountNumber'));
   prepaymentTransactionIdInput = element(by.id('field_prepaymentTransactionId'));
@@ -37,6 +38,9 @@ export class AmortizationUploadUpdatePage {
   amortizationAmountInput = element(by.id('field_amortizationAmount'));
   numberOfAmortizationsInput = element(by.id('field_numberOfAmortizations'));
   firstAmortizationDateInput = element(by.id('field_firstAmortizationDate'));
+  uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
+  uploadOrphanedInput = element(by.id('field_uploadOrphaned'));
+  OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -58,12 +62,20 @@ export class AmortizationUploadUpdatePage {
     return await this.particularsInput.getAttribute('value');
   }
 
-  async setServiceOutletCodeInput(serviceOutletCode) {
-    await this.serviceOutletCodeInput.sendKeys(serviceOutletCode);
+  async setAmortizationServiceOutletCodeInput(amortizationServiceOutletCode) {
+    await this.amortizationServiceOutletCodeInput.sendKeys(amortizationServiceOutletCode);
   }
 
-  async getServiceOutletCodeInput() {
-    return await this.serviceOutletCodeInput.getAttribute('value');
+  async getAmortizationServiceOutletCodeInput() {
+    return await this.amortizationServiceOutletCodeInput.getAttribute('value');
+  }
+
+  async setPrepaymentServiceOutletCodeInput(prepaymentServiceOutletCode) {
+    await this.prepaymentServiceOutletCodeInput.sendKeys(prepaymentServiceOutletCode);
+  }
+
+  async getPrepaymentServiceOutletCodeInput() {
+    return await this.prepaymentServiceOutletCodeInput.getAttribute('value');
   }
 
   async setPrepaymentAccountNumberInput(prepaymentAccountNumber) {
@@ -128,6 +140,20 @@ export class AmortizationUploadUpdatePage {
 
   async getFirstAmortizationDateInput() {
     return await this.firstAmortizationDateInput.getAttribute('value');
+  }
+
+  getUploadSuccessfulInput(timeout?: number) {
+    return this.uploadSuccessfulInput;
+  }
+  getUploadOrphanedInput(timeout?: number) {
+    return this.uploadOrphanedInput;
+  }
+  async setOriginatingFileTokenInput(OriginatingFileToken) {
+    await this.OriginatingFileTokenInput.sendKeys(OriginatingFileToken);
+  }
+
+  async getOriginatingFileTokenInput() {
+    return await this.OriginatingFileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

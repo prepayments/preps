@@ -46,7 +46,8 @@ describe('AmortizationUpload e2e test', () => {
     await promise.all([
       amortizationUploadUpdatePage.setAccountNameInput('accountName'),
       amortizationUploadUpdatePage.setParticularsInput('particulars'),
-      amortizationUploadUpdatePage.setServiceOutletCodeInput('serviceOutletCode'),
+      amortizationUploadUpdatePage.setAmortizationServiceOutletCodeInput('amortizationServiceOutletCode'),
+      amortizationUploadUpdatePage.setPrepaymentServiceOutletCodeInput('prepaymentServiceOutletCode'),
       amortizationUploadUpdatePage.setPrepaymentAccountNumberInput('prepaymentAccountNumber'),
       amortizationUploadUpdatePage.setExpenseAccountNumberInput('expenseAccountNumber'),
       amortizationUploadUpdatePage.setPrepaymentTransactionIdInput('prepaymentTransactionId'),
@@ -54,7 +55,8 @@ describe('AmortizationUpload e2e test', () => {
       amortizationUploadUpdatePage.setPrepaymentTransactionAmountInput('5'),
       amortizationUploadUpdatePage.setAmortizationAmountInput('5'),
       amortizationUploadUpdatePage.setNumberOfAmortizationsInput('5'),
-      amortizationUploadUpdatePage.setFirstAmortizationDateInput('2000-12-31')
+      amortizationUploadUpdatePage.setFirstAmortizationDateInput('2000-12-31'),
+      amortizationUploadUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
     ]);
     expect(await amortizationUploadUpdatePage.getAccountNameInput()).to.eq(
       'accountName',
@@ -64,9 +66,13 @@ describe('AmortizationUpload e2e test', () => {
       'particulars',
       'Expected Particulars value to be equals to particulars'
     );
-    expect(await amortizationUploadUpdatePage.getServiceOutletCodeInput()).to.eq(
-      'serviceOutletCode',
-      'Expected ServiceOutletCode value to be equals to serviceOutletCode'
+    expect(await amortizationUploadUpdatePage.getAmortizationServiceOutletCodeInput()).to.eq(
+      'amortizationServiceOutletCode',
+      'Expected AmortizationServiceOutletCode value to be equals to amortizationServiceOutletCode'
+    );
+    expect(await amortizationUploadUpdatePage.getPrepaymentServiceOutletCodeInput()).to.eq(
+      'prepaymentServiceOutletCode',
+      'Expected PrepaymentServiceOutletCode value to be equals to prepaymentServiceOutletCode'
     );
     expect(await amortizationUploadUpdatePage.getPrepaymentAccountNumberInput()).to.eq(
       'prepaymentAccountNumber',
@@ -99,6 +105,29 @@ describe('AmortizationUpload e2e test', () => {
     expect(await amortizationUploadUpdatePage.getFirstAmortizationDateInput()).to.eq(
       '2000-12-31',
       'Expected firstAmortizationDate value to be equals to 2000-12-31'
+    );
+    const selectedUploadSuccessful = amortizationUploadUpdatePage.getUploadSuccessfulInput();
+    if (await selectedUploadSuccessful.isSelected()) {
+      await amortizationUploadUpdatePage.getUploadSuccessfulInput().click();
+      expect(await amortizationUploadUpdatePage.getUploadSuccessfulInput().isSelected(), 'Expected uploadSuccessful not to be selected').to
+        .be.false;
+    } else {
+      await amortizationUploadUpdatePage.getUploadSuccessfulInput().click();
+      expect(await amortizationUploadUpdatePage.getUploadSuccessfulInput().isSelected(), 'Expected uploadSuccessful to be selected').to.be
+        .true;
+    }
+    const selectedUploadOrphaned = amortizationUploadUpdatePage.getUploadOrphanedInput();
+    if (await selectedUploadOrphaned.isSelected()) {
+      await amortizationUploadUpdatePage.getUploadOrphanedInput().click();
+      expect(await amortizationUploadUpdatePage.getUploadOrphanedInput().isSelected(), 'Expected uploadOrphaned not to be selected').to.be
+        .false;
+    } else {
+      await amortizationUploadUpdatePage.getUploadOrphanedInput().click();
+      expect(await amortizationUploadUpdatePage.getUploadOrphanedInput().isSelected(), 'Expected uploadOrphaned to be selected').to.be.true;
+    }
+    expect(await amortizationUploadUpdatePage.getOriginatingFileTokenInput()).to.eq(
+      'OriginatingFileToken',
+      'Expected OriginatingFileToken value to be equals to OriginatingFileToken'
     );
     await amortizationUploadUpdatePage.save();
     expect(await amortizationUploadUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

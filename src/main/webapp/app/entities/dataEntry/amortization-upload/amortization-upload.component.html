@@ -32,7 +32,8 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="particulars"><span>Particulars</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="serviceOutletCode"><span>Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amortizationServiceOutletCode"><span>Amortization Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentServiceOutletCode"><span>Prepayment Service Outlet Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="prepaymentAccountNumber"><span>Prepayment Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="expenseAccountNumber"><span>Expense Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="prepaymentTransactionId"><span>Prepayment Transaction Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,6 +42,9 @@
             <th jhiSortBy="amortizationAmount"><span>Amortization Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="numberOfAmortizations"><span>Number Of Amortizations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="firstAmortizationDate"><span>First Amortization Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="uploadSuccessful"><span>Upload Successful</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="uploadOrphaned"><span>Upload Orphaned</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="OriginatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -49,7 +53,8 @@
                 <td><a [routerLink]="['/amortization-upload', amortizationUpload.id, 'view' ]">{{amortizationUpload.id}}</a></td>
                 <td>{{amortizationUpload.accountName}}</td>
                 <td>{{amortizationUpload.particulars}}</td>
-                <td>{{amortizationUpload.serviceOutletCode}}</td>
+                <td>{{amortizationUpload.amortizationServiceOutletCode}}</td>
+                <td>{{amortizationUpload.prepaymentServiceOutletCode}}</td>
                 <td>{{amortizationUpload.prepaymentAccountNumber}}</td>
                 <td>{{amortizationUpload.expenseAccountNumber}}</td>
                 <td>{{amortizationUpload.prepaymentTransactionId}}</td>
@@ -58,6 +63,9 @@
                 <td>{{amortizationUpload.amortizationAmount}}</td>
                 <td>{{amortizationUpload.numberOfAmortizations}}</td>
                 <td>{{amortizationUpload.firstAmortizationDate | date:'mediumDate'}}</td>
+                <td>{{amortizationUpload.uploadSuccessful}}</td>
+                <td>{{amortizationUpload.uploadOrphaned}}</td>
+                <td>{{amortizationUpload.OriginatingFileToken}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

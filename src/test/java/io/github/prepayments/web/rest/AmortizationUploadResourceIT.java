@@ -1,18 +1,18 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
 import io.github.prepayments.domain.AmortizationUpload;
 import io.github.prepayments.repository.AmortizationUploadRepository;
 import io.github.prepayments.repository.search.AmortizationUploadSearchRepository;
-import io.github.prepayments.service.AmortizationUploadQueryService;
 import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.service.mapper.AmortizationUploadMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.AmortizationUploadCriteria;
+import io.github.prepayments.service.AmortizationUploadQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,16 +37,9 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@Link AmortizationUploadResource} REST controller.
@@ -60,8 +53,11 @@ public class AmortizationUploadResourceIT {
     private static final String DEFAULT_PARTICULARS = "AAAAAAAAAA";
     private static final String UPDATED_PARTICULARS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SERVICE_OUTLET_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_SERVICE_OUTLET_CODE = "BBBBBBBBBB";
+    private static final String DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_PREPAYMENT_ACCOUNT_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PREPAYMENT_ACCOUNT_NUMBER = "BBBBBBBBBB";
@@ -86,6 +82,15 @@ public class AmortizationUploadResourceIT {
 
     private static final LocalDate DEFAULT_FIRST_AMORTIZATION_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FIRST_AMORTIZATION_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Boolean DEFAULT_UPLOAD_SUCCESSFUL = false;
+    private static final Boolean UPDATED_UPLOAD_SUCCESSFUL = true;
+
+    private static final Boolean DEFAULT_UPLOAD_ORPHANED = false;
+    private static final Boolean UPDATED_UPLOAD_ORPHANED = true;
+
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
 
     @Autowired
     private AmortizationUploadRepository amortizationUploadRepository;
@@ -126,13 +131,10 @@ public class AmortizationUploadResourceIT {
 
     private AmortizationUpload amortizationUpload;
 
-    @Mock
-    private AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
-
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AmortizationUploadResource amortizationUploadResource = new AmortizationUploadResource(amortizationUploadService, amortizationUploadQueryService, amortizationEntriesPropagatorService);
+        final AmortizationUploadResource amortizationUploadResource = new AmortizationUploadResource(amortizationUploadService, amortizationUploadQueryService);
         this.restAmortizationUploadMockMvc = MockMvcBuilders.standaloneSetup(amortizationUploadResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -151,7 +153,8 @@ public class AmortizationUploadResourceIT {
         AmortizationUpload amortizationUpload = new AmortizationUpload()
             .accountName(DEFAULT_ACCOUNT_NAME)
             .particulars(DEFAULT_PARTICULARS)
-            .serviceOutletCode(DEFAULT_SERVICE_OUTLET_CODE)
+            .amortizationServiceOutletCode(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE)
+            .prepaymentServiceOutletCode(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE)
             .prepaymentAccountNumber(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER)
             .expenseAccountNumber(DEFAULT_EXPENSE_ACCOUNT_NUMBER)
             .prepaymentTransactionId(DEFAULT_PREPAYMENT_TRANSACTION_ID)
@@ -159,7 +162,10 @@ public class AmortizationUploadResourceIT {
             .prepaymentTransactionAmount(DEFAULT_PREPAYMENT_TRANSACTION_AMOUNT)
             .amortizationAmount(DEFAULT_AMORTIZATION_AMOUNT)
             .numberOfAmortizations(DEFAULT_NUMBER_OF_AMORTIZATIONS)
-            .firstAmortizationDate(DEFAULT_FIRST_AMORTIZATION_DATE);
+            .firstAmortizationDate(DEFAULT_FIRST_AMORTIZATION_DATE)
+            .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
+            .uploadOrphaned(DEFAULT_UPLOAD_ORPHANED)
+            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return amortizationUpload;
     }
     /**
@@ -172,7 +178,8 @@ public class AmortizationUploadResourceIT {
         AmortizationUpload amortizationUpload = new AmortizationUpload()
             .accountName(UPDATED_ACCOUNT_NAME)
             .particulars(UPDATED_PARTICULARS)
-            .serviceOutletCode(UPDATED_SERVICE_OUTLET_CODE)
+            .amortizationServiceOutletCode(UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE)
+            .prepaymentServiceOutletCode(UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE)
             .prepaymentAccountNumber(UPDATED_PREPAYMENT_ACCOUNT_NUMBER)
             .expenseAccountNumber(UPDATED_EXPENSE_ACCOUNT_NUMBER)
             .prepaymentTransactionId(UPDATED_PREPAYMENT_TRANSACTION_ID)
@@ -180,7 +187,10 @@ public class AmortizationUploadResourceIT {
             .prepaymentTransactionAmount(UPDATED_PREPAYMENT_TRANSACTION_AMOUNT)
             .amortizationAmount(UPDATED_AMORTIZATION_AMOUNT)
             .numberOfAmortizations(UPDATED_NUMBER_OF_AMORTIZATIONS)
-            .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE);
+            .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE)
+            .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
+            .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return amortizationUpload;
     }
 
@@ -207,7 +217,8 @@ public class AmortizationUploadResourceIT {
         AmortizationUpload testAmortizationUpload = amortizationUploadList.get(amortizationUploadList.size() - 1);
         assertThat(testAmortizationUpload.getAccountName()).isEqualTo(DEFAULT_ACCOUNT_NAME);
         assertThat(testAmortizationUpload.getParticulars()).isEqualTo(DEFAULT_PARTICULARS);
-        assertThat(testAmortizationUpload.getServiceOutletCode()).isEqualTo(DEFAULT_SERVICE_OUTLET_CODE);
+        assertThat(testAmortizationUpload.getAmortizationServiceOutletCode()).isEqualTo(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE);
+        assertThat(testAmortizationUpload.getPrepaymentServiceOutletCode()).isEqualTo(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE);
         assertThat(testAmortizationUpload.getPrepaymentAccountNumber()).isEqualTo(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER);
         assertThat(testAmortizationUpload.getExpenseAccountNumber()).isEqualTo(DEFAULT_EXPENSE_ACCOUNT_NUMBER);
         assertThat(testAmortizationUpload.getPrepaymentTransactionId()).isEqualTo(DEFAULT_PREPAYMENT_TRANSACTION_ID);
@@ -216,6 +227,9 @@ public class AmortizationUploadResourceIT {
         assertThat(testAmortizationUpload.getAmortizationAmount()).isEqualTo(DEFAULT_AMORTIZATION_AMOUNT);
         assertThat(testAmortizationUpload.getNumberOfAmortizations()).isEqualTo(DEFAULT_NUMBER_OF_AMORTIZATIONS);
         assertThat(testAmortizationUpload.getFirstAmortizationDate()).isEqualTo(DEFAULT_FIRST_AMORTIZATION_DATE);
+        assertThat(testAmortizationUpload.isUploadSuccessful()).isEqualTo(DEFAULT_UPLOAD_SUCCESSFUL);
+        assertThat(testAmortizationUpload.isUploadOrphaned()).isEqualTo(DEFAULT_UPLOAD_ORPHANED);
+        assertThat(testAmortizationUpload.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the AmortizationUpload in Elasticsearch
         verify(mockAmortizationUploadSearchRepository, times(1)).save(testAmortizationUpload);
@@ -285,10 +299,29 @@ public class AmortizationUploadResourceIT {
 
     @Test
     @Transactional
-    public void checkServiceOutletCodeIsRequired() throws Exception {
+    public void checkAmortizationServiceOutletCodeIsRequired() throws Exception {
         int databaseSizeBeforeTest = amortizationUploadRepository.findAll().size();
         // set the field null
-        amortizationUpload.setServiceOutletCode(null);
+        amortizationUpload.setAmortizationServiceOutletCode(null);
+
+        // Create the AmortizationUpload, which fails.
+        AmortizationUploadDTO amortizationUploadDTO = amortizationUploadMapper.toDto(amortizationUpload);
+
+        restAmortizationUploadMockMvc.perform(post("/api/amortization-uploads")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(amortizationUploadDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<AmortizationUpload> amortizationUploadList = amortizationUploadRepository.findAll();
+        assertThat(amortizationUploadList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPrepaymentServiceOutletCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = amortizationUploadRepository.findAll().size();
+        // set the field null
+        amortizationUpload.setPrepaymentServiceOutletCode(null);
 
         // Create the AmortizationUpload, which fails.
         AmortizationUploadDTO amortizationUploadDTO = amortizationUploadMapper.toDto(amortizationUpload);
@@ -448,7 +481,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME.toString())))
             .andExpect(jsonPath("$.[*].particulars").value(hasItem(DEFAULT_PARTICULARS.toString())))
-            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE.toString())))
+            .andExpect(jsonPath("$.[*].amortizationServiceOutletCode").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE.toString())))
+            .andExpect(jsonPath("$.[*].prepaymentServiceOutletCode").value(hasItem(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE.toString())))
             .andExpect(jsonPath("$.[*].prepaymentAccountNumber").value(hasItem(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].expenseAccountNumber").value(hasItem(DEFAULT_EXPENSE_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].prepaymentTransactionId").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_ID.toString())))
@@ -456,9 +490,12 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentTransactionAmount").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].amortizationAmount").value(hasItem(DEFAULT_AMORTIZATION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].numberOfAmortizations").value(hasItem(DEFAULT_NUMBER_OF_AMORTIZATIONS)))
-            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())));
+            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
+            .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAmortizationUpload() throws Exception {
@@ -472,7 +509,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.id").value(amortizationUpload.getId().intValue()))
             .andExpect(jsonPath("$.accountName").value(DEFAULT_ACCOUNT_NAME.toString()))
             .andExpect(jsonPath("$.particulars").value(DEFAULT_PARTICULARS.toString()))
-            .andExpect(jsonPath("$.serviceOutletCode").value(DEFAULT_SERVICE_OUTLET_CODE.toString()))
+            .andExpect(jsonPath("$.amortizationServiceOutletCode").value(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE.toString()))
+            .andExpect(jsonPath("$.prepaymentServiceOutletCode").value(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE.toString()))
             .andExpect(jsonPath("$.prepaymentAccountNumber").value(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.expenseAccountNumber").value(DEFAULT_EXPENSE_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.prepaymentTransactionId").value(DEFAULT_PREPAYMENT_TRANSACTION_ID.toString()))
@@ -480,7 +518,10 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.prepaymentTransactionAmount").value(DEFAULT_PREPAYMENT_TRANSACTION_AMOUNT.intValue()))
             .andExpect(jsonPath("$.amortizationAmount").value(DEFAULT_AMORTIZATION_AMOUNT.intValue()))
             .andExpect(jsonPath("$.numberOfAmortizations").value(DEFAULT_NUMBER_OF_AMORTIZATIONS))
-            .andExpect(jsonPath("$.firstAmortizationDate").value(DEFAULT_FIRST_AMORTIZATION_DATE.toString()));
+            .andExpect(jsonPath("$.firstAmortizationDate").value(DEFAULT_FIRST_AMORTIZATION_DATE.toString()))
+            .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
+            .andExpect(jsonPath("$.uploadOrphaned").value(DEFAULT_UPLOAD_ORPHANED.booleanValue()))
+            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -563,41 +604,80 @@ public class AmortizationUploadResourceIT {
 
     @Test
     @Transactional
-    public void getAllAmortizationUploadsByServiceOutletCodeIsEqualToSomething() throws Exception {
+    public void getAllAmortizationUploadsByAmortizationServiceOutletCodeIsEqualToSomething() throws Exception {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where serviceOutletCode equals to DEFAULT_SERVICE_OUTLET_CODE
-        defaultAmortizationUploadShouldBeFound("serviceOutletCode.equals=" + DEFAULT_SERVICE_OUTLET_CODE);
+        // Get all the amortizationUploadList where amortizationServiceOutletCode equals to DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldBeFound("amortizationServiceOutletCode.equals=" + DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE);
 
-        // Get all the amortizationUploadList where serviceOutletCode equals to UPDATED_SERVICE_OUTLET_CODE
-        defaultAmortizationUploadShouldNotBeFound("serviceOutletCode.equals=" + UPDATED_SERVICE_OUTLET_CODE);
+        // Get all the amortizationUploadList where amortizationServiceOutletCode equals to UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldNotBeFound("amortizationServiceOutletCode.equals=" + UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllAmortizationUploadsByServiceOutletCodeIsInShouldWork() throws Exception {
+    public void getAllAmortizationUploadsByAmortizationServiceOutletCodeIsInShouldWork() throws Exception {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where serviceOutletCode in DEFAULT_SERVICE_OUTLET_CODE or UPDATED_SERVICE_OUTLET_CODE
-        defaultAmortizationUploadShouldBeFound("serviceOutletCode.in=" + DEFAULT_SERVICE_OUTLET_CODE + "," + UPDATED_SERVICE_OUTLET_CODE);
+        // Get all the amortizationUploadList where amortizationServiceOutletCode in DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE or UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldBeFound("amortizationServiceOutletCode.in=" + DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE + "," + UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE);
 
-        // Get all the amortizationUploadList where serviceOutletCode equals to UPDATED_SERVICE_OUTLET_CODE
-        defaultAmortizationUploadShouldNotBeFound("serviceOutletCode.in=" + UPDATED_SERVICE_OUTLET_CODE);
+        // Get all the amortizationUploadList where amortizationServiceOutletCode equals to UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldNotBeFound("amortizationServiceOutletCode.in=" + UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllAmortizationUploadsByServiceOutletCodeIsNullOrNotNull() throws Exception {
+    public void getAllAmortizationUploadsByAmortizationServiceOutletCodeIsNullOrNotNull() throws Exception {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where serviceOutletCode is not null
-        defaultAmortizationUploadShouldBeFound("serviceOutletCode.specified=true");
+        // Get all the amortizationUploadList where amortizationServiceOutletCode is not null
+        defaultAmortizationUploadShouldBeFound("amortizationServiceOutletCode.specified=true");
 
-        // Get all the amortizationUploadList where serviceOutletCode is null
-        defaultAmortizationUploadShouldNotBeFound("serviceOutletCode.specified=false");
+        // Get all the amortizationUploadList where amortizationServiceOutletCode is null
+        defaultAmortizationUploadShouldNotBeFound("amortizationServiceOutletCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByPrepaymentServiceOutletCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode equals to DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldBeFound("prepaymentServiceOutletCode.equals=" + DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE);
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode equals to UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldNotBeFound("prepaymentServiceOutletCode.equals=" + UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByPrepaymentServiceOutletCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode in DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE or UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldBeFound("prepaymentServiceOutletCode.in=" + DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE + "," + UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE);
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode equals to UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE
+        defaultAmortizationUploadShouldNotBeFound("prepaymentServiceOutletCode.in=" + UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByPrepaymentServiceOutletCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode is not null
+        defaultAmortizationUploadShouldBeFound("prepaymentServiceOutletCode.specified=true");
+
+        // Get all the amortizationUploadList where prepaymentServiceOutletCode is null
+        defaultAmortizationUploadShouldNotBeFound("prepaymentServiceOutletCode.specified=false");
     }
 
     @Test
@@ -992,6 +1072,123 @@ public class AmortizationUploadResourceIT {
         defaultAmortizationUploadShouldBeFound("firstAmortizationDate.lessThan=" + UPDATED_FIRST_AMORTIZATION_DATE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadSuccessfulIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadSuccessful equals to DEFAULT_UPLOAD_SUCCESSFUL
+        defaultAmortizationUploadShouldBeFound("uploadSuccessful.equals=" + DEFAULT_UPLOAD_SUCCESSFUL);
+
+        // Get all the amortizationUploadList where uploadSuccessful equals to UPDATED_UPLOAD_SUCCESSFUL
+        defaultAmortizationUploadShouldNotBeFound("uploadSuccessful.equals=" + UPDATED_UPLOAD_SUCCESSFUL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadSuccessfulIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadSuccessful in DEFAULT_UPLOAD_SUCCESSFUL or UPDATED_UPLOAD_SUCCESSFUL
+        defaultAmortizationUploadShouldBeFound("uploadSuccessful.in=" + DEFAULT_UPLOAD_SUCCESSFUL + "," + UPDATED_UPLOAD_SUCCESSFUL);
+
+        // Get all the amortizationUploadList where uploadSuccessful equals to UPDATED_UPLOAD_SUCCESSFUL
+        defaultAmortizationUploadShouldNotBeFound("uploadSuccessful.in=" + UPDATED_UPLOAD_SUCCESSFUL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadSuccessfulIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadSuccessful is not null
+        defaultAmortizationUploadShouldBeFound("uploadSuccessful.specified=true");
+
+        // Get all the amortizationUploadList where uploadSuccessful is null
+        defaultAmortizationUploadShouldNotBeFound("uploadSuccessful.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadOrphanedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadOrphaned equals to DEFAULT_UPLOAD_ORPHANED
+        defaultAmortizationUploadShouldBeFound("uploadOrphaned.equals=" + DEFAULT_UPLOAD_ORPHANED);
+
+        // Get all the amortizationUploadList where uploadOrphaned equals to UPDATED_UPLOAD_ORPHANED
+        defaultAmortizationUploadShouldNotBeFound("uploadOrphaned.equals=" + UPDATED_UPLOAD_ORPHANED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadOrphanedIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadOrphaned in DEFAULT_UPLOAD_ORPHANED or UPDATED_UPLOAD_ORPHANED
+        defaultAmortizationUploadShouldBeFound("uploadOrphaned.in=" + DEFAULT_UPLOAD_ORPHANED + "," + UPDATED_UPLOAD_ORPHANED);
+
+        // Get all the amortizationUploadList where uploadOrphaned equals to UPDATED_UPLOAD_ORPHANED
+        defaultAmortizationUploadShouldNotBeFound("uploadOrphaned.in=" + UPDATED_UPLOAD_ORPHANED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByUploadOrphanedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where uploadOrphaned is not null
+        defaultAmortizationUploadShouldBeFound("uploadOrphaned.specified=true");
+
+        // Get all the amortizationUploadList where uploadOrphaned is null
+        defaultAmortizationUploadShouldNotBeFound("uploadOrphaned.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByOriginatingFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+
+        // Get all the amortizationUploadList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByOriginatingFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+
+        // Get all the amortizationUploadList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByOriginatingFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where OriginatingFileToken is not null
+        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.specified=true");
+
+        // Get all the amortizationUploadList where OriginatingFileToken is null
+        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1002,7 +1199,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].particulars").value(hasItem(DEFAULT_PARTICULARS)))
-            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE)))
+            .andExpect(jsonPath("$.[*].amortizationServiceOutletCode").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE)))
+            .andExpect(jsonPath("$.[*].prepaymentServiceOutletCode").value(hasItem(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE)))
             .andExpect(jsonPath("$.[*].prepaymentAccountNumber").value(hasItem(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].expenseAccountNumber").value(hasItem(DEFAULT_EXPENSE_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].prepaymentTransactionId").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_ID)))
@@ -1010,7 +1208,10 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentTransactionAmount").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].amortizationAmount").value(hasItem(DEFAULT_AMORTIZATION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].numberOfAmortizations").value(hasItem(DEFAULT_NUMBER_OF_AMORTIZATIONS)))
-            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())));
+            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
+            .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restAmortizationUploadMockMvc.perform(get("/api/amortization-uploads/count?sort=id,desc&" + filter))
@@ -1060,7 +1261,8 @@ public class AmortizationUploadResourceIT {
         updatedAmortizationUpload
             .accountName(UPDATED_ACCOUNT_NAME)
             .particulars(UPDATED_PARTICULARS)
-            .serviceOutletCode(UPDATED_SERVICE_OUTLET_CODE)
+            .amortizationServiceOutletCode(UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE)
+            .prepaymentServiceOutletCode(UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE)
             .prepaymentAccountNumber(UPDATED_PREPAYMENT_ACCOUNT_NUMBER)
             .expenseAccountNumber(UPDATED_EXPENSE_ACCOUNT_NUMBER)
             .prepaymentTransactionId(UPDATED_PREPAYMENT_TRANSACTION_ID)
@@ -1068,7 +1270,10 @@ public class AmortizationUploadResourceIT {
             .prepaymentTransactionAmount(UPDATED_PREPAYMENT_TRANSACTION_AMOUNT)
             .amortizationAmount(UPDATED_AMORTIZATION_AMOUNT)
             .numberOfAmortizations(UPDATED_NUMBER_OF_AMORTIZATIONS)
-            .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE);
+            .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE)
+            .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
+            .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
+            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         AmortizationUploadDTO amortizationUploadDTO = amortizationUploadMapper.toDto(updatedAmortizationUpload);
 
         restAmortizationUploadMockMvc.perform(put("/api/amortization-uploads")
@@ -1082,7 +1287,8 @@ public class AmortizationUploadResourceIT {
         AmortizationUpload testAmortizationUpload = amortizationUploadList.get(amortizationUploadList.size() - 1);
         assertThat(testAmortizationUpload.getAccountName()).isEqualTo(UPDATED_ACCOUNT_NAME);
         assertThat(testAmortizationUpload.getParticulars()).isEqualTo(UPDATED_PARTICULARS);
-        assertThat(testAmortizationUpload.getServiceOutletCode()).isEqualTo(UPDATED_SERVICE_OUTLET_CODE);
+        assertThat(testAmortizationUpload.getAmortizationServiceOutletCode()).isEqualTo(UPDATED_AMORTIZATION_SERVICE_OUTLET_CODE);
+        assertThat(testAmortizationUpload.getPrepaymentServiceOutletCode()).isEqualTo(UPDATED_PREPAYMENT_SERVICE_OUTLET_CODE);
         assertThat(testAmortizationUpload.getPrepaymentAccountNumber()).isEqualTo(UPDATED_PREPAYMENT_ACCOUNT_NUMBER);
         assertThat(testAmortizationUpload.getExpenseAccountNumber()).isEqualTo(UPDATED_EXPENSE_ACCOUNT_NUMBER);
         assertThat(testAmortizationUpload.getPrepaymentTransactionId()).isEqualTo(UPDATED_PREPAYMENT_TRANSACTION_ID);
@@ -1091,6 +1297,9 @@ public class AmortizationUploadResourceIT {
         assertThat(testAmortizationUpload.getAmortizationAmount()).isEqualTo(UPDATED_AMORTIZATION_AMOUNT);
         assertThat(testAmortizationUpload.getNumberOfAmortizations()).isEqualTo(UPDATED_NUMBER_OF_AMORTIZATIONS);
         assertThat(testAmortizationUpload.getFirstAmortizationDate()).isEqualTo(UPDATED_FIRST_AMORTIZATION_DATE);
+        assertThat(testAmortizationUpload.isUploadSuccessful()).isEqualTo(UPDATED_UPLOAD_SUCCESSFUL);
+        assertThat(testAmortizationUpload.isUploadOrphaned()).isEqualTo(UPDATED_UPLOAD_ORPHANED);
+        assertThat(testAmortizationUpload.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the AmortizationUpload in Elasticsearch
         verify(mockAmortizationUploadSearchRepository, times(1)).save(testAmortizationUpload);
@@ -1153,7 +1362,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountName").value(hasItem(DEFAULT_ACCOUNT_NAME)))
             .andExpect(jsonPath("$.[*].particulars").value(hasItem(DEFAULT_PARTICULARS)))
-            .andExpect(jsonPath("$.[*].serviceOutletCode").value(hasItem(DEFAULT_SERVICE_OUTLET_CODE)))
+            .andExpect(jsonPath("$.[*].amortizationServiceOutletCode").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET_CODE)))
+            .andExpect(jsonPath("$.[*].prepaymentServiceOutletCode").value(hasItem(DEFAULT_PREPAYMENT_SERVICE_OUTLET_CODE)))
             .andExpect(jsonPath("$.[*].prepaymentAccountNumber").value(hasItem(DEFAULT_PREPAYMENT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].expenseAccountNumber").value(hasItem(DEFAULT_EXPENSE_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].prepaymentTransactionId").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_ID)))
@@ -1161,7 +1371,10 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].prepaymentTransactionAmount").value(hasItem(DEFAULT_PREPAYMENT_TRANSACTION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].amortizationAmount").value(hasItem(DEFAULT_AMORTIZATION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].numberOfAmortizations").value(hasItem(DEFAULT_NUMBER_OF_AMORTIZATIONS)))
-            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())));
+            .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
+            .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
+            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

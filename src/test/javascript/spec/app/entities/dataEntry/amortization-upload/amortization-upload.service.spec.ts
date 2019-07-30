@@ -35,11 +35,15 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
+        'AAAAAAA',
         currentDate,
         0,
         0,
         0,
-        currentDate
+        currentDate,
+        false,
+        false,
+        'AAAAAAA'
       );
     });
 
@@ -92,7 +96,8 @@ describe('Service Tests', () => {
           {
             accountName: 'BBBBBB',
             particulars: 'BBBBBB',
-            serviceOutletCode: 'BBBBBB',
+            amortizationServiceOutletCode: 'BBBBBB',
+            prepaymentServiceOutletCode: 'BBBBBB',
             prepaymentAccountNumber: 'BBBBBB',
             expenseAccountNumber: 'BBBBBB',
             prepaymentTransactionId: 'BBBBBB',
@@ -100,7 +105,10 @@ describe('Service Tests', () => {
             prepaymentTransactionAmount: 1,
             amortizationAmount: 1,
             numberOfAmortizations: 1,
-            firstAmortizationDate: currentDate.format(DATE_FORMAT)
+            firstAmortizationDate: currentDate.format(DATE_FORMAT),
+            uploadSuccessful: true,
+            uploadOrphaned: true,
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -126,7 +134,8 @@ describe('Service Tests', () => {
           {
             accountName: 'BBBBBB',
             particulars: 'BBBBBB',
-            serviceOutletCode: 'BBBBBB',
+            amortizationServiceOutletCode: 'BBBBBB',
+            prepaymentServiceOutletCode: 'BBBBBB',
             prepaymentAccountNumber: 'BBBBBB',
             expenseAccountNumber: 'BBBBBB',
             prepaymentTransactionId: 'BBBBBB',
@@ -134,7 +143,10 @@ describe('Service Tests', () => {
             prepaymentTransactionAmount: 1,
             amortizationAmount: 1,
             numberOfAmortizations: 1,
-            firstAmortizationDate: currentDate.format(DATE_FORMAT)
+            firstAmortizationDate: currentDate.format(DATE_FORMAT),
+            uploadSuccessful: true,
+            uploadOrphaned: true,
+            OriginatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
