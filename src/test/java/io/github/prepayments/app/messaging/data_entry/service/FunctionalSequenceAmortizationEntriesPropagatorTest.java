@@ -21,7 +21,7 @@ class FunctionalSequenceAmortizationEntriesPropagatorTest {
     @BeforeEach
     void setUp() {
         AmortizationDataEntryMessageService amortizationDataEntryMessageService = Mockito.mock(AmortizationDataEntryMessageService.class);
-        amortizationEntriesPropagatorService = new FunctionalSequenceAmortizationEntriesPropagator(amortizationDataEntryMessageService);
+        amortizationEntriesPropagatorService = new FunctionalSequenceAmortizationEntriesPropagator(amortizationDataEntryMessageService, amortizationUploadDTOAmortizationEntryMapperEVM);
     }
 
     @Test

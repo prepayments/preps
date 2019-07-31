@@ -27,12 +27,17 @@ public class SimpleAmortizationEntryEVM implements Serializable {
 
     private String particulars;
 
-    private String serviceOutlet;
+    private String prepaymentServiceOutlet;
 
-    private String accountNumber;
+    private String prepaymentAccountNumber;
 
-    private String accountName;
+    private String amortizationServiceOutlet;
 
+    private String amortizationAccountNumber;
+
+    private String OriginatingFileToken;
+
+    // No direct mapping...essential to find prepayment Id
     private String prepaymentEntryId;
 
     private String prepaymentEntryDate;

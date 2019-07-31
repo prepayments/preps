@@ -1,5 +1,6 @@
 package io.github.prepayments.app.services;
 
+import io.github.prepayments.app.decorators.AmortizationEntryRepositoryDecorator;
 import io.github.prepayments.repository.AmortizationEntryRepository;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
@@ -17,13 +18,13 @@ import java.util.List;
 public class AmortizationEntryReportService {
 
     private final AmortizationEntryMapper amortizationEntryMapper;
-    private final AmortizationEntryRepository amortizationEntryRepository;
+    private final AmortizationEntryRepositoryDecorator amortizationEntryRepositoryDecorator;
     private final PrepaymentEntryMapper prepaymentEntryMapper;
 
-    public AmortizationEntryReportService(final AmortizationEntryMapper amortizationEntryMapper, final AmortizationEntryRepository amortizationEntryRepository,
-                                          final PrepaymentEntryMapper prepaymentEntryMapper) {
+    public AmortizationEntryReportService(final AmortizationEntryMapper amortizationEntryMapper, final AmortizationEntryRepositoryDecorator amortizationEntryRepositoryDecorator, final
+    PrepaymentEntryMapper prepaymentEntryMapper) {
         this.amortizationEntryMapper = amortizationEntryMapper;
-        this.amortizationEntryRepository = amortizationEntryRepository;
+        this.amortizationEntryRepositoryDecorator = amortizationEntryRepositoryDecorator;
         this.prepaymentEntryMapper = prepaymentEntryMapper;
     }
 
@@ -35,7 +36,7 @@ public class AmortizationEntryReportService {
     @Transactional(readOnly = true)
     public List<AmortizationEntryDTO> findAll() {
         log.debug("Request to get all AmortizationEntries for reporting");
-        return amortizationEntryMapper.toDto(amortizationEntryRepository.findAll());
+        return amortizationEntryMapper.toDto(amortizationEntryRepositoryDecorator.findAll());
     }
 
     /**
@@ -48,6 +49,6 @@ public class AmortizationEntryReportService {
 
         log.debug("Request to get all AmortizationEntries who prepayment entry id is : {}", prepaymentEntryDTO.getId());
 
-        return amortizationEntryMapper.toDto(amortizationEntryRepository.findAllByPrepaymentEntryIs(prepaymentEntryMapper.toEntity(prepaymentEntryDTO)));
+        return amortizationEntryMapper.toDto(amortizationEntryRepositoryDecorator.findAllByPrepaymentEntryIs(prepaymentEntryMapper.toEntity(prepaymentEntryDTO)));
     }
 }

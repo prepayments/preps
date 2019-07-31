@@ -6,7 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * This is an excel view model for the amortizationUpload data model. This view model assumes the uploaded file contains the prepayment Entry prepaymentId and prepaymentDate
@@ -22,7 +26,8 @@ public class SimpleAmortizationUploadEVM implements Serializable {
     private long rowIndex;
     private String accountName;
     private String particulars;
-    private String serviceOutlet;
+    private String amortizationServiceOutletCode;
+    private String prepaymentServiceOutletCode;
     private String prepaymentAccountNumber;
     private String expenseAccountNumber;
     private String prepaymentTransactionId;
@@ -31,4 +36,7 @@ public class SimpleAmortizationUploadEVM implements Serializable {
     private String amortizationAmount;
     private String numberOfAmortizations;
     private String firstAmortizationDate;
+    private String uploadSuccessful;
+    private String uploadOrphaned;
+    private String OriginatingFileToken;
 }
