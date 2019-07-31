@@ -1,22 +1,20 @@
-package io.github.prepayments.web.rest;
+package io.github.prepayments.app.decorators;
 
 import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.ISupplierDataEntryFileResource;
-import io.github.prepayments.service.SupplierDataEntryFileQueryService;
+import io.github.prepayments.app.messaging.notifications.dto.SupplierDataFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.SupplierDataFileMessageService;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
+import io.github.prepayments.web.rest.SupplierDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,31 +22,35 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
-/**
- * REST controller for managing {@link io.github.prepayments.domain.SupplierDataEntryFile}.
- */
-@Component("SupplierDataEntryFileResourceDelegate")
-public class SupplierDataEntryFileResource implements ISupplierDataEntryFileResource {
+@Slf4j
+@RestController
+@RequestMapping("/api")
+public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntryFileResource {
+
+    private final SupplierDataEntryFileResource supplierDataEntryFileResource;
 
     private static final String ENTITY_NAME = "dataEntrySupplierDataEntryFile";
-    private final Logger log = LoggerFactory.getLogger(SupplierDataEntryFileResource.class);
     private final SupplierDataEntryFileService supplierDataEntryFileService;
-    private final SupplierDataEntryFileQueryService supplierDataEntryFileQueryService;
+    private final SupplierDataFileMessageService supplierDataFileMessageService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public SupplierDataEntryFileResource(SupplierDataEntryFileService supplierDataEntryFileService, SupplierDataEntryFileQueryService supplierDataEntryFileQueryService) {
+    public SupplierDataEntryFileResourceDecorator(final SupplierDataEntryFileService supplierDataEntryFileService,
+                                                  final SupplierDataFileMessageService supplierDataFileMessageService,
+                                                  final @Qualifier("SupplierDataEntryFileResourceDelegate") SupplierDataEntryFileResource supplierDataEntryFileResource) {
+        this.supplierDataEntryFileResource = supplierDataEntryFileResource;
         this.supplierDataEntryFileService = supplierDataEntryFileService;
-        this.supplierDataEntryFileQueryService = supplierDataEntryFileQueryService;
+        this.supplierDataFileMessageService = supplierDataFileMessageService;
     }
 
     /**
@@ -67,6 +69,16 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
             throw new BadRequestAlertException("A new supplierDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SupplierDataEntryFileDTO result = supplierDataEntryFileService.save(supplierDataEntryFileDTO);
+
+        // @formatter:off
+        supplierDataFileMessageService.sendMessage(
+            SupplierDataFileUploadNotification.builder()
+                                                 .id(result.getId())
+                                                 .timeStamp(System.currentTimeMillis())
+                                                 .fileUpload(result.getDataEntryFile())
+                                              .build());
+        // @formatter:on
+
         return ResponseEntity.created(new URI("/api/supplier-data-entry-files/" + result.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                              .body(result);
@@ -83,12 +95,7 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @Override
     @PutMapping("/supplier-data-entry-files")
     public ResponseEntity<SupplierDataEntryFileDTO> updateSupplierDataEntryFile(@Valid @RequestBody SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException {
-        log.debug("REST request to update SupplierDataEntryFile : {}", supplierDataEntryFileDTO);
-        if (supplierDataEntryFileDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        SupplierDataEntryFileDTO result = supplierDataEntryFileService.save(supplierDataEntryFileDTO);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, supplierDataEntryFileDTO.getId().toString())).body(result);
+        return supplierDataEntryFileResource.updateSupplierDataEntryFile(supplierDataEntryFileDTO);
     }
 
     /**
@@ -102,10 +109,7 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @GetMapping("/supplier-data-entry-files")
     public ResponseEntity<List<SupplierDataEntryFileDTO>> getAllSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria, Pageable pageable,
                                                                                        @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get SupplierDataEntryFiles by criteria: {}", criteria);
-        Page<SupplierDataEntryFileDTO> page = supplierDataEntryFileQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return supplierDataEntryFileResource.getAllSupplierDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -117,8 +121,7 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @Override
     @GetMapping("/supplier-data-entry-files/count")
     public ResponseEntity<Long> countSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria) {
-        log.debug("REST request to count SupplierDataEntryFiles by criteria: {}", criteria);
-        return ResponseEntity.ok().body(supplierDataEntryFileQueryService.countByCriteria(criteria));
+        return supplierDataEntryFileResource.countSupplierDataEntryFiles(criteria);
     }
 
     /**
@@ -130,9 +133,7 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @Override
     @GetMapping("/supplier-data-entry-files/{id}")
     public ResponseEntity<SupplierDataEntryFileDTO> getSupplierDataEntryFile(@PathVariable Long id) {
-        log.debug("REST request to get SupplierDataEntryFile : {}", id);
-        Optional<SupplierDataEntryFileDTO> supplierDataEntryFileDTO = supplierDataEntryFileService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(supplierDataEntryFileDTO);
+        return supplierDataEntryFileResource.getSupplierDataEntryFile(id);
     }
 
     /**
@@ -144,9 +145,7 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @Override
     @DeleteMapping("/supplier-data-entry-files/{id}")
     public ResponseEntity<Void> deleteSupplierDataEntryFile(@PathVariable Long id) {
-        log.debug("REST request to delete SupplierDataEntryFile : {}", id);
-        supplierDataEntryFileService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return supplierDataEntryFileResource.deleteSupplierDataEntryFile(id);
     }
 
     /**
@@ -160,10 +159,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
     @GetMapping("/_search/supplier-data-entry-files")
     public ResponseEntity<List<SupplierDataEntryFileDTO>> searchSupplierDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                        UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to search for a page of SupplierDataEntryFiles for query {}", query);
-        Page<SupplierDataEntryFileDTO> page = supplierDataEntryFileService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return supplierDataEntryFileResource.searchSupplierDataEntryFiles(query,pageable,queryParams,uriBuilder);
     }
-
 }

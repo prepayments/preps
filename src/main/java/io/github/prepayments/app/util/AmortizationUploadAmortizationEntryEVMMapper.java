@@ -12,8 +12,8 @@ import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
 import static java.math.RoundingMode.HALF_EVEN;
 import static org.apache.commons.lang3.math.NumberUtils.toScaledBigDecimal;
 
-@Component("amortizationUploadDTOAmortizationEntryMapperEVM")
-public class AmortizationUploadDTOAmortizationEntryMapperEVM {
+@Component("amortizationUploadAmortizationEntryEVMMapper")
+public class AmortizationUploadAmortizationEntryEVMMapper {
 
     public AmortizationEntryEVM toAmortizationEntry(final AmortizationUploadDTO amortizationUploadDTO, final String amortizationDateInstance) {
         return toAmortizationEntry(amortizationUploadDTO, amortizationDateInstance, DateTimeFormatter.ofPattern(DATETIME_FORMAT));
