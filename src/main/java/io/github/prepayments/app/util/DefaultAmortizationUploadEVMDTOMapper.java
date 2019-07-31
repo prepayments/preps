@@ -1,5 +1,6 @@
 package io.github.prepayments.app.util;
 
+import com.google.common.collect.ImmutableList;
 import io.github.prepayments.app.messaging.data_entry.vm.SimpleAmortizationUploadEVM;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -51,11 +52,11 @@ public class DefaultAmortizationUploadEVMDTOMapper implements AmortizationUpload
 
     @Override
     public List<SimpleAmortizationUploadEVM> toExcelView(final List<AmortizationUploadDTO> amortizationUploadDTOS, final DateTimeFormatter dtf) {
-        return Collections.unmodifiableList(amortizationUploadDTOS.stream().map(dto -> this.toExcelView(dto, dtf)).collect(Collectors.toList()));
+        return amortizationUploadDTOS.stream().map(dto -> this.toExcelView(dto, dtf)).collect(ImmutableList.toImmutableList());
     }
 
     @Override
     public List<AmortizationUploadDTO> toDto(final List<SimpleAmortizationUploadEVM> simpleAmortizationUploadEVMS, final DateTimeFormatter dtf) {
-        return Collections.unmodifiableList(simpleAmortizationUploadEVMS.stream().map(evm -> this.toDto(evm, dtf)).collect(Collectors.toList()));
+        return simpleAmortizationUploadEVMS.stream().map(evm -> this.toDto(evm, dtf)).collect(ImmutableList.toImmutableList());
     }
 }
