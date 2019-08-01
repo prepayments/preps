@@ -5,13 +5,6 @@ import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -27,7 +20,7 @@ public interface IServiceOutletDataEntryFileResource {
      * serviceOutletDataEntryFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    ResponseEntity<ServiceOutletDataEntryFileDTO> createServiceOutletDataEntryFile(@Valid @RequestBody ServiceOutletDataEntryFileDTO serviceOutletDataEntryFileDTO) throws URISyntaxException;
+    ResponseEntity<ServiceOutletDataEntryFileDTO> createServiceOutletDataEntryFile(@Valid ServiceOutletDataEntryFileDTO serviceOutletDataEntryFileDTO) throws URISyntaxException;
 
     /**
      * {@code PUT  /service-outlet-data-entry-files} : Updates an existing serviceOutletDataEntryFile.
@@ -37,7 +30,7 @@ public interface IServiceOutletDataEntryFileResource {
      * serviceOutletDataEntryFileDTO is not valid, or with status {@code 500 (Internal Server Error)} if the serviceOutletDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    ResponseEntity<ServiceOutletDataEntryFileDTO> updateServiceOutletDataEntryFile(@Valid @RequestBody ServiceOutletDataEntryFileDTO serviceOutletDataEntryFileDTO) throws URISyntaxException;
+    ResponseEntity<ServiceOutletDataEntryFileDTO> updateServiceOutletDataEntryFile(@Valid ServiceOutletDataEntryFileDTO serviceOutletDataEntryFileDTO) throws URISyntaxException;
 
     /**
      * {@code GET  /service-outlet-data-entry-files} : get all the serviceOutletDataEntryFiles.
@@ -47,7 +40,7 @@ public interface IServiceOutletDataEntryFileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of serviceOutletDataEntryFiles in body.
      */
     ResponseEntity<List<ServiceOutletDataEntryFileDTO>> getAllServiceOutletDataEntryFiles(ServiceOutletDataEntryFileCriteria criteria, Pageable pageable,
-                                                                                          @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder);
+                                                                                          MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder);
 
     /**
      * {@code GET  /service-outlet-data-entry-files/count} : count all the serviceOutletDataEntryFiles.
@@ -63,7 +56,7 @@ public interface IServiceOutletDataEntryFileResource {
      * @param id the id of the serviceOutletDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the serviceOutletDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    ResponseEntity<ServiceOutletDataEntryFileDTO> getServiceOutletDataEntryFile(@PathVariable Long id);
+    ResponseEntity<ServiceOutletDataEntryFileDTO> getServiceOutletDataEntryFile(Long id);
 
     /**
      * {@code DELETE  /service-outlet-data-entry-files/:id} : delete the "id" serviceOutletDataEntryFile.
@@ -71,7 +64,7 @@ public interface IServiceOutletDataEntryFileResource {
      * @param id the id of the serviceOutletDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    ResponseEntity<Void> deleteServiceOutletDataEntryFile(@PathVariable Long id);
+    ResponseEntity<Void> deleteServiceOutletDataEntryFile(Long id);
 
     /**
      * {@code SEARCH  /_search/service-outlet-data-entry-files?query=:query} : search for the serviceOutletDataEntryFile corresponding to the query.
@@ -80,6 +73,6 @@ public interface IServiceOutletDataEntryFileResource {
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    ResponseEntity<List<ServiceOutletDataEntryFileDTO>> searchServiceOutletDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+    ResponseEntity<List<ServiceOutletDataEntryFileDTO>> searchServiceOutletDataEntryFiles(String query, Pageable pageable, MultiValueMap<String, String> queryParams,
                                                                                           UriComponentsBuilder uriBuilder);
 }

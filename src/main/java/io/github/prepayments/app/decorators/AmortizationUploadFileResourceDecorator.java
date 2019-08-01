@@ -1,22 +1,18 @@
-package io.github.prepayments.web.rest;
+package io.github.prepayments.app.decorators;
 
 import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.IAmortizationUploadFileResource;
-import io.github.prepayments.service.AmortizationUploadFileQueryService;
+import io.github.prepayments.app.messaging.notifications.dto.AmortizationUploadFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.AmortizationUploadFileNotificationMessageService;
 import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
+import io.github.prepayments.web.rest.AmortizationUploadFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,31 +20,35 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
-/**
- * REST controller for managing {@link io.github.prepayments.domain.AmortizationUploadFile}.
- */
-@Component("amortizationUploadFileResourceDelegate")
-public class AmortizationUploadFileResource implements IAmortizationUploadFileResource {
+@Slf4j
+@RestController
+@RequestMapping("/api")
+public class AmortizationUploadFileResourceDecorator implements IAmortizationUploadFileResource {
+
 
     private static final String ENTITY_NAME = "dataEntryAmortizationUploadFile";
-    private final Logger log = LoggerFactory.getLogger(AmortizationUploadFileResource.class);
+    private final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService;
     private final AmortizationUploadFileService amortizationUploadFileService;
-    private final AmortizationUploadFileQueryService amortizationUploadFileQueryService;
+    @Qualifier("amortizationUploadFileResourceDelegate")
+    private final AmortizationUploadFileResource amortizationUploadFileResourceDelegate;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public AmortizationUploadFileResource(AmortizationUploadFileService amortizationUploadFileService, AmortizationUploadFileQueryService amortizationUploadFileQueryService) {
+    public AmortizationUploadFileResourceDecorator(final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService,
+                                                   final AmortizationUploadFileService amortizationUploadFileService, final AmortizationUploadFileResource amortizationUploadFileResourceDelegate) {
+        this.amortizationUploadFileNotificationMessageService = amortizationUploadFileNotificationMessageService;
         this.amortizationUploadFileService = amortizationUploadFileService;
-        this.amortizationUploadFileQueryService = amortizationUploadFileQueryService;
+        this.amortizationUploadFileResourceDelegate = amortizationUploadFileResourceDelegate;
     }
 
     /**
@@ -67,6 +67,16 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
             throw new BadRequestAlertException("A new amortizationUploadFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AmortizationUploadFileDTO result = amortizationUploadFileService.save(amortizationUploadFileDTO);
+
+        // @formatter:off
+        amortizationUploadFileNotificationMessageService.sendMessage(
+            AmortizationUploadFileUploadNotification.builder()
+                                                 .id(result.getId())
+                                                 .timeStamp(System.currentTimeMillis())
+                                                 .fileUpload(result.getDataEntryFile())
+                                              .build());
+        // @formatter:on
+
         return ResponseEntity.created(new URI("/api/amortization-upload-files/" + result.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                              .body(result);
@@ -83,12 +93,8 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @Override
     @PutMapping("/amortization-upload-files")
     public ResponseEntity<AmortizationUploadFileDTO> updateAmortizationUploadFile(@Valid @RequestBody AmortizationUploadFileDTO amortizationUploadFileDTO) throws URISyntaxException {
-        log.debug("REST request to update AmortizationUploadFile : {}", amortizationUploadFileDTO);
-        if (amortizationUploadFileDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        AmortizationUploadFileDTO result = amortizationUploadFileService.save(amortizationUploadFileDTO);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, amortizationUploadFileDTO.getId().toString())).body(result);
+
+        return amortizationUploadFileResourceDelegate.updateAmortizationUploadFile(amortizationUploadFileDTO);
     }
 
     /**
@@ -102,10 +108,8 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @GetMapping("/amortization-upload-files")
     public ResponseEntity<List<AmortizationUploadFileDTO>> getAllAmortizationUploadFiles(AmortizationUploadFileCriteria criteria, Pageable pageable,
                                                                                          @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get AmortizationUploadFiles by criteria: {}", criteria);
-        Page<AmortizationUploadFileDTO> page = amortizationUploadFileQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+
+        return amortizationUploadFileResourceDelegate.getAllAmortizationUploadFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -117,8 +121,8 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @Override
     @GetMapping("/amortization-upload-files/count")
     public ResponseEntity<Long> countAmortizationUploadFiles(AmortizationUploadFileCriteria criteria) {
-        log.debug("REST request to count AmortizationUploadFiles by criteria: {}", criteria);
-        return ResponseEntity.ok().body(amortizationUploadFileQueryService.countByCriteria(criteria));
+
+        return amortizationUploadFileResourceDelegate.countAmortizationUploadFiles(criteria);
     }
 
     /**
@@ -130,9 +134,8 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @Override
     @GetMapping("/amortization-upload-files/{id}")
     public ResponseEntity<AmortizationUploadFileDTO> getAmortizationUploadFile(@PathVariable Long id) {
-        log.debug("REST request to get AmortizationUploadFile : {}", id);
-        Optional<AmortizationUploadFileDTO> amortizationUploadFileDTO = amortizationUploadFileService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(amortizationUploadFileDTO);
+
+        return amortizationUploadFileResourceDelegate.getAmortizationUploadFile(id);
     }
 
     /**
@@ -144,9 +147,8 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @Override
     @DeleteMapping("/amortization-upload-files/{id}")
     public ResponseEntity<Void> deleteAmortizationUploadFile(@PathVariable Long id) {
-        log.debug("REST request to delete AmortizationUploadFile : {}", id);
-        amortizationUploadFileService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+
+        return amortizationUploadFileResourceDelegate.deleteAmortizationUploadFile(id);
     }
 
     /**
@@ -160,10 +162,7 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
     @GetMapping("/_search/amortization-upload-files")
     public ResponseEntity<List<AmortizationUploadFileDTO>> searchAmortizationUploadFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                          UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to search for a page of AmortizationUploadFiles for query {}", query);
-        Page<AmortizationUploadFileDTO> page = amortizationUploadFileService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
 
+        return amortizationUploadFileResourceDelegate.searchAmortizationUploadFiles(query, pageable, queryParams, uriBuilder);
+    }
 }

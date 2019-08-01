@@ -5,13 +5,6 @@ import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -27,7 +20,7 @@ public interface ISupplierDataEntryFileResource {
      * already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    ResponseEntity<SupplierDataEntryFileDTO> createSupplierDataEntryFile(@Valid @RequestBody SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException;
+    ResponseEntity<SupplierDataEntryFileDTO> createSupplierDataEntryFile(@Valid SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException;
 
     /**
      * {@code PUT  /supplier-data-entry-files} : Updates an existing supplierDataEntryFile.
@@ -37,7 +30,7 @@ public interface ISupplierDataEntryFileResource {
      * not valid, or with status {@code 500 (Internal Server Error)} if the supplierDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    ResponseEntity<SupplierDataEntryFileDTO> updateSupplierDataEntryFile(@Valid @RequestBody SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException;
+    ResponseEntity<SupplierDataEntryFileDTO> updateSupplierDataEntryFile(@Valid SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException;
 
     /**
      * {@code GET  /supplier-data-entry-files} : get all the supplierDataEntryFiles.
@@ -46,7 +39,7 @@ public interface ISupplierDataEntryFileResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of supplierDataEntryFiles in body.
      */
-    ResponseEntity<List<SupplierDataEntryFileDTO>> getAllSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+    ResponseEntity<List<SupplierDataEntryFileDTO>> getAllSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria, Pageable pageable, MultiValueMap<String, String> queryParams,
                                                                                 UriComponentsBuilder uriBuilder);
 
     /**
@@ -63,7 +56,7 @@ public interface ISupplierDataEntryFileResource {
      * @param id the id of the supplierDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the supplierDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    ResponseEntity<SupplierDataEntryFileDTO> getSupplierDataEntryFile(@PathVariable Long id);
+    ResponseEntity<SupplierDataEntryFileDTO> getSupplierDataEntryFile(Long id);
 
     /**
      * {@code DELETE  /supplier-data-entry-files/:id} : delete the "id" supplierDataEntryFile.
@@ -71,7 +64,7 @@ public interface ISupplierDataEntryFileResource {
      * @param id the id of the supplierDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    ResponseEntity<Void> deleteSupplierDataEntryFile(@PathVariable Long id);
+    ResponseEntity<Void> deleteSupplierDataEntryFile(Long id);
 
     /**
      * {@code SEARCH  /_search/supplier-data-entry-files?query=:query} : search for the supplierDataEntryFile corresponding to the query.
@@ -80,6 +73,6 @@ public interface ISupplierDataEntryFileResource {
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    ResponseEntity<List<SupplierDataEntryFileDTO>> searchSupplierDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
+    ResponseEntity<List<SupplierDataEntryFileDTO>> searchSupplierDataEntryFiles(String query, Pageable pageable, MultiValueMap<String, String> queryParams,
                                                                                 UriComponentsBuilder uriBuilder);
 }

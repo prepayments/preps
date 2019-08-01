@@ -8,6 +8,7 @@ import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
 import io.github.prepayments.web.rest.ServiceOutletDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,7 @@ import java.util.List;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.ServiceOutletDataEntryFile}.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class ServiceOutletDataEntryFileResourceDecorator implements io.github.prepayments.app.decorators.IServiceOutletDataEntryFileResource {
@@ -63,6 +65,7 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
     @Override
     @PostMapping("/service-outlet-data-entry-files")
     public ResponseEntity<ServiceOutletDataEntryFileDTO> createServiceOutletDataEntryFile(@Valid @RequestBody ServiceOutletDataEntryFileDTO serviceOutletDataEntryFileDTO) throws URISyntaxException {
+        log.debug("REST request to save ServiceOutletDataEntryFile : {}", serviceOutletDataEntryFileDTO);
         if (serviceOutletDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new serviceOutletDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }

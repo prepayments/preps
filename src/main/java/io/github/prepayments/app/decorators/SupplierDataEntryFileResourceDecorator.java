@@ -9,8 +9,6 @@ import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import io.github.prepayments.web.rest.SupplierDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
@@ -45,8 +43,7 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public SupplierDataEntryFileResourceDecorator(final SupplierDataEntryFileService supplierDataEntryFileService,
-                                                  final SupplierDataFileMessageService supplierDataFileMessageService,
+    public SupplierDataEntryFileResourceDecorator(final SupplierDataEntryFileService supplierDataEntryFileService, final SupplierDataFileMessageService supplierDataFileMessageService,
                                                   final @Qualifier("SupplierDataEntryFileResourceDelegate") SupplierDataEntryFileResource supplierDataEntryFileResource) {
         this.supplierDataEntryFileResource = supplierDataEntryFileResource;
         this.supplierDataEntryFileService = supplierDataEntryFileService;
@@ -159,6 +156,6 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
     @GetMapping("/_search/supplier-data-entry-files")
     public ResponseEntity<List<SupplierDataEntryFileDTO>> searchSupplierDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                        UriComponentsBuilder uriBuilder) {
-        return supplierDataEntryFileResource.searchSupplierDataEntryFiles(query,pageable,queryParams,uriBuilder);
+        return supplierDataEntryFileResource.searchSupplierDataEntryFiles(query, pageable, queryParams, uriBuilder);
     }
 }

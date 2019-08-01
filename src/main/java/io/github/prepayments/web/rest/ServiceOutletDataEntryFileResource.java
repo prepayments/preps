@@ -4,8 +4,6 @@ import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.github.prepayments.app.decorators.IServiceOutletDataEntryFileResource;
-import io.github.prepayments.app.messaging.notifications.dto.ServiceOutletFileUploadNotification;
-import io.github.prepayments.app.messaging.services.notifications.ServiceOutletDataFileMessageService;
 import io.github.prepayments.service.ServiceOutletDataEntryFileQueryService;
 import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
@@ -26,9 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;

@@ -1,22 +1,18 @@
-package io.github.prepayments.web.rest;
+package io.github.prepayments.app.decorators;
 
 import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.ITransactionAccountDataEntryFileResource;
-import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService;
+import io.github.prepayments.app.messaging.notifications.dto.TransactionAccountFileUploadNotification;
+import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
+import io.github.prepayments.web.rest.TransactionAccountDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,32 +20,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
-/**
- * REST controller for managing {@link io.github.prepayments.domain.TransactionAccountDataEntryFile}.
- */
-@Component("transactionAccountDataEntryFileResourceDelegate")
-public class TransactionAccountDataEntryFileResource implements ITransactionAccountDataEntryFileResource {
+@Slf4j
+@RestController
+@RequestMapping("/api")
+public class TransactionAccountDataEntryFileResourceDecorator implements ITransactionAccountDataEntryFileResource {
+
 
     private static final String ENTITY_NAME = "dataEntryTransactionAccountDataEntryFile";
-    private final Logger log = LoggerFactory.getLogger(TransactionAccountDataEntryFileResource.class);
     private final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService;
-    private final TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService;
+    private final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
+
+    private final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public TransactionAccountDataEntryFileResource(TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
-                                                   TransactionAccountDataEntryFileQueryService transactionAccountDataEntryFileQueryService) {
+    public TransactionAccountDataEntryFileResourceDecorator(final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
+                                                            final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService,
+                                                            final @Qualifier("transactionAccountDataEntryFileResourceDelegate")
+                                                                TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate) {
         this.transactionAccountDataEntryFileService = transactionAccountDataEntryFileService;
-        this.transactionAccountDataEntryFileQueryService = transactionAccountDataEntryFileQueryService;
+        this.transactionAccountDataFileMessageService = transactionAccountDataFileMessageService;
+        this.transactionAccountDataEntryFileResourceDelegate = transactionAccountDataEntryFileResourceDelegate;
     }
 
     /**
@@ -69,6 +70,15 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
             throw new BadRequestAlertException("A new transactionAccountDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         TransactionAccountDataEntryFileDTO result = transactionAccountDataEntryFileService.save(transactionAccountDataEntryFileDTO);
+
+        // @formatter:off
+        transactionAccountDataFileMessageService.sendMessage(TransactionAccountFileUploadNotification.builder()
+                                                     .id(result.getId())
+                                                     .timeStamp(System.currentTimeMillis())
+                                                     .fileUpload(result.getDataEntryFile())
+                                                     .build());
+        // @formatter:on
+
         return ResponseEntity.created(new URI("/api/transaction-account-data-entry-files/" + result.getId()))
                              .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                              .body(result);
@@ -86,12 +96,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @PutMapping("/transaction-account-data-entry-files")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> updateTransactionAccountDataEntryFile(@Valid @RequestBody TransactionAccountDataEntryFileDTO transactionAccountDataEntryFileDTO)
         throws URISyntaxException {
-        log.debug("REST request to update TransactionAccountDataEntryFile : {}", transactionAccountDataEntryFileDTO);
-        if (transactionAccountDataEntryFileDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        TransactionAccountDataEntryFileDTO result = transactionAccountDataEntryFileService.save(transactionAccountDataEntryFileDTO);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, transactionAccountDataEntryFileDTO.getId().toString())).body(result);
+        return transactionAccountDataEntryFileResourceDelegate.updateTransactionAccountDataEntryFile(transactionAccountDataEntryFileDTO);
     }
 
     /**
@@ -105,10 +110,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @GetMapping("/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> getAllTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get TransactionAccountDataEntryFiles by criteria: {}", criteria);
-        Page<TransactionAccountDataEntryFileDTO> page = transactionAccountDataEntryFileQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return transactionAccountDataEntryFileResourceDelegate.getAllTransactionAccountDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -120,8 +122,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @Override
     @GetMapping("/transaction-account-data-entry-files/count")
     public ResponseEntity<Long> countTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria) {
-        log.debug("REST request to count TransactionAccountDataEntryFiles by criteria: {}", criteria);
-        return ResponseEntity.ok().body(transactionAccountDataEntryFileQueryService.countByCriteria(criteria));
+        return transactionAccountDataEntryFileResourceDelegate.countTransactionAccountDataEntryFiles(criteria);
     }
 
     /**
@@ -133,9 +134,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @Override
     @GetMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> getTransactionAccountDataEntryFile(@PathVariable Long id) {
-        log.debug("REST request to get TransactionAccountDataEntryFile : {}", id);
-        Optional<TransactionAccountDataEntryFileDTO> transactionAccountDataEntryFileDTO = transactionAccountDataEntryFileService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(transactionAccountDataEntryFileDTO);
+        return transactionAccountDataEntryFileResourceDelegate.getTransactionAccountDataEntryFile(id);
     }
 
     /**
@@ -147,9 +146,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @Override
     @DeleteMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<Void> deleteTransactionAccountDataEntryFile(@PathVariable Long id) {
-        log.debug("REST request to delete TransactionAccountDataEntryFile : {}", id);
-        transactionAccountDataEntryFileService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return transactionAccountDataEntryFileResourceDelegate.deleteTransactionAccountDataEntryFile(id);
     }
 
     /**
@@ -163,10 +160,7 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
     @GetMapping("/_search/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> searchTransactionAccountDataEntryFiles(@RequestParam String query, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to search for a page of TransactionAccountDataEntryFiles for query {}", query);
-        Page<TransactionAccountDataEntryFileDTO> page = transactionAccountDataEntryFileService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return transactionAccountDataEntryFileResourceDelegate.searchTransactionAccountDataEntryFiles(query, pageable, queryParams, uriBuilder);
     }
 
 }
