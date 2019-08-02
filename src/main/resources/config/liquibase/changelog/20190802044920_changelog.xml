@@ -1,0 +1,204 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-5">
+        <addColumn tableName="transaction_account">
+            <column name="account_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-6">
+        <addColumn tableName="amortization_entry">
+            <column name="amortization_account_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-7">
+        <addColumn tableName="amortization_entry">
+            <column name="amortization_service_outlet" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-8">
+        <addColumn tableName="amortization_upload">
+            <column name="amortization_service_outlet_code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-9">
+        <addColumn tableName="accounting_transaction">
+            <column name="description" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-10">
+        <addColumn tableName="amortization_data_entry_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-11">
+        <addColumn tableName="amortization_upload_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-12">
+        <addColumn tableName="prepayment_data_entry_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-13">
+        <addColumn tableName="service_outlet_data_entry_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-14">
+        <addColumn tableName="supplier_data_entry_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-15">
+        <addColumn tableName="transaction_account_data_entry_file">
+            <column name="entries_count" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-16">
+        <addColumn tableName="amortization_data_entry_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-17">
+        <addColumn tableName="amortization_upload_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-18">
+        <addColumn tableName="prepayment_data_entry_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-19">
+        <addColumn tableName="service_outlet_data_entry_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-20">
+        <addColumn tableName="supplier_data_entry_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-21">
+        <addColumn tableName="transaction_account_data_entry_file">
+            <column name="file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-22">
+        <addColumn tableName="amortization_entry">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-23">
+        <addColumn tableName="amortization_upload">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-24">
+        <addColumn tableName="prepayment_entry">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-25">
+        <addColumn tableName="registered_supplier">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-26">
+        <addColumn tableName="service_outlet">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-27">
+        <addColumn tableName="transaction_account">
+            <column name="originating_file_token" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-28">
+        <addColumn tableName="amortization_entry">
+            <column name="prepayment_account_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-29">
+        <addColumn tableName="amortization_entry">
+            <column name="prepayment_service_outlet" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-30">
+        <addColumn tableName="amortization_upload">
+            <column name="prepayment_service_outlet_code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-31">
+        <addColumn tableName="accounting_transaction">
+            <column name="service_outlet_code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-32">
+        <addColumn tableName="amortization_upload">
+            <column name="upload_orphaned" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-33">
+        <addColumn tableName="amortization_upload">
+            <column name="upload_successful" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-34">
+        <addUniqueConstraint columnNames="account_name" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NAME_COL" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-35">
+        <addUniqueConstraint columnNames="account_number" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NUMBER_COL" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-36">
+        <dropColumn columnName="account_balance" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-37">
+        <dropColumn columnName="account_name" tableName="amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-38">
+        <dropColumn columnName="account_number" tableName="amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-39">
+        <dropColumn columnName="account_opening_date_balance" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-40">
+        <dropColumn columnName="posted" tableName="amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-41">
+        <dropColumn columnName="service_outlet" tableName="amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-42">
+        <dropColumn columnName="service_outlet_code" tableName="amortization_upload"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-1">
+        <dropNotNullConstraint columnDataType="date" columnName="opening_date" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-2">
+        <dropUniqueConstraint constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-3">
+        <dropUniqueConstraint constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1564721421964-4">
+        <dropUniqueConstraint constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+</databaseChangeLog>
