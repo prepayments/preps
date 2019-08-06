@@ -1,6 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.service;
 
-import io.github.prepayments.app.decorators.PrepaymentEntryRepositoryDecorator;
+import io.github.prepayments.app.decorators.repo.PrepaymentEntryRepositoryDecorator;
 import io.github.prepayments.domain.PrepaymentEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,7 +1,6 @@
 package io.github.prepayments.app.services;
 
-import io.github.prepayments.app.decorators.AmortizationEntryRepositoryDecorator;
-import io.github.prepayments.repository.AmortizationEntryRepository;
+import io.github.prepayments.app.decorators.repo.AmortizationEntryRepositoryDecorator;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.AmortizationEntryMapper;

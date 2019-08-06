@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators;
+package io.github.prepayments.app.decorators.repo;
 
 import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.domain.PrepaymentEntry;
