@@ -33,34 +33,25 @@ public class AmortizationEntryEVM implements Serializable, ExcelViewModel {
     @ExcelCell(2)
     private String particulars;
 
-//    @ExcelCell(3)
-//    private String serviceOutlet;
-//
-//    @ExcelCell(4)
-//    private String accountNumber;
-//
-//    @ExcelCell(5)
-//    private String accountName;
-
     @ExcelCell(3)
-    private String prepaymentEntryId;
-
-    @ExcelCell(4)
-    private String prepaymentEntryDate;
-
-    @ExcelCell(5)
     private String prepaymentServiceOutlet;
 
-    @ExcelCell(6)
+    @ExcelCell(4)
     private String prepaymentAccountNumber;
 
-    @ExcelCell(7)
+    @ExcelCell(5)
     private String amortizationServiceOutlet;
 
-    @ExcelCell(8)
+    @ExcelCell(6)
     private String amortizationAccountNumber;
 
-    @ExcelCell(9)
+    @ExcelCell(7)
+    private String prepaymentEntryId;
+
+    @ExcelCell(8)
+    private String prepaymentEntryDate;
+
+
     private String originatingFileToken;
 
 }
