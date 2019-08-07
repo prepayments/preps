@@ -40,7 +40,7 @@
             <th jhiSortBy="supplierBankBranch"><span>Supplier Bank Branch</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="bankSwiftCode"><span>Bank Swift Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="bankPhysicalAddress"><span>Bank Physical Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="locallyDomiciled"><span>Locally Domiciled</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="domicile"><span>Domicile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="taxAuthorityPIN"><span>Tax Authority PIN</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="OriginatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -59,7 +59,7 @@
                 <td>{{registeredSupplier.supplierBankBranch}}</td>
                 <td>{{registeredSupplier.bankSwiftCode}}</td>
                 <td>{{registeredSupplier.bankPhysicalAddress}}</td>
-                <td>{{registeredSupplier.locallyDomiciled}}</td>
+                <td>{{registeredSupplier.domicile}}</td>
                 <td>{{registeredSupplier.taxAuthorityPIN}}</td>
                 <td>{{registeredSupplier.OriginatingFileToken}}</td>
                 <td class="text-right">

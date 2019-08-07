@@ -54,6 +54,7 @@ describe('RegisteredSupplier e2e test', () => {
       registeredSupplierUpdatePage.setSupplierBankBranchInput('supplierBankBranch'),
       registeredSupplierUpdatePage.setBankSwiftCodeInput('bankSwiftCode'),
       registeredSupplierUpdatePage.setBankPhysicalAddressInput('bankPhysicalAddress'),
+      registeredSupplierUpdatePage.setDomicileInput('domicile'),
       registeredSupplierUpdatePage.setTaxAuthorityPINInput('taxAuthorityPIN'),
       registeredSupplierUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
     ]);
@@ -97,16 +98,7 @@ describe('RegisteredSupplier e2e test', () => {
       'bankPhysicalAddress',
       'Expected BankPhysicalAddress value to be equals to bankPhysicalAddress'
     );
-    const selectedLocallyDomiciled = registeredSupplierUpdatePage.getLocallyDomiciledInput();
-    if (await selectedLocallyDomiciled.isSelected()) {
-      await registeredSupplierUpdatePage.getLocallyDomiciledInput().click();
-      expect(await registeredSupplierUpdatePage.getLocallyDomiciledInput().isSelected(), 'Expected locallyDomiciled not to be selected').to
-        .be.false;
-    } else {
-      await registeredSupplierUpdatePage.getLocallyDomiciledInput().click();
-      expect(await registeredSupplierUpdatePage.getLocallyDomiciledInput().isSelected(), 'Expected locallyDomiciled to be selected').to.be
-        .true;
-    }
+    expect(await registeredSupplierUpdatePage.getDomicileInput()).to.eq('domicile', 'Expected Domicile value to be equals to domicile');
     expect(await registeredSupplierUpdatePage.getTaxAuthorityPINInput()).to.eq(
       'taxAuthorityPIN',
       'Expected TaxAuthorityPIN value to be equals to taxAuthorityPIN'

@@ -205,6 +205,10 @@ import { RouterModule } from '@angular/router';
         path: 'transaction-account-data-entry-file',
         loadChildren:
           './dataEntry/transaction-account-data-entry-file/transaction-account-data-entry-file.module#PrepsTransactionAccountDataEntryFileModule'
+      },
+      {
+        path: 'registered-supplier',
+        loadChildren: './prepayments/registered-supplier/registered-supplier.module#PrepsRegisteredSupplierModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

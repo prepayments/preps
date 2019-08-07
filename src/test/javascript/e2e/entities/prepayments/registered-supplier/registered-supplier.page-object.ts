@@ -36,7 +36,7 @@ export class RegisteredSupplierUpdatePage {
   supplierBankBranchInput = element(by.id('field_supplierBankBranch'));
   bankSwiftCodeInput = element(by.id('field_bankSwiftCode'));
   bankPhysicalAddressInput = element(by.id('field_bankPhysicalAddress'));
-  locallyDomiciledInput = element(by.id('field_locallyDomiciled'));
+  domicileInput = element(by.id('field_domicile'));
   taxAuthorityPINInput = element(by.id('field_taxAuthorityPIN'));
   OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
 
@@ -124,9 +124,14 @@ export class RegisteredSupplierUpdatePage {
     return await this.bankPhysicalAddressInput.getAttribute('value');
   }
 
-  getLocallyDomiciledInput(timeout?: number) {
-    return this.locallyDomiciledInput;
+  async setDomicileInput(domicile) {
+    await this.domicileInput.sendKeys(domicile);
   }
+
+  async getDomicileInput() {
+    return await this.domicileInput.getAttribute('value');
+  }
+
   async setTaxAuthorityPINInput(taxAuthorityPIN) {
     await this.taxAuthorityPINInput.sendKeys(taxAuthorityPIN);
   }

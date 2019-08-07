@@ -48,8 +48,8 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "locallyDomiciled",
-            "fieldType": "Boolean"
+            "fieldName": "domicile",
+            "fieldType": "String"
         },
         {
             "fieldName": "taxAuthorityPIN",

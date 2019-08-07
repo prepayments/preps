@@ -59,8 +59,8 @@ public class RegisteredSupplier implements Serializable {
     @Column(name = "bank_physical_address")
     private String bankPhysicalAddress;
 
-    @Column(name = "locally_domiciled")
-    private Boolean locallyDomiciled;
+    @Column(name = "domicile")
+    private String domicile;
 
     @Column(name = "tax_authority_pin")
     private String taxAuthorityPIN;
@@ -207,17 +207,17 @@ public class RegisteredSupplier implements Serializable {
         this.bankPhysicalAddress = bankPhysicalAddress;
     }
 
-    public Boolean isLocallyDomiciled() {
-        return locallyDomiciled;
+    public String getDomicile() {
+        return domicile;
     }
 
-    public RegisteredSupplier locallyDomiciled(Boolean locallyDomiciled) {
-        this.locallyDomiciled = locallyDomiciled;
+    public RegisteredSupplier domicile(String domicile) {
+        this.domicile = domicile;
         return this;
     }
 
-    public void setLocallyDomiciled(Boolean locallyDomiciled) {
-        this.locallyDomiciled = locallyDomiciled;
+    public void setDomicile(String domicile) {
+        this.domicile = domicile;
     }
 
     public String getTaxAuthorityPIN() {
@@ -277,7 +277,7 @@ public class RegisteredSupplier implements Serializable {
             ", supplierBankBranch='" + getSupplierBankBranch() + "'" +
             ", bankSwiftCode='" + getBankSwiftCode() + "'" +
             ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" +
-            ", locallyDomiciled='" + isLocallyDomiciled() + "'" +
+            ", domicile='" + getDomicile() + "'" +
             ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" +
             ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
             "}";

@@ -35,7 +35,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
-        false,
+        'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA'
       );
@@ -84,7 +84,7 @@ describe('Service Tests', () => {
             supplierBankBranch: 'BBBBBB',
             bankSwiftCode: 'BBBBBB',
             bankPhysicalAddress: 'BBBBBB',
-            locallyDomiciled: true,
+            domicile: 'BBBBBB',
             taxAuthorityPIN: 'BBBBBB',
             OriginatingFileToken: 'BBBBBB'
           },
@@ -114,7 +114,7 @@ describe('Service Tests', () => {
             supplierBankBranch: 'BBBBBB',
             bankSwiftCode: 'BBBBBB',
             bankPhysicalAddress: 'BBBBBB',
-            locallyDomiciled: true,
+            domicile: 'BBBBBB',
             taxAuthorityPIN: 'BBBBBB',
             OriginatingFileToken: 'BBBBBB'
           },

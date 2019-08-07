@@ -46,7 +46,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
 
     private StringFilter bankPhysicalAddress;
 
-    private BooleanFilter locallyDomiciled;
+    private StringFilter domicile;
 
     private StringFilter taxAuthorityPIN;
 
@@ -67,7 +67,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
         this.supplierBankBranch = other.supplierBankBranch == null ? null : other.supplierBankBranch.copy();
         this.bankSwiftCode = other.bankSwiftCode == null ? null : other.bankSwiftCode.copy();
         this.bankPhysicalAddress = other.bankPhysicalAddress == null ? null : other.bankPhysicalAddress.copy();
-        this.locallyDomiciled = other.locallyDomiciled == null ? null : other.locallyDomiciled.copy();
+        this.domicile = other.domicile == null ? null : other.domicile.copy();
         this.taxAuthorityPIN = other.taxAuthorityPIN == null ? null : other.taxAuthorityPIN.copy();
         this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
     }
@@ -165,12 +165,12 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
         this.bankPhysicalAddress = bankPhysicalAddress;
     }
 
-    public BooleanFilter getLocallyDomiciled() {
-        return locallyDomiciled;
+    public StringFilter getDomicile() {
+        return domicile;
     }
 
-    public void setLocallyDomiciled(BooleanFilter locallyDomiciled) {
-        this.locallyDomiciled = locallyDomiciled;
+    public void setDomicile(StringFilter domicile) {
+        this.domicile = domicile;
     }
 
     public StringFilter getTaxAuthorityPIN() {
@@ -211,7 +211,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
             Objects.equals(supplierBankBranch, that.supplierBankBranch) &&
             Objects.equals(bankSwiftCode, that.bankSwiftCode) &&
             Objects.equals(bankPhysicalAddress, that.bankPhysicalAddress) &&
-            Objects.equals(locallyDomiciled, that.locallyDomiciled) &&
+            Objects.equals(domicile, that.domicile) &&
             Objects.equals(taxAuthorityPIN, that.taxAuthorityPIN) &&
             Objects.equals(OriginatingFileToken, that.OriginatingFileToken);
     }
@@ -230,7 +230,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
         supplierBankBranch,
         bankSwiftCode,
         bankPhysicalAddress,
-        locallyDomiciled,
+        domicile,
         taxAuthorityPIN,
         OriginatingFileToken
         );
@@ -250,7 +250,7 @@ public class RegisteredSupplierCriteria implements Serializable, Criteria {
                 (supplierBankBranch != null ? "supplierBankBranch=" + supplierBankBranch + ", " : "") +
                 (bankSwiftCode != null ? "bankSwiftCode=" + bankSwiftCode + ", " : "") +
                 (bankPhysicalAddress != null ? "bankPhysicalAddress=" + bankPhysicalAddress + ", " : "") +
-                (locallyDomiciled != null ? "locallyDomiciled=" + locallyDomiciled + ", " : "") +
+                (domicile != null ? "domicile=" + domicile + ", " : "") +
                 (taxAuthorityPIN != null ? "taxAuthorityPIN=" + taxAuthorityPIN + ", " : "") +
                 (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
             "}";

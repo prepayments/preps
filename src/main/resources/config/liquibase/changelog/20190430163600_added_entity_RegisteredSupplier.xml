@@ -55,7 +55,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="locally_domiciled" type="boolean">
+            <column name="domicile" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
@@ -97,7 +97,7 @@
             <column name="supplier_bank_branch" type="string"/>
             <column name="bank_swift_code" type="string"/>
             <column name="bank_physical_address" type="string"/>
-            <column name="locally_domiciled" type="boolean"/>
+            <column name="domicile" type="string"/>
             <column name="tax_authority_pin" type="string"/>
             <column name="originating_file_token" type="string"/>
         </loadData>

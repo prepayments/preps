@@ -123,8 +123,8 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
             if (criteria.getBankPhysicalAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBankPhysicalAddress(), RegisteredSupplier_.bankPhysicalAddress));
             }
-            if (criteria.getLocallyDomiciled() != null) {
-                specification = specification.and(buildSpecification(criteria.getLocallyDomiciled(), RegisteredSupplier_.locallyDomiciled));
+            if (criteria.getDomicile() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDomicile(), RegisteredSupplier_.domicile));
             }
             if (criteria.getTaxAuthorityPIN() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTaxAuthorityPIN(), RegisteredSupplier_.taxAuthorityPIN));

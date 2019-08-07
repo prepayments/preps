@@ -82,7 +82,7 @@ class RegisteredSupplierGatlingTest extends Simulation {
                 , "supplierBankBranch":"SAMPLE_TEXT"
                 , "bankSwiftCode":"SAMPLE_TEXT"
                 , "bankPhysicalAddress":"SAMPLE_TEXT"
-                , "locallyDomiciled":null
+                , "domicile":"SAMPLE_TEXT"
                 , "taxAuthorityPIN":"SAMPLE_TEXT"
                 , "OriginatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson

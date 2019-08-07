@@ -10,7 +10,7 @@ export interface IRegisteredSupplier {
   supplierBankBranch?: string;
   bankSwiftCode?: string;
   bankPhysicalAddress?: string;
-  locallyDomiciled?: boolean;
+  domicile?: string;
   taxAuthorityPIN?: string;
   OriginatingFileToken?: string;
 }
@@ -28,10 +28,8 @@ export class RegisteredSupplier implements IRegisteredSupplier {
     public supplierBankBranch?: string,
     public bankSwiftCode?: string,
     public bankPhysicalAddress?: string,
-    public locallyDomiciled?: boolean,
+    public domicile?: string,
     public taxAuthorityPIN?: string,
     public OriginatingFileToken?: string
-  ) {
-    this.locallyDomiciled = this.locallyDomiciled || false;
-  }
+  ) {}
 }
