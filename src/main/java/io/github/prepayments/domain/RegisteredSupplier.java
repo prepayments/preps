@@ -29,7 +29,7 @@ public class RegisteredSupplier implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "supplier_name", nullable = false)
+    @Column(name = "supplier_name", nullable = false, unique = true)
     private String supplierName;
 
     @Column(name = "supplier_address")

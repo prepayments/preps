@@ -51,8 +51,10 @@ public class RegisteredSupplierEVM implements Serializable, ExcelViewModel {
     private String bankPhysicalAddress;
 
     @ExcelCell(10)
-    private Boolean locallyDomiciled;
+    private String domicile;
 
     @ExcelCell(11)
     private String taxAuthorityPIN;
+
+    private String originatingFileToken;
 }

@@ -16,7 +16,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="supplier_name" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_registered_supplier_supplier_name" />
             </column>
 
             <column name="supplier_address" type="varchar(255)">
