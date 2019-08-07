@@ -18,6 +18,16 @@ class ServiceOutletDataEntryFileDeserializerTest extends DeserializerTests {
         List<ServiceOutletEVM> entries = serviceOutletDeserializer.deserialize(toBytes(readFile("solDataEntryFile.xlsx")));
 
         assertEquals(289, entries.size());
-        assertEquals(289, entries.size());
+        assertEquals("Accounting", entries.get(0).getServiceOutletName());
+        assertEquals("377", entries.get(0).getServiceOutletCode());
+        assertEquals("WAUCHULA", entries.get(0).getServiceOutletLocation());
+        assertEquals("Durand Blow", entries.get(0).getServiceOutletManager());
+        assertEquals(150, entries.get(0).getNumberOfStaff());
+        assertEquals("Vahlen Towers", entries.get(0).getBuilding());
+        assertEquals(319, entries.get(0).getFloor());
+        assertEquals("3 Tony Street", entries.get(0).getPostalAddress());
+        assertEquals("Rana Petrolli", entries.get(0).getContactPersonName());
+        assertEquals("rpetrolli3p@home.pl", entries.get(0).getContactEmail());
+        assertEquals("Vahlen Street", entries.get(0).getStreet());
     }
 }

@@ -28,11 +28,10 @@ public class TransactionAccountEVM implements Serializable, ExcelViewModel {
     private String accountNumber;
 
     @ExcelCell(2)
-    private String accountBalance;
+    private String accountType;
 
     @ExcelCell(3)
     private String openingDate;
 
-    @ExcelCell(4)
-    private String accountOpeningDateBalance;
+    private String originatingFileToken;
 }
