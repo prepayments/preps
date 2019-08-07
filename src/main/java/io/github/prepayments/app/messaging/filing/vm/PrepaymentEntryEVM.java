@@ -54,4 +54,6 @@ public class PrepaymentEntryEVM implements Serializable, ExcelViewModel {
 
     @ExcelCell(9)
     private String invoiceNumber;
+
+    private String originatingFileToken;
 }
