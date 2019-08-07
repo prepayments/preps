@@ -31,29 +31,34 @@ public class AmortizationUploadEVM implements Serializable, ExcelViewModel {
     private String particulars;
 
     @ExcelCell(2)
-    private String serviceOutlet;
+    private String amortizationServiceOutletCode;
 
     @ExcelCell(3)
-    private String prepaymentAccountNumber;
+    private String prepaymentServiceOutletCode;
 
     @ExcelCell(4)
-    private String expenseAccountNumber;
+    private String prepaymentAccountNumber;
 
     @ExcelCell(5)
-    private String prepaymentTransactionId;
+    private String expenseAccountNumber;
 
     @ExcelCell(6)
-    private String prepaymentTransactionDate;
+    private String prepaymentTransactionId;
 
     @ExcelCell(7)
-    private String prepaymentTransactionAmount;
+    private String prepaymentTransactionDate;
 
     @ExcelCell(8)
-    private String amortizationAmount;
+    private String prepaymentTransactionAmount;
 
     @ExcelCell(9)
-    private String numberOfAmortizations;
+    private String amortizationAmount;
 
     @ExcelCell(10)
+    private String numberOfAmortizations;
+
+    @ExcelCell(11)
     private String firstAmortizationDate;
+
+    private String originatingFileToken;
 }
