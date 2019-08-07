@@ -53,4 +53,6 @@ public class ServiceOutletEVM implements Serializable, ExcelViewModel {
 
     @ExcelCell(10)
     private String street;
+
+    private String originationFileToken;
 }
