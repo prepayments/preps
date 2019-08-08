@@ -27,7 +27,7 @@ export class SupplierDataEntryFileUpdateComponent implements OnInit {
     uploadSuccessful: [],
     uploadProcessed: [],
     entriesCount: [],
-    fileToken: []
+    fileToken: [null, []]
   });
 
   constructor(

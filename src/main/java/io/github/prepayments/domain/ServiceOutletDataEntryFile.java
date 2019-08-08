@@ -54,7 +54,8 @@ public class ServiceOutletDataEntryFile implements Serializable {
     @Column(name = "entries_count")
     private Integer entriesCount;
 
-    @Column(name = "file_token")
+    
+    @Column(name = "file_token", unique = true)
     private String fileToken;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

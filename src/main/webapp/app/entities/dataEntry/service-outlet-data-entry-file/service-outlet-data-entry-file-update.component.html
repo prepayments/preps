@@ -82,6 +82,8 @@
                     <label class="form-control-label" for="field_fileToken">File Token</label>
                     <input type="text" class="form-control" name="fileToken" id="field_fileToken"
                            formControlName="fileToken"/>
+                    <div *ngIf="editForm.get('fileToken').invalid && (editForm.get('fileToken').dirty || editForm.get('fileToken').touched)">
+                    </div>
                 </div>
 
             </div>

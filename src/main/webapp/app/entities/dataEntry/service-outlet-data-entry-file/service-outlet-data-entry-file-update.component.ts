@@ -27,7 +27,7 @@ export class ServiceOutletDataEntryFileUpdateComponent implements OnInit {
     dataEntryFile: [null, [Validators.required]],
     dataEntryFileContentType: [],
     entriesCount: [],
-    fileToken: []
+    fileToken: [null, []]
   });
 
   constructor(

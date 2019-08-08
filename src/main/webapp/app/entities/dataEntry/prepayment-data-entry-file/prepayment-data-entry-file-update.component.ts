@@ -27,7 +27,7 @@ export class PrepaymentDataEntryFileUpdateComponent implements OnInit {
     uploadProcessed: [],
     uploadSuccessful: [],
     entriesCount: [],
-    fileToken: []
+    fileToken: [null, []]
   });
 
   constructor(

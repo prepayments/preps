@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-7">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_AMORTIZATION_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="amortization_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-8">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_AMORTIZATION_UPLOAD_FILEFILE_TOKEN_COL" tableName="amortization_upload_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-9">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_PREPAYMENT_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="prepayment_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-10">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_SERVICE_OUTLET_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="service_outlet_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-11">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_SUPPLIER_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="supplier_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-12">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_TRANSACTION_ACCOUNT_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="transaction_account_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-1">
+        <dropUniqueConstraint constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-2">
+        <dropUniqueConstraint constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-3">
+        <dropUniqueConstraint constraintName="UC_REGISTERED_SUPPLIERSUPPLIER_NAME_COL" tableName="registered_supplier"/>
+        <addUniqueConstraint columnNames="supplier_name" constraintName="UC_REGISTERED_SUPPLIERSUPPLIER_NAME_COL" tableName="registered_supplier"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-4">
+        <dropUniqueConstraint constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-5">
+        <dropUniqueConstraint constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NAME_COL" tableName="transaction_account"/>
+        <addUniqueConstraint columnNames="account_name" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NAME_COL" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1565274183877-6">
+        <dropUniqueConstraint constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NUMBER_COL" tableName="transaction_account"/>
+        <addUniqueConstraint columnNames="account_number" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NUMBER_COL" tableName="transaction_account"/>
+    </changeSet>
+</databaseChangeLog>

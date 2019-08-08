@@ -30,7 +30,7 @@ export class TransactionAccountDataEntryFileUpdateComponent implements OnInit {
     uploadSuccessful: [],
     uploadProcessed: [],
     entriesCount: [],
-    fileToken: []
+    fileToken: [null, []]
   });
 
   constructor(
