@@ -28,25 +28,23 @@ public class DefaultAmortizationUploadEVMDTOMapper implements AmortizationUpload
     @Override
     public AmortizationUploadDTO toDto(final SimpleAmortizationUploadEVM simpleAmortizationUploadEVM, final DateTimeFormatter dtf) {
 
-        // @formatter:off
         return AmortizationUploadDTO.builder()
-                                                         .accountName(simpleAmortizationUploadEVM.getAccountName())
-                                                         .particulars(simpleAmortizationUploadEVM.getParticulars())
-                                                         .amortizationServiceOutletCode(simpleAmortizationUploadEVM.getAmortizationServiceOutletCode())
-                                                         .prepaymentServiceOutletCode(simpleAmortizationUploadEVM.getPrepaymentServiceOutletCode())
-                                                         .prepaymentAccountNumber(simpleAmortizationUploadEVM.getPrepaymentAccountNumber())
-                                                         .expenseAccountNumber(simpleAmortizationUploadEVM.getExpenseAccountNumber())
-                                                         .prepaymentTransactionId(simpleAmortizationUploadEVM.getPrepaymentTransactionId())
-                                                         .prepaymentTransactionDate(LocalDate.parse(simpleAmortizationUploadEVM.getPrepaymentTransactionDate(), dtf))
-                                                         .prepaymentTransactionAmount(
-                                                             NumberUtils.toScaledBigDecimal(simpleAmortizationUploadEVM.getPrepaymentTransactionAmount().replace(",",""),2, HALF_EVEN))
-                                                         .amortizationAmount(
-                                                             NumberUtils.toScaledBigDecimal(simpleAmortizationUploadEVM.getAmortizationAmount().replace(",",""),2, HALF_EVEN))
-                                                         .numberOfAmortizations(NumberUtils.toInt(simpleAmortizationUploadEVM.getNumberOfAmortizations().replace(",","")))
-                                                         .firstAmortizationDate(LocalDate.parse(simpleAmortizationUploadEVM.getFirstAmortizationDate(), dtf))
-                                                         .OriginatingFileToken(simpleAmortizationUploadEVM.getOriginatingFileToken())
-                                                       .build();
-        // @formatter:on
+                                     .accountName(simpleAmortizationUploadEVM.getAccountName())
+                                     .particulars(simpleAmortizationUploadEVM.getParticulars())
+                                     .amortizationServiceOutletCode(simpleAmortizationUploadEVM.getAmortizationServiceOutletCode())
+                                     .prepaymentServiceOutletCode(simpleAmortizationUploadEVM.getPrepaymentServiceOutletCode())
+                                     .prepaymentAccountNumber(simpleAmortizationUploadEVM.getPrepaymentAccountNumber())
+                                     .expenseAccountNumber(simpleAmortizationUploadEVM.getExpenseAccountNumber())
+                                     .prepaymentTransactionId(simpleAmortizationUploadEVM.getPrepaymentTransactionId())
+                                     .prepaymentTransactionDate(LocalDate.parse(simpleAmortizationUploadEVM.getPrepaymentTransactionDate(), dtf))
+                                     .prepaymentTransactionAmount(
+                                         NumberUtils.toScaledBigDecimal(simpleAmortizationUploadEVM.getPrepaymentTransactionAmount().replace(",",""),2, HALF_EVEN))
+                                     .amortizationAmount(
+                                         NumberUtils.toScaledBigDecimal(simpleAmortizationUploadEVM.getAmortizationAmount().replace(",",""),2, HALF_EVEN))
+                                     .numberOfAmortizations(NumberUtils.toInt(simpleAmortizationUploadEVM.getNumberOfAmortizations().replace(",","")))
+                                     .firstAmortizationDate(LocalDate.parse(simpleAmortizationUploadEVM.getFirstAmortizationDate(), dtf))
+                                     .originatingFileToken(simpleAmortizationUploadEVM.getOriginatingFileToken())
+                                   .build();
 
     }
 
