@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
+import static org.apache.commons.lang3.math.NumberUtils.createBigDecimal;
 
 @Component("amortizationEntryEVMDTOMapper")
 public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEVMDTOMapper {
@@ -40,7 +41,11 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
         // @formatter:off
         AmortizationEntryDTO dto = AmortizationEntryDTO.builder()
                                                        .amortizationDate(LocalDate.parse(excelView.getAmortizationDate(), dtf))
-                                                       .amortizationAmount(BigDecimal.valueOf(Double.parseDouble(excelView.getAmortizationAmount())))
+//                                                       .amortizationAmount(
+//                                                           BigDecimal.valueOf(
+//                                                               Double.parseDouble(
+//                                                                   excelView.getAmortizationAmount().replace(",",""))))
+                                                       .amortizationAmount(createBigDecimal(excelView.getAmortizationAmount().replace(",","")))
                                                        .particulars(excelView.getParticulars())
                                                        .prepaymentServiceOutlet(excelView.getPrepaymentServiceOutlet())
                                                        .prepaymentAccountNumber(excelView.getPrepaymentAccountNumber())
@@ -50,9 +55,10 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
                                                        .build();
         // @formatter:on
 
+        // TODO Mark orphans
         // @formatter:off
         dto.setPrepaymentEntryId(
-            prepaymentEntryIdService.findByIdAndDate(
+            prepaymentEntryIdService.findByIdAndDate(dto,
                 excelView.getPrepaymentEntryId(),
                 excelView.getPrepaymentEntryDate()));
         // @formatter:on

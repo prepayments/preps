@@ -66,8 +66,12 @@
           ]
         },
         {
-          "fieldName": "OriginatingFileToken",
+          "fieldName": "originatingFileToken",
           "fieldType": "String"
+        },
+        {
+          "fieldName": "orphaned",
+          "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20190429140127",

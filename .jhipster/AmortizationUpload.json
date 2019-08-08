@@ -95,7 +95,7 @@
             "fieldType": "Boolean"
         },
         {
-          "fieldName": "OriginatingFileToken",
+          "fieldName": "originatingFileToken",
           "fieldType": "String"
         }
     ],

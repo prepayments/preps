@@ -2,6 +2,7 @@ package io.github.prepayments.app.messaging.data_entry.service;
 
 import io.github.prepayments.app.decorators.repo.PrepaymentEntryRepositoryDecorator;
 import io.github.prepayments.domain.PrepaymentEntry;
+import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
 
 /**
  * The prepayment model is designed unique by both prepaymentDate and prepaymentId. This class uses its repository to implement a method of finding a prepayment by those two fields
@@ -32,14 +35,14 @@ public class PrepaymentEntryIdService implements IPrepaymentEntryIdService {
      */
     @Override
     @Cacheable("prepaymentByIdAndDate")
-    public Long findByIdAndDate(final String prepaymentEntryId, final String prepaymentEntryDate) {
+    public Long findByIdAndDate(final AmortizationEntryDTO amortizationEntryDTO, final String prepaymentEntryId, final String prepaymentEntryDate) {
 
         Long findByIdAndDate;
 
         log.debug("Finding prepayment with the Id : {} dated : {}", prepaymentEntryId, prepaymentEntryDate);
 
         //TODO Convert this using system-wide converter
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 
         PrepaymentEntry found = prepaymentEntryRepositoryDecorator.findFirstByPrepaymentIdAndPrepaymentDate(prepaymentEntryId, LocalDate.parse(prepaymentEntryDate, dtf));
 
