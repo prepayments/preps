@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.AmortizationFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.AmortizationDataFileMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
@@ -40,15 +41,17 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
     private static final String ENTITY_NAME = "dataEntryAmortizationDataEntryFile";
     private final AmortizationDataFileMessageService amortizationDataFileMessageService;
     private final AmortizationDataEntryFileService amortizationDataEntryFileService;
+    private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public AmortizationDataEntryFileResourceDecorator(final @Qualifier("amortizationDataEntryFileResourceDelegate") AmortizationDataEntryFileResource amortizationDataEntryFileResourceDelegate,
                                                       final AmortizationDataFileMessageService amortizationDataFileMessageService,
-                                                      final AmortizationDataEntryFileService amortizationDataEntryFileService) {
+                                                      final AmortizationDataEntryFileService amortizationDataEntryFileService, final FileTokenProvider excelFileTokenProvider) {
         this.amortizationDataEntryFileResourceDelegate = amortizationDataEntryFileResourceDelegate;
         this.amortizationDataFileMessageService = amortizationDataFileMessageService;
         this.amortizationDataEntryFileService = amortizationDataEntryFileService;
+        this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
     /**
@@ -65,6 +68,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
         if (amortizationDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new amortizationDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        amortizationDataEntryFileDTO.setFileToken(excelFileTokenProvider.getFileToken(amortizationDataEntryFileDTO));
         AmortizationDataEntryFileDTO result = amortizationDataEntryFileService.save(amortizationDataEntryFileDTO);
 
         // @formatter:off
@@ -72,6 +76,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
             AmortizationFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
+                                                 .fileToken(amortizationDataEntryFileDTO.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

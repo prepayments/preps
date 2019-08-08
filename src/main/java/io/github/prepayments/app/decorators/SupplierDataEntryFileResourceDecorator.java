@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.SupplierDataFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.SupplierDataFileMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
@@ -40,14 +41,17 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
     private static final String ENTITY_NAME = "dataEntrySupplierDataEntryFile";
     private final SupplierDataEntryFileService supplierDataEntryFileService;
     private final SupplierDataFileMessageService supplierDataFileMessageService;
+    private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public SupplierDataEntryFileResourceDecorator(final SupplierDataEntryFileService supplierDataEntryFileService, final SupplierDataFileMessageService supplierDataFileMessageService,
-                                                  final @Qualifier("SupplierDataEntryFileResourceDelegate") SupplierDataEntryFileResource supplierDataEntryFileResource) {
+                                                  final @Qualifier("SupplierDataEntryFileResourceDelegate") SupplierDataEntryFileResource supplierDataEntryFileResource,
+                                                  final FileTokenProvider excelFileTokenProvider) {
         this.supplierDataEntryFileResource = supplierDataEntryFileResource;
         this.supplierDataEntryFileService = supplierDataEntryFileService;
         this.supplierDataFileMessageService = supplierDataFileMessageService;
+        this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
     /**
@@ -65,6 +69,7 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
         if (supplierDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplierDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        supplierDataEntryFileDTO.setFileToken(excelFileTokenProvider.getFileToken(supplierDataEntryFileDTO));
         SupplierDataEntryFileDTO result = supplierDataEntryFileService.save(supplierDataEntryFileDTO);
 
         // @formatter:off
@@ -72,6 +77,7 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
             SupplierDataFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
+                                                 .fileToken(supplierDataEntryFileDTO.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

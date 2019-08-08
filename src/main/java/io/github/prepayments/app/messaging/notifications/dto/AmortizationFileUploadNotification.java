@@ -20,4 +20,5 @@ public class AmortizationFileUploadNotification implements FileUploadNotificatio
     private long id;
     private long timeStamp;
     private byte[] fileUpload;
+    private String fileToken;
 }

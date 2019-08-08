@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.ServiceOutletFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.ServiceOutletDataFileMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
@@ -43,15 +44,18 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
 
     private static final String ENTITY_NAME = "dataEntryServiceOutletDataEntryFile";
     private final ServiceOutletDataEntryFileService serviceOutletDataEntryFileService;
+    private final FileTokenProvider excelFileProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public ServiceOutletDataEntryFileResourceDecorator(final ServiceOutletDataEntryFileService serviceOutletDataEntryFileService,
                                                        final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService,
-                                                       final @Qualifier("serviceOutletDataEntryFileResourceDelegate") ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource) {
+                                                       final @Qualifier("serviceOutletDataEntryFileResourceDelegate") ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource,
+                                                       final FileTokenProvider excelFileProvider) {
         this.serviceOutletDataEntryFileResource = serviceOutletDataEntryFileResource;
         this.serviceOutletDataEntryFileService = serviceOutletDataEntryFileService;
         this.serviceOutletDataFileMessageService = serviceOutletDataFileMessageService;
+        this.excelFileProvider = excelFileProvider;
     }
 
     /**
@@ -69,6 +73,7 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
         if (serviceOutletDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new serviceOutletDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        serviceOutletDataEntryFileDTO.setFileToken(excelFileProvider.getFileToken(serviceOutletDataEntryFileDTO));
         ServiceOutletDataEntryFileDTO result = serviceOutletDataEntryFileService.save(serviceOutletDataEntryFileDTO);
 
         // @formatter:off
@@ -76,6 +81,7 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
             ServiceOutletFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
+                                                 .fileToken(serviceOutletDataEntryFileDTO.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

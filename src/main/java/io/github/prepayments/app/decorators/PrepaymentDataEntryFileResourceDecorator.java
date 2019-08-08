@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.PrepaymentFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.PrepaymentDataFileMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
@@ -39,15 +40,18 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     private final PrepaymentDataFileMessageService prepaymentDataFileMessageService;
     private final PrepaymentDataEntryFileService prepaymentDataEntryFileService;
     private final PrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDelegate;
+    private final FileTokenProvider excelFileTokenProvider;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public PrepaymentDataEntryFileResourceDecorator(final PrepaymentDataFileMessageService prepaymentDataFileMessageService, final PrepaymentDataEntryFileService prepaymentDataEntryFileService,
-                                                    final @Qualifier("prepaymentDataEntryFileResourceDelegate") PrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDelegate) {
+                                                    final @Qualifier("prepaymentDataEntryFileResourceDelegate") PrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDelegate,
+                                                    final FileTokenProvider excelFileTokenProvider) {
         this.prepaymentDataFileMessageService = prepaymentDataFileMessageService;
         this.prepaymentDataEntryFileService = prepaymentDataEntryFileService;
         this.prepaymentDataEntryFileResourceDelegate = prepaymentDataEntryFileResourceDelegate;
+        this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
     /**
@@ -65,6 +69,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
         if (prepaymentDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new prepaymentDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        prepaymentDataEntryFileDTO.setFileToken(excelFileTokenProvider.getFileToken(prepaymentDataEntryFileDTO));
         PrepaymentDataEntryFileDTO result = prepaymentDataEntryFileService.save(prepaymentDataEntryFileDTO);
 
         // @formatter:off
@@ -72,6 +77,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
                                                      .id(result.getId())
                                                      .timeStamp(System.currentTimeMillis())
                                                      .fileUpload(result.getDataEntryFile())
+                                                     .fileToken(prepaymentDataEntryFileDTO.getFileToken())
                                                      .build()
         );
         // @formatter:on

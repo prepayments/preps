@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.AmortizationUploadFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.AmortizationUploadFileNotificationMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
@@ -41,14 +42,17 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     private final AmortizationUploadFileService amortizationUploadFileService;
     @Qualifier("amortizationUploadFileResourceDelegate")
     private final AmortizationUploadFileResource amortizationUploadFileResourceDelegate;
+    private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public AmortizationUploadFileResourceDecorator(final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService,
-                                                   final AmortizationUploadFileService amortizationUploadFileService, final AmortizationUploadFileResource amortizationUploadFileResourceDelegate) {
+                                                   final AmortizationUploadFileService amortizationUploadFileService, final AmortizationUploadFileResource amortizationUploadFileResourceDelegate,
+                                                   final FileTokenProvider excelFileTokenProvider) {
         this.amortizationUploadFileNotificationMessageService = amortizationUploadFileNotificationMessageService;
         this.amortizationUploadFileService = amortizationUploadFileService;
         this.amortizationUploadFileResourceDelegate = amortizationUploadFileResourceDelegate;
+        this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
     /**
@@ -66,6 +70,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
         if (amortizationUploadFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new amortizationUploadFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        amortizationUploadFileDTO.setFileToken(excelFileTokenProvider.getFileToken(amortizationUploadFileDTO));
         AmortizationUploadFileDTO result = amortizationUploadFileService.save(amortizationUploadFileDTO);
 
         // @formatter:off
@@ -73,6 +78,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
             AmortizationUploadFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
+                                                 .fileToken(amortizationUploadFileDTO.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

@@ -7,4 +7,6 @@ public interface FileUploadNotification {
     long getTimeStamp();
 
     byte[] getFileUpload();
+
+    String getFileToken();
 }

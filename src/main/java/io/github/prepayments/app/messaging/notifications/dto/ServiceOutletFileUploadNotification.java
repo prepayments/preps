@@ -16,4 +16,5 @@ public class ServiceOutletFileUploadNotification implements FileUploadNotificati
     private long id;
     private long timeStamp;
     private byte[] fileUpload;
+    private String fileToken;
 }

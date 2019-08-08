@@ -3,6 +3,7 @@ package io.github.prepayments.app.decorators;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.TransactionAccountFileUploadNotification;
 import io.github.prepayments.app.messaging.services.notifications.TransactionAccountDataFileMessageService;
+import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
@@ -39,18 +40,20 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     private static final String ENTITY_NAME = "dataEntryTransactionAccountDataEntryFile";
     private final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService;
     private final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
-
     private final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate;
+    private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     public TransactionAccountDataEntryFileResourceDecorator(final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
                                                             final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService,
                                                             final @Qualifier("transactionAccountDataEntryFileResourceDelegate")
-                                                                TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate) {
+                                                                TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate, final FileTokenProvider
+                                                                excelFileTokenProvider) {
         this.transactionAccountDataEntryFileService = transactionAccountDataEntryFileService;
         this.transactionAccountDataFileMessageService = transactionAccountDataFileMessageService;
         this.transactionAccountDataEntryFileResourceDelegate = transactionAccountDataEntryFileResourceDelegate;
+        this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
     /**
@@ -69,6 +72,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
         if (transactionAccountDataEntryFileDTO.getId() != null) {
             throw new BadRequestAlertException("A new transactionAccountDataEntryFile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        transactionAccountDataEntryFileDTO.setFileToken(excelFileTokenProvider.getFileToken(transactionAccountDataEntryFileDTO));
         TransactionAccountDataEntryFileDTO result = transactionAccountDataEntryFileService.save(transactionAccountDataEntryFileDTO);
 
         // @formatter:off
