@@ -9,7 +9,8 @@ export interface IAmortizationEntry {
   prepaymentAccountNumber?: string;
   amortizationServiceOutlet?: string;
   amortizationAccountNumber?: string;
-  OriginatingFileToken?: string;
+  originatingFileToken?: string;
+  orphaned?: boolean;
   prepaymentEntryId?: number;
 }
 
@@ -23,7 +24,10 @@ export class AmortizationEntry implements IAmortizationEntry {
     public prepaymentAccountNumber?: string,
     public amortizationServiceOutlet?: string,
     public amortizationAccountNumber?: string,
-    public OriginatingFileToken?: string,
+    public originatingFileToken?: string,
+    public orphaned?: boolean,
     public prepaymentEntryId?: number
-  ) {}
+  ) {
+    this.orphaned = this.orphaned || false;
+  }
 }

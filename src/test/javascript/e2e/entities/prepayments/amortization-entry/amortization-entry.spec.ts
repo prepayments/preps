@@ -51,7 +51,7 @@ describe('AmortizationEntry e2e test', () => {
             amortizationEntryUpdatePage.setPrepaymentAccountNumberInput('prepaymentAccountNumber'),
             amortizationEntryUpdatePage.setAmortizationServiceOutletInput('amortizationServiceOutlet'),
             amortizationEntryUpdatePage.setAmortizationAccountNumberInput('amortizationAccountNumber'),
-            amortizationEntryUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken'),
+            amortizationEntryUpdatePage.setOriginatingFileTokenInput('originatingFileToken'),
             amortizationEntryUpdatePage.prepaymentEntrySelectLastOption(),
         ]);
         expect(await amortizationEntryUpdatePage.getAmortizationDateInput()).to.eq('2000-12-31', 'Expected amortizationDate value to be equals to 2000-12-31');
@@ -61,7 +61,15 @@ describe('AmortizationEntry e2e test', () => {
         expect(await amortizationEntryUpdatePage.getPrepaymentAccountNumberInput()).to.eq('prepaymentAccountNumber', 'Expected PrepaymentAccountNumber value to be equals to prepaymentAccountNumber');
         expect(await amortizationEntryUpdatePage.getAmortizationServiceOutletInput()).to.eq('amortizationServiceOutlet', 'Expected AmortizationServiceOutlet value to be equals to amortizationServiceOutlet');
         expect(await amortizationEntryUpdatePage.getAmortizationAccountNumberInput()).to.eq('amortizationAccountNumber', 'Expected AmortizationAccountNumber value to be equals to amortizationAccountNumber');
-        expect(await amortizationEntryUpdatePage.getOriginatingFileTokenInput()).to.eq('OriginatingFileToken', 'Expected OriginatingFileToken value to be equals to OriginatingFileToken');
+        expect(await amortizationEntryUpdatePage.getOriginatingFileTokenInput()).to.eq('originatingFileToken', 'Expected OriginatingFileToken value to be equals to originatingFileToken');
+        const selectedOrphaned = amortizationEntryUpdatePage.getOrphanedInput();
+        if (await selectedOrphaned.isSelected()) {
+            await amortizationEntryUpdatePage.getOrphanedInput().click();
+            expect(await amortizationEntryUpdatePage.getOrphanedInput().isSelected(), 'Expected orphaned not to be selected').to.be.false;
+        } else {
+            await amortizationEntryUpdatePage.getOrphanedInput().click();
+            expect(await amortizationEntryUpdatePage.getOrphanedInput().isSelected(), 'Expected orphaned to be selected').to.be.true;
+        }
         await amortizationEntryUpdatePage.save();
         expect(await amortizationEntryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

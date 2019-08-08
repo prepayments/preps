@@ -40,7 +40,7 @@ export class AmortizationUploadUpdatePage {
   firstAmortizationDateInput = element(by.id('field_firstAmortizationDate'));
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadOrphanedInput = element(by.id('field_uploadOrphaned'));
-  OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
+  originatingFileTokenInput = element(by.id('field_originatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -148,12 +148,12 @@ export class AmortizationUploadUpdatePage {
   getUploadOrphanedInput(timeout?: number) {
     return this.uploadOrphanedInput;
   }
-  async setOriginatingFileTokenInput(OriginatingFileToken) {
-    await this.OriginatingFileTokenInput.sendKeys(OriginatingFileToken);
+  async setOriginatingFileTokenInput(originatingFileToken) {
+    await this.originatingFileTokenInput.sendKeys(originatingFileToken);
   }
 
   async getOriginatingFileTokenInput() {
-    return await this.OriginatingFileTokenInput.getAttribute('value');
+    return await this.originatingFileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

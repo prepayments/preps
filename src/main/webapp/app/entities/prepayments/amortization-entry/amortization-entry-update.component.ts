@@ -31,7 +31,8 @@ export class AmortizationEntryUpdateComponent implements OnInit {
     prepaymentAccountNumber: [null, [Validators.required]],
     amortizationServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
     amortizationAccountNumber: [null, [Validators.required]],
-    OriginatingFileToken: [],
+    originatingFileToken: [],
+    orphaned: [],
     prepaymentEntryId: [null, Validators.required]
   });
 
@@ -68,7 +69,8 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       prepaymentAccountNumber: amortizationEntry.prepaymentAccountNumber,
       amortizationServiceOutlet: amortizationEntry.amortizationServiceOutlet,
       amortizationAccountNumber: amortizationEntry.amortizationAccountNumber,
-      OriginatingFileToken: amortizationEntry.OriginatingFileToken,
+      originatingFileToken: amortizationEntry.originatingFileToken,
+      orphaned: amortizationEntry.orphaned,
       prepaymentEntryId: amortizationEntry.prepaymentEntryId
     });
   }
@@ -98,7 +100,8 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       prepaymentAccountNumber: this.editForm.get(['prepaymentAccountNumber']).value,
       amortizationServiceOutlet: this.editForm.get(['amortizationServiceOutlet']).value,
       amortizationAccountNumber: this.editForm.get(['amortizationAccountNumber']).value,
-      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value,
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value,
+      orphaned: this.editForm.get(['orphaned']).value,
       prepaymentEntryId: this.editForm.get(['prepaymentEntryId']).value
     };
     return entity;

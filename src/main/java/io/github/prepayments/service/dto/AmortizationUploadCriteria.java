@@ -56,7 +56,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
 
     private BooleanFilter uploadOrphaned;
 
-    private StringFilter OriginatingFileToken;
+    private StringFilter originatingFileToken;
 
     public AmortizationUploadCriteria(){
     }
@@ -77,7 +77,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.firstAmortizationDate = other.firstAmortizationDate == null ? null : other.firstAmortizationDate.copy();
         this.uploadSuccessful = other.uploadSuccessful == null ? null : other.uploadSuccessful.copy();
         this.uploadOrphaned = other.uploadOrphaned == null ? null : other.uploadOrphaned.copy();
-        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
+        this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
     }
 
     @Override
@@ -206,11 +206,11 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
     }
 
     public StringFilter getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public void setOriginatingFileToken(StringFilter originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
 
 
@@ -239,7 +239,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
             Objects.equals(firstAmortizationDate, that.firstAmortizationDate) &&
             Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
             Objects.equals(uploadOrphaned, that.uploadOrphaned) &&
-            Objects.equals(OriginatingFileToken, that.OriginatingFileToken);
+            Objects.equals(originatingFileToken, that.originatingFileToken);
     }
 
     @Override
@@ -260,7 +260,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         firstAmortizationDate,
         uploadSuccessful,
         uploadOrphaned,
-        OriginatingFileToken
+        originatingFileToken
         );
     }
 
@@ -282,7 +282,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
                 (firstAmortizationDate != null ? "firstAmortizationDate=" + firstAmortizationDate + ", " : "") +
                 (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
                 (uploadOrphaned != null ? "uploadOrphaned=" + uploadOrphaned + ", " : "") +
-                (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") +
+                (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") +
             "}";
     }
 

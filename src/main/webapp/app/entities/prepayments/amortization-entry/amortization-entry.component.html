@@ -37,7 +37,8 @@
             <th jhiSortBy="prepaymentAccountNumber"><span>Prepayment Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amortizationServiceOutlet"><span>Amortization Service Outlet</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amortizationAccountNumber"><span>Amortization Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="OriginatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="orphaned"><span>Orphaned</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="prepaymentEntryId"><span>Prepayment Entry</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -52,7 +53,8 @@
                 <td>{{amortizationEntry.prepaymentAccountNumber}}</td>
                 <td>{{amortizationEntry.amortizationServiceOutlet}}</td>
                 <td>{{amortizationEntry.amortizationAccountNumber}}</td>
-                <td>{{amortizationEntry.OriginatingFileToken}}</td>
+                <td>{{amortizationEntry.originatingFileToken}}</td>
+                <td>{{amortizationEntry.orphaned}}</td>
                 <td>
                     <div *ngIf="amortizationEntry.prepaymentEntryId">
                         <a [routerLink]="['../prepayment-entry', amortizationEntry.prepaymentEntryId , 'view' ]" >{{amortizationEntry.prepaymentEntryId}}</a>

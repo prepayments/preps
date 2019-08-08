@@ -85,7 +85,7 @@ public class AmortizationUpload implements Serializable {
     private Boolean uploadOrphaned;
 
     @Column(name = "originating_file_token")
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -279,16 +279,16 @@ public class AmortizationUpload implements Serializable {
     }
 
     public String getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public AmortizationUpload OriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public AmortizationUpload originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
     }
 
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -326,7 +326,7 @@ public class AmortizationUpload implements Serializable {
             ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" +
             ", uploadSuccessful='" + isUploadSuccessful() + "'" +
             ", uploadOrphaned='" + isUploadOrphaned() + "'" +
-            ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
             "}";
     }
 }

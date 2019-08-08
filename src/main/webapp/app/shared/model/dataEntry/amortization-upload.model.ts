@@ -16,7 +16,7 @@ export interface IAmortizationUpload {
   firstAmortizationDate?: Moment;
   uploadSuccessful?: boolean;
   uploadOrphaned?: boolean;
-  OriginatingFileToken?: string;
+  originatingFileToken?: string;
 }
 
 export class AmortizationUpload implements IAmortizationUpload {
@@ -36,7 +36,7 @@ export class AmortizationUpload implements IAmortizationUpload {
     public firstAmortizationDate?: Moment,
     public uploadSuccessful?: boolean,
     public uploadOrphaned?: boolean,
-    public OriginatingFileToken?: string
+    public originatingFileToken?: string
   ) {
     this.uploadSuccessful = this.uploadSuccessful || false;
     this.uploadOrphaned = this.uploadOrphaned || false;

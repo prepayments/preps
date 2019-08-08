@@ -165,7 +165,7 @@ public class AmortizationUploadResourceIT {
             .firstAmortizationDate(DEFAULT_FIRST_AMORTIZATION_DATE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(DEFAULT_UPLOAD_ORPHANED)
-            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return amortizationUpload;
     }
     /**
@@ -190,7 +190,7 @@ public class AmortizationUploadResourceIT {
             .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return amortizationUpload;
     }
 
@@ -493,7 +493,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -521,7 +521,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.firstAmortizationDate").value(DEFAULT_FIRST_AMORTIZATION_DATE.toString()))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
             .andExpect(jsonPath("$.uploadOrphaned").value(DEFAULT_UPLOAD_ORPHANED.booleanValue()))
-            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -1157,11 +1157,11 @@ public class AmortizationUploadResourceIT {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
-        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+        // Get all the amortizationUploadList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
 
-        // Get all the amortizationUploadList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the amortizationUploadList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -1170,11 +1170,11 @@ public class AmortizationUploadResourceIT {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
-        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the amortizationUploadList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
 
-        // Get all the amortizationUploadList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the amortizationUploadList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAmortizationUploadShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -1183,11 +1183,11 @@ public class AmortizationUploadResourceIT {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
 
-        // Get all the amortizationUploadList where OriginatingFileToken is not null
-        defaultAmortizationUploadShouldBeFound("OriginatingFileToken.specified=true");
+        // Get all the amortizationUploadList where originatingFileToken is not null
+        defaultAmortizationUploadShouldBeFound("originatingFileToken.specified=true");
 
-        // Get all the amortizationUploadList where OriginatingFileToken is null
-        defaultAmortizationUploadShouldNotBeFound("OriginatingFileToken.specified=false");
+        // Get all the amortizationUploadList where originatingFileToken is null
+        defaultAmortizationUploadShouldNotBeFound("originatingFileToken.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -1211,7 +1211,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restAmortizationUploadMockMvc.perform(get("/api/amortization-uploads/count?sort=id,desc&" + filter))
@@ -1273,7 +1273,7 @@ public class AmortizationUploadResourceIT {
             .firstAmortizationDate(UPDATED_FIRST_AMORTIZATION_DATE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         AmortizationUploadDTO amortizationUploadDTO = amortizationUploadMapper.toDto(updatedAmortizationUpload);
 
         restAmortizationUploadMockMvc.perform(put("/api/amortization-uploads")
@@ -1374,7 +1374,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

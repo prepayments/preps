@@ -4,18 +4,16 @@ import com.google.common.collect.ImmutableList;
 import io.github.prepayments.app.messaging.data_entry.service.IPrepaymentEntryIdService;
 import io.github.prepayments.app.messaging.data_entry.vm.SimpleAmortizationEntryEVM;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
 import static org.apache.commons.lang3.math.NumberUtils.createBigDecimal;
 
+@Slf4j
 @Component("amortizationEntryEVMDTOMapper")
 public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEVMDTOMapper {
 
@@ -28,40 +26,46 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
     @Override
     public SimpleAmortizationEntryEVM toExcelView(final AmortizationEntryDTO amortizationEntryDTO, final DateTimeFormatter dtf) {
 
-        // TODO Implement this!!!
+        SimpleAmortizationEntryEVM evm = SimpleAmortizationEntryEVM.builder()
+                                                                   .amortizationDate(dtf.format(amortizationEntryDTO.getAmortizationDate()))
+                                                                   .amortizationAmount(amortizationEntryDTO.getAmortizationAmount().toPlainString())
+                                                                   .particulars(amortizationEntryDTO.getParticulars())
+                                                                   .prepaymentServiceOutlet(amortizationEntryDTO.getPrepaymentServiceOutlet())
+                                                                   .prepaymentAccountNumber(amortizationEntryDTO.getPrepaymentAccountNumber())
+                                                                   .amortizationServiceOutlet(amortizationEntryDTO.getAmortizationServiceOutlet())
+                                                                   .amortizationAccountNumber(amortizationEntryDTO.getAmortizationAccountNumber())
+                                                                   .originatingFileToken(amortizationEntryDTO.getOriginatingFileToken())
+                                                                   .build();
 
-        return null;
+        return evm;
     }
 
     @Override
     public AmortizationEntryDTO toDto(final SimpleAmortizationEntryEVM excelView, DateTimeFormatter dtf) {
 
-        // TODO DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
+        AmortizationEntryDTO dto = null;
+        try {
+            dto = AmortizationEntryDTO.builder()
+                                      .amortizationDate(LocalDate.parse(excelView.getAmortizationDate(), dtf))
+                                      // remove commas just in case someone forgot to remove formatting from the excel file
+                                      .amortizationAmount(createBigDecimal(excelView.getAmortizationAmount().replace(",", "")))
+                                      .particulars(excelView.getParticulars())
+                                      .prepaymentServiceOutlet(excelView.getPrepaymentServiceOutlet())
+                                      .prepaymentAccountNumber(excelView.getPrepaymentAccountNumber())
+                                      .amortizationServiceOutlet(excelView.getAmortizationServiceOutlet())
+                                      .amortizationAccountNumber(excelView.getAmortizationAccountNumber())
+                                      .originatingFileToken(excelView.getOriginatingFileToken())
+                                      .build();
 
-        // @formatter:off
-        AmortizationEntryDTO dto = AmortizationEntryDTO.builder()
-                                                       .amortizationDate(LocalDate.parse(excelView.getAmortizationDate(), dtf))
-//                                                       .amortizationAmount(
-//                                                           BigDecimal.valueOf(
-//                                                               Double.parseDouble(
-//                                                                   excelView.getAmortizationAmount().replace(",",""))))
-                                                       .amortizationAmount(createBigDecimal(excelView.getAmortizationAmount().replace(",","")))
-                                                       .particulars(excelView.getParticulars())
-                                                       .prepaymentServiceOutlet(excelView.getPrepaymentServiceOutlet())
-                                                       .prepaymentAccountNumber(excelView.getPrepaymentAccountNumber())
-                                                       .amortizationServiceOutlet(excelView.getAmortizationServiceOutlet())
-                                                       .amortizationAccountNumber(excelView.getAmortizationAccountNumber())
-                                                       .OriginatingFileToken(excelView.getOriginatingFileToken())
-                                                       .build();
-        // @formatter:on
+            // Purists may consider this anti-pattern but if an error occurs here I would rather nuke the whole row
+            if (dto != null) {
+                dto.setPrepaymentEntryId(prepaymentEntryIdService.findByIdAndDate(dto, excelView.getPrepaymentEntryId(), excelView.getPrepaymentEntryDate()));
+            }
 
-        // TODO Mark orphans
-        // @formatter:off
-        dto.setPrepaymentEntryId(
-            prepaymentEntryIdService.findByIdAndDate(dto,
-                excelView.getPrepaymentEntryId(),
-                excelView.getPrepaymentEntryDate()));
-        // @formatter:on
+        } catch (NumberFormatException e) {
+            // TODO invoke front-end notification service with file-id, or file-token on this
+            log.error("NumberFormatException encountered : Kindly check if the excel file amortization-amount column has been formatted with comma-style", e);
+        }
 
         return dto;
     }

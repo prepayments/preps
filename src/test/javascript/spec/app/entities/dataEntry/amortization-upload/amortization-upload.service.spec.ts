@@ -108,7 +108,7 @@ describe('Service Tests', () => {
             firstAmortizationDate: currentDate.format(DATE_FORMAT),
             uploadSuccessful: true,
             uploadOrphaned: true,
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -146,7 +146,7 @@ describe('Service Tests', () => {
             firstAmortizationDate: currentDate.format(DATE_FORMAT),
             uploadSuccessful: true,
             uploadOrphaned: true,
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

@@ -48,9 +48,11 @@ public class PrepaymentEntryIdService implements IPrepaymentEntryIdService {
 
         if(found == null){
             log.debug("Prepayment Not found: Prepayment Id : {}, dated : {}", prepaymentEntryId, prepaymentEntryDate);
+            amortizationEntryDTO.setOrphaned(true);
             return 1L;
         }
         findByIdAndDate = found.getId();
+        amortizationEntryDTO.setOrphaned(false);
 
         return findByIdAndDate;
     }

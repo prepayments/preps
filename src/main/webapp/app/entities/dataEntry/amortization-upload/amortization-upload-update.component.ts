@@ -33,7 +33,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
     firstAmortizationDate: [null, [Validators.required]],
     uploadSuccessful: [],
     uploadOrphaned: [],
-    OriginatingFileToken: []
+    originatingFileToken: []
   });
 
   constructor(
@@ -67,7 +67,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       firstAmortizationDate: amortizationUpload.firstAmortizationDate,
       uploadSuccessful: amortizationUpload.uploadSuccessful,
       uploadOrphaned: amortizationUpload.uploadOrphaned,
-      OriginatingFileToken: amortizationUpload.OriginatingFileToken
+      originatingFileToken: amortizationUpload.originatingFileToken
     });
   }
 
@@ -103,7 +103,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       firstAmortizationDate: this.editForm.get(['firstAmortizationDate']).value,
       uploadSuccessful: this.editForm.get(['uploadSuccessful']).value,
       uploadOrphaned: this.editForm.get(['uploadOrphaned']).value,
-      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value
     };
     return entity;
   }

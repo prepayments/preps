@@ -61,7 +61,10 @@ public class AmortizationEntry implements Serializable {
     private String amortizationAccountNumber;
 
     @Column(name = "originating_file_token")
-    private String OriginatingFileToken;
+    private String originatingFileToken;
+
+    @Column(name = "orphaned")
+    private Boolean orphaned;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -169,16 +172,29 @@ public class AmortizationEntry implements Serializable {
     }
 
     public String getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public AmortizationEntry OriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public AmortizationEntry originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
     }
 
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
+    }
+
+    public Boolean isOrphaned() {
+        return orphaned;
+    }
+
+    public AmortizationEntry orphaned(Boolean orphaned) {
+        this.orphaned = orphaned;
+        return this;
+    }
+
+    public void setOrphaned(Boolean orphaned) {
+        this.orphaned = orphaned;
     }
 
     public PrepaymentEntry getPrepaymentEntry() {
@@ -222,7 +238,8 @@ public class AmortizationEntry implements Serializable {
             ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
             ", amortizationServiceOutlet='" + getAmortizationServiceOutlet() + "'" +
             ", amortizationAccountNumber='" + getAmortizationAccountNumber() + "'" +
-            ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            ", orphaned='" + isOrphaned() + "'" +
             "}";
     }
 }
