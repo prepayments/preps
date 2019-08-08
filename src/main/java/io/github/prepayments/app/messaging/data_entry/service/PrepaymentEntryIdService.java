@@ -41,7 +41,6 @@ public class PrepaymentEntryIdService implements IPrepaymentEntryIdService {
 
         log.debug("Finding prepayment with the Id : {} dated : {}", prepaymentEntryId, prepaymentEntryDate);
 
-        //TODO Convert this using system-wide converter
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 
         PrepaymentEntry found = prepaymentEntryRepositoryDecorator.findFirstByPrepaymentIdAndPrepaymentDate(prepaymentEntryId, LocalDate.parse(prepaymentEntryDate, dtf));

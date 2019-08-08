@@ -26,18 +26,16 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
     @Override
     public SimpleAmortizationEntryEVM toExcelView(final AmortizationEntryDTO amortizationEntryDTO, final DateTimeFormatter dtf) {
 
-        SimpleAmortizationEntryEVM evm = SimpleAmortizationEntryEVM.builder()
-                                                                   .amortizationDate(dtf.format(amortizationEntryDTO.getAmortizationDate()))
-                                                                   .amortizationAmount(amortizationEntryDTO.getAmortizationAmount().toPlainString())
-                                                                   .particulars(amortizationEntryDTO.getParticulars())
-                                                                   .prepaymentServiceOutlet(amortizationEntryDTO.getPrepaymentServiceOutlet())
-                                                                   .prepaymentAccountNumber(amortizationEntryDTO.getPrepaymentAccountNumber())
-                                                                   .amortizationServiceOutlet(amortizationEntryDTO.getAmortizationServiceOutlet())
-                                                                   .amortizationAccountNumber(amortizationEntryDTO.getAmortizationAccountNumber())
-                                                                   .originatingFileToken(amortizationEntryDTO.getOriginatingFileToken())
-                                                                   .build();
-
-        return evm;
+        return SimpleAmortizationEntryEVM.builder()
+                                         .amortizationDate(dtf.format(amortizationEntryDTO.getAmortizationDate()))
+                                         .amortizationAmount(amortizationEntryDTO.getAmortizationAmount().toPlainString())
+                                         .particulars(amortizationEntryDTO.getParticulars())
+                                         .prepaymentServiceOutlet(amortizationEntryDTO.getPrepaymentServiceOutlet())
+                                         .prepaymentAccountNumber(amortizationEntryDTO.getPrepaymentAccountNumber())
+                                         .amortizationServiceOutlet(amortizationEntryDTO.getAmortizationServiceOutlet())
+                                         .amortizationAccountNumber(amortizationEntryDTO.getAmortizationAccountNumber())
+                                         .originatingFileToken(amortizationEntryDTO.getOriginatingFileToken())
+                                         .build();
     }
 
     @Override
@@ -57,14 +55,14 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
                                       .originatingFileToken(excelView.getOriginatingFileToken())
                                       .build();
 
-            // Purists may consider this anti-pattern but if an error occurs here I would rather nuke the whole row
-            if (dto != null) {
-                dto.setPrepaymentEntryId(prepaymentEntryIdService.findByIdAndDate(dto, excelView.getPrepaymentEntryId(), excelView.getPrepaymentEntryDate()));
-            }
-
         } catch (NumberFormatException e) {
             // TODO invoke front-end notification service with file-id, or file-token on this
             log.error("NumberFormatException encountered : Kindly check if the excel file amortization-amount column has been formatted with comma-style", e);
+        }
+
+        // Purists may consider this anti-pattern but if an error occurs here I would rather nuke the whole row
+        if (dto != null) {
+            dto.setPrepaymentEntryId(prepaymentEntryIdService.findByIdAndDate(dto, excelView.getPrepaymentEntryId(), excelView.getPrepaymentEntryDate()));
         }
 
         return dto;

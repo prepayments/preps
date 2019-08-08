@@ -61,4 +61,9 @@ public class AmortizationUploadEVM implements Serializable, ExcelViewModel {
     private String firstAmortizationDate;
 
     private String originatingFileToken;
+
+    private Boolean uploadSuccessful;
+
+    private Boolean uploadOrphaned;
+
 }
