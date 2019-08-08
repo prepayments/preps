@@ -39,7 +39,10 @@
         },
         {
           "fieldName": "fileToken",
-          "fieldType": "String"
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "unique"
+          ]
         }
     ],
     "changelogDate": "20190507115947",
