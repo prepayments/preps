@@ -33,7 +33,7 @@ export class AmortizationEntryUpdateComponent implements OnInit {
     amortizationAccountNumber: [null, [Validators.required]],
     originatingFileToken: [],
     orphaned: [],
-    prepaymentEntryId: [null, Validators.required]
+    prepaymentEntryId: []
   });
 
   constructor(

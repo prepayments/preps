@@ -66,8 +66,7 @@ public class AmortizationEntry implements Serializable {
     @Column(name = "orphaned")
     private Boolean orphaned;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("amortizationEntries")
     private PrepaymentEntry prepaymentEntry;
 

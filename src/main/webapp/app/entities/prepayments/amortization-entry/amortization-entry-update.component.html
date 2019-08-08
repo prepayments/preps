@@ -110,15 +110,9 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_prepaymentEntry">Prepayment Entry</label>
                     <select class="form-control" id="field_prepaymentEntry" name="prepaymentEntry" formControlName="prepaymentEntryId">
-                        <option *ngIf="!editForm.get('prepaymentEntry').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="null"></option>
                         <option [ngValue]="prepaymentEntryOption.id" *ngFor="let prepaymentEntryOption of prepaymententries; trackBy: trackPrepaymentEntryById">{{prepaymentEntryOption.id}}</option>
                     </select>
-                </div>
-                <div *ngIf="editForm.get('prepaymentEntry').invalid && (editForm.get('prepaymentEntry').dirty || editForm.get('prepaymentEntry').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('prepaymentEntry').errors.required">
-                        This field is required.
-                    </small>
                 </div>
             </div>
             <div>

@@ -7,7 +7,6 @@
             "otherEntityName": "prepaymentEntry",
             "relationshipType": "many-to-one",
             "relationshipValidateRules": [
-                "required"
             ],
             "otherEntityField": "id",
             "otherEntityRelationshipName": "amortizationEntry",

@@ -52,7 +52,7 @@
             </column>
 
             <column name="prepayment_entry_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -84,7 +84,6 @@
             <column name="amortization_account_number" type="string"/>
             <column name="originating_file_token" type="string"/>
             <column name="orphaned" type="boolean"/>
-            <column name="prepayment_entry_id" type="numeric"/>
         </loadData>
     </changeSet>
 

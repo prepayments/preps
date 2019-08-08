@@ -143,16 +143,6 @@ public class AmortizationEntryResourceIT {
             .amortizationAccountNumber(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER)
             .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN)
             .orphaned(DEFAULT_ORPHANED);
-        // Add required entity
-        PrepaymentEntry prepaymentEntry;
-        if (TestUtil.findAll(em, PrepaymentEntry.class).isEmpty()) {
-            prepaymentEntry = PrepaymentEntryResourceIT.createEntity(em);
-            em.persist(prepaymentEntry);
-            em.flush();
-        } else {
-            prepaymentEntry = TestUtil.findAll(em, PrepaymentEntry.class).get(0);
-        }
-        amortizationEntry.setPrepaymentEntry(prepaymentEntry);
         return amortizationEntry;
     }
     /**
@@ -172,16 +162,6 @@ public class AmortizationEntryResourceIT {
             .amortizationAccountNumber(UPDATED_AMORTIZATION_ACCOUNT_NUMBER)
             .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN)
             .orphaned(UPDATED_ORPHANED);
-        // Add required entity
-        PrepaymentEntry prepaymentEntry;
-        if (TestUtil.findAll(em, PrepaymentEntry.class).isEmpty()) {
-            prepaymentEntry = PrepaymentEntryResourceIT.createUpdatedEntity(em);
-            em.persist(prepaymentEntry);
-            em.flush();
-        } else {
-            prepaymentEntry = TestUtil.findAll(em, PrepaymentEntry.class).get(0);
-        }
-        amortizationEntry.setPrepaymentEntry(prepaymentEntry);
         return amortizationEntry;
     }
 
@@ -783,8 +763,11 @@ public class AmortizationEntryResourceIT {
     @Test
     @Transactional
     public void getAllAmortizationEntriesByPrepaymentEntryIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        PrepaymentEntry prepaymentEntry = amortizationEntry.getPrepaymentEntry();
+        // Initialize the database
+        PrepaymentEntry prepaymentEntry = PrepaymentEntryResourceIT.createEntity(em);
+        em.persist(prepaymentEntry);
+        em.flush();
+        amortizationEntry.setPrepaymentEntry(prepaymentEntry);
         amortizationEntryRepository.saveAndFlush(amortizationEntry);
         Long prepaymentEntryId = prepaymentEntry.getId();
 
