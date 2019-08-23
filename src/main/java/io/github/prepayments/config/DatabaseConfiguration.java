@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EnableJpaRepositories(value = {"io.github.prepayments.repository","io.github.prepayments.app.decorators.repo"})
+@EnableJpaRepositories(value = {"io.github.prepayments.repository", "io.github.prepayments.app.decorators.repo"})
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 @EnableElasticsearchRepositories("io.github.prepayments.repository.search")

@@ -3,14 +3,19 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A AmortizationDataEntryFile.
@@ -37,7 +42,7 @@ public class AmortizationDataEntryFile implements Serializable {
     @Column(name = "period_to", nullable = false)
     private LocalDate periodTo;
 
-    
+
     @Lob
     @Column(name = "data_entry_file", nullable = false)
     private byte[] dataEntryFile;
@@ -54,7 +59,7 @@ public class AmortizationDataEntryFile implements Serializable {
     @Column(name = "entries_count")
     private Integer entriesCount;
 
-    
+
     @Column(name = "file_token", unique = true)
     private String fileToken;
 
@@ -71,17 +76,21 @@ public class AmortizationDataEntryFile implements Serializable {
         return periodFrom;
     }
 
+    public void setPeriodFrom(LocalDate periodFrom) {
+        this.periodFrom = periodFrom;
+    }
+
     public AmortizationDataEntryFile periodFrom(LocalDate periodFrom) {
         this.periodFrom = periodFrom;
         return this;
     }
 
-    public void setPeriodFrom(LocalDate periodFrom) {
-        this.periodFrom = periodFrom;
-    }
-
     public LocalDate getPeriodTo() {
         return periodTo;
+    }
+
+    public void setPeriodTo(LocalDate periodTo) {
+        this.periodTo = periodTo;
     }
 
     public AmortizationDataEntryFile periodTo(LocalDate periodTo) {
@@ -89,12 +98,12 @@ public class AmortizationDataEntryFile implements Serializable {
         return this;
     }
 
-    public void setPeriodTo(LocalDate periodTo) {
-        this.periodTo = periodTo;
-    }
-
     public byte[] getDataEntryFile() {
         return dataEntryFile;
+    }
+
+    public void setDataEntryFile(byte[] dataEntryFile) {
+        this.dataEntryFile = dataEntryFile;
     }
 
     public AmortizationDataEntryFile dataEntryFile(byte[] dataEntryFile) {
@@ -102,21 +111,17 @@ public class AmortizationDataEntryFile implements Serializable {
         return this;
     }
 
-    public void setDataEntryFile(byte[] dataEntryFile) {
-        this.dataEntryFile = dataEntryFile;
-    }
-
     public String getDataEntryFileContentType() {
         return dataEntryFileContentType;
+    }
+
+    public void setDataEntryFileContentType(String dataEntryFileContentType) {
+        this.dataEntryFileContentType = dataEntryFileContentType;
     }
 
     public AmortizationDataEntryFile dataEntryFileContentType(String dataEntryFileContentType) {
         this.dataEntryFileContentType = dataEntryFileContentType;
         return this;
-    }
-
-    public void setDataEntryFileContentType(String dataEntryFileContentType) {
-        this.dataEntryFileContentType = dataEntryFileContentType;
     }
 
     public Boolean isUploadSuccessful() {
@@ -149,26 +154,26 @@ public class AmortizationDataEntryFile implements Serializable {
         return entriesCount;
     }
 
+    public void setEntriesCount(Integer entriesCount) {
+        this.entriesCount = entriesCount;
+    }
+
     public AmortizationDataEntryFile entriesCount(Integer entriesCount) {
         this.entriesCount = entriesCount;
         return this;
-    }
-
-    public void setEntriesCount(Integer entriesCount) {
-        this.entriesCount = entriesCount;
     }
 
     public String getFileToken() {
         return fileToken;
     }
 
+    public void setFileToken(String fileToken) {
+        this.fileToken = fileToken;
+    }
+
     public AmortizationDataEntryFile fileToken(String fileToken) {
         this.fileToken = fileToken;
         return this;
-    }
-
-    public void setFileToken(String fileToken) {
-        this.fileToken = fileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -190,16 +195,8 @@ public class AmortizationDataEntryFile implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationDataEntryFile{" +
-            "id=" + getId() +
-            ", periodFrom='" + getPeriodFrom() + "'" +
-            ", periodTo='" + getPeriodTo() + "'" +
-            ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
-            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" +
-            ", entriesCount=" + getEntriesCount() +
-            ", fileToken='" + getFileToken() + "'" +
-            "}";
+        return "AmortizationDataEntryFile{" + "id=" + getId() + ", periodFrom='" + getPeriodFrom() + "'" + ", periodTo='" + getPeriodTo() + "'" + ", dataEntryFile='" + getDataEntryFile() + "'" +
+            ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" + ", uploadProcessed='" + isUploadProcessed() + "'" +
+            ", entriesCount=" + getEntriesCount() + ", fileToken='" + getFileToken() + "'" + "}";
     }
 }
