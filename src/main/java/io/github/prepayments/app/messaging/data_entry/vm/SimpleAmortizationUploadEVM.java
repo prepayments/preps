@@ -36,6 +36,7 @@ public class SimpleAmortizationUploadEVM implements Serializable {
     private String amortizationAmount;
     private String numberOfAmortizations;
     private String firstAmortizationDate;
+    private String monthlyAmortizationDate;
     private Boolean uploadSuccessful;
     private Boolean uploadOrphaned;
     private String originatingFileToken;
