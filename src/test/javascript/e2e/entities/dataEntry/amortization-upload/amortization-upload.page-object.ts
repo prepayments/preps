@@ -38,6 +38,7 @@ export class AmortizationUploadUpdatePage {
   amortizationAmountInput = element(by.id('field_amortizationAmount'));
   numberOfAmortizationsInput = element(by.id('field_numberOfAmortizations'));
   firstAmortizationDateInput = element(by.id('field_firstAmortizationDate'));
+  monthlyAmortizationDateInput = element(by.id('field_monthlyAmortizationDate'));
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadOrphanedInput = element(by.id('field_uploadOrphaned'));
   originatingFileTokenInput = element(by.id('field_originatingFileToken'));
@@ -140,6 +141,14 @@ export class AmortizationUploadUpdatePage {
 
   async getFirstAmortizationDateInput() {
     return await this.firstAmortizationDateInput.getAttribute('value');
+  }
+
+  async setMonthlyAmortizationDateInput(monthlyAmortizationDate) {
+    await this.monthlyAmortizationDateInput.sendKeys(monthlyAmortizationDate);
+  }
+
+  async getMonthlyAmortizationDateInput() {
+    return await this.monthlyAmortizationDateInput.getAttribute('value');
   }
 
   getUploadSuccessfulInput(timeout?: number) {

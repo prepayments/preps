@@ -41,6 +41,7 @@ describe('Service Tests', () => {
         0,
         0,
         currentDate,
+        'AAAAAAA',
         false,
         false,
         'AAAAAAA'
@@ -106,6 +107,7 @@ describe('Service Tests', () => {
             amortizationAmount: 1,
             numberOfAmortizations: 1,
             firstAmortizationDate: currentDate.format(DATE_FORMAT),
+            monthlyAmortizationDate: 'BBBBBB',
             uploadSuccessful: true,
             uploadOrphaned: true,
             originatingFileToken: 'BBBBBB'
@@ -144,6 +146,7 @@ describe('Service Tests', () => {
             amortizationAmount: 1,
             numberOfAmortizations: 1,
             firstAmortizationDate: currentDate.format(DATE_FORMAT),
+            monthlyAmortizationDate: 'BBBBBB',
             uploadSuccessful: true,
             uploadOrphaned: true,
             originatingFileToken: 'BBBBBB'

@@ -87,6 +87,14 @@
             ]
         },
         {
+          "fieldName": "monthlyAmortizationDate",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "pattern"
+          ],
+          "fieldValidateRulesPattern": "^[1-2]?[0-8]$"
+        },
+        {
             "fieldName": "uploadSuccessful",
             "fieldType": "Boolean"
         },

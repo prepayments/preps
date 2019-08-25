@@ -52,6 +52,8 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
 
     private LocalDateFilter firstAmortizationDate;
 
+    private StringFilter monthlyAmortizationDate;
+
     private BooleanFilter uploadSuccessful;
 
     private BooleanFilter uploadOrphaned;
@@ -75,6 +77,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.amortizationAmount = other.amortizationAmount == null ? null : other.amortizationAmount.copy();
         this.numberOfAmortizations = other.numberOfAmortizations == null ? null : other.numberOfAmortizations.copy();
         this.firstAmortizationDate = other.firstAmortizationDate == null ? null : other.firstAmortizationDate.copy();
+        this.monthlyAmortizationDate = other.monthlyAmortizationDate == null ? null : other.monthlyAmortizationDate.copy();
         this.uploadSuccessful = other.uploadSuccessful == null ? null : other.uploadSuccessful.copy();
         this.uploadOrphaned = other.uploadOrphaned == null ? null : other.uploadOrphaned.copy();
         this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
@@ -189,6 +192,14 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.firstAmortizationDate = firstAmortizationDate;
     }
 
+    public StringFilter getMonthlyAmortizationDate() {
+        return monthlyAmortizationDate;
+    }
+
+    public void setMonthlyAmortizationDate(StringFilter monthlyAmortizationDate) {
+        this.monthlyAmortizationDate = monthlyAmortizationDate;
+    }
+
     public BooleanFilter getUploadSuccessful() {
         return uploadSuccessful;
     }
@@ -237,6 +248,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
             Objects.equals(amortizationAmount, that.amortizationAmount) &&
             Objects.equals(numberOfAmortizations, that.numberOfAmortizations) &&
             Objects.equals(firstAmortizationDate, that.firstAmortizationDate) &&
+            Objects.equals(monthlyAmortizationDate, that.monthlyAmortizationDate) &&
             Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
             Objects.equals(uploadOrphaned, that.uploadOrphaned) &&
             Objects.equals(originatingFileToken, that.originatingFileToken);
@@ -258,6 +270,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         amortizationAmount,
         numberOfAmortizations,
         firstAmortizationDate,
+        monthlyAmortizationDate,
         uploadSuccessful,
         uploadOrphaned,
         originatingFileToken
@@ -280,6 +293,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
                 (amortizationAmount != null ? "amortizationAmount=" + amortizationAmount + ", " : "") +
                 (numberOfAmortizations != null ? "numberOfAmortizations=" + numberOfAmortizations + ", " : "") +
                 (firstAmortizationDate != null ? "firstAmortizationDate=" + firstAmortizationDate + ", " : "") +
+                (monthlyAmortizationDate != null ? "monthlyAmortizationDate=" + monthlyAmortizationDate + ", " : "") +
                 (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
                 (uploadOrphaned != null ? "uploadOrphaned=" + uploadOrphaned + ", " : "") +
                 (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") +

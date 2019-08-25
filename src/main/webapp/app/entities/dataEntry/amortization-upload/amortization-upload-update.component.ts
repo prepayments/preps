@@ -31,6 +31,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
     amortizationAmount: [null, [Validators.required]],
     numberOfAmortizations: [null, [Validators.required, Validators.min(1)]],
     firstAmortizationDate: [null, [Validators.required]],
+    monthlyAmortizationDate: [null, [Validators.pattern('^[1-2]?[0-8]$')]],
     uploadSuccessful: [],
     uploadOrphaned: [],
     originatingFileToken: []
@@ -65,6 +66,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       amortizationAmount: amortizationUpload.amortizationAmount,
       numberOfAmortizations: amortizationUpload.numberOfAmortizations,
       firstAmortizationDate: amortizationUpload.firstAmortizationDate,
+      monthlyAmortizationDate: amortizationUpload.monthlyAmortizationDate,
       uploadSuccessful: amortizationUpload.uploadSuccessful,
       uploadOrphaned: amortizationUpload.uploadOrphaned,
       originatingFileToken: amortizationUpload.originatingFileToken
@@ -101,6 +103,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
       amortizationAmount: this.editForm.get(['amortizationAmount']).value,
       numberOfAmortizations: this.editForm.get(['numberOfAmortizations']).value,
       firstAmortizationDate: this.editForm.get(['firstAmortizationDate']).value,
+      monthlyAmortizationDate: this.editForm.get(['monthlyAmortizationDate']).value,
       uploadSuccessful: this.editForm.get(['uploadSuccessful']).value,
       uploadOrphaned: this.editForm.get(['uploadOrphaned']).value,
       originatingFileToken: this.editForm.get(['originatingFileToken']).value

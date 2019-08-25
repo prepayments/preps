@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.AmortizationUpload} entity.
@@ -59,6 +61,9 @@ public class AmortizationUploadDTO implements Serializable {
 
     @NotNull
     private LocalDate firstAmortizationDate;
+
+    @Pattern(regexp = "^[1-2]?[0-8]$")
+    private String monthlyAmortizationDate;
 
     private Boolean uploadSuccessful;
 

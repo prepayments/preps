@@ -14,6 +14,7 @@ export interface IAmortizationUpload {
   amortizationAmount?: number;
   numberOfAmortizations?: number;
   firstAmortizationDate?: Moment;
+  monthlyAmortizationDate?: string;
   uploadSuccessful?: boolean;
   uploadOrphaned?: boolean;
   originatingFileToken?: string;
@@ -34,6 +35,7 @@ export class AmortizationUpload implements IAmortizationUpload {
     public amortizationAmount?: number,
     public numberOfAmortizations?: number,
     public firstAmortizationDate?: Moment,
+    public monthlyAmortizationDate?: string,
     public uploadSuccessful?: boolean,
     public uploadOrphaned?: boolean,
     public originatingFileToken?: string

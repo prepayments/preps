@@ -129,6 +129,9 @@ public class AmortizationUploadQueryService extends QueryService<AmortizationUpl
             if (criteria.getFirstAmortizationDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFirstAmortizationDate(), AmortizationUpload_.firstAmortizationDate));
             }
+            if (criteria.getMonthlyAmortizationDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMonthlyAmortizationDate(), AmortizationUpload_.monthlyAmortizationDate));
+            }
             if (criteria.getUploadSuccessful() != null) {
                 specification = specification.and(buildSpecification(criteria.getUploadSuccessful(), AmortizationUpload_.uploadSuccessful));
             }

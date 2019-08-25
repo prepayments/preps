@@ -55,8 +55,9 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
     public ResponseEntity<AmortizationUploadDTO> createAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
 
         // create amortization entries from the amortization upload
-        // TODO add monthly-amortization-date
-        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
+        if (amortizationUploadDTO.getMonthlyAmortizationDate() == null)
+            amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
+        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, Integer.valueOf(amortizationUploadDTO.getMonthlyAmortizationDate()));
 
         return amortizationUploadResource.createAmortizationUpload(amortizationUploadDTO);
     }

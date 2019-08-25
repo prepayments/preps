@@ -3,7 +3,6 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +13,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A AmortizationUpload.
@@ -83,6 +86,10 @@ public class AmortizationUpload implements Serializable {
     @Column(name = "first_amortization_date", nullable = false)
     private LocalDate firstAmortizationDate;
 
+    @Pattern(regexp = "^[1-2]?[0-8]$")
+    @Column(name = "monthly_amortization_date")
+    private String monthlyAmortizationDate;
+
     @Column(name = "upload_successful")
     private Boolean uploadSuccessful;
 
@@ -105,21 +112,17 @@ public class AmortizationUpload implements Serializable {
         return accountName;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
     public AmortizationUpload accountName(String accountName) {
         this.accountName = accountName;
         return this;
     }
 
-    public String getParticulars() {
-        return particulars;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setParticulars(String particulars) {
-        this.particulars = particulars;
+    public String getParticulars() {
+        return particulars;
     }
 
     public AmortizationUpload particulars(String particulars) {
@@ -127,12 +130,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public String getAmortizationServiceOutletCode() {
-        return amortizationServiceOutletCode;
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
     }
 
-    public void setAmortizationServiceOutletCode(String amortizationServiceOutletCode) {
-        this.amortizationServiceOutletCode = amortizationServiceOutletCode;
+    public String getAmortizationServiceOutletCode() {
+        return amortizationServiceOutletCode;
     }
 
     public AmortizationUpload amortizationServiceOutletCode(String amortizationServiceOutletCode) {
@@ -140,12 +143,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public String getPrepaymentServiceOutletCode() {
-        return prepaymentServiceOutletCode;
+    public void setAmortizationServiceOutletCode(String amortizationServiceOutletCode) {
+        this.amortizationServiceOutletCode = amortizationServiceOutletCode;
     }
 
-    public void setPrepaymentServiceOutletCode(String prepaymentServiceOutletCode) {
-        this.prepaymentServiceOutletCode = prepaymentServiceOutletCode;
+    public String getPrepaymentServiceOutletCode() {
+        return prepaymentServiceOutletCode;
     }
 
     public AmortizationUpload prepaymentServiceOutletCode(String prepaymentServiceOutletCode) {
@@ -153,12 +156,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public String getPrepaymentAccountNumber() {
-        return prepaymentAccountNumber;
+    public void setPrepaymentServiceOutletCode(String prepaymentServiceOutletCode) {
+        this.prepaymentServiceOutletCode = prepaymentServiceOutletCode;
     }
 
-    public void setPrepaymentAccountNumber(String prepaymentAccountNumber) {
-        this.prepaymentAccountNumber = prepaymentAccountNumber;
+    public String getPrepaymentAccountNumber() {
+        return prepaymentAccountNumber;
     }
 
     public AmortizationUpload prepaymentAccountNumber(String prepaymentAccountNumber) {
@@ -166,12 +169,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public String getExpenseAccountNumber() {
-        return expenseAccountNumber;
+    public void setPrepaymentAccountNumber(String prepaymentAccountNumber) {
+        this.prepaymentAccountNumber = prepaymentAccountNumber;
     }
 
-    public void setExpenseAccountNumber(String expenseAccountNumber) {
-        this.expenseAccountNumber = expenseAccountNumber;
+    public String getExpenseAccountNumber() {
+        return expenseAccountNumber;
     }
 
     public AmortizationUpload expenseAccountNumber(String expenseAccountNumber) {
@@ -179,12 +182,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public String getPrepaymentTransactionId() {
-        return prepaymentTransactionId;
+    public void setExpenseAccountNumber(String expenseAccountNumber) {
+        this.expenseAccountNumber = expenseAccountNumber;
     }
 
-    public void setPrepaymentTransactionId(String prepaymentTransactionId) {
-        this.prepaymentTransactionId = prepaymentTransactionId;
+    public String getPrepaymentTransactionId() {
+        return prepaymentTransactionId;
     }
 
     public AmortizationUpload prepaymentTransactionId(String prepaymentTransactionId) {
@@ -192,12 +195,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public LocalDate getPrepaymentTransactionDate() {
-        return prepaymentTransactionDate;
+    public void setPrepaymentTransactionId(String prepaymentTransactionId) {
+        this.prepaymentTransactionId = prepaymentTransactionId;
     }
 
-    public void setPrepaymentTransactionDate(LocalDate prepaymentTransactionDate) {
-        this.prepaymentTransactionDate = prepaymentTransactionDate;
+    public LocalDate getPrepaymentTransactionDate() {
+        return prepaymentTransactionDate;
     }
 
     public AmortizationUpload prepaymentTransactionDate(LocalDate prepaymentTransactionDate) {
@@ -205,12 +208,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public BigDecimal getPrepaymentTransactionAmount() {
-        return prepaymentTransactionAmount;
+    public void setPrepaymentTransactionDate(LocalDate prepaymentTransactionDate) {
+        this.prepaymentTransactionDate = prepaymentTransactionDate;
     }
 
-    public void setPrepaymentTransactionAmount(BigDecimal prepaymentTransactionAmount) {
-        this.prepaymentTransactionAmount = prepaymentTransactionAmount;
+    public BigDecimal getPrepaymentTransactionAmount() {
+        return prepaymentTransactionAmount;
     }
 
     public AmortizationUpload prepaymentTransactionAmount(BigDecimal prepaymentTransactionAmount) {
@@ -218,12 +221,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public BigDecimal getAmortizationAmount() {
-        return amortizationAmount;
+    public void setPrepaymentTransactionAmount(BigDecimal prepaymentTransactionAmount) {
+        this.prepaymentTransactionAmount = prepaymentTransactionAmount;
     }
 
-    public void setAmortizationAmount(BigDecimal amortizationAmount) {
-        this.amortizationAmount = amortizationAmount;
+    public BigDecimal getAmortizationAmount() {
+        return amortizationAmount;
     }
 
     public AmortizationUpload amortizationAmount(BigDecimal amortizationAmount) {
@@ -231,12 +234,12 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
-    public Integer getNumberOfAmortizations() {
-        return numberOfAmortizations;
+    public void setAmortizationAmount(BigDecimal amortizationAmount) {
+        this.amortizationAmount = amortizationAmount;
     }
 
-    public void setNumberOfAmortizations(Integer numberOfAmortizations) {
-        this.numberOfAmortizations = numberOfAmortizations;
+    public Integer getNumberOfAmortizations() {
+        return numberOfAmortizations;
     }
 
     public AmortizationUpload numberOfAmortizations(Integer numberOfAmortizations) {
@@ -244,17 +247,34 @@ public class AmortizationUpload implements Serializable {
         return this;
     }
 
+    public void setNumberOfAmortizations(Integer numberOfAmortizations) {
+        this.numberOfAmortizations = numberOfAmortizations;
+    }
+
     public LocalDate getFirstAmortizationDate() {
         return firstAmortizationDate;
+    }
+
+    public AmortizationUpload firstAmortizationDate(LocalDate firstAmortizationDate) {
+        this.firstAmortizationDate = firstAmortizationDate;
+        return this;
     }
 
     public void setFirstAmortizationDate(LocalDate firstAmortizationDate) {
         this.firstAmortizationDate = firstAmortizationDate;
     }
 
-    public AmortizationUpload firstAmortizationDate(LocalDate firstAmortizationDate) {
-        this.firstAmortizationDate = firstAmortizationDate;
+    public String getMonthlyAmortizationDate() {
+        return monthlyAmortizationDate;
+    }
+
+    public AmortizationUpload monthlyAmortizationDate(String monthlyAmortizationDate) {
+        this.monthlyAmortizationDate = monthlyAmortizationDate;
         return this;
+    }
+
+    public void setMonthlyAmortizationDate(String monthlyAmortizationDate) {
+        this.monthlyAmortizationDate = monthlyAmortizationDate;
     }
 
     public Boolean isUploadSuccessful() {
@@ -287,13 +307,13 @@ public class AmortizationUpload implements Serializable {
         return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(String originatingFileToken) {
-        this.originatingFileToken = originatingFileToken;
-    }
-
     public AmortizationUpload originatingFileToken(String originatingFileToken) {
         this.originatingFileToken = originatingFileToken;
         return this;
+    }
+
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -315,11 +335,24 @@ public class AmortizationUpload implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationUpload{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", particulars='" + getParticulars() + "'" + ", amortizationServiceOutletCode='" +
-            getAmortizationServiceOutletCode() + "'" + ", prepaymentServiceOutletCode='" + getPrepaymentServiceOutletCode() + "'" + ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
-            ", expenseAccountNumber='" + getExpenseAccountNumber() + "'" + ", prepaymentTransactionId='" + getPrepaymentTransactionId() + "'" + ", prepaymentTransactionDate='" +
-            getPrepaymentTransactionDate() + "'" + ", prepaymentTransactionAmount=" + getPrepaymentTransactionAmount() + ", amortizationAmount=" + getAmortizationAmount() +
-            ", numberOfAmortizations=" + getNumberOfAmortizations() + ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" + ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadOrphaned='" + isUploadOrphaned() + "'" + ", originatingFileToken='" + getOriginatingFileToken() + "'" + "}";
+        return "AmortizationUpload{" +
+            "id=" + getId() +
+            ", accountName='" + getAccountName() + "'" +
+            ", particulars='" + getParticulars() + "'" +
+            ", amortizationServiceOutletCode='" + getAmortizationServiceOutletCode() + "'" +
+            ", prepaymentServiceOutletCode='" + getPrepaymentServiceOutletCode() + "'" +
+            ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
+            ", expenseAccountNumber='" + getExpenseAccountNumber() + "'" +
+            ", prepaymentTransactionId='" + getPrepaymentTransactionId() + "'" +
+            ", prepaymentTransactionDate='" + getPrepaymentTransactionDate() + "'" +
+            ", prepaymentTransactionAmount=" + getPrepaymentTransactionAmount() +
+            ", amortizationAmount=" + getAmortizationAmount() +
+            ", numberOfAmortizations=" + getNumberOfAmortizations() +
+            ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" +
+            ", monthlyAmortizationDate='" + getMonthlyAmortizationDate() + "'" +
+            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
+            ", uploadOrphaned='" + isUploadOrphaned() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }
