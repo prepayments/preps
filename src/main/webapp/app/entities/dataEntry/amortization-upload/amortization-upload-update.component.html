@@ -157,12 +157,20 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_monthlyAmortizationDate">Monthly Amortization Date</label>
-                    <input type="text" class="form-control" name="monthlyAmortizationDate" id="field_monthlyAmortizationDate"
+                    <input type="number" class="form-control" name="monthlyAmortizationDate" id="field_monthlyAmortizationDate"
                            formControlName="monthlyAmortizationDate"/>
                     <div *ngIf="editForm.get('monthlyAmortizationDate').invalid && (editForm.get('monthlyAmortizationDate').dirty || editForm.get('monthlyAmortizationDate').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('monthlyAmortizationDate').errors.pattern">
-                            This field should follow pattern for "Monthly Amortization Date".
+                               *ngIf="editForm.get('monthlyAmortizationDate').errors.min">
+                            This field should be at least 1.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('monthlyAmortizationDate').errors.max">
+                            This field cannot be more than 28.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('monthlyAmortizationDate')?.errors?.number">
+                            This field should be a number.
                         </small>
                     </div>
                 </div>

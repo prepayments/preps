@@ -52,7 +52,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
 
     private LocalDateFilter firstAmortizationDate;
 
-    private StringFilter monthlyAmortizationDate;
+    private IntegerFilter monthlyAmortizationDate;
 
     private BooleanFilter uploadSuccessful;
 
@@ -192,11 +192,11 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.firstAmortizationDate = firstAmortizationDate;
     }
 
-    public StringFilter getMonthlyAmortizationDate() {
+    public IntegerFilter getMonthlyAmortizationDate() {
         return monthlyAmortizationDate;
     }
 
-    public void setMonthlyAmortizationDate(StringFilter monthlyAmortizationDate) {
+    public void setMonthlyAmortizationDate(IntegerFilter monthlyAmortizationDate) {
         this.monthlyAmortizationDate = monthlyAmortizationDate;
     }
 

@@ -31,7 +31,7 @@ export class AmortizationUploadUpdateComponent implements OnInit {
     amortizationAmount: [null, [Validators.required]],
     numberOfAmortizations: [null, [Validators.required, Validators.min(1)]],
     firstAmortizationDate: [null, [Validators.required]],
-    monthlyAmortizationDate: [null, [Validators.pattern('^[1-2]?[0-8]$')]],
+    monthlyAmortizationDate: [null, [Validators.min(1), Validators.max(28)]],
     uploadSuccessful: [],
     uploadOrphaned: [],
     originatingFileToken: []

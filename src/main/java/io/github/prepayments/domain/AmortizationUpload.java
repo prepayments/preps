@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -86,9 +87,10 @@ public class AmortizationUpload implements Serializable {
     @Column(name = "first_amortization_date", nullable = false)
     private LocalDate firstAmortizationDate;
 
-    @Pattern(regexp = "^[1-2]?[0-8]$")
+    @Min(value = 1)
+    @Max(value = 28)
     @Column(name = "monthly_amortization_date")
-    private String monthlyAmortizationDate;
+    private Integer monthlyAmortizationDate;
 
     @Column(name = "upload_successful")
     private Boolean uploadSuccessful;
@@ -264,16 +266,16 @@ public class AmortizationUpload implements Serializable {
         this.firstAmortizationDate = firstAmortizationDate;
     }
 
-    public String getMonthlyAmortizationDate() {
+    public Integer getMonthlyAmortizationDate() {
         return monthlyAmortizationDate;
     }
 
-    public AmortizationUpload monthlyAmortizationDate(String monthlyAmortizationDate) {
+    public AmortizationUpload monthlyAmortizationDate(Integer monthlyAmortizationDate) {
         this.monthlyAmortizationDate = monthlyAmortizationDate;
         return this;
     }
 
-    public void setMonthlyAmortizationDate(String monthlyAmortizationDate) {
+    public void setMonthlyAmortizationDate(Integer monthlyAmortizationDate) {
         this.monthlyAmortizationDate = monthlyAmortizationDate;
     }
 
@@ -349,7 +351,7 @@ public class AmortizationUpload implements Serializable {
             ", amortizationAmount=" + getAmortizationAmount() +
             ", numberOfAmortizations=" + getNumberOfAmortizations() +
             ", firstAmortizationDate='" + getFirstAmortizationDate() + "'" +
-            ", monthlyAmortizationDate='" + getMonthlyAmortizationDate() + "'" +
+            ", monthlyAmortizationDate=" + getMonthlyAmortizationDate() +
             ", uploadSuccessful='" + isUploadSuccessful() + "'" +
             ", uploadOrphaned='" + isUploadOrphaned() + "'" +
             ", originatingFileToken='" + getOriginatingFileToken() + "'" +

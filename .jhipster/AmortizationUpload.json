@@ -88,11 +88,13 @@
         },
         {
           "fieldName": "monthlyAmortizationDate",
-          "fieldType": "String",
+          "fieldType": "Integer",
           "fieldValidateRules": [
-            "pattern"
+            "min",
+            "max"
           ],
-          "fieldValidateRulesPattern": "^[1-2]?[0-8]$"
+          "fieldValidateRulesMin": 1,
+          "fieldValidateRulesMax": 28
         },
         {
             "fieldName": "uploadSuccessful",

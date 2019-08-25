@@ -56,7 +56,7 @@ describe('AmortizationUpload e2e test', () => {
       amortizationUploadUpdatePage.setAmortizationAmountInput('5'),
       amortizationUploadUpdatePage.setNumberOfAmortizationsInput('5'),
       amortizationUploadUpdatePage.setFirstAmortizationDateInput('2000-12-31'),
-      amortizationUploadUpdatePage.setMonthlyAmortizationDateInput('monthlyAmortizationDate'),
+      amortizationUploadUpdatePage.setMonthlyAmortizationDateInput('5'),
       amortizationUploadUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
     ]);
     expect(await amortizationUploadUpdatePage.getAccountNameInput()).to.eq(
@@ -108,8 +108,8 @@ describe('AmortizationUpload e2e test', () => {
       'Expected firstAmortizationDate value to be equals to 2000-12-31'
     );
     expect(await amortizationUploadUpdatePage.getMonthlyAmortizationDateInput()).to.eq(
-      'monthlyAmortizationDate',
-      'Expected MonthlyAmortizationDate value to be equals to monthlyAmortizationDate'
+      '5',
+      'Expected monthlyAmortizationDate value to be equals to 5'
     );
     const selectedUploadSuccessful = amortizationUploadUpdatePage.getUploadSuccessfulInput();
     if (await selectedUploadSuccessful.isSelected()) {

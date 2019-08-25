@@ -63,7 +63,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="monthly_amortization_date" type="varchar(255)">
+            <column name="monthly_amortization_date" type="integer">
                 <constraints nullable="true" />
             </column>
 
@@ -111,7 +111,7 @@
             <column name="amortization_amount" type="numeric"/>
             <column name="number_of_amortizations" type="numeric"/>
             <column name="first_amortization_date" type="date"/>
-            <column name="monthly_amortization_date" type="string"/>
+            <column name="monthly_amortization_date" type="numeric"/>
             <column name="upload_successful" type="boolean"/>
             <column name="upload_orphaned" type="boolean"/>
             <column name="originating_file_token" type="string"/>

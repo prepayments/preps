@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -62,8 +62,9 @@ public class AmortizationUploadDTO implements Serializable {
     @NotNull
     private LocalDate firstAmortizationDate;
 
-    @Pattern(regexp = "^[1-2]?[0-8]$")
-    private String monthlyAmortizationDate;
+    @Min(value = 1)
+    @Max(value = 28)
+    private Integer monthlyAmortizationDate;
 
     private Boolean uploadSuccessful;
 
