@@ -1,5 +1,6 @@
 package io.github.prepayments.app.decorators;
 
+import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.web.rest.AmortizationUploadResource;
@@ -20,7 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
+import static io.github.prepayments.app.AppConstants.MONTHLY_AMORTIZATION_DATE;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpload}.
@@ -30,9 +35,12 @@ import java.util.List;
 public class AmortizationUploadResourceDecorator implements IAmortizationUploadResource {
 
     private final AmortizationUploadResource amortizationUploadResource;
+    private final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
 
-    public AmortizationUploadResourceDecorator(@Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource) {
+    public AmortizationUploadResourceDecorator(@Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource,
+                                               AmortizationEntriesPropagatorService amortizationEntriesPropagatorService) {
         this.amortizationUploadResource = amortizationUploadResource;
+        this.amortizationEntriesPropagatorService = amortizationEntriesPropagatorService;
     }
 
     /**
@@ -45,6 +53,10 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
      */
     @PostMapping("/amortization-uploads")
     public ResponseEntity<AmortizationUploadDTO> createAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
+
+        // create amortization entries from the amortization upload
+        // TODO add monthly-amortization-date
+        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
 
         return amortizationUploadResource.createAmortizationUpload(amortizationUploadDTO);
     }
