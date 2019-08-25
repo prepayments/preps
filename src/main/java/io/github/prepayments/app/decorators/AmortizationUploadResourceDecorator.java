@@ -1,21 +1,11 @@
-package io.github.prepayments.web.rest;
+package io.github.prepayments.app.decorators;
 
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.service.AmortizationUploadQueryService;
-import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
-import io.github.prepayments.web.rest.errors.BadRequestAlertException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
+import io.github.prepayments.web.rest.AmortizationUploadResource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,31 +13,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpload}.
  */
-@Component("amortizationUploadResourceDelegate")
-public class AmortizationUploadResource {
+@RestController
+@RequestMapping("/api")
+public class AmortizationUploadResourceDecorator implements IAmortizationUploadResource {
 
-    private static final String ENTITY_NAME = "dataEntryAmortizationUpload";
-    private final Logger log = LoggerFactory.getLogger(AmortizationUploadResource.class);
-    private final AmortizationUploadService amortizationUploadService;
-    private final AmortizationUploadQueryService amortizationUploadQueryService;
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
+    private final AmortizationUploadResource amortizationUploadResource;
 
-    public AmortizationUploadResource(AmortizationUploadService amortizationUploadService, AmortizationUploadQueryService amortizationUploadQueryService) {
-        this.amortizationUploadService = amortizationUploadService;
-        this.amortizationUploadQueryService = amortizationUploadQueryService;
+    public AmortizationUploadResourceDecorator(@Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource) {
+        this.amortizationUploadResource = amortizationUploadResource;
     }
 
     /**
@@ -60,14 +45,8 @@ public class AmortizationUploadResource {
      */
     @PostMapping("/amortization-uploads")
     public ResponseEntity<AmortizationUploadDTO> createAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
-        log.debug("REST request to save AmortizationUpload : {}", amortizationUploadDTO);
-        if (amortizationUploadDTO.getId() != null) {
-            throw new BadRequestAlertException("A new amortizationUpload cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        AmortizationUploadDTO result = amortizationUploadService.save(amortizationUploadDTO);
-        return ResponseEntity.created(new URI("/api/amortization-uploads/" + result.getId()))
-                             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-                             .body(result);
+
+        return amortizationUploadResource.createAmortizationUpload(amortizationUploadDTO);
     }
 
     /**
@@ -80,12 +59,8 @@ public class AmortizationUploadResource {
      */
     @PutMapping("/amortization-uploads")
     public ResponseEntity<AmortizationUploadDTO> updateAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
-        log.debug("REST request to update AmortizationUpload : {}", amortizationUploadDTO);
-        if (amortizationUploadDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        AmortizationUploadDTO result = amortizationUploadService.save(amortizationUploadDTO);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, amortizationUploadDTO.getId().toString())).body(result);
+
+        return amortizationUploadResource.updateAmortizationUpload(amortizationUploadDTO);
     }
 
     /**
@@ -98,10 +73,8 @@ public class AmortizationUploadResource {
     @GetMapping("/amortization-uploads")
     public ResponseEntity<List<AmortizationUploadDTO>> getAllAmortizationUploads(AmortizationUploadCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                  UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get AmortizationUploads by criteria: {}", criteria);
-        Page<AmortizationUploadDTO> page = amortizationUploadQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+
+        return amortizationUploadResource.getAllAmortizationUploads(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -112,8 +85,8 @@ public class AmortizationUploadResource {
      */
     @GetMapping("/amortization-uploads/count")
     public ResponseEntity<Long> countAmortizationUploads(AmortizationUploadCriteria criteria) {
-        log.debug("REST request to count AmortizationUploads by criteria: {}", criteria);
-        return ResponseEntity.ok().body(amortizationUploadQueryService.countByCriteria(criteria));
+
+        return amortizationUploadResource.countAmortizationUploads(criteria);
     }
 
     /**
@@ -124,9 +97,8 @@ public class AmortizationUploadResource {
      */
     @GetMapping("/amortization-uploads/{id}")
     public ResponseEntity<AmortizationUploadDTO> getAmortizationUpload(@PathVariable Long id) {
-        log.debug("REST request to get AmortizationUpload : {}", id);
-        Optional<AmortizationUploadDTO> amortizationUploadDTO = amortizationUploadService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(amortizationUploadDTO);
+
+        return amortizationUploadResource.getAmortizationUpload(id);
     }
 
     /**
@@ -137,9 +109,8 @@ public class AmortizationUploadResource {
      */
     @DeleteMapping("/amortization-uploads/{id}")
     public ResponseEntity<Void> deleteAmortizationUpload(@PathVariable Long id) {
-        log.debug("REST request to delete AmortizationUpload : {}", id);
-        amortizationUploadService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+
+        return amortizationUploadResource.deleteAmortizationUpload(id);
     }
 
     /**
@@ -152,10 +123,7 @@ public class AmortizationUploadResource {
     @GetMapping("/_search/amortization-uploads")
     public ResponseEntity<List<AmortizationUploadDTO>> searchAmortizationUploads(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                  UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to search for a page of AmortizationUploads for query {}", query);
-        Page<AmortizationUploadDTO> page = amortizationUploadService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
 
+        return amortizationUploadResource.searchAmortizationUploads(query, pageable, queryParams, uriBuilder);
+    }
 }
