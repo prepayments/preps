@@ -57,7 +57,9 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
         // create amortization entries from the amortization upload
         if (amortizationUploadDTO.getMonthlyAmortizationDate() == null)
             amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
-        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, Integer.valueOf(amortizationUploadDTO.getMonthlyAmortizationDate()));
+        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, amortizationUploadDTO.getMonthlyAmortizationDate());
+
+        amortizationUploadDTO.setUploadSuccessful(true);
 
         return amortizationUploadResource.createAmortizationUpload(amortizationUploadDTO);
     }

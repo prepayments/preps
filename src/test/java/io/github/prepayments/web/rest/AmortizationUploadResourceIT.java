@@ -83,8 +83,8 @@ public class AmortizationUploadResourceIT {
     private static final LocalDate DEFAULT_FIRST_AMORTIZATION_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FIRST_AMORTIZATION_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_MONTHLY_AMORTIZATION_DATE = "0";
-    private static final String UPDATED_MONTHLY_AMORTIZATION_DATE = "24";
+    private static final Integer DEFAULT_MONTHLY_AMORTIZATION_DATE = 0;
+    private static final Integer UPDATED_MONTHLY_AMORTIZATION_DATE = 24;
 
     private static final Boolean DEFAULT_UPLOAD_SUCCESSFUL = false;
     private static final Boolean UPDATED_UPLOAD_SUCCESSFUL = true;
@@ -502,7 +502,7 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAmortizationUpload() throws Exception {

@@ -24,7 +24,7 @@ class PrepaymentEntryExcelFileDeserializerTest extends DeserializerTests {
         assertEquals("2018/10/09", entries.get(0).getPrepaymentDate());
         assertEquals("PrepaymentDC1004 dated: 09-10-2018", entries.get(0).getParticulars());
         assertEquals("250", entries.get(0).getServiceOutlet());
-        assertEquals("298,990.60", entries.get(0).getPrepaymentAmount());
+        assertEquals("298990.6", entries.get(0).getPrepaymentAmount());
         assertEquals(33, entries.get(0).getMonths());
         assertEquals("Supplier 3", entries.get(0).getSupplierName());
         assertEquals("Inv 89/2019", entries.get(0).getInvoiceNumber());
