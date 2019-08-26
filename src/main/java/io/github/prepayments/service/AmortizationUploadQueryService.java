@@ -141,6 +141,9 @@ public class AmortizationUploadQueryService extends QueryService<AmortizationUpl
             if (criteria.getOriginatingFileToken() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), AmortizationUpload_.originatingFileToken));
             }
+            if (criteria.getAmortizationTag() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAmortizationTag(), AmortizationUpload_.amortizationTag));
+            }
         }
         return specification;
     }

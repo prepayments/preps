@@ -14,7 +14,7 @@ import static java.time.LocalDate.parse;
 import static org.apache.commons.lang3.math.NumberUtils.toScaledBigDecimal;
 
 @Component("amortizationUploadEVMDTOMapper")
-public class DefaultAmortizationUploadEVMDTOMapper implements AmortizationUploadEVMDTOMapper {
+public class DefaultAmortizationUploadEVMDTOMapper implements SimpleAmortizationUploadEVMDTOMapper {
 
     @Override
     public SimpleAmortizationUploadEVM toExcelView(final AmortizationUploadDTO amortizationUploadDTO, final DateTimeFormatter dtf) {
@@ -33,6 +33,9 @@ public class DefaultAmortizationUploadEVMDTOMapper implements AmortizationUpload
                                           .numberOfAmortizations(String.valueOf(amortizationUploadDTO.getNumberOfAmortizations()))
                                           .firstAmortizationDate(dtf.format(amortizationUploadDTO.getFirstAmortizationDate()))
                                           .originatingFileToken(amortizationUploadDTO.getOriginatingFileToken())
+                                          .amortizationTag(amortizationUploadDTO.getAmortizationTag())
+                                          .uploadSuccessful(amortizationUploadDTO.getUploadSuccessful())
+                                          .uploadOrphaned(amortizationUploadDTO.getUploadOrphaned())
                                           .build();
     }
 
@@ -53,6 +56,7 @@ public class DefaultAmortizationUploadEVMDTOMapper implements AmortizationUpload
                                     .numberOfAmortizations(NumberUtils.toInt(simpleAmortizationUploadEVM.getNumberOfAmortizations().replace(",", "")))
                                     .firstAmortizationDate(parse(simpleAmortizationUploadEVM.getFirstAmortizationDate(), dtf))
                                     .originatingFileToken(simpleAmortizationUploadEVM.getOriginatingFileToken())
+                                    .amortizationTag(simpleAmortizationUploadEVM.getAmortizationTag())
                                     .uploadSuccessful(simpleAmortizationUploadEVM.getUploadSuccessful())
                                     .uploadOrphaned(simpleAmortizationUploadEVM.getUploadOrphaned())
                                     .build();

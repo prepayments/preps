@@ -72,6 +72,9 @@ public class AmortizationEntryResourceIT {
     private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
 
+    private static final String DEFAULT_AMORTIZATION_TAG = "AAAAAAAAAA";
+    private static final String UPDATED_AMORTIZATION_TAG = "BBBBBBBBBB";
+
     private static final Boolean DEFAULT_ORPHANED = false;
     private static final Boolean UPDATED_ORPHANED = true;
 
@@ -142,6 +145,7 @@ public class AmortizationEntryResourceIT {
             .amortizationServiceOutlet(DEFAULT_AMORTIZATION_SERVICE_OUTLET)
             .amortizationAccountNumber(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER)
             .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(DEFAULT_AMORTIZATION_TAG)
             .orphaned(DEFAULT_ORPHANED);
         return amortizationEntry;
     }
@@ -161,6 +165,7 @@ public class AmortizationEntryResourceIT {
             .amortizationServiceOutlet(UPDATED_AMORTIZATION_SERVICE_OUTLET)
             .amortizationAccountNumber(UPDATED_AMORTIZATION_ACCOUNT_NUMBER)
             .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(UPDATED_AMORTIZATION_TAG)
             .orphaned(UPDATED_ORPHANED);
         return amortizationEntry;
     }
@@ -194,6 +199,7 @@ public class AmortizationEntryResourceIT {
         assertThat(testAmortizationEntry.getAmortizationServiceOutlet()).isEqualTo(DEFAULT_AMORTIZATION_SERVICE_OUTLET);
         assertThat(testAmortizationEntry.getAmortizationAccountNumber()).isEqualTo(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER);
         assertThat(testAmortizationEntry.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
+        assertThat(testAmortizationEntry.getAmortizationTag()).isEqualTo(DEFAULT_AMORTIZATION_TAG);
         assertThat(testAmortizationEntry.isOrphaned()).isEqualTo(DEFAULT_ORPHANED);
 
         // Validate the AmortizationEntry in Elasticsearch
@@ -357,6 +363,7 @@ public class AmortizationEntryResourceIT {
             .andExpect(jsonPath("$.[*].amortizationServiceOutlet").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET.toString())))
             .andExpect(jsonPath("$.[*].amortizationAccountNumber").value(hasItem(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG.toString())))
             .andExpect(jsonPath("$.[*].orphaned").value(hasItem(DEFAULT_ORPHANED.booleanValue())));
     }
     
@@ -379,6 +386,7 @@ public class AmortizationEntryResourceIT {
             .andExpect(jsonPath("$.amortizationServiceOutlet").value(DEFAULT_AMORTIZATION_SERVICE_OUTLET.toString()))
             .andExpect(jsonPath("$.amortizationAccountNumber").value(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()))
+            .andExpect(jsonPath("$.amortizationTag").value(DEFAULT_AMORTIZATION_TAG.toString()))
             .andExpect(jsonPath("$.orphaned").value(DEFAULT_ORPHANED.booleanValue()));
     }
 
@@ -723,6 +731,45 @@ public class AmortizationEntryResourceIT {
 
     @Test
     @Transactional
+    public void getAllAmortizationEntriesByAmortizationTagIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationEntryRepository.saveAndFlush(amortizationEntry);
+
+        // Get all the amortizationEntryList where amortizationTag equals to DEFAULT_AMORTIZATION_TAG
+        defaultAmortizationEntryShouldBeFound("amortizationTag.equals=" + DEFAULT_AMORTIZATION_TAG);
+
+        // Get all the amortizationEntryList where amortizationTag equals to UPDATED_AMORTIZATION_TAG
+        defaultAmortizationEntryShouldNotBeFound("amortizationTag.equals=" + UPDATED_AMORTIZATION_TAG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationEntriesByAmortizationTagIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationEntryRepository.saveAndFlush(amortizationEntry);
+
+        // Get all the amortizationEntryList where amortizationTag in DEFAULT_AMORTIZATION_TAG or UPDATED_AMORTIZATION_TAG
+        defaultAmortizationEntryShouldBeFound("amortizationTag.in=" + DEFAULT_AMORTIZATION_TAG + "," + UPDATED_AMORTIZATION_TAG);
+
+        // Get all the amortizationEntryList where amortizationTag equals to UPDATED_AMORTIZATION_TAG
+        defaultAmortizationEntryShouldNotBeFound("amortizationTag.in=" + UPDATED_AMORTIZATION_TAG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationEntriesByAmortizationTagIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationEntryRepository.saveAndFlush(amortizationEntry);
+
+        // Get all the amortizationEntryList where amortizationTag is not null
+        defaultAmortizationEntryShouldBeFound("amortizationTag.specified=true");
+
+        // Get all the amortizationEntryList where amortizationTag is null
+        defaultAmortizationEntryShouldNotBeFound("amortizationTag.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAmortizationEntriesByOrphanedIsEqualToSomething() throws Exception {
         // Initialize the database
         amortizationEntryRepository.saveAndFlush(amortizationEntry);
@@ -794,6 +841,7 @@ public class AmortizationEntryResourceIT {
             .andExpect(jsonPath("$.[*].amortizationServiceOutlet").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET)))
             .andExpect(jsonPath("$.[*].amortizationAccountNumber").value(hasItem(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG)))
             .andExpect(jsonPath("$.[*].orphaned").value(hasItem(DEFAULT_ORPHANED.booleanValue())));
 
         // Check, that the count call also returns 1
@@ -850,6 +898,7 @@ public class AmortizationEntryResourceIT {
             .amortizationServiceOutlet(UPDATED_AMORTIZATION_SERVICE_OUTLET)
             .amortizationAccountNumber(UPDATED_AMORTIZATION_ACCOUNT_NUMBER)
             .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(UPDATED_AMORTIZATION_TAG)
             .orphaned(UPDATED_ORPHANED);
         AmortizationEntryDTO amortizationEntryDTO = amortizationEntryMapper.toDto(updatedAmortizationEntry);
 
@@ -870,6 +919,7 @@ public class AmortizationEntryResourceIT {
         assertThat(testAmortizationEntry.getAmortizationServiceOutlet()).isEqualTo(UPDATED_AMORTIZATION_SERVICE_OUTLET);
         assertThat(testAmortizationEntry.getAmortizationAccountNumber()).isEqualTo(UPDATED_AMORTIZATION_ACCOUNT_NUMBER);
         assertThat(testAmortizationEntry.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
+        assertThat(testAmortizationEntry.getAmortizationTag()).isEqualTo(UPDATED_AMORTIZATION_TAG);
         assertThat(testAmortizationEntry.isOrphaned()).isEqualTo(UPDATED_ORPHANED);
 
         // Validate the AmortizationEntry in Elasticsearch
@@ -939,6 +989,7 @@ public class AmortizationEntryResourceIT {
             .andExpect(jsonPath("$.[*].amortizationServiceOutlet").value(hasItem(DEFAULT_AMORTIZATION_SERVICE_OUTLET)))
             .andExpect(jsonPath("$.[*].amortizationAccountNumber").value(hasItem(DEFAULT_AMORTIZATION_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG)))
             .andExpect(jsonPath("$.[*].orphaned").value(hasItem(DEFAULT_ORPHANED.booleanValue())));
     }
 

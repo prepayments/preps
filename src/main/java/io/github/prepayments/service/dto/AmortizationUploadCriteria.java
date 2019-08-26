@@ -60,6 +60,8 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
 
     private StringFilter originatingFileToken;
 
+    private StringFilter amortizationTag;
+
     public AmortizationUploadCriteria(){
     }
 
@@ -81,6 +83,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.uploadSuccessful = other.uploadSuccessful == null ? null : other.uploadSuccessful.copy();
         this.uploadOrphaned = other.uploadOrphaned == null ? null : other.uploadOrphaned.copy();
         this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
+        this.amortizationTag = other.amortizationTag == null ? null : other.amortizationTag.copy();
     }
 
     @Override
@@ -224,6 +227,14 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         this.originatingFileToken = originatingFileToken;
     }
 
+    public StringFilter getAmortizationTag() {
+        return amortizationTag;
+    }
+
+    public void setAmortizationTag(StringFilter amortizationTag) {
+        this.amortizationTag = amortizationTag;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -251,7 +262,8 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
             Objects.equals(monthlyAmortizationDate, that.monthlyAmortizationDate) &&
             Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
             Objects.equals(uploadOrphaned, that.uploadOrphaned) &&
-            Objects.equals(originatingFileToken, that.originatingFileToken);
+            Objects.equals(originatingFileToken, that.originatingFileToken) &&
+            Objects.equals(amortizationTag, that.amortizationTag);
     }
 
     @Override
@@ -273,7 +285,8 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
         monthlyAmortizationDate,
         uploadSuccessful,
         uploadOrphaned,
-        originatingFileToken
+        originatingFileToken,
+        amortizationTag
         );
     }
 
@@ -297,6 +310,7 @@ public class AmortizationUploadCriteria implements Serializable, Criteria {
                 (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
                 (uploadOrphaned != null ? "uploadOrphaned=" + uploadOrphaned + ", " : "") +
                 (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") +
+                (amortizationTag != null ? "amortizationTag=" + amortizationTag + ", " : "") +
             "}";
     }
 

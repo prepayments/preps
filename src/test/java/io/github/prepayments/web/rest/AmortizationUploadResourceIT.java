@@ -83,8 +83,8 @@ public class AmortizationUploadResourceIT {
     private static final LocalDate DEFAULT_FIRST_AMORTIZATION_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FIRST_AMORTIZATION_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Integer DEFAULT_MONTHLY_AMORTIZATION_DATE = 0;
-    private static final Integer UPDATED_MONTHLY_AMORTIZATION_DATE = 24;
+    private static final Integer DEFAULT_MONTHLY_AMORTIZATION_DATE = 1;
+    private static final Integer UPDATED_MONTHLY_AMORTIZATION_DATE = 2;
 
     private static final Boolean DEFAULT_UPLOAD_SUCCESSFUL = false;
     private static final Boolean UPDATED_UPLOAD_SUCCESSFUL = true;
@@ -94,6 +94,9 @@ public class AmortizationUploadResourceIT {
 
     private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
+
+    private static final String DEFAULT_AMORTIZATION_TAG = "AAAAAAAAAA";
+    private static final String UPDATED_AMORTIZATION_TAG = "BBBBBBBBBB";
 
     @Autowired
     private AmortizationUploadRepository amortizationUploadRepository;
@@ -169,7 +172,8 @@ public class AmortizationUploadResourceIT {
             .monthlyAmortizationDate(DEFAULT_MONTHLY_AMORTIZATION_DATE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(DEFAULT_UPLOAD_ORPHANED)
-            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(DEFAULT_AMORTIZATION_TAG);
         return amortizationUpload;
     }
     /**
@@ -195,7 +199,8 @@ public class AmortizationUploadResourceIT {
             .monthlyAmortizationDate(UPDATED_MONTHLY_AMORTIZATION_DATE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
-            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(UPDATED_AMORTIZATION_TAG);
         return amortizationUpload;
     }
 
@@ -236,6 +241,7 @@ public class AmortizationUploadResourceIT {
         assertThat(testAmortizationUpload.isUploadSuccessful()).isEqualTo(DEFAULT_UPLOAD_SUCCESSFUL);
         assertThat(testAmortizationUpload.isUploadOrphaned()).isEqualTo(DEFAULT_UPLOAD_ORPHANED);
         assertThat(testAmortizationUpload.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
+        assertThat(testAmortizationUpload.getAmortizationTag()).isEqualTo(DEFAULT_AMORTIZATION_TAG);
 
         // Validate the AmortizationUpload in Elasticsearch
         verify(mockAmortizationUploadSearchRepository, times(1)).save(testAmortizationUpload);
@@ -497,12 +503,13 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].amortizationAmount").value(hasItem(DEFAULT_AMORTIZATION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].numberOfAmortizations").value(hasItem(DEFAULT_NUMBER_OF_AMORTIZATIONS)))
             .andExpect(jsonPath("$.[*].firstAmortizationDate").value(hasItem(DEFAULT_FIRST_AMORTIZATION_DATE.toString())))
-            .andExpect(jsonPath("$.[*].monthlyAmortizationDate").value(hasItem(DEFAULT_MONTHLY_AMORTIZATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].monthlyAmortizationDate").value(hasItem(DEFAULT_MONTHLY_AMORTIZATION_DATE)))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAmortizationUpload() throws Exception {
@@ -526,10 +533,11 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.amortizationAmount").value(DEFAULT_AMORTIZATION_AMOUNT.intValue()))
             .andExpect(jsonPath("$.numberOfAmortizations").value(DEFAULT_NUMBER_OF_AMORTIZATIONS))
             .andExpect(jsonPath("$.firstAmortizationDate").value(DEFAULT_FIRST_AMORTIZATION_DATE.toString()))
-            .andExpect(jsonPath("$.monthlyAmortizationDate").value(DEFAULT_MONTHLY_AMORTIZATION_DATE.toString()))
+            .andExpect(jsonPath("$.monthlyAmortizationDate").value(DEFAULT_MONTHLY_AMORTIZATION_DATE))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
             .andExpect(jsonPath("$.uploadOrphaned").value(DEFAULT_UPLOAD_ORPHANED.booleanValue()))
-            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()))
+            .andExpect(jsonPath("$.amortizationTag").value(DEFAULT_AMORTIZATION_TAG.toString()));
     }
 
     @Test
@@ -1122,6 +1130,33 @@ public class AmortizationUploadResourceIT {
 
     @Test
     @Transactional
+    public void getAllAmortizationUploadsByMonthlyAmortizationDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where monthlyAmortizationDate greater than or equals to DEFAULT_MONTHLY_AMORTIZATION_DATE
+        defaultAmortizationUploadShouldBeFound("monthlyAmortizationDate.greaterOrEqualThan=" + DEFAULT_MONTHLY_AMORTIZATION_DATE);
+
+        // Get all the amortizationUploadList where monthlyAmortizationDate greater than or equals to (DEFAULT_MONTHLY_AMORTIZATION_DATE + 1)
+        defaultAmortizationUploadShouldNotBeFound("monthlyAmortizationDate.greaterOrEqualThan=" + (DEFAULT_MONTHLY_AMORTIZATION_DATE + 1));
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByMonthlyAmortizationDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where monthlyAmortizationDate less than or equals to DEFAULT_MONTHLY_AMORTIZATION_DATE
+        defaultAmortizationUploadShouldNotBeFound("monthlyAmortizationDate.lessThan=" + DEFAULT_MONTHLY_AMORTIZATION_DATE);
+
+        // Get all the amortizationUploadList where monthlyAmortizationDate less than or equals to (DEFAULT_MONTHLY_AMORTIZATION_DATE + 1)
+        defaultAmortizationUploadShouldBeFound("monthlyAmortizationDate.lessThan=" + (DEFAULT_MONTHLY_AMORTIZATION_DATE + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAmortizationUploadsByUploadSuccessfulIsEqualToSomething() throws Exception {
         // Initialize the database
         amortizationUploadRepository.saveAndFlush(amortizationUpload);
@@ -1236,6 +1271,45 @@ public class AmortizationUploadResourceIT {
         // Get all the amortizationUploadList where originatingFileToken is null
         defaultAmortizationUploadShouldNotBeFound("originatingFileToken.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByAmortizationTagIsEqualToSomething() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where amortizationTag equals to DEFAULT_AMORTIZATION_TAG
+        defaultAmortizationUploadShouldBeFound("amortizationTag.equals=" + DEFAULT_AMORTIZATION_TAG);
+
+        // Get all the amortizationUploadList where amortizationTag equals to UPDATED_AMORTIZATION_TAG
+        defaultAmortizationUploadShouldNotBeFound("amortizationTag.equals=" + UPDATED_AMORTIZATION_TAG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByAmortizationTagIsInShouldWork() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where amortizationTag in DEFAULT_AMORTIZATION_TAG or UPDATED_AMORTIZATION_TAG
+        defaultAmortizationUploadShouldBeFound("amortizationTag.in=" + DEFAULT_AMORTIZATION_TAG + "," + UPDATED_AMORTIZATION_TAG);
+
+        // Get all the amortizationUploadList where amortizationTag equals to UPDATED_AMORTIZATION_TAG
+        defaultAmortizationUploadShouldNotBeFound("amortizationTag.in=" + UPDATED_AMORTIZATION_TAG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAmortizationUploadsByAmortizationTagIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        amortizationUploadRepository.saveAndFlush(amortizationUpload);
+
+        // Get all the amortizationUploadList where amortizationTag is not null
+        defaultAmortizationUploadShouldBeFound("amortizationTag.specified=true");
+
+        // Get all the amortizationUploadList where amortizationTag is null
+        defaultAmortizationUploadShouldNotBeFound("amortizationTag.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1259,7 +1333,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].monthlyAmortizationDate").value(hasItem(DEFAULT_MONTHLY_AMORTIZATION_DATE)))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG)));
 
         // Check, that the count call also returns 1
         restAmortizationUploadMockMvc.perform(get("/api/amortization-uploads/count?sort=id,desc&" + filter))
@@ -1322,7 +1397,8 @@ public class AmortizationUploadResourceIT {
             .monthlyAmortizationDate(UPDATED_MONTHLY_AMORTIZATION_DATE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
             .uploadOrphaned(UPDATED_UPLOAD_ORPHANED)
-            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN)
+            .amortizationTag(UPDATED_AMORTIZATION_TAG);
         AmortizationUploadDTO amortizationUploadDTO = amortizationUploadMapper.toDto(updatedAmortizationUpload);
 
         restAmortizationUploadMockMvc.perform(put("/api/amortization-uploads")
@@ -1350,6 +1426,7 @@ public class AmortizationUploadResourceIT {
         assertThat(testAmortizationUpload.isUploadSuccessful()).isEqualTo(UPDATED_UPLOAD_SUCCESSFUL);
         assertThat(testAmortizationUpload.isUploadOrphaned()).isEqualTo(UPDATED_UPLOAD_ORPHANED);
         assertThat(testAmortizationUpload.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
+        assertThat(testAmortizationUpload.getAmortizationTag()).isEqualTo(UPDATED_AMORTIZATION_TAG);
 
         // Validate the AmortizationUpload in Elasticsearch
         verify(mockAmortizationUploadSearchRepository, times(1)).save(testAmortizationUpload);
@@ -1425,7 +1502,8 @@ public class AmortizationUploadResourceIT {
             .andExpect(jsonPath("$.[*].monthlyAmortizationDate").value(hasItem(DEFAULT_MONTHLY_AMORTIZATION_DATE)))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
             .andExpect(jsonPath("$.[*].uploadOrphaned").value(hasItem(DEFAULT_UPLOAD_ORPHANED.booleanValue())))
-            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)))
+            .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG)));
     }
 
     @Test

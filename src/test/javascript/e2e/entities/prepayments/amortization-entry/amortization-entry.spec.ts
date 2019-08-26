@@ -52,6 +52,7 @@ describe('AmortizationEntry e2e test', () => {
       amortizationEntryUpdatePage.setAmortizationServiceOutletInput('amortizationServiceOutlet'),
       amortizationEntryUpdatePage.setAmortizationAccountNumberInput('amortizationAccountNumber'),
       amortizationEntryUpdatePage.setOriginatingFileTokenInput('originatingFileToken'),
+      amortizationEntryUpdatePage.setAmortizationTagInput('amortizationTag'),
       amortizationEntryUpdatePage.prepaymentEntrySelectLastOption()
     ]);
     expect(await amortizationEntryUpdatePage.getAmortizationDateInput()).to.eq(
@@ -85,6 +86,10 @@ describe('AmortizationEntry e2e test', () => {
     expect(await amortizationEntryUpdatePage.getOriginatingFileTokenInput()).to.eq(
       'originatingFileToken',
       'Expected OriginatingFileToken value to be equals to originatingFileToken'
+    );
+    expect(await amortizationEntryUpdatePage.getAmortizationTagInput()).to.eq(
+      'amortizationTag',
+      'Expected AmortizationTag value to be equals to amortizationTag'
     );
     const selectedOrphaned = amortizationEntryUpdatePage.getOrphanedInput();
     if (await selectedOrphaned.isSelected()) {

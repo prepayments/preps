@@ -40,4 +40,5 @@ public class SimpleAmortizationUploadEVM implements Serializable {
     private Boolean uploadSuccessful;
     private Boolean uploadOrphaned;
     private String originatingFileToken;
+    private String amortizationTag;
 }

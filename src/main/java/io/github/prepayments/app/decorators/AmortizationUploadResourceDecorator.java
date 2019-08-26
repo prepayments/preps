@@ -1,6 +1,8 @@
 package io.github.prepayments.app.decorators;
 
 import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
+import io.github.prepayments.app.token.Tag;
+import io.github.prepayments.app.token.TagProvider;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.web.rest.AmortizationUploadResource;
@@ -34,11 +36,13 @@ import static io.github.prepayments.app.AppConstants.MONTHLY_AMORTIZATION_DATE;
 public class AmortizationUploadResourceDecorator implements IAmortizationUploadResource {
 
     private final AmortizationUploadResource amortizationUploadResource;
+    private final TagProvider<String> tagProvider;
     private final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
 
-    public AmortizationUploadResourceDecorator(@Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource,
-                                               AmortizationEntriesPropagatorService amortizationEntriesPropagatorService) {
+    public AmortizationUploadResourceDecorator(final @Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource, final TagProvider<String> tagProvider,
+                                               final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService) {
         this.amortizationUploadResource = amortizationUploadResource;
+        this.tagProvider = tagProvider;
         this.amortizationEntriesPropagatorService = amortizationEntriesPropagatorService;
     }
 
@@ -54,12 +58,15 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
     public ResponseEntity<AmortizationUploadDTO> createAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
 
         // TODO check if DTO is orphaned
-        // TODO tag amortization-entries with amortization-upload tags
+        //        amortizationUploadDTO.setAmortizationTag(tagProvider.tag(amortizationUploadDTO).getTag());
+        Tag<String> amortTag = tagProvider.tag(amortizationUploadDTO);
         // create amortization entries from the amortization upload
-        if (amortizationUploadDTO.getMonthlyAmortizationDate() == null)
+        if (amortizationUploadDTO.getMonthlyAmortizationDate() == null) {
             amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
-        amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, amortizationUploadDTO.getMonthlyAmortizationDate());
-
+        }
+        if (amortizationUploadDTO.getMonthlyAmortizationDate() != null) {
+            amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, amortizationUploadDTO.getMonthlyAmortizationDate());
+        }
         amortizationUploadDTO.setUploadSuccessful(true);
 
         return amortizationUploadResource.createAmortizationUpload(amortizationUploadDTO);

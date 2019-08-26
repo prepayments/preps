@@ -2,7 +2,7 @@ package io.github.prepayments.app.messaging.data_entry.listener;
 
 import io.github.prepayments.app.messaging.data_entry.vm.SimpleAmortizationEntryEVM;
 import io.github.prepayments.app.messaging.filing.streams.FilingAmortizationEntryStreams;
-import io.github.prepayments.app.util.AmortizationEntryEVMDTOMapper;
+import io.github.prepayments.app.util.SimpleAmortizationEntryEVMDTOMapper;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +22,9 @@ import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
 public class DataSinkAmortizationStreamsListener {
 
     private final AmortizationEntryService amortizationEntryService;
-    private final AmortizationEntryEVMDTOMapper amortizationEntryEVMDTOMapper;
+    private final SimpleAmortizationEntryEVMDTOMapper amortizationEntryEVMDTOMapper;
 
-    public DataSinkAmortizationStreamsListener(final AmortizationEntryService amortizationEntryService, final AmortizationEntryEVMDTOMapper amortizationEntryEVMDTOMapper) {
+    public DataSinkAmortizationStreamsListener(final AmortizationEntryService amortizationEntryService, final SimpleAmortizationEntryEVMDTOMapper amortizationEntryEVMDTOMapper) {
         this.amortizationEntryService = amortizationEntryService;
         this.amortizationEntryEVMDTOMapper = amortizationEntryEVMDTOMapper;
     }

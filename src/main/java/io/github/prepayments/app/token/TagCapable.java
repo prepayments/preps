@@ -5,7 +5,7 @@ package io.github.prepayments.app.token;
  * not be that easy therefore and interface like this exists to enable a client to
  * receive a unique tag that might correlate it to the source point
  */
-public interface TagCapable {
+public interface TagCapable<T> {
 
-    TagCapable setTag(String Tag);
+    TagCapable setAmortizationTag(T Tag);
 }

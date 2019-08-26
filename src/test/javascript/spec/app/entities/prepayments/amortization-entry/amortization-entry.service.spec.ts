@@ -27,7 +27,19 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AmortizationEntry(0, currentDate, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false);
+      elemDefault = new AmortizationEntry(
+        0,
+        currentDate,
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        false
+      );
     });
 
     describe('Service methods', () => {
@@ -82,6 +94,7 @@ describe('Service Tests', () => {
             amortizationServiceOutlet: 'BBBBBB',
             amortizationAccountNumber: 'BBBBBB',
             originatingFileToken: 'BBBBBB',
+            amortizationTag: 'BBBBBB',
             orphaned: true
           },
           elemDefault
@@ -113,6 +126,7 @@ describe('Service Tests', () => {
             amortizationServiceOutlet: 'BBBBBB',
             amortizationAccountNumber: 'BBBBBB',
             originatingFileToken: 'BBBBBB',
+            amortizationTag: 'BBBBBB',
             orphaned: true
           },
           elemDefault

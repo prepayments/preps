@@ -80,6 +80,7 @@ class AmortizationEntryGatlingTest extends Simulation {
                 , "amortizationServiceOutlet":"SAMPLE_TEXT"
                 , "amortizationAccountNumber":"SAMPLE_TEXT"
                 , "originatingFileToken":"SAMPLE_TEXT"
+                , "amortizationTag":"SAMPLE_TEXT"
                 , "orphaned":null
                 }""")).asJson
             .check(status.is(201))

@@ -57,7 +57,8 @@ describe('AmortizationUpload e2e test', () => {
       amortizationUploadUpdatePage.setNumberOfAmortizationsInput('5'),
       amortizationUploadUpdatePage.setFirstAmortizationDateInput('2000-12-31'),
       amortizationUploadUpdatePage.setMonthlyAmortizationDateInput('5'),
-      amortizationUploadUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
+      amortizationUploadUpdatePage.setOriginatingFileTokenInput('originatingFileToken'),
+      amortizationUploadUpdatePage.setAmortizationTagInput('amortizationTag')
     ]);
     expect(await amortizationUploadUpdatePage.getAccountNameInput()).to.eq(
       'accountName',
@@ -133,6 +134,10 @@ describe('AmortizationUpload e2e test', () => {
     expect(await amortizationUploadUpdatePage.getOriginatingFileTokenInput()).to.eq(
       'originatingFileToken',
       'Expected OriginatingFileToken value to be equals to originatingFileToken'
+    );
+    expect(await amortizationUploadUpdatePage.getAmortizationTagInput()).to.eq(
+      'amortizationTag',
+      'Expected AmortizationTag value to be equals to amortizationTag'
     );
     await amortizationUploadUpdatePage.save();
     expect(await amortizationUploadUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

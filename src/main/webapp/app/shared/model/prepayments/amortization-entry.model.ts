@@ -10,6 +10,7 @@ export interface IAmortizationEntry {
   amortizationServiceOutlet?: string;
   amortizationAccountNumber?: string;
   originatingFileToken?: string;
+  amortizationTag?: string;
   orphaned?: boolean;
   prepaymentEntryId?: number;
 }
@@ -25,6 +26,7 @@ export class AmortizationEntry implements IAmortizationEntry {
     public amortizationServiceOutlet?: string,
     public amortizationAccountNumber?: string,
     public originatingFileToken?: string,
+    public amortizationTag?: string,
     public orphaned?: boolean,
     public prepaymentEntryId?: number
   ) {

@@ -117,6 +117,9 @@ public class AmortizationEntryQueryService extends QueryService<AmortizationEntr
             if (criteria.getOriginatingFileToken() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), AmortizationEntry_.originatingFileToken));
             }
+            if (criteria.getAmortizationTag() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAmortizationTag(), AmortizationEntry_.amortizationTag));
+            }
             if (criteria.getOrphaned() != null) {
                 specification = specification.and(buildSpecification(criteria.getOrphaned(), AmortizationEntry_.orphaned));
             }

@@ -69,6 +69,10 @@
           "fieldType": "String"
         },
         {
+          "fieldName": "amortizationTag",
+          "fieldType": "String"
+        },
+        {
           "fieldName": "orphaned",
           "fieldType": "Boolean"
         }

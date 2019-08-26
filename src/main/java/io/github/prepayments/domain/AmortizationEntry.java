@@ -4,21 +4,15 @@ package io.github.prepayments.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A AmortizationEntry.
@@ -69,6 +63,9 @@ public class AmortizationEntry implements Serializable {
     @Column(name = "originating_file_token")
     private String originatingFileToken;
 
+    @Column(name = "amortization_tag")
+    private String amortizationTag;
+
     @Column(name = "orphaned")
     private Boolean orphaned;
 
@@ -89,21 +86,17 @@ public class AmortizationEntry implements Serializable {
         return amortizationDate;
     }
 
-    public void setAmortizationDate(LocalDate amortizationDate) {
-        this.amortizationDate = amortizationDate;
-    }
-
     public AmortizationEntry amortizationDate(LocalDate amortizationDate) {
         this.amortizationDate = amortizationDate;
         return this;
     }
 
-    public BigDecimal getAmortizationAmount() {
-        return amortizationAmount;
+    public void setAmortizationDate(LocalDate amortizationDate) {
+        this.amortizationDate = amortizationDate;
     }
 
-    public void setAmortizationAmount(BigDecimal amortizationAmount) {
-        this.amortizationAmount = amortizationAmount;
+    public BigDecimal getAmortizationAmount() {
+        return amortizationAmount;
     }
 
     public AmortizationEntry amortizationAmount(BigDecimal amortizationAmount) {
@@ -111,12 +104,12 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
-    public String getParticulars() {
-        return particulars;
+    public void setAmortizationAmount(BigDecimal amortizationAmount) {
+        this.amortizationAmount = amortizationAmount;
     }
 
-    public void setParticulars(String particulars) {
-        this.particulars = particulars;
+    public String getParticulars() {
+        return particulars;
     }
 
     public AmortizationEntry particulars(String particulars) {
@@ -124,12 +117,12 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
-    public String getPrepaymentServiceOutlet() {
-        return prepaymentServiceOutlet;
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
     }
 
-    public void setPrepaymentServiceOutlet(String prepaymentServiceOutlet) {
-        this.prepaymentServiceOutlet = prepaymentServiceOutlet;
+    public String getPrepaymentServiceOutlet() {
+        return prepaymentServiceOutlet;
     }
 
     public AmortizationEntry prepaymentServiceOutlet(String prepaymentServiceOutlet) {
@@ -137,12 +130,12 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
-    public String getPrepaymentAccountNumber() {
-        return prepaymentAccountNumber;
+    public void setPrepaymentServiceOutlet(String prepaymentServiceOutlet) {
+        this.prepaymentServiceOutlet = prepaymentServiceOutlet;
     }
 
-    public void setPrepaymentAccountNumber(String prepaymentAccountNumber) {
-        this.prepaymentAccountNumber = prepaymentAccountNumber;
+    public String getPrepaymentAccountNumber() {
+        return prepaymentAccountNumber;
     }
 
     public AmortizationEntry prepaymentAccountNumber(String prepaymentAccountNumber) {
@@ -150,12 +143,12 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
-    public String getAmortizationServiceOutlet() {
-        return amortizationServiceOutlet;
+    public void setPrepaymentAccountNumber(String prepaymentAccountNumber) {
+        this.prepaymentAccountNumber = prepaymentAccountNumber;
     }
 
-    public void setAmortizationServiceOutlet(String amortizationServiceOutlet) {
-        this.amortizationServiceOutlet = amortizationServiceOutlet;
+    public String getAmortizationServiceOutlet() {
+        return amortizationServiceOutlet;
     }
 
     public AmortizationEntry amortizationServiceOutlet(String amortizationServiceOutlet) {
@@ -163,12 +156,12 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
-    public String getAmortizationAccountNumber() {
-        return amortizationAccountNumber;
+    public void setAmortizationServiceOutlet(String amortizationServiceOutlet) {
+        this.amortizationServiceOutlet = amortizationServiceOutlet;
     }
 
-    public void setAmortizationAccountNumber(String amortizationAccountNumber) {
-        this.amortizationAccountNumber = amortizationAccountNumber;
+    public String getAmortizationAccountNumber() {
+        return amortizationAccountNumber;
     }
 
     public AmortizationEntry amortizationAccountNumber(String amortizationAccountNumber) {
@@ -176,17 +169,34 @@ public class AmortizationEntry implements Serializable {
         return this;
     }
 
+    public void setAmortizationAccountNumber(String amortizationAccountNumber) {
+        this.amortizationAccountNumber = amortizationAccountNumber;
+    }
+
     public String getOriginatingFileToken() {
         return originatingFileToken;
+    }
+
+    public AmortizationEntry originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
+        return this;
     }
 
     public void setOriginatingFileToken(String originatingFileToken) {
         this.originatingFileToken = originatingFileToken;
     }
 
-    public AmortizationEntry originatingFileToken(String originatingFileToken) {
-        this.originatingFileToken = originatingFileToken;
+    public String getAmortizationTag() {
+        return amortizationTag;
+    }
+
+    public AmortizationEntry amortizationTag(String amortizationTag) {
+        this.amortizationTag = amortizationTag;
         return this;
+    }
+
+    public void setAmortizationTag(String amortizationTag) {
+        this.amortizationTag = amortizationTag;
     }
 
     public Boolean isOrphaned() {
@@ -206,13 +216,13 @@ public class AmortizationEntry implements Serializable {
         return prepaymentEntry;
     }
 
-    public void setPrepaymentEntry(PrepaymentEntry prepaymentEntry) {
-        this.prepaymentEntry = prepaymentEntry;
-    }
-
     public AmortizationEntry prepaymentEntry(PrepaymentEntry prepaymentEntry) {
         this.prepaymentEntry = prepaymentEntry;
         return this;
+    }
+
+    public void setPrepaymentEntry(PrepaymentEntry prepaymentEntry) {
+        this.prepaymentEntry = prepaymentEntry;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -234,9 +244,18 @@ public class AmortizationEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "AmortizationEntry{" + "id=" + getId() + ", amortizationDate='" + getAmortizationDate() + "'" + ", amortizationAmount=" + getAmortizationAmount() + ", particulars='" +
-            getParticulars() + "'" + ", prepaymentServiceOutlet='" + getPrepaymentServiceOutlet() + "'" + ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
-            ", amortizationServiceOutlet='" + getAmortizationServiceOutlet() + "'" + ", amortizationAccountNumber='" + getAmortizationAccountNumber() + "'" + ", originatingFileToken='" +
-            getOriginatingFileToken() + "'" + ", orphaned='" + isOrphaned() + "'" + "}";
+        return "AmortizationEntry{" +
+            "id=" + getId() +
+            ", amortizationDate='" + getAmortizationDate() + "'" +
+            ", amortizationAmount=" + getAmortizationAmount() +
+            ", particulars='" + getParticulars() + "'" +
+            ", prepaymentServiceOutlet='" + getPrepaymentServiceOutlet() + "'" +
+            ", prepaymentAccountNumber='" + getPrepaymentAccountNumber() + "'" +
+            ", amortizationServiceOutlet='" + getAmortizationServiceOutlet() + "'" +
+            ", amortizationAccountNumber='" + getAmortizationAccountNumber() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            ", amortizationTag='" + getAmortizationTag() + "'" +
+            ", orphaned='" + isOrphaned() + "'" +
+            "}";
     }
 }

@@ -2,11 +2,21 @@ package io.github.prepayments.app.messaging.data_entry.service;
 
 import io.github.prepayments.app.messaging.filing.vm.AmortizationEntryEVM;
 import io.github.prepayments.app.messaging.services.AmortizationDataEntryMessageService;
-import io.github.prepayments.app.util.AmortizationUploadAmortizationEntryEVMMapper;
+import io.github.prepayments.app.services.PrepaymentEntryReportService;
+import io.github.prepayments.app.util.UploadAnnotatedEVMMapper;
+import io.github.prepayments.domain.PrepaymentEntry;
+import io.github.prepayments.domain.TransactionAccount;
+import io.github.prepayments.repository.PrepaymentEntryRepository;
+import io.github.prepayments.repository.TransactionAccountRepository;
+import io.github.prepayments.service.AmortizationUploadQueryService;
+import io.github.prepayments.service.PrepaymentEntryQueryService;
+import io.github.prepayments.service.TransactionAccountQueryService;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,12 +32,21 @@ class FunctionalSequenceAmortizationEntriesPropagatorTest {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private static final int MONTHLY_AMORTIZATION_DATE = 20;
 
+    @Mock private TransactionAccountQueryService transactionAccountQueryService;
+    @Mock private PrepaymentEntryQueryService prepaymentEntryQueryService;
+    @Mock private AmortizationUploadQueryService amortizationUploadQueryService;
+
     @BeforeEach
     void setUp() {
+
+        MockitoAnnotations.initMocks(FunctionalSequenceAmortizationEntriesPropagatorTest.class);
+
         AmortizationDataEntryMessageService amortizationDataEntryMessageService = Mockito.mock(AmortizationDataEntryMessageService.class);
+
         amortizationEntriesPropagatorService =
             new FunctionalSequenceAmortizationEntriesPropagator(
-                amortizationDataEntryMessageService, new AmortizationUploadAmortizationEntryEVMMapper());
+                amortizationDataEntryMessageService,
+                new UploadAnnotatedEVMMapper(transactionAccountQueryService,prepaymentEntryQueryService,amortizationUploadQueryService));
     }
 
     @Test

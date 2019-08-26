@@ -44,6 +44,7 @@ describe('Service Tests', () => {
         0,
         false,
         false,
+        'AAAAAAA',
         'AAAAAAA'
       );
     });
@@ -110,7 +111,8 @@ describe('Service Tests', () => {
             monthlyAmortizationDate: 1,
             uploadSuccessful: true,
             uploadOrphaned: true,
-            originatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB',
+            amortizationTag: 'BBBBBB'
           },
           elemDefault
         );
@@ -149,7 +151,8 @@ describe('Service Tests', () => {
             monthlyAmortizationDate: 1,
             uploadSuccessful: true,
             uploadOrphaned: true,
-            originatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB',
+            amortizationTag: 'BBBBBB'
           },
           elemDefault
         );

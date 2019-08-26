@@ -13,9 +13,10 @@ import java.util.List;
 
 import static org.apache.commons.lang3.math.NumberUtils.createBigDecimal;
 
+// TODO change to simpleAmortizationEntryEVMToDTOMapper
 @Slf4j
 @Component("amortizationEntryEVMDTOMapper")
-public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEVMDTOMapper {
+public class DefaultAmortizationEntryEVMDTOMapper implements SimpleAmortizationEntryEVMDTOMapper {
 
     private final IPrepaymentEntryIdService prepaymentEntryIdService;
 
@@ -35,6 +36,8 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
                                          .amortizationServiceOutlet(amortizationEntryDTO.getAmortizationServiceOutlet())
                                          .amortizationAccountNumber(amortizationEntryDTO.getAmortizationAccountNumber())
                                          .originatingFileToken(amortizationEntryDTO.getOriginatingFileToken())
+                                         .amortizationTag(amortizationEntryDTO.getAmortizationTag())
+                                         .orphaned(amortizationEntryDTO.getOrphaned())
                                          .build();
     }
 
@@ -53,6 +56,8 @@ public class DefaultAmortizationEntryEVMDTOMapper implements AmortizationEntryEV
                                       .amortizationServiceOutlet(excelView.getAmortizationServiceOutlet())
                                       .amortizationAccountNumber(excelView.getAmortizationAccountNumber())
                                       .originatingFileToken(excelView.getOriginatingFileToken())
+                                      .amortizationTag(excelView.getAmortizationTag())
+                                      .orphaned(excelView.getOrphaned())
                                       .build();
 
         } catch (NumberFormatException e) {

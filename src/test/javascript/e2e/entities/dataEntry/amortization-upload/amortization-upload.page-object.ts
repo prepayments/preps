@@ -42,6 +42,7 @@ export class AmortizationUploadUpdatePage {
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadOrphanedInput = element(by.id('field_uploadOrphaned'));
   originatingFileTokenInput = element(by.id('field_originatingFileToken'));
+  amortizationTagInput = element(by.id('field_amortizationTag'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -163,6 +164,14 @@ export class AmortizationUploadUpdatePage {
 
   async getOriginatingFileTokenInput() {
     return await this.originatingFileTokenInput.getAttribute('value');
+  }
+
+  async setAmortizationTagInput(amortizationTag) {
+    await this.amortizationTagInput.sendKeys(amortizationTag);
+  }
+
+  async getAmortizationTagInput() {
+    return await this.amortizationTagInput.getAttribute('value');
   }
 
   async save(timeout?: number) {

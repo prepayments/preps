@@ -44,6 +44,8 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
 
     private StringFilter originatingFileToken;
 
+    private StringFilter amortizationTag;
+
     private BooleanFilter orphaned;
 
     private LongFilter prepaymentEntryId;
@@ -61,6 +63,7 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
         this.amortizationServiceOutlet = other.amortizationServiceOutlet == null ? null : other.amortizationServiceOutlet.copy();
         this.amortizationAccountNumber = other.amortizationAccountNumber == null ? null : other.amortizationAccountNumber.copy();
         this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
+        this.amortizationTag = other.amortizationTag == null ? null : other.amortizationTag.copy();
         this.orphaned = other.orphaned == null ? null : other.orphaned.copy();
         this.prepaymentEntryId = other.prepaymentEntryId == null ? null : other.prepaymentEntryId.copy();
     }
@@ -142,6 +145,14 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
         this.originatingFileToken = originatingFileToken;
     }
 
+    public StringFilter getAmortizationTag() {
+        return amortizationTag;
+    }
+
+    public void setAmortizationTag(StringFilter amortizationTag) {
+        this.amortizationTag = amortizationTag;
+    }
+
     public BooleanFilter getOrphaned() {
         return orphaned;
     }
@@ -178,6 +189,7 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
             Objects.equals(amortizationServiceOutlet, that.amortizationServiceOutlet) &&
             Objects.equals(amortizationAccountNumber, that.amortizationAccountNumber) &&
             Objects.equals(originatingFileToken, that.originatingFileToken) &&
+            Objects.equals(amortizationTag, that.amortizationTag) &&
             Objects.equals(orphaned, that.orphaned) &&
             Objects.equals(prepaymentEntryId, that.prepaymentEntryId);
     }
@@ -194,6 +206,7 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
         amortizationServiceOutlet,
         amortizationAccountNumber,
         originatingFileToken,
+        amortizationTag,
         orphaned,
         prepaymentEntryId
         );
@@ -211,6 +224,7 @@ public class AmortizationEntryCriteria implements Serializable, Criteria {
                 (amortizationServiceOutlet != null ? "amortizationServiceOutlet=" + amortizationServiceOutlet + ", " : "") +
                 (amortizationAccountNumber != null ? "amortizationAccountNumber=" + amortizationAccountNumber + ", " : "") +
                 (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") +
+                (amortizationTag != null ? "amortizationTag=" + amortizationTag + ", " : "") +
                 (orphaned != null ? "orphaned=" + orphaned + ", " : "") +
                 (prepaymentEntryId != null ? "prepaymentEntryId=" + prepaymentEntryId + ", " : "") +
             "}";

@@ -88,6 +88,7 @@ class AmortizationUploadGatlingTest extends Simulation {
                 , "uploadSuccessful":null
                 , "uploadOrphaned":null
                 , "originatingFileToken":"SAMPLE_TEXT"
+                , "amortizationTag":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_amortizationUpload_url"))).exitHereIfFailed

@@ -47,6 +47,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="amortization_tag" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="orphaned" type="boolean">
                 <constraints nullable="true" />
             </column>
@@ -83,6 +87,7 @@
             <column name="amortization_service_outlet" type="string"/>
             <column name="amortization_account_number" type="string"/>
             <column name="originating_file_token" type="string"/>
+            <column name="amortization_tag" type="string"/>
             <column name="orphaned" type="boolean"/>
         </loadData>
     </changeSet>

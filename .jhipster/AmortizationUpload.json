@@ -107,6 +107,10 @@
         {
           "fieldName": "originatingFileToken",
           "fieldType": "String"
+        },
+        {
+          "fieldName": "amortizationTag",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190625061634",

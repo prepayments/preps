@@ -18,7 +18,7 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    accountNumber: [null, [Validators.required, Validators.pattern('^d{10,16}$')]],
+    accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{5,16}$')]],
     accountName: [null, [Validators.required]],
     prepaymentId: [null, [Validators.required]],
     prepaymentDate: [null, [Validators.required]],

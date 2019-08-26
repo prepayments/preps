@@ -4,17 +4,8 @@ package io.github.prepayments.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
@@ -100,6 +91,9 @@ public class AmortizationUpload implements Serializable {
 
     @Column(name = "originating_file_token")
     private String originatingFileToken;
+
+    @Column(name = "amortization_tag")
+    private String amortizationTag;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -317,6 +311,19 @@ public class AmortizationUpload implements Serializable {
     public void setOriginatingFileToken(String originatingFileToken) {
         this.originatingFileToken = originatingFileToken;
     }
+
+    public String getAmortizationTag() {
+        return amortizationTag;
+    }
+
+    public AmortizationUpload amortizationTag(String amortizationTag) {
+        this.amortizationTag = amortizationTag;
+        return this;
+    }
+
+    public void setAmortizationTag(String amortizationTag) {
+        this.amortizationTag = amortizationTag;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -355,6 +362,7 @@ public class AmortizationUpload implements Serializable {
             ", uploadSuccessful='" + isUploadSuccessful() + "'" +
             ", uploadOrphaned='" + isUploadOrphaned() + "'" +
             ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            ", amortizationTag='" + getAmortizationTag() + "'" +
             "}";
     }
 }

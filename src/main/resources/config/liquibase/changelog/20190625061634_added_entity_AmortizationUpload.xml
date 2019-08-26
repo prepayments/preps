@@ -79,6 +79,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="amortization_tag" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
@@ -115,6 +119,7 @@
             <column name="upload_successful" type="boolean"/>
             <column name="upload_orphaned" type="boolean"/>
             <column name="originating_file_token" type="string"/>
+            <column name="amortization_tag" type="string"/>
         </loadData>
     </changeSet>
 

@@ -2,11 +2,13 @@ package io.github.prepayments.app.messaging.filing.vm;
 
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
+import io.github.prepayments.app.token.TagCapable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -18,7 +20,8 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class AmortizationEntryEVM implements Serializable, ExcelViewModel {
+@Accessors(chain = true)
+public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCapable<String> {
 
     private static final long serialVersionUID = 4812288900845715487L;
     @ExcelRow
@@ -53,5 +56,7 @@ public class AmortizationEntryEVM implements Serializable, ExcelViewModel {
 
 
     private String originatingFileToken;
+
+    private String amortizationTag;
 
 }

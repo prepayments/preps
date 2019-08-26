@@ -34,6 +34,7 @@ export class AmortizationEntryUpdatePage {
   amortizationServiceOutletInput = element(by.id('field_amortizationServiceOutlet'));
   amortizationAccountNumberInput = element(by.id('field_amortizationAccountNumber'));
   originatingFileTokenInput = element(by.id('field_originatingFileToken'));
+  amortizationTagInput = element(by.id('field_amortizationTag'));
   orphanedInput = element(by.id('field_orphaned'));
   prepaymentEntrySelect = element(by.id('field_prepaymentEntry'));
 
@@ -103,6 +104,14 @@ export class AmortizationEntryUpdatePage {
 
   async getOriginatingFileTokenInput() {
     return await this.originatingFileTokenInput.getAttribute('value');
+  }
+
+  async setAmortizationTagInput(amortizationTag) {
+    await this.amortizationTagInput.sendKeys(amortizationTag);
+  }
+
+  async getAmortizationTagInput() {
+    return await this.amortizationTagInput.getAttribute('value');
   }
 
   getOrphanedInput(timeout?: number) {

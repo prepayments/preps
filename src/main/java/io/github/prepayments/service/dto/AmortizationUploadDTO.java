@@ -1,18 +1,19 @@
 package io.github.prepayments.service.dto;
 
+import io.github.prepayments.app.token.TagCapable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.AmortizationUpload} entity.
@@ -22,7 +23,8 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AmortizationUploadDTO implements Serializable {
+@Accessors(chain = true)
+public class AmortizationUploadDTO implements Serializable, TagCapable<String> {
 
     private Long id;
 
@@ -71,4 +73,6 @@ public class AmortizationUploadDTO implements Serializable {
     private Boolean uploadOrphaned;
 
     private String originatingFileToken;
+
+    private String amortizationTag;
 }

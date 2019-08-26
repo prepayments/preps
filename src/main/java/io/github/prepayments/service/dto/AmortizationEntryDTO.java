@@ -1,10 +1,12 @@
 package io.github.prepayments.service.dto;
 
+import io.github.prepayments.app.token.TagCapable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,7 +22,8 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AmortizationEntryDTO implements Serializable {
+@Accessors(chain = true)
+public class AmortizationEntryDTO implements Serializable, TagCapable<String> {
 
     private Long id;
 
@@ -47,6 +50,8 @@ public class AmortizationEntryDTO implements Serializable {
     private String amortizationAccountNumber;
 
     private String originatingFileToken;
+
+    private String amortizationTag;
 
     private Boolean orphaned;
 

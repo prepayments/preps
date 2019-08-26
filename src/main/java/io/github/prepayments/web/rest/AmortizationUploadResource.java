@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -38,12 +40,16 @@ import java.util.Optional;
 @Component("amortizationUploadResourceDelegate")
 public class AmortizationUploadResource {
 
-    private static final String ENTITY_NAME = "dataEntryAmortizationUpload";
     private final Logger log = LoggerFactory.getLogger(AmortizationUploadResource.class);
-    private final AmortizationUploadService amortizationUploadService;
-    private final AmortizationUploadQueryService amortizationUploadQueryService;
+
+    private static final String ENTITY_NAME = "dataEntryAmortizationUpload";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final AmortizationUploadService amortizationUploadService;
+
+    private final AmortizationUploadQueryService amortizationUploadQueryService;
 
     public AmortizationUploadResource(AmortizationUploadService amortizationUploadService, AmortizationUploadQueryService amortizationUploadQueryService) {
         this.amortizationUploadService = amortizationUploadService;

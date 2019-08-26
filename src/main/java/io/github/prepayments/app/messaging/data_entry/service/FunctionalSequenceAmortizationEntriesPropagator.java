@@ -2,7 +2,9 @@ package io.github.prepayments.app.messaging.data_entry.service;
 
 import io.github.prepayments.app.messaging.filing.vm.AmortizationEntryEVM;
 import io.github.prepayments.app.messaging.services.AmortizationDataEntryMessageService;
-import io.github.prepayments.app.util.AmortizationUploadAmortizationEntryEVMMapper;
+import io.github.prepayments.app.util.DatedExcelViewMapper;
+import io.github.prepayments.app.util.IUploadAnnotatedEVMMapper;
+import io.github.prepayments.app.util.UploadAnnotatedEVMMapper;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,12 +31,12 @@ import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
 public class FunctionalSequenceAmortizationEntriesPropagator implements AmortizationEntriesPropagatorService {
 
     private final AmortizationDataEntryMessageService amortizationDataEntryMessageService;
-    private final AmortizationUploadAmortizationEntryEVMMapper uploadAmortizationEntryEVMMapper;
+    private final DatedExcelViewMapper<String, AmortizationEntryEVM, AmortizationUploadDTO> uploadAnnotatedEVMMapper;
 
     public FunctionalSequenceAmortizationEntriesPropagator(AmortizationDataEntryMessageService amortizationDataEntryMessageService,
-                                                           @Qualifier("amortizationUploadAmortizationEntryEVMMapper") AmortizationUploadAmortizationEntryEVMMapper uploadAmortizationEntryEVMMapper) {
+                                                           @Qualifier("uploadAnnotatedEVMMapper") DatedExcelViewMapper<String, AmortizationEntryEVM, AmortizationUploadDTO> uploadAnnotatedEVMMapper) {
         this.amortizationDataEntryMessageService = amortizationDataEntryMessageService;
-        this.uploadAmortizationEntryEVMMapper = uploadAmortizationEntryEVMMapper;
+        this.uploadAnnotatedEVMMapper = uploadAnnotatedEVMMapper;
     }
 
     /**
@@ -66,7 +68,7 @@ public class FunctionalSequenceAmortizationEntriesPropagator implements Amortiza
 
             log.debug("Sending for persistence the amortization instance for the date: {}", amortizationDateInstance);
 
-            AmortizationEntryEVM evm = uploadAmortizationEntryEVMMapper.toAmortizationEntry(amortizationUploadDTO, amortizationDateInstance);
+            AmortizationEntryEVM evm = uploadAnnotatedEVMMapper.toExcelView(amortizationUploadDTO, amortizationDateInstance, dtf);
 
             amortizationDataEntryMessageService.sendMessage(evm);
 

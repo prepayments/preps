@@ -32,6 +32,7 @@ export class AmortizationEntryUpdateComponent implements OnInit {
     amortizationServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
     amortizationAccountNumber: [null, [Validators.required]],
     originatingFileToken: [],
+    amortizationTag: [],
     orphaned: [],
     prepaymentEntryId: []
   });
@@ -70,6 +71,7 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       amortizationServiceOutlet: amortizationEntry.amortizationServiceOutlet,
       amortizationAccountNumber: amortizationEntry.amortizationAccountNumber,
       originatingFileToken: amortizationEntry.originatingFileToken,
+      amortizationTag: amortizationEntry.amortizationTag,
       orphaned: amortizationEntry.orphaned,
       prepaymentEntryId: amortizationEntry.prepaymentEntryId
     });
@@ -101,6 +103,7 @@ export class AmortizationEntryUpdateComponent implements OnInit {
       amortizationServiceOutlet: this.editForm.get(['amortizationServiceOutlet']).value,
       amortizationAccountNumber: this.editForm.get(['amortizationAccountNumber']).value,
       originatingFileToken: this.editForm.get(['originatingFileToken']).value,
+      amortizationTag: this.editForm.get(['amortizationTag']).value,
       orphaned: this.editForm.get(['orphaned']).value,
       prepaymentEntryId: this.editForm.get(['prepaymentEntryId']).value
     };

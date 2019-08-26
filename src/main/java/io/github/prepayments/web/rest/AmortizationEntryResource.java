@@ -40,12 +40,16 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class AmortizationEntryResource {
 
-    private static final String ENTITY_NAME = "prepaymentsAmortizationEntry";
     private final Logger log = LoggerFactory.getLogger(AmortizationEntryResource.class);
-    private final AmortizationEntryService amortizationEntryService;
-    private final AmortizationEntryQueryService amortizationEntryQueryService;
+
+    private static final String ENTITY_NAME = "prepaymentsAmortizationEntry";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final AmortizationEntryService amortizationEntryService;
+
+    private final AmortizationEntryQueryService amortizationEntryQueryService;
 
     public AmortizationEntryResource(AmortizationEntryService amortizationEntryService, AmortizationEntryQueryService amortizationEntryQueryService) {
         this.amortizationEntryService = amortizationEntryService;

@@ -18,6 +18,7 @@ export interface IAmortizationUpload {
   uploadSuccessful?: boolean;
   uploadOrphaned?: boolean;
   originatingFileToken?: string;
+  amortizationTag?: string;
 }
 
 export class AmortizationUpload implements IAmortizationUpload {
@@ -38,7 +39,8 @@ export class AmortizationUpload implements IAmortizationUpload {
     public monthlyAmortizationDate?: number,
     public uploadSuccessful?: boolean,
     public uploadOrphaned?: boolean,
-    public originatingFileToken?: string
+    public originatingFileToken?: string,
+    public amortizationTag?: string
   ) {
     this.uploadSuccessful = this.uploadSuccessful || false;
     this.uploadOrphaned = this.uploadOrphaned || false;
