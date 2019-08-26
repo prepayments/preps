@@ -21,10 +21,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static io.github.prepayments.app.AppConstants.DATETIME_FORMAT;
+import static io.github.prepayments.app.AppConstants.DATETIME_FORMATTER;
 import static io.github.prepayments.app.AppConstants.MONTHLY_AMORTIZATION_DATE;
 
 /**
@@ -56,8 +55,8 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
 
         // create amortization entries from the amortization upload
         if (amortizationUploadDTO.getMonthlyAmortizationDate() == null)
-            amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
-        amortizationEntriesPropagatorService.propagateAmortizationEntries(DateTimeFormatter.ofPattern(DATETIME_FORMAT), amortizationUploadDTO, amortizationUploadDTO.getMonthlyAmortizationDate());
+            amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
+        amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, amortizationUploadDTO.getMonthlyAmortizationDate());
 
         amortizationUploadDTO.setUploadSuccessful(true);
 
