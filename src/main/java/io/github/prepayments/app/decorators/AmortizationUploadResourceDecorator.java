@@ -53,6 +53,8 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
     @PostMapping("/amortization-uploads")
     public ResponseEntity<AmortizationUploadDTO> createAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
 
+        // TODO check if DTO is orphaned
+        // TODO tag amortization-entries with amortization-upload tags
         // create amortization entries from the amortization upload
         if (amortizationUploadDTO.getMonthlyAmortizationDate() == null)
             amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
