@@ -40,12 +40,16 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class PrepaymentEntryResource {
 
-    private static final String ENTITY_NAME = "prepaymentsPrepaymentEntry";
     private final Logger log = LoggerFactory.getLogger(PrepaymentEntryResource.class);
-    private final PrepaymentEntryService prepaymentEntryService;
-    private final PrepaymentEntryQueryService prepaymentEntryQueryService;
+
+    private static final String ENTITY_NAME = "prepaymentsPrepaymentEntry";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final PrepaymentEntryService prepaymentEntryService;
+
+    private final PrepaymentEntryQueryService prepaymentEntryQueryService;
 
     public PrepaymentEntryResource(PrepaymentEntryService prepaymentEntryService, PrepaymentEntryQueryService prepaymentEntryQueryService) {
         this.prepaymentEntryService = prepaymentEntryService;

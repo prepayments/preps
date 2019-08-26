@@ -31,4 +31,5 @@ public class SimplePrepaymentEntryEVM implements Serializable {
     private int months;
     private String supplierName;
     private String invoiceNumber;
+    private String originatingFileToken;
 }

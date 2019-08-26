@@ -18,7 +18,7 @@
                 "required",
                 "pattern"
             ],
-            "fieldValidateRulesPattern": "^[0-9]{5,16}$$"
+            "fieldValidateRulesPattern": "^[0-9]{5,16}$"
         },
         {
             "fieldName": "accountName",
