@@ -1,25 +1,22 @@
 package io.github.prepayments.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.TransactionAccountDataEntryFile} entity. This class is used
- * in {@link io.github.prepayments.web.rest.TransactionAccountDataEntryFileResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /transaction-account-data-entry-files?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.TransactionAccountDataEntryFile} entity. This class is used in
+ * {@link io.github.prepayments.web.rest.TransactionAccountDataEntryFileResource}
+ * to receive all the possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code
+ * /transaction-account-data-entry-files?id.greaterThan=5&attr1.contains=something&attr2.specified=false} As Spring is unable to properly convert the types, unless specific {@link Filter} class are
+ * used, we need to use fix type specific filters.
  */
 public class TransactionAccountDataEntryFileCriteria implements Serializable, Criteria {
 
@@ -39,10 +36,10 @@ public class TransactionAccountDataEntryFileCriteria implements Serializable, Cr
 
     private StringFilter fileToken;
 
-    public TransactionAccountDataEntryFileCriteria(){
+    public TransactionAccountDataEntryFileCriteria() {
     }
 
-    public TransactionAccountDataEntryFileCriteria(TransactionAccountDataEntryFileCriteria other){
+    public TransactionAccountDataEntryFileCriteria(TransactionAccountDataEntryFileCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.periodFrom = other.periodFrom == null ? null : other.periodFrom.copy();
         this.periodTo = other.periodTo == null ? null : other.periodTo.copy();
@@ -123,40 +120,21 @@ public class TransactionAccountDataEntryFileCriteria implements Serializable, Cr
             return false;
         }
         final TransactionAccountDataEntryFileCriteria that = (TransactionAccountDataEntryFileCriteria) o;
-        return
-            Objects.equals(id, that.id) &&
-            Objects.equals(periodFrom, that.periodFrom) &&
-            Objects.equals(periodTo, that.periodTo) &&
-            Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
-            Objects.equals(uploadProcessed, that.uploadProcessed) &&
-            Objects.equals(entriesCount, that.entriesCount) &&
-            Objects.equals(fileToken, that.fileToken);
+        return Objects.equals(id, that.id) && Objects.equals(periodFrom, that.periodFrom) && Objects.equals(periodTo, that.periodTo) && Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
+            Objects.equals(uploadProcessed, that.uploadProcessed) && Objects.equals(entriesCount, that.entriesCount) && Objects.equals(fileToken, that.fileToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        periodFrom,
-        periodTo,
-        uploadSuccessful,
-        uploadProcessed,
-        entriesCount,
-        fileToken
-        );
+        return Objects.hash(id, periodFrom, periodTo, uploadSuccessful, uploadProcessed, entriesCount, fileToken);
     }
 
     @Override
     public String toString() {
-        return "TransactionAccountDataEntryFileCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (periodFrom != null ? "periodFrom=" + periodFrom + ", " : "") +
-                (periodTo != null ? "periodTo=" + periodTo + ", " : "") +
-                (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
-                (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") +
-                (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +
-                (fileToken != null ? "fileToken=" + fileToken + ", " : "") +
-            "}";
+        return "TransactionAccountDataEntryFileCriteria{" + (id != null ? "id=" + id + ", " : "") + (periodFrom != null ? "periodFrom=" + periodFrom + ", " : "") +
+            (periodTo != null ? "periodTo=" + periodTo + ", " : "") + (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
+            (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") + (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +
+            (fileToken != null ? "fileToken=" + fileToken + ", " : "") + "}";
     }
 
 }

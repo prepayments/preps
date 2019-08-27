@@ -1,5 +1,6 @@
 package io.github.prepayments.service.dto;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -173,21 +174,10 @@ public class RegisteredSupplierDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisteredSupplierDTO{" +
-            "id=" + getId() +
-            ", supplierName='" + getSupplierName() + "'" +
-            ", supplierAddress='" + getSupplierAddress() + "'" +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", supplierEmail='" + getSupplierEmail() + "'" +
-            ", bankAccountName='" + getBankAccountName() + "'" +
-            ", bankAccountNumber='" + getBankAccountNumber() + "'" +
-            ", supplierBankName='" + getSupplierBankName() + "'" +
-            ", supplierBankBranch='" + getSupplierBankBranch() + "'" +
-            ", bankSwiftCode='" + getBankSwiftCode() + "'" +
-            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" +
-            ", domicile='" + getDomicile() + "'" +
-            ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" +
-            ", OriginatingFileToken='" + getOriginatingFileToken() + "'" +
-            "}";
+        return "RegisteredSupplierDTO{" + "id=" + getId() + ", supplierName='" + getSupplierName() + "'" + ", supplierAddress='" + getSupplierAddress() + "'" + ", phoneNumber='" + getPhoneNumber() +
+            "'" + ", supplierEmail='" + getSupplierEmail() + "'" + ", bankAccountName='" + getBankAccountName() + "'" + ", bankAccountNumber='" + getBankAccountNumber() + "'" +
+            ", supplierBankName='" + getSupplierBankName() + "'" + ", supplierBankBranch='" + getSupplierBankBranch() + "'" + ", bankSwiftCode='" + getBankSwiftCode() + "'" +
+            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" + ", domicile='" + getDomicile() + "'" + ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" + ", OriginatingFileToken='" +
+            getOriginatingFileToken() + "'" + "}";
     }
 }

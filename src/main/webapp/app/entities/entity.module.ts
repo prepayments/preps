@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -271,6 +271,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'prepayment-entry',
         loadChildren: './prepayments/prepayment-entry/prepayment-entry.module#PrepsPrepaymentEntryModule'
+      },
+      {
+        path: 'accounting-transaction',
+        loadChildren: './prepayments/accounting-transaction/accounting-transaction.module#PrepsAccountingTransactionModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

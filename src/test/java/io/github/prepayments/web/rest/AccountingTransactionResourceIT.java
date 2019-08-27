@@ -4,13 +4,11 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.AccountingTransaction;
 import io.github.prepayments.repository.AccountingTransactionRepository;
 import io.github.prepayments.repository.search.AccountingTransactionSearchRepository;
+import io.github.prepayments.service.AccountingTransactionQueryService;
 import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.service.dto.AccountingTransactionDTO;
 import io.github.prepayments.service.mapper.AccountingTransactionMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.AccountingTransactionCriteria;
-import io.github.prepayments.service.AccountingTransactionQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -37,9 +35,16 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests for the {@Link AccountingTransactionResource} REST controller.
@@ -50,14 +55,14 @@ public class AccountingTransactionResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SERVICE_OUTLET_CODE = "287";
-    private static final String UPDATED_SERVICE_OUTLET_CODE = "530";
+    private static final String DEFAULT_SERVICE_OUTLET_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_SERVICE_OUTLET_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_ACCOUNT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ACCOUNT_NUMBER = "060885505545392";
-    private static final String UPDATED_ACCOUNT_NUMBER = "95822049838430";
+    private static final String DEFAULT_ACCOUNT_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_ACCOUNT_NUMBER = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_TRANSACTION_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_TRANSACTION_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -344,7 +349,7 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.[*].transactionAmount").value(hasItem(DEFAULT_TRANSACTION_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getAccountingTransaction() throws Exception {

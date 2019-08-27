@@ -1,26 +1,21 @@
 package io.github.prepayments.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.AccountingTransaction} entity. This class is used
- * in {@link io.github.prepayments.web.rest.AccountingTransactionResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /accounting-transactions?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.AccountingTransaction} entity. This class is used in {@link io.github.prepayments.web.rest.AccountingTransactionResource} to receive all
+ * the possible filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /accounting-transactions?id
+ * .greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
  */
 public class AccountingTransactionCriteria implements Serializable, Criteria {
 
@@ -42,10 +37,10 @@ public class AccountingTransactionCriteria implements Serializable, Criteria {
 
     private BooleanFilter incrementAccount;
 
-    public AccountingTransactionCriteria(){
+    public AccountingTransactionCriteria() {
     }
 
-    public AccountingTransactionCriteria(AccountingTransactionCriteria other){
+    public AccountingTransactionCriteria(AccountingTransactionCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.description = other.description == null ? null : other.description.copy();
         this.serviceOutletCode = other.serviceOutletCode == null ? null : other.serviceOutletCode.copy();
@@ -135,43 +130,22 @@ public class AccountingTransactionCriteria implements Serializable, Criteria {
             return false;
         }
         final AccountingTransactionCriteria that = (AccountingTransactionCriteria) o;
-        return
-            Objects.equals(id, that.id) &&
-            Objects.equals(description, that.description) &&
-            Objects.equals(serviceOutletCode, that.serviceOutletCode) &&
-            Objects.equals(accountName, that.accountName) &&
-            Objects.equals(accountNumber, that.accountNumber) &&
-            Objects.equals(transactionDate, that.transactionDate) &&
-            Objects.equals(transactionAmount, that.transactionAmount) &&
-            Objects.equals(incrementAccount, that.incrementAccount);
+        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(serviceOutletCode, that.serviceOutletCode) &&
+            Objects.equals(accountName, that.accountName) && Objects.equals(accountNumber, that.accountNumber) && Objects.equals(transactionDate, that.transactionDate) &&
+            Objects.equals(transactionAmount, that.transactionAmount) && Objects.equals(incrementAccount, that.incrementAccount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        description,
-        serviceOutletCode,
-        accountName,
-        accountNumber,
-        transactionDate,
-        transactionAmount,
-        incrementAccount
-        );
+        return Objects.hash(id, description, serviceOutletCode, accountName, accountNumber, transactionDate, transactionAmount, incrementAccount);
     }
 
     @Override
     public String toString() {
-        return "AccountingTransactionCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (description != null ? "description=" + description + ", " : "") +
-                (serviceOutletCode != null ? "serviceOutletCode=" + serviceOutletCode + ", " : "") +
-                (accountName != null ? "accountName=" + accountName + ", " : "") +
-                (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
-                (transactionDate != null ? "transactionDate=" + transactionDate + ", " : "") +
-                (transactionAmount != null ? "transactionAmount=" + transactionAmount + ", " : "") +
-                (incrementAccount != null ? "incrementAccount=" + incrementAccount + ", " : "") +
-            "}";
+        return "AccountingTransactionCriteria{" + (id != null ? "id=" + id + ", " : "") + (description != null ? "description=" + description + ", " : "") +
+            (serviceOutletCode != null ? "serviceOutletCode=" + serviceOutletCode + ", " : "") + (accountName != null ? "accountName=" + accountName + ", " : "") +
+            (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") + (transactionDate != null ? "transactionDate=" + transactionDate + ", " : "") +
+            (transactionAmount != null ? "transactionAmount=" + transactionAmount + ", " : "") + (incrementAccount != null ? "incrementAccount=" + incrementAccount + ", " : "") + "}";
     }
 
 }

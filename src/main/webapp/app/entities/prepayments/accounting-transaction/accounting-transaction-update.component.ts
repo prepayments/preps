@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { IAccountingTransaction, AccountingTransaction } from 'app/shared/model/prepayments/accounting-transaction.model';
+import { AccountingTransaction, IAccountingTransaction } from 'app/shared/model/prepayments/accounting-transaction.model';
 import { AccountingTransactionService } from './accounting-transaction.service';
 
 @Component({
@@ -19,9 +18,9 @@ export class AccountingTransactionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     description: [],
-    serviceOutletCode: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    serviceOutletCode: [null, [Validators.required]],
     accountName: [null, [Validators.required]],
-    accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{10,16}$')]],
+    accountNumber: [null, [Validators.required]],
     transactionDate: [null, [Validators.required]],
     transactionAmount: [null, [Validators.required]],
     incrementAccount: [null, [Validators.required]]

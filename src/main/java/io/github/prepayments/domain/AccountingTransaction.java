@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,7 +38,6 @@ public class AccountingTransaction implements Serializable {
     private String description;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     @Column(name = "service_outlet_code", nullable = false)
     private String serviceOutletCode;
 
@@ -48,7 +46,6 @@ public class AccountingTransaction implements Serializable {
     private String accountName;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{10,16}$")
     @Column(name = "account_number", nullable = false)
     private String accountNumber;
 

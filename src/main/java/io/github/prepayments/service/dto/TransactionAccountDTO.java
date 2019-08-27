@@ -1,9 +1,11 @@
 package io.github.prepayments.service.dto;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+
 import io.github.prepayments.domain.enumeration.AccountTypes;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.TransactionAccount} entity.
@@ -96,13 +98,7 @@ public class TransactionAccountDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionAccountDTO{" +
-            "id=" + getId() +
-            ", accountName='" + getAccountName() + "'" +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", accountType='" + getAccountType() + "'" +
-            ", openingDate='" + getOpeningDate() + "'" +
-            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
-            "}";
+        return "TransactionAccountDTO{" + "id=" + getId() + ", accountName='" + getAccountName() + "'" + ", accountNumber='" + getAccountNumber() + "'" + ", accountType='" + getAccountType() + "'" +
+            ", openingDate='" + getOpeningDate() + "'" + ", originatingFileToken='" + getOriginatingFileToken() + "'" + "}";
     }
 }

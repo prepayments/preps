@@ -1,4 +1,5 @@
 package io.github.prepayments.service.dto;
+
 import io.github.prepayments.app.token.Tokenizable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,11 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.PrepaymentDataEntryFile} entity.

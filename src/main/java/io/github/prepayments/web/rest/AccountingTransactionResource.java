@@ -40,12 +40,16 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class AccountingTransactionResource {
 
-    private static final String ENTITY_NAME = "prepaymentsAccountingTransaction";
     private final Logger log = LoggerFactory.getLogger(AccountingTransactionResource.class);
-    private final AccountingTransactionService accountingTransactionService;
-    private final AccountingTransactionQueryService accountingTransactionQueryService;
+
+    private static final String ENTITY_NAME = "prepaymentsAccountingTransaction";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final AccountingTransactionService accountingTransactionService;
+
+    private final AccountingTransactionQueryService accountingTransactionQueryService;
 
     public AccountingTransactionResource(AccountingTransactionService accountingTransactionService, AccountingTransactionQueryService accountingTransactionQueryService) {
         this.accountingTransactionService = accountingTransactionService;
@@ -76,8 +80,9 @@ public class AccountingTransactionResource {
      * {@code PUT  /accounting-transactions} : Updates an existing accountingTransaction.
      *
      * @param accountingTransactionDTO the accountingTransactionDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated accountingTransactionDTO, or with status {@code 400 (Bad Request)} if the accountingTransactionDTO is
-     * not valid, or with status {@code 500 (Internal Server Error)} if the accountingTransactionDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated accountingTransactionDTO,
+     * or with status {@code 400 (Bad Request)} if the accountingTransactionDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the accountingTransactionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/accounting-transactions")
@@ -145,9 +150,10 @@ public class AccountingTransactionResource {
     }
 
     /**
-     * {@code SEARCH  /_search/accounting-transactions?query=:query} : search for the accountingTransaction corresponding to the query.
+     * {@code SEARCH  /_search/accounting-transactions?query=:query} : search for the accountingTransaction corresponding
+     * to the query.
      *
-     * @param query    the query of the accountingTransaction search.
+     * @param query the query of the accountingTransaction search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */
