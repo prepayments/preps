@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -38,7 +37,6 @@ public class ServiceOutlet implements Serializable {
     private String serviceOutletName;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     @Column(name = "service_outlet_code", nullable = false)
     private String serviceOutletCode;
 

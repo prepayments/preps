@@ -1,7 +1,6 @@
 package io.github.prepayments.service.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,7 +15,6 @@ public class ServiceOutletDTO implements Serializable {
     private String serviceOutletName;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     private String serviceOutletCode;
 
     private String serviceOutletLocation;

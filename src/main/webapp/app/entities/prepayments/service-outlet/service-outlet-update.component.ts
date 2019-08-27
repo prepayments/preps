@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     serviceOutletName: [null, [Validators.required]],
-    serviceOutletCode: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    serviceOutletCode: [null, [Validators.required]],
     serviceOutletLocation: [],
     serviceOutletManager: [],
     numberOfStaff: [],

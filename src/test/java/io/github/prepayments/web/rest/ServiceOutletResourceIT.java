@@ -4,13 +4,11 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.ServiceOutlet;
 import io.github.prepayments.repository.ServiceOutletRepository;
 import io.github.prepayments.repository.search.ServiceOutletSearchRepository;
+import io.github.prepayments.service.ServiceOutletQueryService;
 import io.github.prepayments.service.ServiceOutletService;
 import io.github.prepayments.service.dto.ServiceOutletDTO;
 import io.github.prepayments.service.mapper.ServiceOutletMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.ServiceOutletCriteria;
-import io.github.prepayments.service.ServiceOutletQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -34,9 +32,16 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests for the {@Link ServiceOutletResource} REST controller.
@@ -47,8 +52,8 @@ public class ServiceOutletResourceIT {
     private static final String DEFAULT_SERVICE_OUTLET_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SERVICE_OUTLET_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SERVICE_OUTLET_CODE = "943";
-    private static final String UPDATED_SERVICE_OUTLET_CODE = "847";
+    private static final String DEFAULT_SERVICE_OUTLET_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_SERVICE_OUTLET_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_SERVICE_OUTLET_LOCATION = "AAAAAAAAAA";
     private static final String UPDATED_SERVICE_OUTLET_LOCATION = "BBBBBBBBBB";
@@ -300,7 +305,7 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET.toString())))
             .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getServiceOutlet() throws Exception {

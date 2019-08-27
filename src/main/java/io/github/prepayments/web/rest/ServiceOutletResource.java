@@ -40,12 +40,16 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ServiceOutletResource {
 
-    private static final String ENTITY_NAME = "prepaymentsServiceOutlet";
     private final Logger log = LoggerFactory.getLogger(ServiceOutletResource.class);
-    private final ServiceOutletService serviceOutletService;
-    private final ServiceOutletQueryService serviceOutletQueryService;
+
+    private static final String ENTITY_NAME = "prepaymentsServiceOutlet";
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    private final ServiceOutletService serviceOutletService;
+
+    private final ServiceOutletQueryService serviceOutletQueryService;
 
     public ServiceOutletResource(ServiceOutletService serviceOutletService, ServiceOutletQueryService serviceOutletQueryService) {
         this.serviceOutletService = serviceOutletService;
@@ -75,8 +79,9 @@ public class ServiceOutletResource {
      * {@code PUT  /service-outlets} : Updates an existing serviceOutlet.
      *
      * @param serviceOutletDTO the serviceOutletDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated serviceOutletDTO, or with status {@code 400 (Bad Request)} if the serviceOutletDTO is not valid, or
-     * with status {@code 500 (Internal Server Error)} if the serviceOutletDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated serviceOutletDTO,
+     * or with status {@code 400 (Bad Request)} if the serviceOutletDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the serviceOutletDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/service-outlets")
@@ -144,9 +149,10 @@ public class ServiceOutletResource {
     }
 
     /**
-     * {@code SEARCH  /_search/service-outlets?query=:query} : search for the serviceOutlet corresponding to the query.
+     * {@code SEARCH  /_search/service-outlets?query=:query} : search for the serviceOutlet corresponding
+     * to the query.
      *
-     * @param query    the query of the serviceOutlet search.
+     * @param query the query of the serviceOutlet search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */
