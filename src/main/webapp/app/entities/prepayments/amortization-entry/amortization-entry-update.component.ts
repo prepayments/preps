@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
-import { IAmortizationEntry, AmortizationEntry } from 'app/shared/model/prepayments/amortization-entry.model';
+import { AmortizationEntry, IAmortizationEntry } from 'app/shared/model/prepayments/amortization-entry.model';
 import { AmortizationEntryService } from './amortization-entry.service';
 import { IPrepaymentEntry } from 'app/shared/model/prepayments/prepayment-entry.model';
 import { PrepaymentEntryService } from 'app/entities/prepayments/prepayment-entry';
@@ -27,9 +26,9 @@ export class AmortizationEntryUpdateComponent implements OnInit {
     amortizationDate: [null, [Validators.required]],
     amortizationAmount: [null, [Validators.required]],
     particulars: [],
-    prepaymentServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    prepaymentServiceOutlet: [null, [Validators.required]],
     prepaymentAccountNumber: [null, [Validators.required]],
-    amortizationServiceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    amortizationServiceOutlet: [null, [Validators.required]],
     amortizationAccountNumber: [null, [Validators.required]],
     originatingFileToken: [],
     amortizationTag: [],

@@ -53,10 +53,6 @@
                                *ngIf="editForm.get('prepaymentServiceOutlet').errors.required">
                         This field is required.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.pattern">
-                            This field should follow pattern for "Prepayment Service Outlet".
-                        </small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -78,10 +74,6 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('amortizationServiceOutlet').errors.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('amortizationServiceOutlet').errors.pattern">
-                            This field should follow pattern for "Amortization Service Outlet".
                         </small>
                     </div>
                 </div>

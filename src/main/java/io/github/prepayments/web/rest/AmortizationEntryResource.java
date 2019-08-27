@@ -60,8 +60,8 @@ public class AmortizationEntryResource {
      * {@code POST  /amortization-entries} : Create a new amortizationEntry.
      *
      * @param amortizationEntryDTO the amortizationEntryDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new amortizationEntryDTO, or with status {@code 400 (Bad Request)} if the amortizationEntry has already an
-     * ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new amortizationEntryDTO, or with status {@code 400 (Bad Request)} if the amortizationEntry has already
+     * an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/amortization-entries")
@@ -80,8 +80,9 @@ public class AmortizationEntryResource {
      * {@code PUT  /amortization-entries} : Updates an existing amortizationEntry.
      *
      * @param amortizationEntryDTO the amortizationEntryDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated amortizationEntryDTO, or with status {@code 400 (Bad Request)} if the amortizationEntryDTO is not
-     * valid, or with status {@code 500 (Internal Server Error)} if the amortizationEntryDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated amortizationEntryDTO,
+     * or with status {@code 400 (Bad Request)} if the amortizationEntryDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the amortizationEntryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/amortization-entries")
@@ -149,9 +150,10 @@ public class AmortizationEntryResource {
     }
 
     /**
-     * {@code SEARCH  /_search/amortization-entries?query=:query} : search for the amortizationEntry corresponding to the query.
+     * {@code SEARCH  /_search/amortization-entries?query=:query} : search for the amortizationEntry corresponding
+     * to the query.
      *
-     * @param query    the query of the amortizationEntry search.
+     * @param query the query of the amortizationEntry search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */

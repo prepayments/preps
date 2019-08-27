@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,7 +48,6 @@ public class AmortizationEntry implements Serializable {
     private String particulars;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     @Column(name = "prepayment_service_outlet", nullable = false)
     private String prepaymentServiceOutlet;
 
@@ -58,7 +56,6 @@ public class AmortizationEntry implements Serializable {
     private String prepaymentAccountNumber;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     @Column(name = "amortization_service_outlet", nullable = false)
     private String amortizationServiceOutlet;
 

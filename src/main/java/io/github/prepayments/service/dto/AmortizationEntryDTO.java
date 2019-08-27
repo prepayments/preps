@@ -9,7 +9,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,14 +35,12 @@ public class AmortizationEntryDTO implements Serializable, TagCapable<String> {
     private String particulars;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     private String prepaymentServiceOutlet;
 
     @NotNull
     private String prepaymentAccountNumber;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     private String amortizationServiceOutlet;
 
     @NotNull

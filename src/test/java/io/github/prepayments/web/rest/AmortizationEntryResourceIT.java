@@ -5,13 +5,11 @@ import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.AmortizationEntryRepository;
 import io.github.prepayments.repository.search.AmortizationEntrySearchRepository;
+import io.github.prepayments.service.AmortizationEntryQueryService;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import io.github.prepayments.service.mapper.AmortizationEntryMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.AmortizationEntryCriteria;
-import io.github.prepayments.service.AmortizationEntryQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -38,9 +36,16 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests for the {@Link AmortizationEntryResource} REST controller.
@@ -57,14 +62,14 @@ public class AmortizationEntryResourceIT {
     private static final String DEFAULT_PARTICULARS = "AAAAAAAAAA";
     private static final String UPDATED_PARTICULARS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PREPAYMENT_SERVICE_OUTLET = "707";
-    private static final String UPDATED_PREPAYMENT_SERVICE_OUTLET = "016";
+    private static final String DEFAULT_PREPAYMENT_SERVICE_OUTLET = "AAAAAAAAAA";
+    private static final String UPDATED_PREPAYMENT_SERVICE_OUTLET = "BBBBBBBBBB";
 
     private static final String DEFAULT_PREPAYMENT_ACCOUNT_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PREPAYMENT_ACCOUNT_NUMBER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AMORTIZATION_SERVICE_OUTLET = "226";
-    private static final String UPDATED_AMORTIZATION_SERVICE_OUTLET = "136";
+    private static final String DEFAULT_AMORTIZATION_SERVICE_OUTLET = "AAAAAAAAAA";
+    private static final String UPDATED_AMORTIZATION_SERVICE_OUTLET = "BBBBBBBBBB";
 
     private static final String DEFAULT_AMORTIZATION_ACCOUNT_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_AMORTIZATION_ACCOUNT_NUMBER = "BBBBBBBBBB";
@@ -366,7 +371,7 @@ public class AmortizationEntryResourceIT {
             .andExpect(jsonPath("$.[*].amortizationTag").value(hasItem(DEFAULT_AMORTIZATION_TAG.toString())))
             .andExpect(jsonPath("$.[*].orphaned").value(hasItem(DEFAULT_ORPHANED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getAmortizationEntry() throws Exception {
