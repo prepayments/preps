@@ -5,6 +5,7 @@ import io.github.prepayments.app.messaging.data_entry.service.IPrepaymentEntryId
 import io.github.prepayments.app.messaging.data_entry.vm.SimpleAmortizationEntryEVM;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class DefaultAmortizationEntryEVMDTOMapper implements SimpleAmortizationE
 
     private final IPrepaymentEntryIdService prepaymentEntryIdService;
 
-    public DefaultAmortizationEntryEVMDTOMapper(final IPrepaymentEntryIdService prepaymentEntryIdService) {
+    public DefaultAmortizationEntryEVMDTOMapper(final @Qualifier("failSafePrepaymentIdService") IPrepaymentEntryIdService prepaymentEntryIdService) {
         this.prepaymentEntryIdService = prepaymentEntryIdService;
     }
 
