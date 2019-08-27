@@ -14,10 +14,8 @@
             "fieldName": "serviceOutletCode",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{3}$"
+              "required"
+            ]
         },
         {
             "fieldName": "serviceOutletLocation",

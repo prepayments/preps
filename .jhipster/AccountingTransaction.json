@@ -11,10 +11,8 @@
           "fieldName": "serviceOutletCode",
           "fieldType": "String",
           "fieldValidateRules": [
-            "required",
-            "pattern"
-          ],
-          "fieldValidateRulesPattern": "^[0-9]{3}$"
+            "required"
+          ]
         },
         {
             "fieldName": "accountName",
@@ -27,10 +25,8 @@
             "fieldName": "accountNumber",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{10,16}$"
+              "required"
+            ]
         },
         {
             "fieldName": "transactionDate",

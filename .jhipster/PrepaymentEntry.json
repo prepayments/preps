@@ -15,10 +15,8 @@
             "fieldName": "accountNumber",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{5,16}$"
+                "required"
+            ]
         },
         {
             "fieldName": "accountName",
@@ -49,10 +47,8 @@
             "fieldName": "serviceOutlet",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{3}$"
+              "required"
+            ]
         },
         {
             "fieldName": "prepaymentAmount",

@@ -36,10 +36,8 @@
             "fieldName": "prepaymentServiceOutlet",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{3}$"
+              "required"
+            ]
         },
         {
           "fieldName": "prepaymentAccountNumber",
@@ -52,10 +50,8 @@
             "fieldName": "amortizationServiceOutlet",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "pattern"
-            ],
-            "fieldValidateRulesPattern": "^[0-9]{3}$"
+              "required"
+            ]
         },
         {
           "fieldName": "amortizationAccountNumber",
