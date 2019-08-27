@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,7 +38,6 @@ public class PrepaymentEntry implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{5,16}$")
     @Column(name = "account_number", nullable = false)
     private String accountNumber;
 
@@ -59,7 +57,6 @@ public class PrepaymentEntry implements Serializable {
     private String particulars;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     @Column(name = "service_outlet", nullable = false)
     private String serviceOutlet;
 

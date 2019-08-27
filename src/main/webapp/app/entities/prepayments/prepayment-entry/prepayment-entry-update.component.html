@@ -18,10 +18,6 @@
                                *ngIf="editForm.get('accountNumber').errors.required">
                         This field is required.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountNumber').errors.pattern">
-                            This field should follow pattern for "Account Number".
-                        </small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -74,10 +70,6 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('serviceOutlet').errors.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutlet').errors.pattern">
-                            This field should follow pattern for "Service Outlet".
                         </small>
                     </div>
                 </div>

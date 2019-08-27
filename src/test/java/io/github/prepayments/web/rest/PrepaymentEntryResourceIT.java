@@ -1,17 +1,15 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.domain.AmortizationEntry;
+import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
 import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
+import io.github.prepayments.service.PrepaymentEntryQueryService;
 import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
-import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
-import io.github.prepayments.service.PrepaymentEntryQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -38,9 +36,16 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Integration tests for the {@Link PrepaymentEntryResource} REST controller.
@@ -48,8 +53,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PrepsApp.class)
 public class PrepaymentEntryResourceIT {
 
-    private static final String DEFAULT_ACCOUNT_NUMBER = "7598062602";
-    private static final String UPDATED_ACCOUNT_NUMBER = "24495057705";
+    private static final String DEFAULT_ACCOUNT_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_ACCOUNT_NUMBER = "BBBBBBBBBB";
 
     private static final String DEFAULT_ACCOUNT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NAME = "BBBBBBBBBB";
@@ -63,8 +68,8 @@ public class PrepaymentEntryResourceIT {
     private static final String DEFAULT_PARTICULARS = "AAAAAAAAAA";
     private static final String UPDATED_PARTICULARS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SERVICE_OUTLET = "685";
-    private static final String UPDATED_SERVICE_OUTLET = "130";
+    private static final String DEFAULT_SERVICE_OUTLET = "AAAAAAAAAA";
+    private static final String UPDATED_SERVICE_OUTLET = "BBBBBBBBBB";
 
     private static final BigDecimal DEFAULT_PREPAYMENT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_PREPAYMENT_AMOUNT = new BigDecimal(2);
@@ -380,7 +385,7 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
             .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getPrepaymentEntry() throws Exception {

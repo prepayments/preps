@@ -1,7 +1,6 @@
 package io.github.prepayments.service.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ public class PrepaymentEntryDTO implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{5,16}$")
     private String accountNumber;
 
     @NotNull
@@ -30,7 +28,6 @@ public class PrepaymentEntryDTO implements Serializable {
     private String particulars;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{3}$")
     private String serviceOutlet;
 
     @NotNull

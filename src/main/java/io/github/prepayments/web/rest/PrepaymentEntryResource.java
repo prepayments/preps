@@ -79,8 +79,9 @@ public class PrepaymentEntryResource {
      * {@code PUT  /prepayment-entries} : Updates an existing prepaymentEntry.
      *
      * @param prepaymentEntryDTO the prepaymentEntryDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated prepaymentEntryDTO, or with status {@code 400 (Bad Request)} if the prepaymentEntryDTO is not valid, or
-     * with status {@code 500 (Internal Server Error)} if the prepaymentEntryDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated prepaymentEntryDTO,
+     * or with status {@code 400 (Bad Request)} if the prepaymentEntryDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the prepaymentEntryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/prepayment-entries")
@@ -148,9 +149,10 @@ public class PrepaymentEntryResource {
     }
 
     /**
-     * {@code SEARCH  /_search/prepayment-entries?query=:query} : search for the prepaymentEntry corresponding to the query.
+     * {@code SEARCH  /_search/prepayment-entries?query=:query} : search for the prepaymentEntry corresponding
+     * to the query.
      *
-     * @param query    the query of the prepaymentEntry search.
+     * @param query the query of the prepaymentEntry search.
      * @param pageable the pagination information.
      * @return the result of the search.
      */

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
 import { IPrepaymentEntry, PrepaymentEntry } from 'app/shared/model/prepayments/prepayment-entry.model';
 import { PrepaymentEntryService } from './prepayment-entry.service';
 
@@ -18,12 +17,12 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    accountNumber: [null, [Validators.required, Validators.pattern('^[0-9]{5,16}$')]],
+    accountNumber: [null, [Validators.required]],
     accountName: [null, [Validators.required]],
     prepaymentId: [null, [Validators.required]],
     prepaymentDate: [null, [Validators.required]],
     particulars: [],
-    serviceOutlet: [null, [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    serviceOutlet: [null, [Validators.required]],
     prepaymentAmount: [null, [Validators.required]],
     months: [],
     supplierName: [],
