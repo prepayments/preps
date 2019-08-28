@@ -77,7 +77,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
                                                      .id(result.getId())
                                                      .timeStamp(System.currentTimeMillis())
                                                      .fileUpload(result.getDataEntryFile())
-                                                     .fileToken(prepaymentDataEntryFileDTO.getFileToken())
+                                                     .fileToken(result.getFileToken())
                                                      .build()
         );
         // @formatter:on

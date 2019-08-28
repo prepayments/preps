@@ -80,6 +80,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
                                                      .id(result.getId())
                                                      .timeStamp(System.currentTimeMillis())
                                                      .fileUpload(result.getDataEntryFile())
+                                                     .fileToken(result.getFileToken())
                                                      .build());
         // @formatter:on
 

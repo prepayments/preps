@@ -77,7 +77,7 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
             SupplierDataFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
-                                                 .fileToken(supplierDataEntryFileDTO.getFileToken())
+                                                 .fileToken(result.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

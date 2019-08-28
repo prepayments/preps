@@ -76,7 +76,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
             AmortizationFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
-                                                 .fileToken(amortizationDataEntryFileDTO.getFileToken())
+                                                 .fileToken(result.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on

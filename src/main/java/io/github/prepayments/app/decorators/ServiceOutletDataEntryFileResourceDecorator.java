@@ -81,7 +81,7 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
             ServiceOutletFileUploadNotification.builder()
                                                  .id(result.getId())
                                                  .timeStamp(System.currentTimeMillis())
-                                                 .fileToken(serviceOutletDataEntryFileDTO.getFileToken())
+                                                 .fileToken(result.getFileToken())
                                                  .fileUpload(result.getDataEntryFile())
                                               .build());
         // @formatter:on
