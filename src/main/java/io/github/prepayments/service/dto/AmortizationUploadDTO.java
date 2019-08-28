@@ -1,6 +1,7 @@
 package io.github.prepayments.service.dto;
 
 import io.github.prepayments.app.token.TagCapable;
+import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class AmortizationUploadDTO implements Serializable, TagCapable<String> {
+public class AmortizationUploadDTO implements Serializable, TagCapable<String>, TagCapableAmortizationModel {
 
     private Long id;
 

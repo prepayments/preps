@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.messaging.GetsOrphaned;
 import io.github.prepayments.app.token.TagCapable;
 import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ import java.time.LocalDate;
 @Data
 @ToString
 @Accessors(chain = true)
-public class SimpleAmortizationUploadEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel  {
+public class SimpleAmortizationUploadEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
 
     private static final long serialVersionUID = 1588025101540758601L;
     private long rowIndex;
@@ -45,4 +46,9 @@ public class SimpleAmortizationUploadEVM implements Serializable, TagCapable<Str
     private Boolean uploadOrphaned;
     private String originatingFileToken;
     private String amortizationTag;
+
+    @Override
+    public boolean orphaned() {
+        return uploadOrphaned;
+    }
 }

@@ -2,6 +2,7 @@ package io.github.prepayments.app.messaging.filing.vm;
 
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
+import io.github.prepayments.app.messaging.GetsOrphaned;
 import io.github.prepayments.app.token.TagCapable;
 import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCapableAmortizationModel, TagCapable<String> {
+public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCapableAmortizationModel, GetsOrphaned, TagCapable<String> {
 
     private static final long serialVersionUID = 4812288900845715487L;
     @ExcelRow
@@ -55,9 +56,14 @@ public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCa
     @ExcelCell(8)
     private String prepaymentEntryDate;
 
+    private Boolean orphaned;
 
     private String originatingFileToken;
 
     private String amortizationTag;
 
+    @Override
+    public boolean orphaned() {
+        return orphaned;
+    }
 }

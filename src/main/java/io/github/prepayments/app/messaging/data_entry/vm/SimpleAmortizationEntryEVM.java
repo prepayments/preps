@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.messaging.GetsOrphaned;
 import io.github.prepayments.app.token.TagCapable;
 import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class SimpleAmortizationEntryEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel {
+public class SimpleAmortizationEntryEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
 
     private static final long serialVersionUID = 4812288900845715487L;
     private int rowIndex;
@@ -48,4 +49,9 @@ public class SimpleAmortizationEntryEVM implements Serializable, TagCapable<Stri
     // No direct mapping...essential to find prepayment Id
     private String prepaymentEntryId;
     private String prepaymentEntryDate;
+
+    @Override
+    public boolean orphaned() {
+        return orphaned;
+    }
 }
