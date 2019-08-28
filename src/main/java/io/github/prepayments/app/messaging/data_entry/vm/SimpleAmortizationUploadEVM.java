@@ -1,10 +1,13 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.token.TagCapable;
+import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -20,7 +23,8 @@ import java.time.LocalDate;
 @Builder
 @Data
 @ToString
-public class SimpleAmortizationUploadEVM implements Serializable {
+@Accessors(chain = true)
+public class SimpleAmortizationUploadEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel  {
 
     private static final long serialVersionUID = 1588025101540758601L;
     private long rowIndex;

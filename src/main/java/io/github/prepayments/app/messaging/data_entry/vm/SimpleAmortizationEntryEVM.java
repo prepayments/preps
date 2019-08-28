@@ -1,10 +1,13 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.token.TagCapable;
+import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -16,7 +19,8 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class SimpleAmortizationEntryEVM implements Serializable {
+@Accessors(chain = true)
+public class SimpleAmortizationEntryEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel {
 
     private static final long serialVersionUID = 4812288900845715487L;
     private int rowIndex;
@@ -38,7 +42,6 @@ public class SimpleAmortizationEntryEVM implements Serializable {
     private String originatingFileToken;
 
     private Boolean orphaned;
-
 
     private String amortizationTag;
 

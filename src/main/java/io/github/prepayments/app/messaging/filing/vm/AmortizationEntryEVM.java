@@ -3,6 +3,7 @@ package io.github.prepayments.app.messaging.filing.vm;
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
 import io.github.prepayments.app.token.TagCapable;
+import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCapable<String> {
+public class AmortizationEntryEVM implements Serializable, ExcelViewModel, TagCapableAmortizationModel, TagCapable<String> {
 
     private static final long serialVersionUID = 4812288900845715487L;
     @ExcelRow
