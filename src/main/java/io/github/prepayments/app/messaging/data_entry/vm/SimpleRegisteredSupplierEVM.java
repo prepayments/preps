@@ -28,4 +28,5 @@ public class SimpleRegisteredSupplierEVM implements Serializable, SimpleExcelVie
     private String bankPhysicalAddress;
     private Boolean locallyDomiciled;
     private String taxAuthorityPIN;
+    private String originatingFileToken;
 }

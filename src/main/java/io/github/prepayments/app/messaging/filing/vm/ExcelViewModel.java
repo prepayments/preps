@@ -10,4 +10,6 @@ public interface ExcelViewModel {
      */
     long getRowIndex();
 
+    String getOriginatingFileToken();
+
 }

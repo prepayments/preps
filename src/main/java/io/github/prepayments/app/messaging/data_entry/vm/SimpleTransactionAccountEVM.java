@@ -22,4 +22,5 @@ public class SimpleTransactionAccountEVM implements Serializable, SimpleExcelVie
     private String accountBalance;
     private String openingDate;
     private String accountOpeningDateBalance;
+    private String originatingFileToken;
 }

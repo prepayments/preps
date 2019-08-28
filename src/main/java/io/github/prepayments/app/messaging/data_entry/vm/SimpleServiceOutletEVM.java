@@ -29,4 +29,5 @@ public class SimpleServiceOutletEVM implements Serializable, SimpleExcelViewMode
     private String contactPersonName;
     private String contactEmail;
     private String street;
+    private String originatingFileToken;
 }
