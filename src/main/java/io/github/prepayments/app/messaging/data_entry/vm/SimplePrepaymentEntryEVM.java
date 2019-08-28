@@ -32,4 +32,8 @@ public class SimplePrepaymentEntryEVM implements Serializable, SimpleExcelViewMo
     private String supplierName;
     private String invoiceNumber;
     private String originatingFileToken;
+
+    public long getRowIndex() {
+        return (long) rowIndex;
+    }
 }

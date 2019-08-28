@@ -54,4 +54,9 @@ public class SimpleAmortizationEntryEVM implements Serializable,SimpleExcelViewM
     public boolean orphaned() {
         return orphaned;
     }
+
+    public long getRowIndex() {
+
+        return (long) rowIndex;
+    }
 }
