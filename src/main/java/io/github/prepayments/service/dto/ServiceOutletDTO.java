@@ -1,5 +1,13 @@
 package io.github.prepayments.service.dto;
 
+import io.github.prepayments.app.token.IsTokenized;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,7 +15,13 @@ import java.util.Objects;
 /**
  * A DTO for the {@link io.github.prepayments.domain.ServiceOutlet} entity.
  */
-public class ServiceOutletDTO implements Serializable {
+@Data
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+public class ServiceOutletDTO implements Serializable,IsTokenized<String> {
 
     private Long id;
 
@@ -37,137 +51,12 @@ public class ServiceOutletDTO implements Serializable {
 
     private String OriginatingFileToken;
 
-
-    public Long getId() {
-        return id;
+    public String originatingFileToken() {
+        return this.originatingFileToken;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getServiceOutletName() {
-        return serviceOutletName;
-    }
-
-    public void setServiceOutletName(String serviceOutletName) {
-        this.serviceOutletName = serviceOutletName;
-    }
-
-    public String getServiceOutletCode() {
-        return serviceOutletCode;
-    }
-
-    public void setServiceOutletCode(String serviceOutletCode) {
-        this.serviceOutletCode = serviceOutletCode;
-    }
-
-    public String getServiceOutletLocation() {
-        return serviceOutletLocation;
-    }
-
-    public void setServiceOutletLocation(String serviceOutletLocation) {
-        this.serviceOutletLocation = serviceOutletLocation;
-    }
-
-    public String getServiceOutletManager() {
-        return serviceOutletManager;
-    }
-
-    public void setServiceOutletManager(String serviceOutletManager) {
-        this.serviceOutletManager = serviceOutletManager;
-    }
-
-    public Integer getNumberOfStaff() {
-        return numberOfStaff;
-    }
-
-    public void setNumberOfStaff(Integer numberOfStaff) {
-        this.numberOfStaff = numberOfStaff;
-    }
-
-    public String getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-
-    public Integer getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Integer floor) {
-        this.floor = floor;
-    }
-
-    public String getPostalAddress() {
-        return postalAddress;
-    }
-
-    public void setPostalAddress(String postalAddress) {
-        this.postalAddress = postalAddress;
-    }
-
-    public String getContactPersonName() {
-        return contactPersonName;
-    }
-
-    public void setContactPersonName(String contactPersonName) {
-        this.contactPersonName = contactPersonName;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getOriginatingFileToken() {
-        return OriginatingFileToken;
-    }
-
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        ServiceOutletDTO serviceOutletDTO = (ServiceOutletDTO) o;
-        if (serviceOutletDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), serviceOutletDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "ServiceOutletDTO{" + "id=" + getId() + ", serviceOutletName='" + getServiceOutletName() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", serviceOutletLocation='" +
-            getServiceOutletLocation() + "'" + ", serviceOutletManager='" + getServiceOutletManager() + "'" + ", numberOfStaff=" + getNumberOfStaff() + ", building='" + getBuilding() + "'" +
-            ", floor=" + getFloor() + ", postalAddress='" + getPostalAddress() + "'" + ", contactPersonName='" + getContactPersonName() + "'" + ", contactEmail='" + getContactEmail() + "'" +
-            ", street='" + getStreet() + "'" + ", OriginatingFileToken='" + getOriginatingFileToken() + "'" + "}";
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
     }
 }

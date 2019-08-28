@@ -1,5 +1,6 @@
 package io.github.prepayments.service.dto;
 
+import io.github.prepayments.app.token.IsTokenized;
 import io.github.prepayments.domain.enumeration.AccountTypes;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link io.github.prepayments.domain.TransactionAccount} entity.
  */
-public class TransactionAccountDTO implements Serializable {
+public class TransactionAccountDTO implements Serializable,IsTokenized<String> {
 
     private Long id;
 
@@ -25,6 +26,15 @@ public class TransactionAccountDTO implements Serializable {
     private LocalDate openingDate;
 
     private String originatingFileToken;
+
+    public String originatingFileToken() {
+        return this.originatingFileToken;
+    }
+
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
+    }
 
 
     public Long getId() {
