@@ -27,7 +27,7 @@ public class AmortizationTokenTagProvider implements TagProvider<String> {
 
         Tag<String> stringTag = () -> randomStringToken.generateHexToken(DEFAULT_TOKEN_BYTE_LENGTH);
 
-        tagCapable.setAmortizationTag(stringTag.getTag());
+        tagCapable.setTag(stringTag.getTag());
 
         return stringTag;
     }

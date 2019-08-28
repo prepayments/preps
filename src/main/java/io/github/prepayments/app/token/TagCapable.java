@@ -7,5 +7,5 @@ package io.github.prepayments.app.token;
  */
 public interface TagCapable<T> {
 
-    TagCapable setAmortizationTag(T Tag);
+    TagCapable<String> setTag(T Tag);
 }
