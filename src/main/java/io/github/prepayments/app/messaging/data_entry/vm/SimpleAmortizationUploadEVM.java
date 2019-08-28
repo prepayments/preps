@@ -25,7 +25,7 @@ import java.time.LocalDate;
 @Data
 @ToString
 @Accessors(chain = true)
-public class SimpleAmortizationUploadEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
+public class SimpleAmortizationUploadEVM implements Serializable,SimpleExcelViewModel, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
 
     private static final long serialVersionUID = 1588025101540758601L;
     private long rowIndex;

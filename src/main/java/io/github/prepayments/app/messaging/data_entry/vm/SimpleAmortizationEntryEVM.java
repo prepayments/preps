@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class SimpleAmortizationEntryEVM implements Serializable, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
+public class SimpleAmortizationEntryEVM implements Serializable,SimpleExcelViewModel, TagCapable<String>, TagCapableAmortizationModel, GetsOrphaned {
 
     private static final long serialVersionUID = 4812288900845715487L;
     private int rowIndex;

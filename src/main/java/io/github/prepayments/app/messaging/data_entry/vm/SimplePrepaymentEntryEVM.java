@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class SimplePrepaymentEntryEVM implements Serializable {
+public class SimplePrepaymentEntryEVM implements Serializable, SimpleExcelViewModel {
 
     private static final long serialVersionUID = 1915669204333680748L;
     private int rowIndex;
