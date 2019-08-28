@@ -2,6 +2,7 @@ package io.github.prepayments.app.messaging.filing.vm;
 
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
+import io.github.prepayments.app.token.IsTokenized;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @Builder
 @Data
 @ToString
-public class PrepaymentEntryEVM implements Serializable, ExcelViewModel {
+public class PrepaymentEntryEVM implements Serializable,IsTokenized<String>, ExcelViewModel {
 
     private static final long serialVersionUID = 1915669204333680748L;
     @ExcelRow
@@ -56,4 +57,15 @@ public class PrepaymentEntryEVM implements Serializable, ExcelViewModel {
     private String invoiceNumber;
 
     private String originatingFileToken;
+
+    @Override
+    public String originatingFileToken() {
+        return this.originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
+    }
 }

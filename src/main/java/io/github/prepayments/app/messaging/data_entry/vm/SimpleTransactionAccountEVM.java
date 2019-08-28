@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.token.IsTokenized;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,15 @@ public class SimpleTransactionAccountEVM implements Serializable, SimpleExcelVie
     private String openingDate;
     private String accountOpeningDateBalance;
     private String originatingFileToken;
+
+    @Override
+    public String originatingFileToken() {
+        return this.originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
+    }
 }

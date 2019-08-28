@@ -14,7 +14,7 @@ export interface IPrepaymentEntry {
   supplierName?: string;
   invoiceNumber?: string;
   scannedDocumentId?: number;
-  OriginatingFileToken?: string;
+  originatingFileToken?: string;
   amortizationEntries?: IAmortizationEntry[];
 }
 
@@ -32,7 +32,7 @@ export class PrepaymentEntry implements IPrepaymentEntry {
     public supplierName?: string,
     public invoiceNumber?: string,
     public scannedDocumentId?: number,
-    public OriginatingFileToken?: string,
+    public originatingFileToken?: string,
     public amortizationEntries?: IAmortizationEntry[]
   ) {}
 }

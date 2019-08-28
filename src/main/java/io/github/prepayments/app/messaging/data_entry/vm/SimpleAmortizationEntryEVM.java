@@ -1,6 +1,7 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
 import io.github.prepayments.app.messaging.GetsOrphaned;
+import io.github.prepayments.app.token.IsTokenized;
 import io.github.prepayments.app.token.TagCapable;
 import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
@@ -58,5 +59,16 @@ public class SimpleAmortizationEntryEVM implements Serializable,SimpleExcelViewM
     public long getRowIndex() {
 
         return (long) rowIndex;
+    }
+
+    @Override
+    public String originatingFileToken() {
+        return originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
     }
 }

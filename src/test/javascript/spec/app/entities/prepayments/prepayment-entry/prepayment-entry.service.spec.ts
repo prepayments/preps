@@ -99,7 +99,7 @@ describe('Service Tests', () => {
             supplierName: 'BBBBBB',
             invoiceNumber: 'BBBBBB',
             scannedDocumentId: 1,
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -133,7 +133,7 @@ describe('Service Tests', () => {
             supplierName: 'BBBBBB',
             invoiceNumber: 'BBBBBB',
             scannedDocumentId: 1,
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

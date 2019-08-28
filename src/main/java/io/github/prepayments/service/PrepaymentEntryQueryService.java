@@ -127,7 +127,7 @@ public class PrepaymentEntryQueryService extends QueryService<PrepaymentEntry> {
                 specification = specification.and(buildRangeSpecification(criteria.getScannedDocumentId(), PrepaymentEntry_.scannedDocumentId));
             }
             if (criteria.getOriginatingFileToken() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), PrepaymentEntry_.OriginatingFileToken));
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), PrepaymentEntry_.originatingFileToken));
             }
             if (criteria.getAmortizationEntryId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAmortizationEntryId(),

@@ -3,6 +3,7 @@ package io.github.prepayments.app.messaging.filing.vm;
 import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelRow;
 import io.github.prepayments.app.messaging.GetsOrphaned;
+import io.github.prepayments.app.token.IsTokenized;
 import io.github.prepayments.app.token.TagCapable;
 import io.github.prepayments.app.token.TagCapableAmortizationModel;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class AmortizationUploadEVM implements Serializable, ExcelViewModel, GetsOrphaned, TagCapableAmortizationModel, TagCapable<String> {
+public class AmortizationUploadEVM implements Serializable, IsTokenized<String>, ExcelViewModel, GetsOrphaned, TagCapableAmortizationModel, TagCapable<String> {
 
     private static final long serialVersionUID = 4812288900845715487L;
     @ExcelRow
@@ -79,5 +80,16 @@ public class AmortizationUploadEVM implements Serializable, ExcelViewModel, Gets
     @Override
     public boolean orphaned() {
         return uploadOrphaned;
+    }
+
+    @Override
+    public String originatingFileToken() {
+        return this.originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
     }
 }

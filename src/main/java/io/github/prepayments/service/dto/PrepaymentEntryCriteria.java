@@ -12,13 +12,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Criteria class for the {@link io.github.prepayments.domain.PrepaymentEntry} entity. This class is used
- * in {@link io.github.prepayments.web.rest.PrepaymentEntryResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /prepayment-entries?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * Criteria class for the {@link io.github.prepayments.domain.PrepaymentEntry} entity. This class is used in {@link io.github.prepayments.web.rest.PrepaymentEntryResource} to receive all the possible
+ * filtering options from the Http GET request parameters. For example the following could be a valid request: {@code /prepayment-entries?id
+ * .greaterThan=5&attr1.contains=something&attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use fix type specific filters.
  */
 public class PrepaymentEntryCriteria implements Serializable, Criteria {
 
@@ -48,7 +45,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
 
     private LongFilter scannedDocumentId;
 
-    private StringFilter OriginatingFileToken;
+    private StringFilter originatingFileToken;
 
     private LongFilter amortizationEntryId;
 
@@ -68,7 +65,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         this.supplierName = other.supplierName == null ? null : other.supplierName.copy();
         this.invoiceNumber = other.invoiceNumber == null ? null : other.invoiceNumber.copy();
         this.scannedDocumentId = other.scannedDocumentId == null ? null : other.scannedDocumentId.copy();
-        this.OriginatingFileToken = other.OriginatingFileToken == null ? null : other.OriginatingFileToken.copy();
+        this.originatingFileToken = other.originatingFileToken == null ? null : other.originatingFileToken.copy();
         this.amortizationEntryId = other.amortizationEntryId == null ? null : other.amortizationEntryId.copy();
     }
 
@@ -174,11 +171,11 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
     }
 
     public StringFilter getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(StringFilter OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public void setOriginatingFileToken(StringFilter originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
 
     public LongFilter getAmortizationEntryId() {
@@ -202,14 +199,14 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
         return Objects.equals(id, that.id) && Objects.equals(accountNumber, that.accountNumber) && Objects.equals(accountName, that.accountName) && Objects.equals(prepaymentId, that.prepaymentId) &&
             Objects.equals(prepaymentDate, that.prepaymentDate) && Objects.equals(particulars, that.particulars) && Objects.equals(serviceOutlet, that.serviceOutlet) &&
             Objects.equals(prepaymentAmount, that.prepaymentAmount) && Objects.equals(months, that.months) && Objects.equals(supplierName, that.supplierName) &&
-            Objects.equals(invoiceNumber, that.invoiceNumber) && Objects.equals(scannedDocumentId, that.scannedDocumentId) && Objects.equals(OriginatingFileToken, that.OriginatingFileToken) &&
+            Objects.equals(invoiceNumber, that.invoiceNumber) && Objects.equals(scannedDocumentId, that.scannedDocumentId) && Objects.equals(originatingFileToken, that.originatingFileToken) &&
             Objects.equals(amortizationEntryId, that.amortizationEntryId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, accountNumber, accountName, prepaymentId, prepaymentDate, particulars, serviceOutlet, prepaymentAmount, months, supplierName, invoiceNumber, scannedDocumentId,
-                            OriginatingFileToken, amortizationEntryId);
+                            originatingFileToken, amortizationEntryId);
     }
 
     @Override
@@ -220,7 +217,7 @@ public class PrepaymentEntryCriteria implements Serializable, Criteria {
             (serviceOutlet != null ? "serviceOutlet=" + serviceOutlet + ", " : "") + (prepaymentAmount != null ? "prepaymentAmount=" + prepaymentAmount + ", " : "") +
             (months != null ? "months=" + months + ", " : "") + (supplierName != null ? "supplierName=" + supplierName + ", " : "") +
             (invoiceNumber != null ? "invoiceNumber=" + invoiceNumber + ", " : "") + (scannedDocumentId != null ? "scannedDocumentId=" + scannedDocumentId + ", " : "") +
-            (OriginatingFileToken != null ? "OriginatingFileToken=" + OriginatingFileToken + ", " : "") + (amortizationEntryId != null ? "amortizationEntryId=" + amortizationEntryId + ", " : "") +
+            (originatingFileToken != null ? "originatingFileToken=" + originatingFileToken + ", " : "") + (amortizationEntryId != null ? "amortizationEntryId=" + amortizationEntryId + ", " : "") +
             "}";
     }
 

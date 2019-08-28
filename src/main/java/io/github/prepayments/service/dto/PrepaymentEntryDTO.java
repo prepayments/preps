@@ -1,5 +1,6 @@
 package io.github.prepayments.service.dto;
 
+import io.github.prepayments.app.token.IsTokenized;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class PrepaymentEntryDTO implements Serializable {
+public class PrepaymentEntryDTO implements Serializable, IsTokenized<String> {
 
     private Long id;
 
@@ -53,5 +54,18 @@ public class PrepaymentEntryDTO implements Serializable {
 
     private Long scannedDocumentId;
 
-    private String OriginatingFileToken;
+    private String originatingFileToken;
+
+    @Override
+    public String originatingFileToken() {
+        return originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+
+        originatingFileToken = token;
+
+        return this;
+    }
 }

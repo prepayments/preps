@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.vm;
 
+import io.github.prepayments.app.token.IsTokenized;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,4 +30,15 @@ public class SimpleRegisteredSupplierEVM implements Serializable, SimpleExcelVie
     private Boolean locallyDomiciled;
     private String taxAuthorityPIN;
     private String originatingFileToken;
+
+    @Override
+    public String originatingFileToken() {
+        return this.originatingFileToken;
+    }
+
+    @Override
+    public IsTokenized<String> originatingFileToken(final String token) {
+        this.originatingFileToken = token;
+        return this;
+    }
 }

@@ -74,7 +74,7 @@
             "fieldType": "Long"
         },
         {
-          "fieldName": "OriginatingFileToken",
+          "fieldName": "originatingFileToken",
           "fieldType": "String"
         }
     ],

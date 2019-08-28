@@ -1,24 +1,20 @@
 package io.github.prepayments.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 /**
  * A PrepaymentEntry.
@@ -77,7 +73,7 @@ public class PrepaymentEntry implements Serializable {
     private Long scannedDocumentId;
 
     @Column(name = "originating_file_token")
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     @OneToMany(mappedBy = "prepaymentEntry")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -96,21 +92,17 @@ public class PrepaymentEntry implements Serializable {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public PrepaymentEntry accountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
         return this;
     }
 
-    public String getAccountName() {
-        return accountName;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public String getAccountName() {
+        return accountName;
     }
 
     public PrepaymentEntry accountName(String accountName) {
@@ -118,12 +110,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public String getPrepaymentId() {
-        return prepaymentId;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setPrepaymentId(String prepaymentId) {
-        this.prepaymentId = prepaymentId;
+    public String getPrepaymentId() {
+        return prepaymentId;
     }
 
     public PrepaymentEntry prepaymentId(String prepaymentId) {
@@ -131,12 +123,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public LocalDate getPrepaymentDate() {
-        return prepaymentDate;
+    public void setPrepaymentId(String prepaymentId) {
+        this.prepaymentId = prepaymentId;
     }
 
-    public void setPrepaymentDate(LocalDate prepaymentDate) {
-        this.prepaymentDate = prepaymentDate;
+    public LocalDate getPrepaymentDate() {
+        return prepaymentDate;
     }
 
     public PrepaymentEntry prepaymentDate(LocalDate prepaymentDate) {
@@ -144,12 +136,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public String getParticulars() {
-        return particulars;
+    public void setPrepaymentDate(LocalDate prepaymentDate) {
+        this.prepaymentDate = prepaymentDate;
     }
 
-    public void setParticulars(String particulars) {
-        this.particulars = particulars;
+    public String getParticulars() {
+        return particulars;
     }
 
     public PrepaymentEntry particulars(String particulars) {
@@ -157,12 +149,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public String getServiceOutlet() {
-        return serviceOutlet;
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
     }
 
-    public void setServiceOutlet(String serviceOutlet) {
-        this.serviceOutlet = serviceOutlet;
+    public String getServiceOutlet() {
+        return serviceOutlet;
     }
 
     public PrepaymentEntry serviceOutlet(String serviceOutlet) {
@@ -170,12 +162,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public BigDecimal getPrepaymentAmount() {
-        return prepaymentAmount;
+    public void setServiceOutlet(String serviceOutlet) {
+        this.serviceOutlet = serviceOutlet;
     }
 
-    public void setPrepaymentAmount(BigDecimal prepaymentAmount) {
-        this.prepaymentAmount = prepaymentAmount;
+    public BigDecimal getPrepaymentAmount() {
+        return prepaymentAmount;
     }
 
     public PrepaymentEntry prepaymentAmount(BigDecimal prepaymentAmount) {
@@ -183,12 +175,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public Integer getMonths() {
-        return months;
+    public void setPrepaymentAmount(BigDecimal prepaymentAmount) {
+        this.prepaymentAmount = prepaymentAmount;
     }
 
-    public void setMonths(Integer months) {
-        this.months = months;
+    public Integer getMonths() {
+        return months;
     }
 
     public PrepaymentEntry months(Integer months) {
@@ -196,12 +188,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public String getSupplierName() {
-        return supplierName;
+    public void setMonths(Integer months) {
+        this.months = months;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
+    public String getSupplierName() {
+        return supplierName;
     }
 
     public PrepaymentEntry supplierName(String supplierName) {
@@ -209,12 +201,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public String getInvoiceNumber() {
-        return invoiceNumber;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
+    public String getInvoiceNumber() {
+        return invoiceNumber;
     }
 
     public PrepaymentEntry invoiceNumber(String invoiceNumber) {
@@ -222,12 +214,12 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
-    public Long getScannedDocumentId() {
-        return scannedDocumentId;
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
-    public void setScannedDocumentId(Long scannedDocumentId) {
-        this.scannedDocumentId = scannedDocumentId;
+    public Long getScannedDocumentId() {
+        return scannedDocumentId;
     }
 
     public PrepaymentEntry scannedDocumentId(Long scannedDocumentId) {
@@ -235,25 +227,25 @@ public class PrepaymentEntry implements Serializable {
         return this;
     }
 
+    public void setScannedDocumentId(Long scannedDocumentId) {
+        this.scannedDocumentId = scannedDocumentId;
+    }
+
     public String getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
-    }
-
-    public PrepaymentEntry OriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public PrepaymentEntry originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
+    }
+
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
 
     public Set<AmortizationEntry> getAmortizationEntries() {
         return amortizationEntries;
-    }
-
-    public void setAmortizationEntries(Set<AmortizationEntry> amortizationEntries) {
-        this.amortizationEntries = amortizationEntries;
     }
 
     public PrepaymentEntry amortizationEntries(Set<AmortizationEntry> amortizationEntries) {
@@ -271,6 +263,10 @@ public class PrepaymentEntry implements Serializable {
         this.amortizationEntries.remove(amortizationEntry);
         amortizationEntry.setPrepaymentEntry(null);
         return this;
+    }
+
+    public void setAmortizationEntries(Set<AmortizationEntry> amortizationEntries) {
+        this.amortizationEntries = amortizationEntries;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -292,9 +288,20 @@ public class PrepaymentEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "PrepaymentEntry{" + "id=" + getId() + ", accountNumber='" + getAccountNumber() + "'" + ", accountName='" + getAccountName() + "'" + ", prepaymentId='" + getPrepaymentId() + "'" +
-            ", prepaymentDate='" + getPrepaymentDate() + "'" + ", particulars='" + getParticulars() + "'" + ", serviceOutlet='" + getServiceOutlet() + "'" + ", prepaymentAmount=" +
-            getPrepaymentAmount() + ", months=" + getMonths() + ", supplierName='" + getSupplierName() + "'" + ", invoiceNumber='" + getInvoiceNumber() + "'" + ", scannedDocumentId=" +
-            getScannedDocumentId() + ", OriginatingFileToken='" + getOriginatingFileToken() + "'" + "}";
+        return "PrepaymentEntry{" +
+            "id=" + getId() +
+            ", accountNumber='" + getAccountNumber() + "'" +
+            ", accountName='" + getAccountName() + "'" +
+            ", prepaymentId='" + getPrepaymentId() + "'" +
+            ", prepaymentDate='" + getPrepaymentDate() + "'" +
+            ", particulars='" + getParticulars() + "'" +
+            ", serviceOutlet='" + getServiceOutlet() + "'" +
+            ", prepaymentAmount=" + getPrepaymentAmount() +
+            ", months=" + getMonths() +
+            ", supplierName='" + getSupplierName() + "'" +
+            ", invoiceNumber='" + getInvoiceNumber() + "'" +
+            ", scannedDocumentId=" + getScannedDocumentId() +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

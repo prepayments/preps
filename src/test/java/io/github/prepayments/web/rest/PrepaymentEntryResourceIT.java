@@ -1,15 +1,17 @@
 package io.github.prepayments.web.rest;
 
 import io.github.prepayments.PrepsApp;
-import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.domain.PrepaymentEntry;
+import io.github.prepayments.domain.AmortizationEntry;
 import io.github.prepayments.repository.PrepaymentEntryRepository;
 import io.github.prepayments.repository.search.PrepaymentEntrySearchRepository;
-import io.github.prepayments.service.PrepaymentEntryQueryService;
 import io.github.prepayments.service.PrepaymentEntryService;
 import io.github.prepayments.service.dto.PrepaymentEntryDTO;
 import io.github.prepayments.service.mapper.PrepaymentEntryMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
+import io.github.prepayments.service.PrepaymentEntryQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -36,16 +38,9 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@Link PrepaymentEntryResource} REST controller.
@@ -159,7 +154,7 @@ public class PrepaymentEntryResourceIT {
             .supplierName(DEFAULT_SUPPLIER_NAME)
             .invoiceNumber(DEFAULT_INVOICE_NUMBER)
             .scannedDocumentId(DEFAULT_SCANNED_DOCUMENT_ID)
-            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return prepaymentEntry;
     }
     /**
@@ -181,7 +176,7 @@ public class PrepaymentEntryResourceIT {
             .supplierName(UPDATED_SUPPLIER_NAME)
             .invoiceNumber(UPDATED_INVOICE_NUMBER)
             .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return prepaymentEntry;
     }
 
@@ -383,9 +378,9 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME.toString())))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getPrepaymentEntry() throws Exception {
@@ -408,7 +403,7 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.supplierName").value(DEFAULT_SUPPLIER_NAME.toString()))
             .andExpect(jsonPath("$.invoiceNumber").value(DEFAULT_INVOICE_NUMBER.toString()))
             .andExpect(jsonPath("$.scannedDocumentId").value(DEFAULT_SCANNED_DOCUMENT_ID.intValue()))
-            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -927,11 +922,11 @@ public class PrepaymentEntryResourceIT {
         // Initialize the database
         prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
 
-        // Get all the prepaymentEntryList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
-        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+        // Get all the prepaymentEntryList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
 
-        // Get all the prepaymentEntryList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the prepaymentEntryList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -940,11 +935,11 @@ public class PrepaymentEntryResourceIT {
         // Initialize the database
         prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
 
-        // Get all the prepaymentEntryList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
-        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the prepaymentEntryList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
 
-        // Get all the prepaymentEntryList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the prepaymentEntryList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultPrepaymentEntryShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -953,11 +948,11 @@ public class PrepaymentEntryResourceIT {
         // Initialize the database
         prepaymentEntryRepository.saveAndFlush(prepaymentEntry);
 
-        // Get all the prepaymentEntryList where OriginatingFileToken is not null
-        defaultPrepaymentEntryShouldBeFound("OriginatingFileToken.specified=true");
+        // Get all the prepaymentEntryList where originatingFileToken is not null
+        defaultPrepaymentEntryShouldBeFound("originatingFileToken.specified=true");
 
-        // Get all the prepaymentEntryList where OriginatingFileToken is null
-        defaultPrepaymentEntryShouldNotBeFound("OriginatingFileToken.specified=false");
+        // Get all the prepaymentEntryList where originatingFileToken is null
+        defaultPrepaymentEntryShouldNotBeFound("originatingFileToken.specified=false");
     }
 
     @Test
@@ -997,7 +992,7 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
             .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restPrepaymentEntryMockMvc.perform(get("/api/prepayment-entries/count?sort=id,desc&" + filter))
@@ -1056,7 +1051,7 @@ public class PrepaymentEntryResourceIT {
             .supplierName(UPDATED_SUPPLIER_NAME)
             .invoiceNumber(UPDATED_INVOICE_NUMBER)
             .scannedDocumentId(UPDATED_SCANNED_DOCUMENT_ID)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         PrepaymentEntryDTO prepaymentEntryDTO = prepaymentEntryMapper.toDto(updatedPrepaymentEntry);
 
         restPrepaymentEntryMockMvc.perform(put("/api/prepayment-entries")
@@ -1151,7 +1146,7 @@ public class PrepaymentEntryResourceIT {
             .andExpect(jsonPath("$.[*].supplierName").value(hasItem(DEFAULT_SUPPLIER_NAME)))
             .andExpect(jsonPath("$.[*].invoiceNumber").value(hasItem(DEFAULT_INVOICE_NUMBER)))
             .andExpect(jsonPath("$.[*].scannedDocumentId").value(hasItem(DEFAULT_SCANNED_DOCUMENT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 import { IPrepaymentEntry, PrepaymentEntry } from 'app/shared/model/prepayments/prepayment-entry.model';
 import { PrepaymentEntryService } from './prepayment-entry.service';
 
@@ -28,7 +29,7 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
     supplierName: [],
     invoiceNumber: [],
     scannedDocumentId: [],
-    OriginatingFileToken: []
+    originatingFileToken: []
   });
 
   constructor(
@@ -59,7 +60,7 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       supplierName: prepaymentEntry.supplierName,
       invoiceNumber: prepaymentEntry.invoiceNumber,
       scannedDocumentId: prepaymentEntry.scannedDocumentId,
-      OriginatingFileToken: prepaymentEntry.OriginatingFileToken
+      originatingFileToken: prepaymentEntry.originatingFileToken
     });
   }
 
@@ -92,7 +93,7 @@ export class PrepaymentEntryUpdateComponent implements OnInit {
       supplierName: this.editForm.get(['supplierName']).value,
       invoiceNumber: this.editForm.get(['invoiceNumber']).value,
       scannedDocumentId: this.editForm.get(['scannedDocumentId']).value,
-      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value
     };
     return entity;
   }
