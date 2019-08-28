@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AccountingTransaction, IAccountingTransaction } from 'app/shared/model/prepayments/accounting-transaction.model';
+import * as moment from 'moment';
+import { IAccountingTransaction, AccountingTransaction } from 'app/shared/model/prepayments/accounting-transaction.model';
 import { AccountingTransactionService } from './accounting-transaction.service';
 
 @Component({
@@ -23,7 +24,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
     accountNumber: [null, [Validators.required]],
     transactionDate: [null, [Validators.required]],
     transactionAmount: [null, [Validators.required]],
-    incrementAccount: [null, [Validators.required]]
+    incrementAccount: [null, [Validators.required]],
+    originatingFileToken: []
   });
 
   constructor(
@@ -49,7 +51,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
       accountNumber: accountingTransaction.accountNumber,
       transactionDate: accountingTransaction.transactionDate,
       transactionAmount: accountingTransaction.transactionAmount,
-      incrementAccount: accountingTransaction.incrementAccount
+      incrementAccount: accountingTransaction.incrementAccount,
+      originatingFileToken: accountingTransaction.originatingFileToken
     });
   }
 
@@ -77,7 +80,8 @@ export class AccountingTransactionUpdateComponent implements OnInit {
       accountNumber: this.editForm.get(['accountNumber']).value,
       transactionDate: this.editForm.get(['transactionDate']).value,
       transactionAmount: this.editForm.get(['transactionAmount']).value,
-      incrementAccount: this.editForm.get(['incrementAccount']).value
+      incrementAccount: this.editForm.get(['incrementAccount']).value,
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value
     };
     return entity;
   }

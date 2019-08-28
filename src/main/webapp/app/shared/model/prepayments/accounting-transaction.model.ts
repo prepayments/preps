@@ -9,6 +9,7 @@ export interface IAccountingTransaction {
   transactionDate?: Moment;
   transactionAmount?: number;
   incrementAccount?: boolean;
+  originatingFileToken?: string;
 }
 
 export class AccountingTransaction implements IAccountingTransaction {
@@ -20,7 +21,8 @@ export class AccountingTransaction implements IAccountingTransaction {
     public accountNumber?: string,
     public transactionDate?: Moment,
     public transactionAmount?: number,
-    public incrementAccount?: boolean
+    public incrementAccount?: boolean,
+    public originatingFileToken?: string
   ) {
     this.incrementAccount = this.incrementAccount || false;
   }

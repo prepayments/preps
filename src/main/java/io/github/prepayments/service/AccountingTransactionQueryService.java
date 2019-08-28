@@ -114,6 +114,9 @@ public class AccountingTransactionQueryService extends QueryService<AccountingTr
             if (criteria.getIncrementAccount() != null) {
                 specification = specification.and(buildSpecification(criteria.getIncrementAccount(), AccountingTransaction_.incrementAccount));
             }
+            if (criteria.getOriginatingFileToken() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), AccountingTransaction_.originatingFileToken));
+            }
         }
         return specification;
     }

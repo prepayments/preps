@@ -37,6 +37,7 @@
             <th jhiSortBy="transactionDate"><span>Transaction Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="transactionAmount"><span>Transaction Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="incrementAccount"><span>Increment Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -50,6 +51,7 @@
                 <td>{{accountingTransaction.transactionDate | date:'mediumDate'}}</td>
                 <td>{{accountingTransaction.transactionAmount}}</td>
                 <td>{{accountingTransaction.incrementAccount}}</td>
+                <td>{{accountingTransaction.originatingFileToken}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

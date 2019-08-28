@@ -1,11 +1,11 @@
-id;description;service_outlet_code;account_name;account_number;transaction_date;transaction_amount;increment_account
-1;mobile Fish;Home Loan Account Table Computer;Checking Account;FTP Savings Account;2019-08-26T12:46:47;65088;false
-2;Producer;Implementation Electronics Officer;Home Loan Account;Home Loan Account;2019-08-27T05:36:13;43194;false
-3;Namibia;Steel zero administration;Money Market Account;Common;2019-08-26T10:55:45;61838;false
-4;Cambridgeshire Mississippi;HDD;Credit Card Account;Centers;2019-08-27T05:27:18;94888;true
-5;South Dakota envisioneer Music;Nakfa;Investment Account;Rubber Buckinghamshire Games;2019-08-26T07:57:00;39106;false
-6;invoice;convergence;Savings Account;Georgia Industrial;2019-08-26T09:33:31;77513;false
-7;e-enable Communications capacitor;Awesome;Savings Account;Tasty Plastic Pizza scale;2019-08-26T23:15:40;53969;true
-8;compelling mission-critical;bifurcated scalable;Savings Account;Industrial;2019-08-26T19:36:42;77224;false
-9;24 hour;overriding;Credit Card Account;application quantify Unbranded Plastic Tuna;2019-08-27T02:59:33;91495;true
-10;Investment Account archive Fantastic Plastic Chicken;payment;Home Loan Account;tangible Mississippi;2019-08-26T20:34:59;11959;true
+id;description;service_outlet_code;account_name;account_number;transaction_date;transaction_amount;increment_account;originating_file_token
+1;mobile Fish;Home Loan Account Table Computer;Checking Account;FTP Savings Account;2019-08-27T16:48:56;65088;false;Producer
+2;Implementation Electronics Officer;methodology Albania;Investment Account;intangible;2019-08-27T19:07:29;39986;false;zero administration
+3;Multi-channelled Licensed;grey Cambridgeshire;Home Loan Account;Refined Rubber Chicken Table;2019-08-28T08:14:53;1326;true;Planner cross-platform access
+4;Public-key;infomediaries;Checking Account;Buckinghamshire Games;2019-08-27T11:59:09;39106;false;invoice
+5;convergence;Mayotte;Savings Account;Facilitator;2019-08-27T15:12:22;44975;true;Chief Credit Card Account
+6;archive Georgia Aruba;software scale interactive;Auto Loan Account;compelling mission-critical;2019-08-27T20:47:05;27599;false;back-end
+7;Industrial;index orange;Checking Account;overriding;2019-08-27T16:50:41;71134;true;quantify Unbranded Plastic Tuna Frozen
+8;generating Highway Ergonomic;moratorium moratorium;Credit Card Account;withdrawal COM;2019-08-27T22:28:34;38292;false;bus synthesize Idaho
+9;Networked Sleek Metal Table Small;Intelligent Outdoors;Credit Card Account;knowledge base Buckinghamshire;2019-08-27T12:01:40;13933;false;relationships override
+10;Brand;neutral Salad;Personal Loan Account;virtual deposit;2019-08-27T12:53:40;45653;true;maroon

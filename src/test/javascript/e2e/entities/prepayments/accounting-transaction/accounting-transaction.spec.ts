@@ -49,7 +49,8 @@ describe('AccountingTransaction e2e test', () => {
       accountingTransactionUpdatePage.setAccountNameInput('accountName'),
       accountingTransactionUpdatePage.setAccountNumberInput('accountNumber'),
       accountingTransactionUpdatePage.setTransactionDateInput('2000-12-31'),
-      accountingTransactionUpdatePage.setTransactionAmountInput('5')
+      accountingTransactionUpdatePage.setTransactionAmountInput('5'),
+      accountingTransactionUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
     ]);
     expect(await accountingTransactionUpdatePage.getDescriptionInput()).to.eq(
       'description',
@@ -85,6 +86,10 @@ describe('AccountingTransaction e2e test', () => {
       expect(await accountingTransactionUpdatePage.getIncrementAccountInput().isSelected(), 'Expected incrementAccount to be selected').to
         .be.true;
     }
+    expect(await accountingTransactionUpdatePage.getOriginatingFileTokenInput()).to.eq(
+      'originatingFileToken',
+      'Expected OriginatingFileToken value to be equals to originatingFileToken'
+    );
     await accountingTransactionUpdatePage.save();
     expect(await accountingTransactionUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

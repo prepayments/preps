@@ -79,6 +79,7 @@ class AccountingTransactionGatlingTest extends Simulation {
                 , "transactionDate":"2020-01-01T00:00:00.000Z"
                 , "transactionAmount":"0"
                 , "incrementAccount":null
+                , "originatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_accountingTransaction_url"))).exitHereIfFailed

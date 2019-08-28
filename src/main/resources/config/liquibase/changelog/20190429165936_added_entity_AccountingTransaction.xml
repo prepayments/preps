@@ -43,6 +43,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="originating_file_token" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
@@ -70,6 +74,7 @@
             <column name="transaction_date" type="date"/>
             <column name="transaction_amount" type="numeric"/>
             <column name="increment_account" type="boolean"/>
+            <column name="originating_file_token" type="string"/>
         </loadData>
     </changeSet>
 

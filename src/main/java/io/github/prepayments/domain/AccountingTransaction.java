@@ -3,19 +3,15 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A AccountingTransaction.
@@ -61,6 +57,9 @@ public class AccountingTransaction implements Serializable {
     @Column(name = "increment_account", nullable = false)
     private Boolean incrementAccount;
 
+    @Column(name = "originating_file_token")
+    private String originatingFileToken;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -74,21 +73,17 @@ public class AccountingTransaction implements Serializable {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public AccountingTransaction description(String description) {
         this.description = description;
         return this;
     }
 
-    public String getServiceOutletCode() {
-        return serviceOutletCode;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setServiceOutletCode(String serviceOutletCode) {
-        this.serviceOutletCode = serviceOutletCode;
+    public String getServiceOutletCode() {
+        return serviceOutletCode;
     }
 
     public AccountingTransaction serviceOutletCode(String serviceOutletCode) {
@@ -96,12 +91,12 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public String getAccountName() {
-        return accountName;
+    public void setServiceOutletCode(String serviceOutletCode) {
+        this.serviceOutletCode = serviceOutletCode;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public String getAccountName() {
+        return accountName;
     }
 
     public AccountingTransaction accountName(String accountName) {
@@ -109,12 +104,12 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
     public AccountingTransaction accountNumber(String accountNumber) {
@@ -122,12 +117,12 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public LocalDate getTransactionDate() {
-        return transactionDate;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
+    public LocalDate getTransactionDate() {
+        return transactionDate;
     }
 
     public AccountingTransaction transactionDate(LocalDate transactionDate) {
@@ -135,17 +130,21 @@ public class AccountingTransaction implements Serializable {
         return this;
     }
 
-    public BigDecimal getTransactionAmount() {
-        return transactionAmount;
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
-    public void setTransactionAmount(BigDecimal transactionAmount) {
-        this.transactionAmount = transactionAmount;
+    public BigDecimal getTransactionAmount() {
+        return transactionAmount;
     }
 
     public AccountingTransaction transactionAmount(BigDecimal transactionAmount) {
         this.transactionAmount = transactionAmount;
         return this;
+    }
+
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
     public Boolean isIncrementAccount() {
@@ -159,6 +158,19 @@ public class AccountingTransaction implements Serializable {
 
     public void setIncrementAccount(Boolean incrementAccount) {
         this.incrementAccount = incrementAccount;
+    }
+
+    public String getOriginatingFileToken() {
+        return originatingFileToken;
+    }
+
+    public AccountingTransaction originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
+        return this;
+    }
+
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -180,8 +192,16 @@ public class AccountingTransaction implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountingTransaction{" + "id=" + getId() + ", description='" + getDescription() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", accountName='" + getAccountName() +
-            "'" + ", accountNumber='" + getAccountNumber() + "'" + ", transactionDate='" + getTransactionDate() + "'" + ", transactionAmount=" + getTransactionAmount() + ", incrementAccount='" +
-            isIncrementAccount() + "'" + "}";
+        return "AccountingTransaction{" +
+            "id=" + getId() +
+            ", description='" + getDescription() + "'" +
+            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
+            ", accountName='" + getAccountName() + "'" +
+            ", accountNumber='" + getAccountNumber() + "'" +
+            ", transactionDate='" + getTransactionDate() + "'" +
+            ", transactionAmount=" + getTransactionAmount() +
+            ", incrementAccount='" + isIncrementAccount() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

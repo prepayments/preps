@@ -48,6 +48,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+          "fieldName": "originatingFileToken",
+          "fieldType": "String"
         }
     ],
     "changelogDate": "20190429165936",

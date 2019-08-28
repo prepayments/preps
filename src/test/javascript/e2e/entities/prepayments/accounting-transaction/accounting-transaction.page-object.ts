@@ -33,6 +33,7 @@ export class AccountingTransactionUpdatePage {
   transactionDateInput = element(by.id('field_transactionDate'));
   transactionAmountInput = element(by.id('field_transactionAmount'));
   incrementAccountInput = element(by.id('field_incrementAccount'));
+  originatingFileTokenInput = element(by.id('field_originatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -89,6 +90,14 @@ export class AccountingTransactionUpdatePage {
   getIncrementAccountInput(timeout?: number) {
     return this.incrementAccountInput;
   }
+  async setOriginatingFileTokenInput(originatingFileToken) {
+    await this.originatingFileTokenInput.sendKeys(originatingFileToken);
+  }
+
+  async getOriginatingFileTokenInput() {
+    return await this.originatingFileTokenInput.getAttribute('value');
+  }
+
   async save(timeout?: number) {
     await this.saveButton.click();
   }

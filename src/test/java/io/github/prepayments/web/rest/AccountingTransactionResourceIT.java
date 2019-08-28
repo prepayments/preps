@@ -4,11 +4,13 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.AccountingTransaction;
 import io.github.prepayments.repository.AccountingTransactionRepository;
 import io.github.prepayments.repository.search.AccountingTransactionSearchRepository;
-import io.github.prepayments.service.AccountingTransactionQueryService;
 import io.github.prepayments.service.AccountingTransactionService;
 import io.github.prepayments.service.dto.AccountingTransactionDTO;
 import io.github.prepayments.service.mapper.AccountingTransactionMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.AccountingTransactionCriteria;
+import io.github.prepayments.service.AccountingTransactionQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -35,16 +37,9 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@Link AccountingTransactionResource} REST controller.
@@ -72,6 +67,9 @@ public class AccountingTransactionResourceIT {
 
     private static final Boolean DEFAULT_INCREMENT_ACCOUNT = false;
     private static final Boolean UPDATED_INCREMENT_ACCOUNT = true;
+
+    private static final String DEFAULT_ORIGINATING_FILE_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGINATING_FILE_TOKEN = "BBBBBBBBBB";
 
     @Autowired
     private AccountingTransactionRepository accountingTransactionRepository;
@@ -138,7 +136,8 @@ public class AccountingTransactionResourceIT {
             .accountNumber(DEFAULT_ACCOUNT_NUMBER)
             .transactionDate(DEFAULT_TRANSACTION_DATE)
             .transactionAmount(DEFAULT_TRANSACTION_AMOUNT)
-            .incrementAccount(DEFAULT_INCREMENT_ACCOUNT);
+            .incrementAccount(DEFAULT_INCREMENT_ACCOUNT)
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return accountingTransaction;
     }
     /**
@@ -155,7 +154,8 @@ public class AccountingTransactionResourceIT {
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .transactionAmount(UPDATED_TRANSACTION_AMOUNT)
-            .incrementAccount(UPDATED_INCREMENT_ACCOUNT);
+            .incrementAccount(UPDATED_INCREMENT_ACCOUNT)
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return accountingTransaction;
     }
 
@@ -187,6 +187,7 @@ public class AccountingTransactionResourceIT {
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(DEFAULT_TRANSACTION_DATE);
         assertThat(testAccountingTransaction.getTransactionAmount()).isEqualTo(DEFAULT_TRANSACTION_AMOUNT);
         assertThat(testAccountingTransaction.isIncrementAccount()).isEqualTo(DEFAULT_INCREMENT_ACCOUNT);
+        assertThat(testAccountingTransaction.getOriginatingFileToken()).isEqualTo(DEFAULT_ORIGINATING_FILE_TOKEN);
 
         // Validate the AccountingTransaction in Elasticsearch
         verify(mockAccountingTransactionSearchRepository, times(1)).save(testAccountingTransaction);
@@ -347,9 +348,10 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionAmount").value(hasItem(DEFAULT_TRANSACTION_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())));
+            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())))
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAccountingTransaction() throws Exception {
@@ -367,7 +369,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.accountNumber").value(DEFAULT_ACCOUNT_NUMBER.toString()))
             .andExpect(jsonPath("$.transactionDate").value(DEFAULT_TRANSACTION_DATE.toString()))
             .andExpect(jsonPath("$.transactionAmount").value(DEFAULT_TRANSACTION_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.incrementAccount").value(DEFAULT_INCREMENT_ACCOUNT.booleanValue()));
+            .andExpect(jsonPath("$.incrementAccount").value(DEFAULT_INCREMENT_ACCOUNT.booleanValue()))
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -669,6 +672,45 @@ public class AccountingTransactionResourceIT {
         // Get all the accountingTransactionList where incrementAccount is null
         defaultAccountingTransactionShouldNotBeFound("incrementAccount.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByOriginatingFileTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultAccountingTransactionShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+
+        // Get all the accountingTransactionList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAccountingTransactionShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByOriginatingFileTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAccountingTransactionShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+
+        // Get all the accountingTransactionList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultAccountingTransactionShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAccountingTransactionsByOriginatingFileTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        accountingTransactionRepository.saveAndFlush(accountingTransaction);
+
+        // Get all the accountingTransactionList where originatingFileToken is not null
+        defaultAccountingTransactionShouldBeFound("originatingFileToken.specified=true");
+
+        // Get all the accountingTransactionList where originatingFileToken is null
+        defaultAccountingTransactionShouldNotBeFound("originatingFileToken.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -683,7 +725,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionAmount").value(hasItem(DEFAULT_TRANSACTION_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())));
+            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())))
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restAccountingTransactionMockMvc.perform(get("/api/accounting-transactions/count?sort=id,desc&" + filter))
@@ -737,7 +780,8 @@ public class AccountingTransactionResourceIT {
             .accountNumber(UPDATED_ACCOUNT_NUMBER)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .transactionAmount(UPDATED_TRANSACTION_AMOUNT)
-            .incrementAccount(UPDATED_INCREMENT_ACCOUNT);
+            .incrementAccount(UPDATED_INCREMENT_ACCOUNT)
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         AccountingTransactionDTO accountingTransactionDTO = accountingTransactionMapper.toDto(updatedAccountingTransaction);
 
         restAccountingTransactionMockMvc.perform(put("/api/accounting-transactions")
@@ -756,6 +800,7 @@ public class AccountingTransactionResourceIT {
         assertThat(testAccountingTransaction.getTransactionDate()).isEqualTo(UPDATED_TRANSACTION_DATE);
         assertThat(testAccountingTransaction.getTransactionAmount()).isEqualTo(UPDATED_TRANSACTION_AMOUNT);
         assertThat(testAccountingTransaction.isIncrementAccount()).isEqualTo(UPDATED_INCREMENT_ACCOUNT);
+        assertThat(testAccountingTransaction.getOriginatingFileToken()).isEqualTo(UPDATED_ORIGINATING_FILE_TOKEN);
 
         // Validate the AccountingTransaction in Elasticsearch
         verify(mockAccountingTransactionSearchRepository, times(1)).save(testAccountingTransaction);
@@ -822,7 +867,8 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].transactionAmount").value(hasItem(DEFAULT_TRANSACTION_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())));
+            .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())))
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

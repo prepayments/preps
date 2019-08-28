@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AccountingTransaction(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 0, false);
+      elemDefault = new AccountingTransaction(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 0, false, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -80,7 +80,8 @@ describe('Service Tests', () => {
             accountNumber: 'BBBBBB',
             transactionDate: currentDate.format(DATE_FORMAT),
             transactionAmount: 1,
-            incrementAccount: true
+            incrementAccount: true,
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -109,7 +110,8 @@ describe('Service Tests', () => {
             accountNumber: 'BBBBBB',
             transactionDate: currentDate.format(DATE_FORMAT),
             transactionAmount: 1,
-            incrementAccount: true
+            incrementAccount: true,
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
