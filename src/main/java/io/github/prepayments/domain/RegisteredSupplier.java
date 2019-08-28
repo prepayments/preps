@@ -3,17 +3,13 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A RegisteredSupplier.
@@ -70,7 +66,7 @@ public class RegisteredSupplier implements Serializable {
     private String taxAuthorityPIN;
 
     @Column(name = "originating_file_token")
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -85,21 +81,17 @@ public class RegisteredSupplier implements Serializable {
         return supplierName;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
     public RegisteredSupplier supplierName(String supplierName) {
         this.supplierName = supplierName;
         return this;
     }
 
-    public String getSupplierAddress() {
-        return supplierAddress;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
-    public void setSupplierAddress(String supplierAddress) {
-        this.supplierAddress = supplierAddress;
+    public String getSupplierAddress() {
+        return supplierAddress;
     }
 
     public RegisteredSupplier supplierAddress(String supplierAddress) {
@@ -107,12 +99,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public RegisteredSupplier phoneNumber(String phoneNumber) {
@@ -120,12 +112,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getSupplierEmail() {
-        return supplierEmail;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setSupplierEmail(String supplierEmail) {
-        this.supplierEmail = supplierEmail;
+    public String getSupplierEmail() {
+        return supplierEmail;
     }
 
     public RegisteredSupplier supplierEmail(String supplierEmail) {
@@ -133,12 +125,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getBankAccountName() {
-        return bankAccountName;
+    public void setSupplierEmail(String supplierEmail) {
+        this.supplierEmail = supplierEmail;
     }
 
-    public void setBankAccountName(String bankAccountName) {
-        this.bankAccountName = bankAccountName;
+    public String getBankAccountName() {
+        return bankAccountName;
     }
 
     public RegisteredSupplier bankAccountName(String bankAccountName) {
@@ -146,12 +138,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
+    public void setBankAccountName(String bankAccountName) {
+        this.bankAccountName = bankAccountName;
     }
 
-    public void setBankAccountNumber(String bankAccountNumber) {
-        this.bankAccountNumber = bankAccountNumber;
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
     }
 
     public RegisteredSupplier bankAccountNumber(String bankAccountNumber) {
@@ -159,12 +151,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getSupplierBankName() {
-        return supplierBankName;
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
     }
 
-    public void setSupplierBankName(String supplierBankName) {
-        this.supplierBankName = supplierBankName;
+    public String getSupplierBankName() {
+        return supplierBankName;
     }
 
     public RegisteredSupplier supplierBankName(String supplierBankName) {
@@ -172,12 +164,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getSupplierBankBranch() {
-        return supplierBankBranch;
+    public void setSupplierBankName(String supplierBankName) {
+        this.supplierBankName = supplierBankName;
     }
 
-    public void setSupplierBankBranch(String supplierBankBranch) {
-        this.supplierBankBranch = supplierBankBranch;
+    public String getSupplierBankBranch() {
+        return supplierBankBranch;
     }
 
     public RegisteredSupplier supplierBankBranch(String supplierBankBranch) {
@@ -185,12 +177,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getBankSwiftCode() {
-        return bankSwiftCode;
+    public void setSupplierBankBranch(String supplierBankBranch) {
+        this.supplierBankBranch = supplierBankBranch;
     }
 
-    public void setBankSwiftCode(String bankSwiftCode) {
-        this.bankSwiftCode = bankSwiftCode;
+    public String getBankSwiftCode() {
+        return bankSwiftCode;
     }
 
     public RegisteredSupplier bankSwiftCode(String bankSwiftCode) {
@@ -198,12 +190,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getBankPhysicalAddress() {
-        return bankPhysicalAddress;
+    public void setBankSwiftCode(String bankSwiftCode) {
+        this.bankSwiftCode = bankSwiftCode;
     }
 
-    public void setBankPhysicalAddress(String bankPhysicalAddress) {
-        this.bankPhysicalAddress = bankPhysicalAddress;
+    public String getBankPhysicalAddress() {
+        return bankPhysicalAddress;
     }
 
     public RegisteredSupplier bankPhysicalAddress(String bankPhysicalAddress) {
@@ -211,12 +203,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getDomicile() {
-        return domicile;
+    public void setBankPhysicalAddress(String bankPhysicalAddress) {
+        this.bankPhysicalAddress = bankPhysicalAddress;
     }
 
-    public void setDomicile(String domicile) {
-        this.domicile = domicile;
+    public String getDomicile() {
+        return domicile;
     }
 
     public RegisteredSupplier domicile(String domicile) {
@@ -224,12 +216,12 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
-    public String getTaxAuthorityPIN() {
-        return taxAuthorityPIN;
+    public void setDomicile(String domicile) {
+        this.domicile = domicile;
     }
 
-    public void setTaxAuthorityPIN(String taxAuthorityPIN) {
-        this.taxAuthorityPIN = taxAuthorityPIN;
+    public String getTaxAuthorityPIN() {
+        return taxAuthorityPIN;
     }
 
     public RegisteredSupplier taxAuthorityPIN(String taxAuthorityPIN) {
@@ -237,17 +229,21 @@ public class RegisteredSupplier implements Serializable {
         return this;
     }
 
+    public void setTaxAuthorityPIN(String taxAuthorityPIN) {
+        this.taxAuthorityPIN = taxAuthorityPIN;
+    }
+
     public String getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
-    }
-
-    public RegisteredSupplier OriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public RegisteredSupplier originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
+    }
+
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -269,10 +265,21 @@ public class RegisteredSupplier implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisteredSupplier{" + "id=" + getId() + ", supplierName='" + getSupplierName() + "'" + ", supplierAddress='" + getSupplierAddress() + "'" + ", phoneNumber='" + getPhoneNumber() +
-            "'" + ", supplierEmail='" + getSupplierEmail() + "'" + ", bankAccountName='" + getBankAccountName() + "'" + ", bankAccountNumber='" + getBankAccountNumber() + "'" +
-            ", supplierBankName='" + getSupplierBankName() + "'" + ", supplierBankBranch='" + getSupplierBankBranch() + "'" + ", bankSwiftCode='" + getBankSwiftCode() + "'" +
-            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" + ", domicile='" + getDomicile() + "'" + ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" + ", OriginatingFileToken='" +
-            getOriginatingFileToken() + "'" + "}";
+        return "RegisteredSupplier{" +
+            "id=" + getId() +
+            ", supplierName='" + getSupplierName() + "'" +
+            ", supplierAddress='" + getSupplierAddress() + "'" +
+            ", phoneNumber='" + getPhoneNumber() + "'" +
+            ", supplierEmail='" + getSupplierEmail() + "'" +
+            ", bankAccountName='" + getBankAccountName() + "'" +
+            ", bankAccountNumber='" + getBankAccountNumber() + "'" +
+            ", supplierBankName='" + getSupplierBankName() + "'" +
+            ", supplierBankBranch='" + getSupplierBankBranch() + "'" +
+            ", bankSwiftCode='" + getBankSwiftCode() + "'" +
+            ", bankPhysicalAddress='" + getBankPhysicalAddress() + "'" +
+            ", domicile='" + getDomicile() + "'" +
+            ", taxAuthorityPIN='" + getTaxAuthorityPIN() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
     contactPersonName: [],
     contactEmail: [],
     street: [],
-    OriginatingFileToken: []
+    originatingFileToken: []
   });
 
   constructor(protected serviceOutletService: ServiceOutletService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -54,7 +54,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
       contactPersonName: serviceOutlet.contactPersonName,
       contactEmail: serviceOutlet.contactEmail,
       street: serviceOutlet.street,
-      OriginatingFileToken: serviceOutlet.OriginatingFileToken
+      originatingFileToken: serviceOutlet.originatingFileToken
     });
   }
 
@@ -87,7 +87,7 @@ export class ServiceOutletUpdateComponent implements OnInit {
       contactPersonName: this.editForm.get(['contactPersonName']).value,
       contactEmail: this.editForm.get(['contactEmail']).value,
       street: this.editForm.get(['street']).value,
-      OriginatingFileToken: this.editForm.get(['OriginatingFileToken']).value
+      originatingFileToken: this.editForm.get(['originatingFileToken']).value
     };
     return entity;
   }

@@ -49,7 +49,7 @@ public class ServiceOutletDTO implements Serializable,IsTokenized<String> {
 
     private String street;
 
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     public String originatingFileToken() {
         return this.originatingFileToken;

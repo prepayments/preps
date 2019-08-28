@@ -4,11 +4,13 @@ import io.github.prepayments.PrepsApp;
 import io.github.prepayments.domain.ServiceOutlet;
 import io.github.prepayments.repository.ServiceOutletRepository;
 import io.github.prepayments.repository.search.ServiceOutletSearchRepository;
-import io.github.prepayments.service.ServiceOutletQueryService;
 import io.github.prepayments.service.ServiceOutletService;
 import io.github.prepayments.service.dto.ServiceOutletDTO;
 import io.github.prepayments.service.mapper.ServiceOutletMapper;
 import io.github.prepayments.web.rest.errors.ExceptionTranslator;
+import io.github.prepayments.service.dto.ServiceOutletCriteria;
+import io.github.prepayments.service.ServiceOutletQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -32,16 +34,9 @@ import static io.github.prepayments.web.rest.TestUtil.createFormattingConversion
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@Link ServiceOutletResource} REST controller.
@@ -155,7 +150,7 @@ public class ServiceOutletResourceIT {
             .contactPersonName(DEFAULT_CONTACT_PERSON_NAME)
             .contactEmail(DEFAULT_CONTACT_EMAIL)
             .street(DEFAULT_STREET)
-            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return serviceOutlet;
     }
     /**
@@ -177,7 +172,7 @@ public class ServiceOutletResourceIT {
             .contactPersonName(UPDATED_CONTACT_PERSON_NAME)
             .contactEmail(UPDATED_CONTACT_EMAIL)
             .street(UPDATED_STREET)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return serviceOutlet;
     }
 
@@ -303,9 +298,9 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME.toString())))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET.toString())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getServiceOutlet() throws Exception {
@@ -328,7 +323,7 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.contactPersonName").value(DEFAULT_CONTACT_PERSON_NAME.toString()))
             .andExpect(jsonPath("$.contactEmail").value(DEFAULT_CONTACT_EMAIL.toString()))
             .andExpect(jsonPath("$.street").value(DEFAULT_STREET.toString()))
-            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -820,11 +815,11 @@ public class ServiceOutletResourceIT {
         // Initialize the database
         serviceOutletRepository.saveAndFlush(serviceOutlet);
 
-        // Get all the serviceOutletList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
-        defaultServiceOutletShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+        // Get all the serviceOutletList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
 
-        // Get all the serviceOutletList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the serviceOutletList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -833,11 +828,11 @@ public class ServiceOutletResourceIT {
         // Initialize the database
         serviceOutletRepository.saveAndFlush(serviceOutlet);
 
-        // Get all the serviceOutletList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
-        defaultServiceOutletShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the serviceOutletList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
 
-        // Get all the serviceOutletList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the serviceOutletList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultServiceOutletShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -846,11 +841,11 @@ public class ServiceOutletResourceIT {
         // Initialize the database
         serviceOutletRepository.saveAndFlush(serviceOutlet);
 
-        // Get all the serviceOutletList where OriginatingFileToken is not null
-        defaultServiceOutletShouldBeFound("OriginatingFileToken.specified=true");
+        // Get all the serviceOutletList where originatingFileToken is not null
+        defaultServiceOutletShouldBeFound("originatingFileToken.specified=true");
 
-        // Get all the serviceOutletList where OriginatingFileToken is null
-        defaultServiceOutletShouldNotBeFound("OriginatingFileToken.specified=false");
+        // Get all the serviceOutletList where originatingFileToken is null
+        defaultServiceOutletShouldNotBeFound("originatingFileToken.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -871,7 +866,7 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME)))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL)))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restServiceOutletMockMvc.perform(get("/api/service-outlets/count?sort=id,desc&" + filter))
@@ -930,7 +925,7 @@ public class ServiceOutletResourceIT {
             .contactPersonName(UPDATED_CONTACT_PERSON_NAME)
             .contactEmail(UPDATED_CONTACT_EMAIL)
             .street(UPDATED_STREET)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         ServiceOutletDTO serviceOutletDTO = serviceOutletMapper.toDto(updatedServiceOutlet);
 
         restServiceOutletMockMvc.perform(put("/api/service-outlets")
@@ -1025,7 +1020,7 @@ public class ServiceOutletResourceIT {
             .andExpect(jsonPath("$.[*].contactPersonName").value(hasItem(DEFAULT_CONTACT_PERSON_NAME)))
             .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL)))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

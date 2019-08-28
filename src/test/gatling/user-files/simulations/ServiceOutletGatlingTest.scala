@@ -83,7 +83,7 @@ class ServiceOutletGatlingTest extends Simulation {
                 , "contactPersonName":"SAMPLE_TEXT"
                 , "contactEmail":"SAMPLE_TEXT"
                 , "street":"SAMPLE_TEXT"
-                , "OriginatingFileToken":"SAMPLE_TEXT"
+                , "originatingFileToken":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_serviceOutlet_url"))).exitHereIfFailed

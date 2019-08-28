@@ -86,7 +86,7 @@ describe('Service Tests', () => {
             bankPhysicalAddress: 'BBBBBB',
             domicile: 'BBBBBB',
             taxAuthorityPIN: 'BBBBBB',
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -116,7 +116,7 @@ describe('Service Tests', () => {
             bankPhysicalAddress: 'BBBBBB',
             domicile: 'BBBBBB',
             taxAuthorityPIN: 'BBBBBB',
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

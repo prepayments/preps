@@ -84,7 +84,7 @@ describe('Service Tests', () => {
             contactPersonName: 'BBBBBB',
             contactEmail: 'BBBBBB',
             street: 'BBBBBB',
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );
@@ -113,7 +113,7 @@ describe('Service Tests', () => {
             contactPersonName: 'BBBBBB',
             contactEmail: 'BBBBBB',
             street: 'BBBBBB',
-            OriginatingFileToken: 'BBBBBB'
+            originatingFileToken: 'BBBBBB'
           },
           elemDefault
         );

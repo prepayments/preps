@@ -3,17 +3,13 @@ package io.github.prepayments.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A ServiceOutlet.
@@ -68,7 +64,7 @@ public class ServiceOutlet implements Serializable {
     private String street;
 
     @Column(name = "originating_file_token")
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -83,21 +79,17 @@ public class ServiceOutlet implements Serializable {
         return serviceOutletName;
     }
 
-    public void setServiceOutletName(String serviceOutletName) {
-        this.serviceOutletName = serviceOutletName;
-    }
-
     public ServiceOutlet serviceOutletName(String serviceOutletName) {
         this.serviceOutletName = serviceOutletName;
         return this;
     }
 
-    public String getServiceOutletCode() {
-        return serviceOutletCode;
+    public void setServiceOutletName(String serviceOutletName) {
+        this.serviceOutletName = serviceOutletName;
     }
 
-    public void setServiceOutletCode(String serviceOutletCode) {
-        this.serviceOutletCode = serviceOutletCode;
+    public String getServiceOutletCode() {
+        return serviceOutletCode;
     }
 
     public ServiceOutlet serviceOutletCode(String serviceOutletCode) {
@@ -105,12 +97,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getServiceOutletLocation() {
-        return serviceOutletLocation;
+    public void setServiceOutletCode(String serviceOutletCode) {
+        this.serviceOutletCode = serviceOutletCode;
     }
 
-    public void setServiceOutletLocation(String serviceOutletLocation) {
-        this.serviceOutletLocation = serviceOutletLocation;
+    public String getServiceOutletLocation() {
+        return serviceOutletLocation;
     }
 
     public ServiceOutlet serviceOutletLocation(String serviceOutletLocation) {
@@ -118,12 +110,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getServiceOutletManager() {
-        return serviceOutletManager;
+    public void setServiceOutletLocation(String serviceOutletLocation) {
+        this.serviceOutletLocation = serviceOutletLocation;
     }
 
-    public void setServiceOutletManager(String serviceOutletManager) {
-        this.serviceOutletManager = serviceOutletManager;
+    public String getServiceOutletManager() {
+        return serviceOutletManager;
     }
 
     public ServiceOutlet serviceOutletManager(String serviceOutletManager) {
@@ -131,12 +123,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public Integer getNumberOfStaff() {
-        return numberOfStaff;
+    public void setServiceOutletManager(String serviceOutletManager) {
+        this.serviceOutletManager = serviceOutletManager;
     }
 
-    public void setNumberOfStaff(Integer numberOfStaff) {
-        this.numberOfStaff = numberOfStaff;
+    public Integer getNumberOfStaff() {
+        return numberOfStaff;
     }
 
     public ServiceOutlet numberOfStaff(Integer numberOfStaff) {
@@ -144,12 +136,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getBuilding() {
-        return building;
+    public void setNumberOfStaff(Integer numberOfStaff) {
+        this.numberOfStaff = numberOfStaff;
     }
 
-    public void setBuilding(String building) {
-        this.building = building;
+    public String getBuilding() {
+        return building;
     }
 
     public ServiceOutlet building(String building) {
@@ -157,12 +149,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public Integer getFloor() {
-        return floor;
+    public void setBuilding(String building) {
+        this.building = building;
     }
 
-    public void setFloor(Integer floor) {
-        this.floor = floor;
+    public Integer getFloor() {
+        return floor;
     }
 
     public ServiceOutlet floor(Integer floor) {
@@ -170,12 +162,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getPostalAddress() {
-        return postalAddress;
+    public void setFloor(Integer floor) {
+        this.floor = floor;
     }
 
-    public void setPostalAddress(String postalAddress) {
-        this.postalAddress = postalAddress;
+    public String getPostalAddress() {
+        return postalAddress;
     }
 
     public ServiceOutlet postalAddress(String postalAddress) {
@@ -183,12 +175,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getContactPersonName() {
-        return contactPersonName;
+    public void setPostalAddress(String postalAddress) {
+        this.postalAddress = postalAddress;
     }
 
-    public void setContactPersonName(String contactPersonName) {
-        this.contactPersonName = contactPersonName;
+    public String getContactPersonName() {
+        return contactPersonName;
     }
 
     public ServiceOutlet contactPersonName(String contactPersonName) {
@@ -196,12 +188,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
+    public void setContactPersonName(String contactPersonName) {
+        this.contactPersonName = contactPersonName;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    public String getContactEmail() {
+        return contactEmail;
     }
 
     public ServiceOutlet contactEmail(String contactEmail) {
@@ -209,12 +201,12 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
-    public String getStreet() {
-        return street;
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public String getStreet() {
+        return street;
     }
 
     public ServiceOutlet street(String street) {
@@ -222,17 +214,21 @@ public class ServiceOutlet implements Serializable {
         return this;
     }
 
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
     public String getOriginatingFileToken() {
-        return OriginatingFileToken;
+        return originatingFileToken;
     }
 
-    public void setOriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
-    }
-
-    public ServiceOutlet OriginatingFileToken(String OriginatingFileToken) {
-        this.OriginatingFileToken = OriginatingFileToken;
+    public ServiceOutlet originatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
         return this;
+    }
+
+    public void setOriginatingFileToken(String originatingFileToken) {
+        this.originatingFileToken = originatingFileToken;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -254,9 +250,20 @@ public class ServiceOutlet implements Serializable {
 
     @Override
     public String toString() {
-        return "ServiceOutlet{" + "id=" + getId() + ", serviceOutletName='" + getServiceOutletName() + "'" + ", serviceOutletCode='" + getServiceOutletCode() + "'" + ", serviceOutletLocation='" +
-            getServiceOutletLocation() + "'" + ", serviceOutletManager='" + getServiceOutletManager() + "'" + ", numberOfStaff=" + getNumberOfStaff() + ", building='" + getBuilding() + "'" +
-            ", floor=" + getFloor() + ", postalAddress='" + getPostalAddress() + "'" + ", contactPersonName='" + getContactPersonName() + "'" + ", contactEmail='" + getContactEmail() + "'" +
-            ", street='" + getStreet() + "'" + ", OriginatingFileToken='" + getOriginatingFileToken() + "'" + "}";
+        return "ServiceOutlet{" +
+            "id=" + getId() +
+            ", serviceOutletName='" + getServiceOutletName() + "'" +
+            ", serviceOutletCode='" + getServiceOutletCode() + "'" +
+            ", serviceOutletLocation='" + getServiceOutletLocation() + "'" +
+            ", serviceOutletManager='" + getServiceOutletManager() + "'" +
+            ", numberOfStaff=" + getNumberOfStaff() +
+            ", building='" + getBuilding() + "'" +
+            ", floor=" + getFloor() +
+            ", postalAddress='" + getPostalAddress() + "'" +
+            ", contactPersonName='" + getContactPersonName() + "'" +
+            ", contactEmail='" + getContactEmail() + "'" +
+            ", street='" + getStreet() + "'" +
+            ", originatingFileToken='" + getOriginatingFileToken() + "'" +
+            "}";
     }
 }

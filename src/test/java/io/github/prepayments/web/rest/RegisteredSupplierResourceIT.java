@@ -154,7 +154,7 @@ public class RegisteredSupplierResourceIT {
             .bankPhysicalAddress(DEFAULT_BANK_PHYSICAL_ADDRESS)
             .domicile(DEFAULT_DOMICILE)
             .taxAuthorityPIN(DEFAULT_TAX_AUTHORITY_PIN)
-            .OriginatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(DEFAULT_ORIGINATING_FILE_TOKEN);
         return registeredSupplier;
     }
     /**
@@ -177,7 +177,7 @@ public class RegisteredSupplierResourceIT {
             .bankPhysicalAddress(UPDATED_BANK_PHYSICAL_ADDRESS)
             .domicile(UPDATED_DOMICILE)
             .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         return registeredSupplier;
     }
 
@@ -286,7 +286,7 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].domicile").value(hasItem(DEFAULT_DOMICILE.toString())))
             .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN.toString())))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
     
     @Test
@@ -312,7 +312,7 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.bankPhysicalAddress").value(DEFAULT_BANK_PHYSICAL_ADDRESS.toString()))
             .andExpect(jsonPath("$.domicile").value(DEFAULT_DOMICILE.toString()))
             .andExpect(jsonPath("$.taxAuthorityPIN").value(DEFAULT_TAX_AUTHORITY_PIN.toString()))
-            .andExpect(jsonPath("$.OriginatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
+            .andExpect(jsonPath("$.originatingFileToken").value(DEFAULT_ORIGINATING_FILE_TOKEN.toString()));
     }
 
     @Test
@@ -789,11 +789,11 @@ public class RegisteredSupplierResourceIT {
         // Initialize the database
         registeredSupplierRepository.saveAndFlush(registeredSupplier);
 
-        // Get all the registeredSupplierList where OriginatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
-        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
+        // Get all the registeredSupplierList where originatingFileToken equals to DEFAULT_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldBeFound("originatingFileToken.equals=" + DEFAULT_ORIGINATING_FILE_TOKEN);
 
-        // Get all the registeredSupplierList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the registeredSupplierList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldNotBeFound("originatingFileToken.equals=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -802,11 +802,11 @@ public class RegisteredSupplierResourceIT {
         // Initialize the database
         registeredSupplierRepository.saveAndFlush(registeredSupplier);
 
-        // Get all the registeredSupplierList where OriginatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
-        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the registeredSupplierList where originatingFileToken in DEFAULT_ORIGINATING_FILE_TOKEN or UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldBeFound("originatingFileToken.in=" + DEFAULT_ORIGINATING_FILE_TOKEN + "," + UPDATED_ORIGINATING_FILE_TOKEN);
 
-        // Get all the registeredSupplierList where OriginatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
-        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
+        // Get all the registeredSupplierList where originatingFileToken equals to UPDATED_ORIGINATING_FILE_TOKEN
+        defaultRegisteredSupplierShouldNotBeFound("originatingFileToken.in=" + UPDATED_ORIGINATING_FILE_TOKEN);
     }
 
     @Test
@@ -815,11 +815,11 @@ public class RegisteredSupplierResourceIT {
         // Initialize the database
         registeredSupplierRepository.saveAndFlush(registeredSupplier);
 
-        // Get all the registeredSupplierList where OriginatingFileToken is not null
-        defaultRegisteredSupplierShouldBeFound("OriginatingFileToken.specified=true");
+        // Get all the registeredSupplierList where originatingFileToken is not null
+        defaultRegisteredSupplierShouldBeFound("originatingFileToken.specified=true");
 
-        // Get all the registeredSupplierList where OriginatingFileToken is null
-        defaultRegisteredSupplierShouldNotBeFound("OriginatingFileToken.specified=false");
+        // Get all the registeredSupplierList where originatingFileToken is null
+        defaultRegisteredSupplierShouldNotBeFound("originatingFileToken.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -841,7 +841,7 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].domicile").value(hasItem(DEFAULT_DOMICILE)))
             .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
 
         // Check, that the count call also returns 1
         restRegisteredSupplierMockMvc.perform(get("/api/registered-suppliers/count?sort=id,desc&" + filter))
@@ -901,7 +901,7 @@ public class RegisteredSupplierResourceIT {
             .bankPhysicalAddress(UPDATED_BANK_PHYSICAL_ADDRESS)
             .domicile(UPDATED_DOMICILE)
             .taxAuthorityPIN(UPDATED_TAX_AUTHORITY_PIN)
-            .OriginatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
+            .originatingFileToken(UPDATED_ORIGINATING_FILE_TOKEN);
         RegisteredSupplierDTO registeredSupplierDTO = registeredSupplierMapper.toDto(updatedRegisteredSupplier);
 
         restRegisteredSupplierMockMvc.perform(put("/api/registered-suppliers")
@@ -998,7 +998,7 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].bankPhysicalAddress").value(hasItem(DEFAULT_BANK_PHYSICAL_ADDRESS)))
             .andExpect(jsonPath("$.[*].domicile").value(hasItem(DEFAULT_DOMICILE)))
             .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN)))
-            .andExpect(jsonPath("$.[*].OriginatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
+            .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN)));
     }
 
     @Test

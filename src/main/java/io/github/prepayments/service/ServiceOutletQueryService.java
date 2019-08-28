@@ -127,7 +127,7 @@ public class ServiceOutletQueryService extends QueryService<ServiceOutlet> {
                 specification = specification.and(buildStringSpecification(criteria.getStreet(), ServiceOutlet_.street));
             }
             if (criteria.getOriginatingFileToken() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), ServiceOutlet_.OriginatingFileToken));
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), ServiceOutlet_.originatingFileToken));
             }
         }
         return specification;

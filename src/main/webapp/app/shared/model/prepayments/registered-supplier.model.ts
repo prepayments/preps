@@ -12,7 +12,7 @@ export interface IRegisteredSupplier {
   bankPhysicalAddress?: string;
   domicile?: string;
   taxAuthorityPIN?: string;
-  OriginatingFileToken?: string;
+  originatingFileToken?: string;
 }
 
 export class RegisteredSupplier implements IRegisteredSupplier {
@@ -30,6 +30,6 @@ export class RegisteredSupplier implements IRegisteredSupplier {
     public bankPhysicalAddress?: string,
     public domicile?: string,
     public taxAuthorityPIN?: string,
-    public OriginatingFileToken?: string
+    public originatingFileToken?: string
   ) {}
 }

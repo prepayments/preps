@@ -56,7 +56,7 @@ describe('RegisteredSupplier e2e test', () => {
       registeredSupplierUpdatePage.setBankPhysicalAddressInput('bankPhysicalAddress'),
       registeredSupplierUpdatePage.setDomicileInput('domicile'),
       registeredSupplierUpdatePage.setTaxAuthorityPINInput('taxAuthorityPIN'),
-      registeredSupplierUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
+      registeredSupplierUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
     ]);
     expect(await registeredSupplierUpdatePage.getSupplierNameInput()).to.eq(
       'supplierName',
@@ -104,8 +104,8 @@ describe('RegisteredSupplier e2e test', () => {
       'Expected TaxAuthorityPIN value to be equals to taxAuthorityPIN'
     );
     expect(await registeredSupplierUpdatePage.getOriginatingFileTokenInput()).to.eq(
-      'OriginatingFileToken',
-      'Expected OriginatingFileToken value to be equals to OriginatingFileToken'
+      'originatingFileToken',
+      'Expected OriginatingFileToken value to be equals to originatingFileToken'
     );
     await registeredSupplierUpdatePage.save();
     expect(await registeredSupplierUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

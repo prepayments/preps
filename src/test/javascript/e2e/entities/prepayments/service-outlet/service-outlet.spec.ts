@@ -51,7 +51,7 @@ describe('ServiceOutlet e2e test', () => {
       serviceOutletUpdatePage.setContactPersonNameInput('contactPersonName'),
       serviceOutletUpdatePage.setContactEmailInput('contactEmail'),
       serviceOutletUpdatePage.setStreetInput('street'),
-      serviceOutletUpdatePage.setOriginatingFileTokenInput('OriginatingFileToken')
+      serviceOutletUpdatePage.setOriginatingFileTokenInput('originatingFileToken')
     ]);
     expect(await serviceOutletUpdatePage.getServiceOutletNameInput()).to.eq(
       'serviceOutletName',
@@ -86,8 +86,8 @@ describe('ServiceOutlet e2e test', () => {
     );
     expect(await serviceOutletUpdatePage.getStreetInput()).to.eq('street', 'Expected Street value to be equals to street');
     expect(await serviceOutletUpdatePage.getOriginatingFileTokenInput()).to.eq(
-      'OriginatingFileToken',
-      'Expected OriginatingFileToken value to be equals to OriginatingFileToken'
+      'originatingFileToken',
+      'Expected OriginatingFileToken value to be equals to originatingFileToken'
     );
     await serviceOutletUpdatePage.save();
     expect(await serviceOutletUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

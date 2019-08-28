@@ -130,7 +130,7 @@ public class RegisteredSupplierQueryService extends QueryService<RegisteredSuppl
                 specification = specification.and(buildStringSpecification(criteria.getTaxAuthorityPIN(), RegisteredSupplier_.taxAuthorityPIN));
             }
             if (criteria.getOriginatingFileToken() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), RegisteredSupplier_.OriginatingFileToken));
+                specification = specification.and(buildStringSpecification(criteria.getOriginatingFileToken(), RegisteredSupplier_.originatingFileToken));
             }
         }
         return specification;

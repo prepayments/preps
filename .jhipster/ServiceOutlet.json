@@ -54,7 +54,7 @@
             "fieldType": "String"
         },
         {
-          "fieldName": "OriginatingFileToken",
+          "fieldName": "originatingFileToken",
           "fieldType": "String"
         }
     ],

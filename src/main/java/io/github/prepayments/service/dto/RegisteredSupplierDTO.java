@@ -50,7 +50,7 @@ public class RegisteredSupplierDTO implements Serializable,IsTokenized<String> {
 
     private String taxAuthorityPIN;
 
-    private String OriginatingFileToken;
+    private String originatingFileToken;
 
     public String originatingFileToken() {
         return this.originatingFileToken;

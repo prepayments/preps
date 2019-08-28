@@ -38,7 +38,7 @@ export class RegisteredSupplierUpdatePage {
   bankPhysicalAddressInput = element(by.id('field_bankPhysicalAddress'));
   domicileInput = element(by.id('field_domicile'));
   taxAuthorityPINInput = element(by.id('field_taxAuthorityPIN'));
-  OriginatingFileTokenInput = element(by.id('field_OriginatingFileToken'));
+  originatingFileTokenInput = element(by.id('field_originatingFileToken'));
 
   async getPageTitle() {
     return this.pageTitle.getText();
@@ -140,12 +140,12 @@ export class RegisteredSupplierUpdatePage {
     return await this.taxAuthorityPINInput.getAttribute('value');
   }
 
-  async setOriginatingFileTokenInput(OriginatingFileToken) {
-    await this.OriginatingFileTokenInput.sendKeys(OriginatingFileToken);
+  async setOriginatingFileTokenInput(originatingFileToken) {
+    await this.originatingFileTokenInput.sendKeys(originatingFileToken);
   }
 
   async getOriginatingFileTokenInput() {
-    return await this.OriginatingFileTokenInput.getAttribute('value');
+    return await this.originatingFileTokenInput.getAttribute('value');
   }
 
   async save(timeout?: number) {
