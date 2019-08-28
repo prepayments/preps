@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @Service("amortizationDataEntryFileQueueScheduler")
-public class AmortizationDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<AmortizationDataEntryFileDTO> {
+public class AmortizationDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<AmortizationDataEntryFileDTO, String> {
 
     private final AmortizationDataEntryMessageService amortizationDataEntryMessageService;
 
@@ -26,14 +26,14 @@ public class AmortizationDataEntryFileQueueScheduler implements DataEntryFileQue
      * This method takes in a file data object and returns a List of row indices of items succeffully read from the excel file.
      */
     @Override
-    public Observable<Long> deserializeAndEnqueue(final AmortizationDataEntryFileDTO dataEntryFile) {
+    public Observable<Long> deserializeAndEnqueue(final AmortizationDataEntryFileDTO dataEntryFile, final String fileToken) {
 
         log.info("Enqueueing data read from the file id : {} ...", dataEntryFile.getId());
 
         // @formatter:off
         return Observable.from(
             ExcelFileUtils.deserializeAmortizationFile(
-                dataEntryFile.getDataEntryFile())
+                dataEntryFile.getDataEntryFile(), fileToken)
                           .stream()
                           .map(amortizationDataEntryMessageService::sendMessage)
                           .collect(Collectors.toList()));

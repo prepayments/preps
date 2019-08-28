@@ -42,7 +42,7 @@ public class PrepaymentFileUploadNotificationListener implements UploadNotificat
 
         // @formatter:off
         prepaymentDataEntryFileQueueScheduler
-            .deserializeAndEnqueue(result)
+            .deserializeAndEnqueue(result, dataStreamItem.getFileToken())
             .doOnCompleted(() -> result.setUploadSuccessful(true))
             .subscribeOn(Schedulers.io()).subscribe();
         // @formatter:on

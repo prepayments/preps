@@ -44,7 +44,7 @@ public class ServiceOutletFileUploadNotificationListener implements UploadNotifi
 
         // @formatter:off
         serviceOutletDataEntryFileQueueScheduler
-            .deserializeAndEnqueue(result)
+            .deserializeAndEnqueue(result, dataStreamItem.getFileToken())
             .doOnCompleted(() -> result.setUploadSuccessful(true))
             .subscribeOn(Schedulers.io()).subscribe();
         // @formatter:on

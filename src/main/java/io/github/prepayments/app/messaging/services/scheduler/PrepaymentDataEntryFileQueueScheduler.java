@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @Transactional
-public class PrepaymentDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<PrepaymentDataEntryFileDTO> {
+public class PrepaymentDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<PrepaymentDataEntryFileDTO, String> {
 
 
     private final PrepaymentDataEntryMessageService prepaymentDataEntryMessageService;
@@ -27,14 +27,14 @@ public class PrepaymentDataEntryFileQueueScheduler implements DataEntryFileQueue
      * Enqueues a file into the MQ and returns a list of rowIndices as they appear in the ExcelViewModel, that have successfully been enqueued
      */
     @Override
-    public Observable<Long> deserializeAndEnqueue(final PrepaymentDataEntryFileDTO dataEntryFile) {
+    public Observable<Long> deserializeAndEnqueue(final PrepaymentDataEntryFileDTO dataEntryFile, final String fileToken) {
 
         log.info("Enqueueing data read from the file id : {} ...", dataEntryFile.getId());
 
         // @formatter:off
         return Observable.from(
             ExcelFileUtils.deserializePrepaymentsFile(
-                dataEntryFile.getDataEntryFile())
+                dataEntryFile.getDataEntryFile(), fileToken)
                           .stream()
                           .map(prepaymentDataEntryMessageService::sendMessage)
                           .collect(Collectors.toList()));

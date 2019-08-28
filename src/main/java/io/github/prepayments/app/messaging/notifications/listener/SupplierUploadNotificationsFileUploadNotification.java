@@ -43,7 +43,7 @@ public class SupplierUploadNotificationsFileUploadNotification implements Upload
 
         // @formatter:off
         supplierDataEntryFileQueueScheduler
-            .deserializeAndEnqueue(result)
+            .deserializeAndEnqueue(result, dataStreamItem.getFileToken())
             .doOnCompleted(() -> result.setUploadSuccessful(true))
             .subscribeOn(Schedulers.io()).subscribe();
         // @formatter:on

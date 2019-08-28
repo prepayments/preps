@@ -1,5 +1,6 @@
 package io.github.prepayments.app.messaging.services.scheduler;
 
+import com.google.common.collect.ImmutableList;
 import io.github.prepayments.app.excel.ExcelFileUtils;
 import io.github.prepayments.app.messaging.services.AmortizationUploadFileMessageService;
 import io.github.prepayments.app.messaging.services.DataEntryFileQueueScheduler;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @Service("amortizationUploadFileQueueScheduler")
-public class AmortizationUploadFileQueueScheduler implements DataEntryFileQueueScheduler<AmortizationUploadFileDTO> {
+public class AmortizationUploadFileQueueScheduler implements DataEntryFileQueueScheduler<AmortizationUploadFileDTO, String> {
 
     private final AmortizationUploadFileMessageService amortizationUploadFileMessageService;
 
@@ -26,17 +27,18 @@ public class AmortizationUploadFileQueueScheduler implements DataEntryFileQueueS
      * Enqueues a file into the MQ and returns a list of rowIndices as they appear in the ExcelViewModel, that have successfully been enqueued
      */
     @Override
-    public Observable<Long> deserializeAndEnqueue(final AmortizationUploadFileDTO dataEntryFile) {
+    public Observable<Long> deserializeAndEnqueue(final AmortizationUploadFileDTO dataEntryFile,final String fileToken) {
 
         log.info("Enqueueing data read from the file id : {} ...", dataEntryFile.getId());
 
+        // TODO Check if originating-file-token is transmitted
         // @formatter:off
         return Observable.from(
             ExcelFileUtils.deserializeAmortizationUploadFile(
-                dataEntryFile.getDataEntryFile())
+                dataEntryFile.getDataEntryFile(), fileToken)
                           .stream()
                           .map(amortizationUploadFileMessageService::sendMessage)
-                          .collect(Collectors.toList()));
+                          .collect(ImmutableList.toImmutableList()));
         // @formatter:on
     }
 }

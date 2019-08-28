@@ -38,7 +38,7 @@ public class AmortizationUploadFileUploadNotificationListener implements UploadN
 
         // @formatter:off
         amortizationUploadFileQueueScheduler
-            .deserializeAndEnqueue(result)
+            .deserializeAndEnqueue(result, dataStreamItem.getFileToken())
             .doOnCompleted(() -> result.setUploadSuccessful(true))
             .subscribeOn(Schedulers.io())
             .subscribe();

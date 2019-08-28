@@ -1,5 +1,6 @@
 package io.github.prepayments.app.excel;
 
+import com.google.common.collect.ImmutableList;
 import com.poiji.option.PoijiOptions.PoijiOptionsBuilder;
 import io.github.prepayments.app.excel.deserializer.AmortizationEntryExcelFileDeserializer;
 import io.github.prepayments.app.excel.deserializer.AmortizationUploadExcelFileDeserializer;
@@ -22,39 +23,57 @@ import java.util.List;
  */
 public class ExcelFileUtils {
 
-    public static List<AmortizationEntryEVM> deserializeAmortizationFile(byte[] dataEntryFile) {
+    public static List<AmortizationEntryEVM> deserializeAmortizationFile(byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<AmortizationEntryEVM> excelFileDeserializer = new AmortizationEntryExcelFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+                                    .stream()
+                                    .peek(amortizationEntryEVM -> amortizationEntryEVM.setOriginatingFileToken(originatingFileToken))
+                                    .collect(ImmutableList.toImmutableList());
     }
 
-    public static List<PrepaymentEntryEVM> deserializePrepaymentsFile(byte[] dataEntryFile) {
+    public static List<PrepaymentEntryEVM> deserializePrepaymentsFile(byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<PrepaymentEntryEVM> excelFileDeserializer = new PrepaymentEntryExcelFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+            .stream()
+            .peek(prepaymentEntryEVM -> prepaymentEntryEVM.setOriginatingFileToken(originatingFileToken))
+            .collect(ImmutableList.toImmutableList());
     }
 
-    public static List<RegisteredSupplierEVM> deserializeSuppliersFile(byte[] dataEntryFile) {
+    public static List<RegisteredSupplierEVM> deserializeSuppliersFile(byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<RegisteredSupplierEVM> excelFileDeserializer = new RegisteredSupplierDataEntryFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+            .stream()
+            .peek(registeredSupplierEVM -> registeredSupplierEVM.setOriginatingFileToken(originatingFileToken))
+            .collect(ImmutableList.toImmutableList());
     }
 
-    public static List<ServiceOutletEVM> deserializeServiceOutletFile(byte[] dataEntryFile) {
+    public static List<ServiceOutletEVM> deserializeServiceOutletFile(byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<ServiceOutletEVM> excelFileDeserializer = new ServiceOutletDataEntryFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+            .stream()
+            .peek(serviceOutletEVM -> serviceOutletEVM.setOriginatingFileToken(originatingFileToken))
+            .collect(ImmutableList.toImmutableList());
     }
 
-    public static List<TransactionAccountEVM> deserializeTransactionAccountFile(byte[] dataEntryFile) {
+    public static List<TransactionAccountEVM> deserializeTransactionAccountFile(byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<TransactionAccountEVM> excelFileDeserializer = new TransactionAccountDataEntryExcelFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+            .stream()
+            .peek(transactionAccountEVM -> transactionAccountEVM.setOriginatingFileToken(originatingFileToken))
+            .collect(ImmutableList.toImmutableList());
     }
 
-    public static List<AmortizationUploadEVM> deserializeAmortizationUploadFile(final byte[] dataEntryFile) {
+    public static List<AmortizationUploadEVM> deserializeAmortizationUploadFile(final byte[] dataEntryFile, String originatingFileToken) {
         ExcelFileDeserializer<AmortizationUploadEVM> excelFileDeserializer = new AmortizationUploadExcelFileDeserializer(
             PoijiOptionsBuilder.settings().ignoreHiddenSheets(true).preferNullOverDefault(true).datePattern("yyyy/MM/dd").dateTimeFormatter(DateTimeFormatter.ISO_DATE_TIME).build());
-        return excelFileDeserializer.deserialize(dataEntryFile);
+        return excelFileDeserializer.deserialize(dataEntryFile)
+            .stream()
+            .peek(amortizationUploadEVM -> amortizationUploadEVM.setOriginatingFileToken(originatingFileToken))
+            .collect(ImmutableList.toImmutableList());
     }
 }

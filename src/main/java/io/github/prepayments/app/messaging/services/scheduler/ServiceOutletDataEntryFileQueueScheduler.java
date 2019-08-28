@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @Service("serviceOutletDataEntryFileQueueScheduler")
-public class ServiceOutletDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<ServiceOutletDataEntryFileDTO> {
+public class ServiceOutletDataEntryFileQueueScheduler implements DataEntryFileQueueScheduler<ServiceOutletDataEntryFileDTO, String> {
 
     private final ServiceOutletDataEntryMessageService serviceOutletDataEntryMessageService;
 
@@ -26,14 +26,14 @@ public class ServiceOutletDataEntryFileQueueScheduler implements DataEntryFileQu
      * Enqueues a file into the MQ and returns a list of rowIndices as they appear in the ExcelViewModel, that have successfully been enqueued
      */
     @Override
-    public Observable<Long> deserializeAndEnqueue(final ServiceOutletDataEntryFileDTO dataEntryFile) {
+    public Observable<Long> deserializeAndEnqueue(final ServiceOutletDataEntryFileDTO dataEntryFile, final String fileToken) {
 
         log.info("Enqueueing data read from the file id : {} ...", dataEntryFile.getId());
 
         // @formatter:off
         return Observable.from(
             ExcelFileUtils.deserializeServiceOutletFile(
-                dataEntryFile.getDataEntryFile())
+                dataEntryFile.getDataEntryFile(), fileToken)
                           .stream()
                           .map(serviceOutletDataEntryMessageService::sendMessage)
                           .collect(Collectors.toList()));

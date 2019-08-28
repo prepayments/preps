@@ -42,7 +42,7 @@ public class TransactionAccountFileUploadNotificationListener implements UploadN
 
         // @formatter:off
         transactionAccountDataEntryFileQueueScheduler
-                 .deserializeAndEnqueue(result)
+                 .deserializeAndEnqueue(result, dataStreamItem.getFileToken())
                  .doOnCompleted(() -> result.setUploadSuccessful(true))
                  .subscribeOn(Schedulers.io()).subscribe();
         // @formatter:on
