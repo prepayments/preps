@@ -40,16 +40,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_uploadSuccessful">Upload Successful</label>
-                    <input type="checkbox" class="form-control" name="uploadSuccessful" id="field_uploadSuccessful"
-                           formControlName="uploadSuccessful"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_uploadProcessed">Upload Processed</label>
-                    <input type="checkbox" class="form-control" name="uploadProcessed" id="field_uploadProcessed"
-                           formControlName="uploadProcessed"/>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_dataEntryFile">Data Entry File</label>
                     <div>
                         <div *ngIf="editForm.get('dataEntryFile').value" class="form-text text-danger clearfix">
@@ -73,18 +63,28 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_entriesCount">Entries Count</label>
                     <input type="number" class="form-control" name="entriesCount" id="field_entriesCount"
                            formControlName="entriesCount"/>
-                </div>
-                <div class="form-group">
+                </div>-->
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_fileToken">File Token</label>
                     <input type="text" class="form-control" name="fileToken" id="field_fileToken"
                            formControlName="fileToken"/>
                     <div *ngIf="editForm.get('fileToken').invalid && (editForm.get('fileToken').dirty || editForm.get('fileToken').touched)">
                     </div>
+                </div>-->
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_uploadSuccessful">Upload Successful</label>
+                    <input type="checkbox" class="form-control" name="uploadSuccessful" id="field_uploadSuccessful"
+                           formControlName="uploadSuccessful"/>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_uploadProcessed">Upload Processed</label>
+                    <input type="checkbox" class="form-control" name="uploadProcessed" id="field_uploadProcessed"
+                           formControlName="uploadProcessed"/>
+                </div>-->
 
             </div>
             <div>
