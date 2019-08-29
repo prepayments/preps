@@ -8,10 +8,11 @@
             <th>Amortization Date</th>
             <th>Amortization Amount</th>
             <th>Particulars</th>
-            <th>Posted</th>
-            <th>Service Outlet</th>
-            <th>Account Number</th>
-            <th>Account Name</th>
+            <!--<th>Posted</th>-->
+            <th>Prep. SOL</th>
+            <th>Prepayment Account</th>
+            <th>Amort. SOL</th>
+            <th>Amort. Account</th>
             <th>Prepayment Entry</th>
         </tr>
         </thead>
@@ -21,10 +22,11 @@
             <td>{{amortizationEntry.amortizationDate | date:'mediumDate'}}</td>
             <td>{{amortizationEntry.amortizationAmount | number}}</td>
             <td>{{amortizationEntry.particulars}}</td>
-            <td>{{amortizationEntry.posted}}</td>
-            <td><a (click)="onSelectServiceOutletCode(amortizationEntry.serviceOutlet)">{{amortizationEntry.serviceOutlet}}</a></td>
-            <td><a (click)="onSelectAccountNumber(amortizationEntry.accountNumber)">{{amortizationEntry.accountNumber}}</a></td>
-            <td><a (click)="onSelectAccountName(amortizationEntry.accountName)">{{amortizationEntry.accountName}}</a></td>
+            <!--<td>{{amortizationEntry.posted}}</td>-->
+            <td><a (click)="onSelectServiceOutletCode(amortizationEntry.prepaymentServiceOutlet)">{{amortizationEntry.prepaymentServiceOutlet}}</a></td>
+            <td><a (click)="onSelectAccountNumber(amortizationEntry.prepaymentAccountNumber)">{{amortizationEntry.prepaymentAccountNumber}}</a></td>
+            <td><a (click)="onSelectAccountName(amortizationEntry.amortizationServiceOutlet)">{{amortizationEntry.amortizationServiceOutlet}}</a></td>
+            <td><a (click)="onSelectAccountName(amortizationEntry.amortizationAccountNumber)">{{amortizationEntry.amortizationAccountNumber}}</a></td>
             <td><a [routerLink]="['/prepayment-entry', amortizationEntry.prepaymentEntryId, 'view' ]">{{amortizationEntry.prepaymentEntryId}}</a></td>
         </tr>
         </tbody>
