@@ -34,7 +34,7 @@
             <th jhiSortBy="accountNumber"><span>Account Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountType"><span>Account Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="openingDate"><span>Opening Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th></th>
             </tr>
             </thead>
@@ -45,7 +45,7 @@
                 <td>{{transactionAccount.accountNumber}}</td>
                 <td>{{transactionAccount.accountType}}</td>
                 <td>{{transactionAccount.openingDate | date:'mediumDate'}}</td>
-                <td>{{transactionAccount.originatingFileToken}}</td>
+                <!--<td>{{transactionAccount.originatingFileToken}}</td>-->
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
