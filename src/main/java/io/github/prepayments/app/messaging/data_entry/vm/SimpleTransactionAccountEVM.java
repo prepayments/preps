@@ -20,9 +20,8 @@ public class SimpleTransactionAccountEVM implements Serializable, SimpleExcelVie
     private long rowIndex;
     private String accountName;
     private String accountNumber;
-    private String accountBalance;
+    private String accountType;
     private String openingDate;
-    private String accountOpeningDateBalance;
     private String originatingFileToken;
 
     @Override

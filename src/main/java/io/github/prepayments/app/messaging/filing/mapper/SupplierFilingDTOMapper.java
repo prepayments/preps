@@ -5,6 +5,7 @@ import io.github.prepayments.app.messaging.filing.vm.RegisteredSupplierEVM;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
 import org.mapstruct.Mapper;
 
+// TODO Use proper DTO
 @Mapper(componentModel = "spring", uses = {})
 public interface SupplierFilingDTOMapper extends DtoMapper<RegisteredSupplierEVM, SupplierDataEntryFileDTO> {
 

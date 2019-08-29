@@ -1,0 +1,504 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-1">
+        <createSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-2">
+        <createTable tableName="accounting_transaction">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="accounting_transactionPK"/>
+            </column>
+            <column name="account_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="increment_account" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="service_outlet_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_amount" type="numeric(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-3">
+        <createTable tableName="amortization_data_entry_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_data_entry_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-4">
+        <createTable tableName="amortization_entry">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_entryPK"/>
+            </column>
+            <column name="amortization_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_amount" type="numeric(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_service_outlet" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_tag" type="VARCHAR(255)"/>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="orphaned" type="BOOLEAN"/>
+            <column name="particulars" type="VARCHAR(255)"/>
+            <column name="prepayment_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_service_outlet" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_entry_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-5">
+        <createTable tableName="amortization_upload">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_uploadPK"/>
+            </column>
+            <column name="account_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_amount" type="numeric(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_service_outlet_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amortization_tag" type="VARCHAR(255)"/>
+            <column name="expense_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_amortization_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="monthly_amortization_date" type="INTEGER"/>
+            <column name="number_of_amortizations" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="particulars" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_service_outlet_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_transaction_amount" type="numeric(21, 2)"/>
+            <column name="prepayment_transaction_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_transaction_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_orphaned" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-6">
+        <createTable tableName="amortization_upload_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="amortization_upload_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-7">
+        <createTable tableName="gha_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="gha_authorityPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-8">
+        <createTable tableName="gha_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="gha_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-9">
+        <createTable tableName="gha_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-10">
+        <createTable tableName="gha_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="gha_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(254)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(6)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-11">
+        <createTable tableName="gha_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-12">
+        <createTable tableName="prepayment_data_entry_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="prepayment_data_entry_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-13">
+        <createTable tableName="prepayment_entry">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="prepayment_entryPK"/>
+            </column>
+            <column name="account_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoice_number" type="VARCHAR(255)"/>
+            <column name="months" type="INTEGER"/>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="particulars" type="VARCHAR(255)"/>
+            <column name="prepayment_amount" type="numeric(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prepayment_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scanned_document_id" type="BIGINT"/>
+            <column name="service_outlet" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="supplier_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-14">
+        <createTable tableName="registered_supplier">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="registered_supplierPK"/>
+            </column>
+            <column name="bank_account_name" type="VARCHAR(255)"/>
+            <column name="bank_account_number" type="VARCHAR(255)"/>
+            <column name="bank_physical_address" type="VARCHAR(255)"/>
+            <column name="bank_swift_code" type="VARCHAR(255)"/>
+            <column name="domicile" type="VARCHAR(255)"/>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="supplier_address" type="VARCHAR(255)"/>
+            <column name="supplier_bank_branch" type="VARCHAR(255)"/>
+            <column name="supplier_bank_name" type="VARCHAR(255)"/>
+            <column name="supplier_email" type="VARCHAR(255)"/>
+            <column name="supplier_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tax_authority_pin" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-15">
+        <createTable tableName="report_request_event">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="report_request_eventPK"/>
+            </column>
+            <column name="report_file" type="OID"/>
+            <column name="report_file_content_type" type="VARCHAR(255)"/>
+            <column name="report_request_date" type="date"/>
+            <column name="requested_by" type="VARCHAR(255)"/>
+            <column name="report_type_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-16">
+        <createTable tableName="report_type">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="report_typePK"/>
+            </column>
+            <column name="report_medium_type" type="VARCHAR(255)"/>
+            <column name="report_model_name" type="VARCHAR(255)"/>
+            <column name="report_password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-17">
+        <createTable tableName="scanned_document">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="scanned_documentPK"/>
+            </column>
+            <column name="approval_memo_document" type="OID"/>
+            <column name="approval_memo_document_content_type" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="document_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoice_document" type="OID"/>
+            <column name="invoice_document_content_type" type="VARCHAR(255)"/>
+            <column name="invoice_number" type="VARCHAR(255)"/>
+            <column name="other_scanned_document" type="OID"/>
+            <column name="other_scanned_document_content_type" type="VARCHAR(255)"/>
+            <column name="requisition_document" type="OID"/>
+            <column name="requisition_document_content_type" type="VARCHAR(255)"/>
+            <column name="transaction_date" type="date"/>
+            <column name="transaction_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-18">
+        <createTable tableName="service_outlet">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="service_outletPK"/>
+            </column>
+            <column name="building" type="VARCHAR(255)"/>
+            <column name="contact_email" type="VARCHAR(255)"/>
+            <column name="contact_person_name" type="VARCHAR(255)"/>
+            <column name="floor" type="INTEGER"/>
+            <column name="number_of_staff" type="INTEGER"/>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+            <column name="postal_address" type="VARCHAR(255)"/>
+            <column name="service_outlet_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_outlet_location" type="VARCHAR(255)"/>
+            <column name="service_outlet_manager" type="VARCHAR(255)"/>
+            <column name="service_outlet_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-19">
+        <createTable tableName="service_outlet_data_entry_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="service_outlet_data_entry_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-20">
+        <createTable tableName="supplier_data_entry_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="supplier_data_entry_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-21">
+        <createTable tableName="transaction_account">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="transaction_accountPK"/>
+            </column>
+            <column name="account_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="VARCHAR(255)"/>
+            <column name="opening_date" type="date"/>
+            <column name="originating_file_token" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-22">
+        <createTable tableName="transaction_account_data_entry_file">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="transaction_account_data_entry_filePK"/>
+            </column>
+            <column name="data_entry_file" type="OID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_entry_file_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entries_count" type="INTEGER"/>
+            <column name="file_token" type="VARCHAR(255)"/>
+            <column name="period_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_to" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_processed" type="BOOLEAN"/>
+            <column name="upload_successful" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-23">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_AMORTIZATION_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="amortization_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-24">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_AMORTIZATION_UPLOAD_FILEFILE_TOKEN_COL" tableName="amortization_upload_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-25">
+        <addUniqueConstraint columnNames="email" constraintName="UC_GHA_USEREMAIL_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-26">
+        <addUniqueConstraint columnNames="login" constraintName="UC_GHA_USERLOGIN_COL" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-27">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_PREPAYMENT_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="prepayment_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-28">
+        <addUniqueConstraint columnNames="supplier_name" constraintName="UC_REGISTERED_SUPPLIERSUPPLIER_NAME_COL" tableName="registered_supplier"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-29">
+        <addUniqueConstraint columnNames="document_name" constraintName="UC_SCANNED_DOCUMENTDOCUMENT_NAME_COL" tableName="scanned_document"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-30">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_SERVICE_OUTLET_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="service_outlet_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-31">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_SUPPLIER_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="supplier_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-32">
+        <addUniqueConstraint columnNames="account_name" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NAME_COL" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-33">
+        <addUniqueConstraint columnNames="account_number" constraintName="UC_TRANSACTION_ACCOUNTACCOUNT_NUMBER_COL" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-34">
+        <addUniqueConstraint columnNames="file_token" constraintName="UC_TRANSACTION_ACCOUNT_DATA_ENTRY_FILEFILE_TOKEN_COL" tableName="transaction_account_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-35">
+        <addForeignKeyConstraint baseColumnNames="prepayment_entry_id" baseTableName="amortization_entry" constraintName="FK6umenxi4x5eeyvphw37iwis2x" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="prepayment_entry" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-36">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="gha_user_authority" constraintName="FK7vpii2smu77en3hw0ypiknl4r" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="gha_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-37">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="gha_persistent_audit_evt_data" constraintName="FKj4lrxuk5snmvbbk82tjs767r0" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="gha_persistent_audit_event" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-38">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="gha_user_authority" constraintName="FKm0rqfeneuk5xl48iyj1hcp7p3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="gha_user" validate="true"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1567002408134-39">
+        <addForeignKeyConstraint baseColumnNames="report_type_id" baseTableName="report_request_event" constraintName="FKscyf4hsiesi8t16ubghr1bks2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="report_type" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
