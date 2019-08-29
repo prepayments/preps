@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rx.Observable;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,11 +31,16 @@ public class AmortizationDataEntryFileQueueScheduler implements DataEntryFileQue
 
         log.info("Enqueueing data read from the file id : {} ...", dataEntryFile.getId());
 
+        AtomicInteger count = new AtomicInteger();
+
         // @formatter:off
         return Observable.from(
             ExcelFileUtils.deserializeAmortizationFile(
                 dataEntryFile.getDataEntryFile(), fileToken)
                           .stream()
+                          .peek(amortizationEntryEVM -> {
+                              dataEntryFile.setEntriesCount(count.incrementAndGet());
+                          })
                           .map(amortizationDataEntryMessageService::sendMessage)
                           .collect(Collectors.toList()));
         // @formatter:on
