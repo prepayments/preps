@@ -1,11 +1,14 @@
 package io.github.prepayments.app.decorators;
 
 import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
+import io.github.prepayments.app.services.AmortizationUploadCascader;
 import io.github.prepayments.app.token.Tag;
 import io.github.prepayments.app.token.TagProvider;
+import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import io.github.prepayments.web.rest.AmortizationUploadResource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +30,13 @@ import java.util.List;
 
 import static io.github.prepayments.app.AppConstants.DATETIME_FORMATTER;
 import static io.github.prepayments.app.AppConstants.MONTHLY_AMORTIZATION_DATE;
+import static io.github.prepayments.app.services.CascadedOperation.DELETE;
+import static io.github.prepayments.app.services.CascadedOperation.UPDATE;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpload}.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class AmortizationUploadResourceDecorator implements IAmortizationUploadResource {
@@ -38,12 +44,17 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
     private final AmortizationUploadResource amortizationUploadResource;
     private final TagProvider<String> tagProvider;
     private final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
+    private final AmortizationUploadCascader amortizationUploadCascader;
+    private final AmortizationUploadService amortizationUploadService;
 
     public AmortizationUploadResourceDecorator(final @Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource, final TagProvider<String> tagProvider,
-                                               final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService) {
+                                               final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService, final AmortizationUploadCascader amortizationUploadCascader,
+                                               final AmortizationUploadService amortizationUploadService) {
         this.amortizationUploadResource = amortizationUploadResource;
         this.tagProvider = tagProvider;
         this.amortizationEntriesPropagatorService = amortizationEntriesPropagatorService;
+        this.amortizationUploadCascader = amortizationUploadCascader;
+        this.amortizationUploadService = amortizationUploadService;
     }
 
     /**
@@ -60,6 +71,7 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
         // TODO check if DTO is orphaned
         //        amortizationUploadDTO.setAmortizationTag(tagProvider.tag(amortizationUploadDTO).getTag());
         Tag<String> amortTag = tagProvider.tag(amortizationUploadDTO);
+        log.info("Create amortization-entries for amortization tag # : {}", amortTag);
         // create amortization entries from the amortization upload
         if (amortizationUploadDTO.getMonthlyAmortizationDate() == null) {
             amortizationEntriesPropagatorService.propagateAmortizationEntries(DATETIME_FORMATTER, amortizationUploadDTO, MONTHLY_AMORTIZATION_DATE);
@@ -82,6 +94,8 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
      */
     @PutMapping("/amortization-uploads")
     public ResponseEntity<AmortizationUploadDTO> updateAmortizationUpload(@Valid @RequestBody AmortizationUploadDTO amortizationUploadDTO) throws URISyntaxException {
+
+        amortizationUploadCascader.cascade(UPDATE, amortizationUploadDTO);
 
         return amortizationUploadResource.updateAmortizationUpload(amortizationUploadDTO);
     }
@@ -132,6 +146,8 @@ public class AmortizationUploadResourceDecorator implements IAmortizationUploadR
      */
     @DeleteMapping("/amortization-uploads/{id}")
     public ResponseEntity<Void> deleteAmortizationUpload(@PathVariable Long id) {
+
+        amortizationUploadCascader.cascade(DELETE, amortizationUploadService.findOne(id).get());
 
         return amortizationUploadResource.deleteAmortizationUpload(id);
     }
