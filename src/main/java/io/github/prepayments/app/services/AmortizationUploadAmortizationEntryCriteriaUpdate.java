@@ -19,9 +19,9 @@ public class AmortizationUploadAmortizationEntryCriteriaUpdate implements Criter
     private final AmortizationEntryQueryService amortizationEntryQueryService;
     private final IPrepaymentEntryIdService prepaymentEntryIdService;
 
-    public AmortizationUploadAmortizationEntryCriteriaUpdate(final AmortizationEntryQueryService amortizationEntryQueryService, final IPrepaymentEntryIdService prepaymentEntryIdService) {
+    public AmortizationUploadAmortizationEntryCriteriaUpdate(final AmortizationEntryQueryService amortizationEntryQueryService, final IPrepaymentEntryIdService failSafePrepaymentIdService) {
         this.amortizationEntryQueryService = amortizationEntryQueryService;
-        this.prepaymentEntryIdService = prepaymentEntryIdService;
+        this.prepaymentEntryIdService = failSafePrepaymentIdService;
     }
 
     @Override
@@ -44,5 +44,14 @@ public class AmortizationUploadAmortizationEntryCriteriaUpdate implements Criter
             amortizationEntryCriteria.setPrepaymentEntryId(prepaymentEntryId);
 
         }
+        // Prepayment service outlet
+        StringFilter prepaymentServiceOutlet = new StringFilter();
+        prepaymentServiceOutlet.setEquals(amortizationUploadDTO.getPrepaymentServiceOutletCode());
+        amortizationEntryCriteria.setPrepaymentServiceOutlet(prepaymentServiceOutlet);
+
+        // Amortization service outlet
+        StringFilter amortizationServiceOutlet = new StringFilter();
+        amortizationServiceOutlet.setEquals(amortizationUploadDTO.getAmortizationServiceOutletCode());
+        amortizationEntryCriteria.setAmortizationServiceOutlet(amortizationServiceOutlet);
     }
 }
