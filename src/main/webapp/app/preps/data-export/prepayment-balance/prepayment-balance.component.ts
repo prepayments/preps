@@ -95,7 +95,7 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
       pageLength: 5,
       processing: true,
       dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
     };
 
     this.activatedRoute.queryParams.subscribe(params => {
