@@ -12,6 +12,7 @@ import io.github.prepayments.service.dto.PrepaymentEntryCriteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,6 +39,16 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
         this.amortizationEntryReportService = amortizationEntryReportService;
     }
 
+    /**
+     * Return true if the prepayment balance is more than zero
+     *
+     * @param prep
+     * @return
+     */
+    private static boolean nonZeroValueTest(PrepaymentTimeBalanceDTO prep) {
+        return prep.getBalanceAmount().compareTo(BigDecimal.ZERO) > 0;
+    }
+
     @Override
     public List<PrepaymentTimeBalanceDTO> getBalance(final BalanceQuery requestParameter) {
 
@@ -48,9 +59,7 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
                                            .stream()
                                            .flatMap(prep -> onCallAmortizationService.amortize(LocalDate.parse(requestParameter.getBalanceDate().format(DATETIME_FORMATTER), DATETIME_FORMATTER), prep,
                                                                                            amortizationEntryReportService))
-                                           .filter(prep -> {
-                                               // TODO remove amount less that threshold
-                                               return prep.getBalanceAmount();})
+                                           .filter(PrepaymentBalanceQueryService::nonZeroValueTest)
                                            .collect(ImmutableList.toImmutableList());
         // @formatter:on
     }
