@@ -46,7 +46,7 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
      * @return
      */
     private static boolean nonZeroValueTest(PrepaymentTimeBalanceDTO prep) {
-        return prep.getBalanceAmount().compareTo(BigDecimal.ZERO) > 0;
+        return prep.getBalanceAmount().compareTo(BigDecimal.TEN) > 0 || prep.getBalanceAmount().compareTo(BigDecimal.ONE.negate()) < 0;
     }
 
     @Override
