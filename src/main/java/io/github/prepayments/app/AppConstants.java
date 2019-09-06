@@ -22,6 +22,9 @@ public class AppConstants {
     public static final String PREPAYMENT_RECONCILIATION_SERVICE_OUTLET = "HQ";
     public static final BigDecimal PREPAYMENT_RECONCILIATION_AMOUNT = BigDecimal.ZERO;
 
+    // Query Arguments for general purposes
+    public static final String GENERAL_QUERY_REQUEST_ARGS = "ALL";
+
 
     private AppConstants() {
     }

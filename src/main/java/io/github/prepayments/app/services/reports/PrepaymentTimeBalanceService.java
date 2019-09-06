@@ -4,6 +4,7 @@ import io.github.prepayments.app.models.PrepaymentTimeBalanceDTO;
 import io.github.prepayments.app.services.AmortizationEntryReportService;
 import io.github.prepayments.app.services.PrepaymentEntryReportService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 @Transactional
 @Service("prepaymentTimeBalanceService")
 public class PrepaymentTimeBalanceService implements ShouldGetBalance<String, PrepaymentTimeBalanceDTO> {
-// TODO public class PrepaymentTimeBalanceService implements ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> {
 
     private final PrepaymentEntryReportService prepaymentEntryReportService;
     private final AmortizationEntryReportService amortizationEntryReportService;
@@ -33,7 +33,6 @@ public class PrepaymentTimeBalanceService implements ShouldGetBalance<String, Pr
 
     @Override
     public List<PrepaymentTimeBalanceDTO> getBalance(final String balanceDate) {
-    // TODO Public List<PrepaymentTimeBalanceDTO> getBalance(final BalanceQuery balanceQuery) {
 
         log.info("Request for prepayment balances for the date: {}", balanceDate);
 

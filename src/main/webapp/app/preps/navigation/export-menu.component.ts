@@ -73,7 +73,7 @@ export class ExportMenuComponent implements OnInit {
     private balanceQueryModalService: BalanceQueryModalService,
     private router: Router
   ) {
-    this.isNavbarCollapsed = true;
+    this.isNavbarCollapsed = false;
   }
 
   ngOnInit() {}

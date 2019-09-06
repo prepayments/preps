@@ -20,6 +20,5 @@ public class BalanceQuery {
 
     private String accountName;
 
-    @Pattern(regexp = "^[0-9]{3}$")
     private String serviceOutlet;
 }

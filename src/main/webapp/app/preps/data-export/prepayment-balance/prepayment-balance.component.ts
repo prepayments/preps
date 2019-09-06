@@ -32,6 +32,8 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
   serviceOutlets: IServiceOutlet[];
   suppliers: IRegisteredSupplier[];
   reportDate: string;
+  reportServiceOutlet: string;
+  reportAccountName: string;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -122,6 +124,8 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
         );
 
       this.reportDate = params['balanceDate'];
+      this.reportServiceOutlet = params['serviceOutlet'];
+      this.reportAccountName = params['accountName'];
     });
 
     this.transactionAccountsReportingService

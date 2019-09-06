@@ -24,15 +24,15 @@ import java.util.List;
 @RequestMapping("/api/reports/balances")
 public class TimeBalanceResource {
 
-    private final ShouldGetBalance<String, PrepaymentTimeBalanceDTO> prepaymentTimeBalanceService;
+    private final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> prepaymentBalanceQueryService;
 
-    public TimeBalanceResource(final ShouldGetBalance<String, PrepaymentTimeBalanceDTO> prepaymentTimeBalanceService) {
-        this.prepaymentTimeBalanceService = prepaymentTimeBalanceService;
+    public TimeBalanceResource(final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> prepaymentBalanceQueryService) {
+        this.prepaymentBalanceQueryService = prepaymentBalanceQueryService;
     }
 
     // @formatter:off
     /**
-     * POST  /prepayment-balances-list : get all the balances for prepayment by particular date.
+     * POST  /prepayments : get all the balances for prepayment by particular date.
      *
      * It's weird I know but I do need to wrap the request in an object which is further used to create
      * listing based on items criteria specified in the object fields. This will enable in future to expand or reduce
@@ -65,7 +65,7 @@ public class TimeBalanceResource {
     public ResponseEntity<List<PrepaymentTimeBalanceDTO>> getPrepaymentBalance(@Valid @RequestBody BalanceQuery balanceQuery) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         log.debug("REST request to get all prepayment-balances for the balances query: {}", balanceQuery);
-        List<PrepaymentTimeBalanceDTO> prepaymentBalances = prepaymentTimeBalanceService.getBalance(dtf.format(balanceQuery.getBalanceDate()));
+        List<PrepaymentTimeBalanceDTO> prepaymentBalances = prepaymentBalanceQueryService.getBalance(balanceQuery);
         return ResponseEntity.ok().body(prepaymentBalances);
     }
     // @formatter:on
