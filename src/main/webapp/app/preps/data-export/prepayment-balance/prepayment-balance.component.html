@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="prepaymentBalances">
-    <h5>{{reportServiceOutlet  | titlecase}} - {{reportAccountName | titlecase}} Balances for Date: {{reportDate}}</h5>
+    <h5>{{reportServiceOutlet  | titlecase}} {{reportAccountName | titlecase}} Balances for Date: {{reportDate |  date:'mediumDate' }}</h5>
     <table class="table table-striped table-bordered table-sm row-border hover"
            datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
         <thead>

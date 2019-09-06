@@ -12,8 +12,9 @@ import { HttpResponse } from '@angular/common/http';
 import { IServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-supplier.model';
 import { PrepaymentTimeBalanceService } from 'app/preps/data-export/prepayment-balance/prepayment-time-balance.service';
-import { BalanceQuery } from 'app/preps/model/balance-query.model';
+import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RouteStateService } from 'app/preps/route-state.service';
 
 /**
  *  This component displays prepayment balances data as data-tables with full exportation options
@@ -45,26 +46,19 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
     protected serviceOutletReportingService: ServiceOutletsReportingService,
     protected transactionAccountsReportingService: TransactionAccountReportingService,
     private log: NGXLogger,
+    private stateService: RouteStateService<IBalanceQuery>,
     private modalService: NgbModal // For dismissing the balance-query modal
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.prepaymentTimeBalanceService
-        .getEntities(
-          new BalanceQuery({
-            balanceDate: params['balanceDate'],
-            serviceOutlet: params['serviceOutlet'],
-            accountName: params['accountName']
-          })
-        )
-        .subscribe(
-          res => {
-            this.prepaymentBalances = res.body;
-            // TODO Avoid Creating datatbales twice
-            // this.dtTrigger.next();
-          },
-          err => this.onError(err.toString()),
-          () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-        );
+      this.prepaymentTimeBalanceService.getEntities(this.stateService.data).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          // TODO Avoid Creating data-tables twice
+          // this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
     });
 
     this.dtOptions = {
@@ -105,27 +99,20 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
     };
 
     this.activatedRoute.queryParams.subscribe(params => {
-      this.prepaymentTimeBalanceService
-        .getEntities(
-          new BalanceQuery({
-            balanceDate: params['balanceDate'],
-            serviceOutlet: params['serviceOutlet'],
-            accountName: params['accountName']
-          })
-        )
-        .subscribe(
-          res => {
-            this.prepaymentBalances = res.body;
-            // TODO test whether datatables are created once and only once
-            this.dtTrigger.next();
-          },
-          err => this.onError(err.toString()),
-          () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-        );
+      this.prepaymentTimeBalanceService.getEntities(this.stateService.data).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          // TODO test whether data-tables are created once and only once
+          this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
 
-      this.reportDate = params['balanceDate'];
-      this.reportServiceOutlet = params['serviceOutlet'];
-      this.reportAccountName = params['accountName'];
+      // Update the title
+      this.reportDate = this.stateService.data.balanceDate.toString();
+      this.reportServiceOutlet = this.stateService.data.serviceOutlet;
+      this.reportAccountName = this.stateService.data.accountName;
     });
 
     this.transactionAccountsReportingService

@@ -6,6 +6,7 @@ import { BalanceQueryModelQuestionService } from 'app/preps/gha-balance-query/ba
 import { NGXLogger } from 'ngx-logger';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RouteStateService } from 'app/preps/route-state.service';
 
 /**
  * This is the component that displays the modal on which a dynamic form is drawn to exact
@@ -35,7 +36,14 @@ export class BalanceQueryModalComponent implements OnInit {
     });
   }
 
-  constructor(private fb: FormBuilder, private log: NGXLogger, private router: Router, private modalService: NgbModal) {}
+  constructor(
+    private fb: FormBuilder,
+    private log: NGXLogger,
+    private router: Router,
+    private stateService: RouteStateService<IBalanceQuery>,
+    // close modal if data entered has error
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.isSaving = false;
@@ -58,18 +66,9 @@ export class BalanceQueryModalComponent implements OnInit {
       }`
     );
 
-    // TODO handle input errors
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        balanceDate: balanceQuery.balanceDate,
-        serviceOutlet: balanceQuery.serviceOutlet,
-        accountName: balanceQuery.accountName
-      }
-    };
+    this.stateService.data = balanceQuery;
 
-    // TODO Retrieve this as a navigation service, in which is another service for moving
-    // TODO ...navigation-extras data from this form to the final prepayment-balances-display component
-    this.router.navigate(['data-export/prepayment-balances'], navigationExtras);
+    this.router.navigate(['data-export/prepayment-balances']);
   }
 
   previousState() {
