@@ -11,6 +11,7 @@ import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { QuestionnaireModule } from 'app/preps/questionnaire/questionnaire.module';
 import { GhaBalanceQueryModule } from './gha-balance-query/gha-balance-query.module';
 import { AboutPrepsModule } from './about-preps/about-preps.module';
+import { GhaDashboardModule } from './gha-dashboard/gha-dashboard.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
@@ -25,7 +26,8 @@ import { AboutPrepsModule } from './about-preps/about-preps.module';
     NavigationModule,
     QuestionnaireModule,
     GhaBalanceQueryModule,
-    AboutPrepsModule
+    AboutPrepsModule,
+    GhaDashboardModule
   ],
   exports: [
     PrepsRoutingModule,
@@ -34,7 +36,8 @@ import { AboutPrepsModule } from './about-preps/about-preps.module';
     NavigationModule,
     PrepsMaterialModule,
     QuestionnaireModule,
-    AboutPrepsModule
+    AboutPrepsModule,
+    GhaDashboardModule
   ]
 })
 export class PrepsModule {}
