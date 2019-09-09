@@ -13,7 +13,13 @@ import { Router } from '@angular/router';
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
+      <a
+        class="nav-link"
+        routerLink="about/preps"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        id="about-preps-menu"
+      >
         <span>
           <fa-icon icon="eye"></fa-icon>
           <span>
@@ -21,7 +27,7 @@ import { Router } from '@angular/router';
           </span>
         </span>
       </a>
-      <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+      <!--<ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
         <li>
           <a class="dropdown-item">
             <fa-icon icon="wrench" fixedWidth="true"></fa-icon>
@@ -45,7 +51,7 @@ import { Router } from '@angular/router';
             >
           </a>
         </li>
-      </ul>
+      </ul>-->
     </li>
   `,
   styles: []
