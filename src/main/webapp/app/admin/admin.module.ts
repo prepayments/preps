@@ -39,6 +39,7 @@ import {
     GhaTrackerComponent,
     GhaMetricsMonitoringComponent
   ],
+  exports: [UserMgmtComponent],
   entryComponents: [UserMgmtDeleteDialogComponent, GhaHealthModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
