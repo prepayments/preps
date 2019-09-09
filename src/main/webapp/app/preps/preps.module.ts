@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { QuestionnaireModule } from 'app/preps/questionnaire/questionnaire.module';
 import { GhaBalanceQueryModule } from './gha-balance-query/gha-balance-query.module';
+import { AboutPrepsModule } from './about-preps/about-preps.module';
 
 @NgModule({
   declarations: [TypeAheadComponent],
@@ -23,8 +24,17 @@ import { GhaBalanceQueryModule } from './gha-balance-query/gha-balance-query.mod
     ReportingModule,
     NavigationModule,
     QuestionnaireModule,
-    GhaBalanceQueryModule
+    GhaBalanceQueryModule,
+    AboutPrepsModule
   ],
-  exports: [PrepsRoutingModule, DataExportModule, ReportingModule, NavigationModule, PrepsMaterialModule, QuestionnaireModule]
+  exports: [
+    PrepsRoutingModule,
+    DataExportModule,
+    ReportingModule,
+    NavigationModule,
+    PrepsMaterialModule,
+    QuestionnaireModule,
+    AboutPrepsModule
+  ]
 })
 export class PrepsModule {}
