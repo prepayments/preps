@@ -69,6 +69,9 @@ export class GhaLoginModalComponent implements AfterViewInit {
         if (redirect) {
           this.stateStorageService.storeUrl(null);
           this.router.navigateByUrl(redirect);
+        } else {
+          // navigate to dashboard
+          this.router.navigateByUrl('preps/dashboard');
         }
       })
       .catch(() => {
