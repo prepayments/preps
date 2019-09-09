@@ -40,7 +40,7 @@ import {
     GhaMetricsMonitoringComponent
   ],
   exports: [UserMgmtComponent],
-  entryComponents: [UserMgmtDeleteDialogComponent, GhaHealthModalComponent],
+  entryComponents: [UserMgmtDeleteDialogComponent, GhaHealthModalComponent, UserMgmtComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PrepsAdminModule {}
