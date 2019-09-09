@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { GhaDashboardRoutingModule } from './gha-dashboard-routing.module';
 import { PrepsSharedModule } from 'app/shared';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardContainerComponent } from './dashboard/dashboard-container.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardContainerComponent],
   imports: [PrepsSharedModule, CommonModule, GhaDashboardRoutingModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [DashboardComponent],
-  entryComponents: [DashboardComponent]
+  exports: [DashboardContainerComponent],
+  entryComponents: [DashboardContainerComponent]
 })
 export class GhaDashboardModule {}
