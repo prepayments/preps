@@ -10,9 +10,10 @@ import { adminState } from 'app/admin';
 import { RouterModule } from '@angular/router';
 import { MetricDashboardComponent } from './metric-dashboard/metric-dashboard.component';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
+import { HealthDashboardComponent } from './health-dashboard/health-dashboard.component';
 
 @NgModule({
-  declarations: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent],
+  declarations: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent, HealthDashboardComponent],
   imports: [
     RouterModule.forChild(adminState),
     PrepsAdminModule,
@@ -22,7 +23,7 @@ import { PrepsMaterialModule } from 'app/preps/preps-material.module';
     PrepsMaterialModule
   ],
   exports: [DashboardContainerComponent, UsersDashboardComponent],
-  entryComponents: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent],
+  entryComponents: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent, HealthDashboardComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class GhaDashboardModule {}

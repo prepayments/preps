@@ -1,23 +1,23 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PrepsSharedModule } from 'app/shared';
-/* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
-
 import {
   adminState,
   AuditsComponent,
-  UserMgmtComponent,
-  UserMgmtDetailComponent,
-  UserMgmtUpdateComponent,
-  UserMgmtDeleteDialogComponent,
-  LogsComponent,
-  GhaMetricsMonitoringComponent,
-  GhaHealthModalComponent,
-  GhaHealthCheckComponent,
   GhaConfigurationComponent,
   GhaDocsComponent,
-  GhaTrackerComponent
+  GhaHealthCheckComponent,
+  GhaHealthModalComponent,
+  GhaMetricsMonitoringComponent,
+  GhaTrackerComponent,
+  LogsComponent,
+  UserMgmtComponent,
+  UserMgmtDeleteDialogComponent,
+  UserMgmtDetailComponent,
+  UserMgmtUpdateComponent
 } from './';
+
+/* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 @NgModule({
   imports: [
@@ -39,8 +39,15 @@ import {
     GhaTrackerComponent,
     GhaMetricsMonitoringComponent
   ],
-  exports: [UserMgmtComponent, GhaMetricsMonitoringComponent],
-  entryComponents: [UserMgmtDeleteDialogComponent, GhaHealthModalComponent, UserMgmtComponent, GhaMetricsMonitoringComponent],
+  exports: [UserMgmtComponent, GhaMetricsMonitoringComponent, GhaHealthCheckComponent, GhaHealthModalComponent, GhaTrackerComponent],
+  entryComponents: [
+    UserMgmtDeleteDialogComponent,
+    GhaHealthModalComponent,
+    GhaHealthModalComponent,
+    GhaTrackerComponent,
+    UserMgmtComponent,
+    GhaMetricsMonitoringComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PrepsAdminModule {}
