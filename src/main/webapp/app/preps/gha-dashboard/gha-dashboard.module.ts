@@ -11,19 +11,34 @@ import { RouterModule } from '@angular/router';
 import { MetricDashboardComponent } from './metric-dashboard/metric-dashboard.component';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { HealthDashboardComponent } from './health-dashboard/health-dashboard.component';
+import { PrepaymentsDashboardComponent } from './prepayments-dashboard/prepayments-dashboard.component';
+import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-entry/prepayment-entry.module';
 
 @NgModule({
-  declarations: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent, HealthDashboardComponent],
+  declarations: [
+    DashboardContainerComponent,
+    UsersDashboardComponent,
+    MetricDashboardComponent,
+    HealthDashboardComponent,
+    PrepaymentsDashboardComponent
+  ],
   imports: [
     RouterModule.forChild(adminState),
     PrepsAdminModule,
     PrepsSharedModule,
     CommonModule,
     GhaDashboardRoutingModule,
+    PrepsPrepaymentEntryModule,
     PrepsMaterialModule
   ],
   exports: [DashboardContainerComponent, UsersDashboardComponent],
-  entryComponents: [DashboardContainerComponent, UsersDashboardComponent, MetricDashboardComponent, HealthDashboardComponent],
+  entryComponents: [
+    DashboardContainerComponent,
+    UsersDashboardComponent,
+    MetricDashboardComponent,
+    HealthDashboardComponent,
+    PrepaymentsDashboardComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class GhaDashboardModule {}

@@ -29,6 +29,13 @@ const ENTITY_STATES = [...prepaymentEntryRoute, ...prepaymentEntryPopupRoute];
     PrepaymentEntryDeleteDialogComponent,
     PrepaymentEntryDeletePopupComponent
   ],
+  exports: [
+    PrepaymentEntryComponent,
+    PrepaymentEntryDetailComponent,
+    PrepaymentEntryUpdateComponent,
+    PrepaymentEntryDeleteDialogComponent,
+    PrepaymentEntryDeletePopupComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PrepsPrepaymentEntryModule {}
