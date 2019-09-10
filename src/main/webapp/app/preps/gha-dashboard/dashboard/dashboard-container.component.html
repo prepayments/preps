@@ -1,6 +1,6 @@
 <div class="container container-fluid">
 
-    <div class="jumbotron">
+    <div *ghaHasAnyAuthority="'ROLE_USER'" class="jumbotron">
         <h1 class="display-4">PREPAYMENTS</h1>
         <p class="lead">This is a simple forms-over-data prepayments data management app.</p>
         <hr class="my-4">
@@ -12,7 +12,7 @@
         </p>
     </div>
 
-    <div class="row card-deck col-12  mt-3">
+    <div *ghaHasAnyAuthority="'ROLE_USER'" class="row card-deck col-12  mt-3">
         <div class="card col-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
@@ -55,41 +55,43 @@
         </div>
     </div>
 
-    <div class="card-deck row col-12 mt-3">
-        <mat-grid-list cols="2" rowHeight="2:1" [gutterSize]="'10px'">
+    <div *ghaHasAnyAuthority="'ROLE_USER'" class="card-deck row col-12 mt-3">
+        <div class="card col-12">
+            <mat-card>
+                <mat-card-content>
+                    <gha-prepayments-dashboard></gha-prepayments-dashboard>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
 
-            <mat-grid-tile>
-                <mat-card>
-                    <mat-card-content>
-                        <gha-prepayments-dashboard></gha-prepayments-dashboard>
-                    </mat-card-content>
-                </mat-card>
-            </mat-grid-tile>
+    <div *ghaHasAnyAuthority="'ROLE_ADMIN'" class="card-deck row col-12 mt-3">
+        <div class="card col-12">
+            <mat-card>
+                <mat-card-content>
+                    <gha-metric-dashboard></gha-metric-dashboard>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
 
-            <mat-grid-tile>
-                <mat-card>
-                    <mat-card-content>
-                        <gha-health-dashboard></gha-health-dashboard>
-                    </mat-card-content>
-                </mat-card>
-            </mat-grid-tile>
+    <div *ghaHasAnyAuthority="'ROLE_ADMIN'" class="card-deck row col-12 mt-3">
 
-            <mat-grid-tile>
-                <mat-card>
-                    <mat-card-content>
-                        <gha-metric-dashboard></gha-metric-dashboard>
-                    </mat-card-content>
-                </mat-card>
-            </mat-grid-tile>
+        <div class="card col-12">
+            <mat-card>
+                <mat-card-content>
+                    <gha-health-dashboard></gha-health-dashboard>
+                </mat-card-content>
+            </mat-card>
+        </div>
 
-            <mat-grid-tile>
-                <mat-card>
-                    <mat-card-content>
-                        <gha-users-dashboard></gha-users-dashboard>
-                    </mat-card-content>
-                </mat-card>
-            </mat-grid-tile>
+        <div class="card col-12">
+            <mat-card>
+                <mat-card-content>
+                    <gha-users-dashboard></gha-users-dashboard>
+                </mat-card-content>
+            </mat-card>
+        </div>
 
-        </mat-grid-list>
     </div>
 </div>
