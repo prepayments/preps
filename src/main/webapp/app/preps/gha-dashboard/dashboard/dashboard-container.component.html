@@ -1,6 +1,19 @@
-<div>
-    <div class="row">
-        <div class="card" style="width: 18rem;">
+<div class="container container-fluid">
+
+    <div class="jumbotron">
+        <h1 class="display-4">PREPAYMENTS</h1>
+        <p class="lead">This is a simple forms-over-data prepayments data management app.</p>
+        <hr class="my-4">
+        <p>It uses data uploaded from excel files to create amortization schedules for individual prepayment entries over
+        an expilicitly specified number of periods. Once created each amortization entry exists as an entry
+        in its own right independent from the prepayment which it was created to amortize</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Go to Prepayments</a>
+        </p>
+    </div>
+
+    <div class="row card-deck col-12  mt-3">
+        <div class="card col-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -10,7 +23,7 @@
             </div>
         </div>
 
-        <div class="card" style="width: 18rem;">
+        <div class="card col-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -21,7 +34,17 @@
         </div>
 
 
-        <div class="card" style="width: 18rem;">
+        <div class="card col-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+
+        <div class="card col-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -32,7 +55,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="card-deck row col-12 mt-3">
         <mat-grid-list cols="2" rowHeight="2:1" [gutterSize]="'10px'">
 
             <mat-grid-tile>
