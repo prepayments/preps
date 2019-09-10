@@ -1,34 +1,72 @@
-<p>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                PREPS SYSTEM
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+<div>
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
 
-        <mat-card>
-            <mat-card-content>
-                <gha-prepayments-dashboard></gha-prepayments-dashboard>
-            </mat-card-content>
-        </mat-card>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
 
-        <mat-card>
-            <mat-card-content>
-                <gha-health-dashboard></gha-health-dashboard>
-            </mat-card-content>
-        </mat-card>
 
-        <mat-card>
-            <mat-card-content>
-                <gha-metric-dashboard></gha-metric-dashboard>
-            </mat-card-content>
-        </mat-card>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
 
-        <mat-card>
-            <mat-card-content>
-                <gha-users-dashboard></gha-users-dashboard>
-            </mat-card-content>
-        </mat-card>
+    <div class="row">
+        <mat-grid-list cols="2" rowHeight="2:1" [gutterSize]="'10px'">
 
-    </mat-expansion-panel>
-</p>
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-content>
+                        <gha-prepayments-dashboard></gha-prepayments-dashboard>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-content>
+                        <gha-health-dashboard></gha-health-dashboard>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-content>
+                        <gha-metric-dashboard></gha-metric-dashboard>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-content>
+                        <gha-users-dashboard></gha-users-dashboard>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </div>
+</div>

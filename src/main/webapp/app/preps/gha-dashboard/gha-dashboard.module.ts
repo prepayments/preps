@@ -13,6 +13,7 @@ import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { HealthDashboardComponent } from './health-dashboard/health-dashboard.component';
 import { PrepaymentsDashboardComponent } from './prepayments-dashboard/prepayments-dashboard.component';
 import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-entry/prepayment-entry.module';
+import { DataExportModule } from 'app/preps/data-export/data-export.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-
     CommonModule,
     GhaDashboardRoutingModule,
     PrepsPrepaymentEntryModule,
+    DataExportModule,
     PrepsMaterialModule
   ],
   exports: [DashboardContainerComponent, UsersDashboardComponent],
