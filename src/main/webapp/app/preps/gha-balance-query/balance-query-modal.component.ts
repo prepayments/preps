@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { QuestionBase } from 'app/preps/model/question-base.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { RouteStateService } from 'app/preps/route-state.service';
   templateUrl: './balance-query-modal.component.html',
   styleUrls: ['./balance-query-modal.component.scss']
 })
-export class BalanceQueryModalComponent implements OnInit {
+export class BalanceQueryModalComponent implements OnInit, OnDestroy {
   questions: QuestionBase<any>[];
   balanceQuery: IBalanceQuery;
   isSaving: boolean;
@@ -52,6 +52,11 @@ export class BalanceQueryModalComponent implements OnInit {
     this.log.debug(`Entering query for date of balance ...`);
   }
 
+  ngOnDestroy(): void {
+    this.questions = [];
+    this.balanceQuery = undefined;
+  }
+
   updateBalanceQuery(queryForm: FormGroup) {
     this.balanceQuery = BalanceQueryModalComponent.createFromForm(queryForm);
     this.log.debug(`Balance query updated for date : ${this.balanceQuery.balanceDate}`);
@@ -67,8 +72,38 @@ export class BalanceQueryModalComponent implements OnInit {
     );
 
     this.stateService.data = balanceQuery;
+    // TODO handle input errors
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        balanceDate: balanceQuery.balanceDate,
+        serviceOutlet: balanceQuery.serviceOutlet,
+        accountName: balanceQuery.accountName
+      }
+    };
 
-    this.router.navigate(['data-tables/prepayment-balances']);
+    const navigation = this.router.navigate(['data-tables/prepayment-balances'], navigationExtras);
+
+    this.reviewNavigation(navigation, balanceQuery);
+  }
+
+  private reviewNavigation(navigation: any, balanceQuery: IBalanceQuery): void {
+    // note success
+    navigation.then(() => {
+      this.log.debug(`Navigation to '${balanceQuery} completed successfully`);
+      this.modalService.dismissAll('Data table navigation complete!!!');
+    });
+
+    // catch unfortunate navigation incidences
+    navigation.catch(() => {
+      this.log.debug(`Navigation to '${balanceQuery} failed navigating back to previous view...`);
+      this.previousState();
+    });
+
+    // clean up mmodals
+    navigation.finally(() => {
+      this.log.debug(`Navigation to '${balanceQuery} completed successfully`);
+      this.modalService.dismissAll('In case dismissal has failed');
+    });
   }
 
   previousState() {

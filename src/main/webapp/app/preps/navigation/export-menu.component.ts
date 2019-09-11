@@ -90,7 +90,7 @@ export class ExportMenuComponent implements OnInit {
     this.modalRef = this.loginModalService.open();
   }
 
-  toggleNavbar() {
+  /*toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
-  }
+  }*/
 }

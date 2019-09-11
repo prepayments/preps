@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,7 @@ import { TransactionAccountReportingService } from 'app/preps/data-display/data-
   templateUrl: './prepayment-balance.component.html',
   styleUrls: ['./prepayment-balance.component.scss']
 })
-export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
+export class PrepaymentBalanceComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings;
   dtTrigger: Subject<any> = new Subject<any>();
   prepaymentBalances: any[];
@@ -35,6 +35,7 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
   reportDate: string;
   reportServiceOutlet: string;
   reportAccountName: string;
+  navigationQuery: IBalanceQuery;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -49,46 +50,23 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
     private stateService: RouteStateService<IBalanceQuery>,
     private modalService: NgbModal // For dismissing the balance-query modal
   ) {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.prepaymentTimeBalanceService.getEntities(this.stateService.data).subscribe(
-        res => {
-          this.prepaymentBalances = res.body;
-          // TODO Avoid Creating data-tables twice
-          // this.dtTrigger.next();
-        },
-        err => this.onError(err.toString()),
-        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
-      );
-    });
-
-    this.dtOptions = {
-      searching: true,
-      paging: true,
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      processing: true,
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
-    };
-
-    this.serviceOutletReportingService.getEntities().subscribe(
-      (data: HttpResponse<IServiceOutlet[]>) => {
-        this.serviceOutlets = data.body;
-      },
-      err => this.onError(err),
-      () => {
-        this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
-      }
-    );
-  }
-
-  ngAfterViewInit(): void {
-    this.log.debug(`Time to dismiss the query-modal...`);
-    this.modalService.dismissAll();
+    this.updateNavigationQuery();
+    this.loadPrepaymentBalancesFirstPass();
+    this.dtOptions = this.getDataTableOptions();
   }
 
   ngOnInit() {
-    this.dtOptions = {
+    this.dtOptions = this.getDataTableOptions();
+    this.updatePrepaymentBalances();
+    this.loadSupportEntities();
+  }
+
+  ngOnDestroy(): void {
+    this.undefineStuff();
+  }
+
+  private getDataTableOptions() {
+    return (this.dtOptions = {
       searching: true,
       paging: true,
       pagingType: 'full_numbers',
@@ -96,9 +74,21 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
       processing: true,
       dom: 'Bfrtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
-    };
+    });
+  }
 
-    this.activatedRoute.queryParams.subscribe(params => {
+  private undefineStuff(): void {
+    this.dtOptions = undefined;
+    this.dtTrigger.unsubscribe();
+    this.prepaymentBalances = undefined;
+    this.transactionAccounts = undefined;
+    this.serviceOutlets = undefined;
+    this.suppliers = undefined;
+    this.navigationQuery = undefined;
+  }
+
+  private updatePrepaymentBalances(): void {
+    if (this.stateService.data !== undefined) {
       this.prepaymentTimeBalanceService.getEntities(this.stateService.data).subscribe(
         res => {
           this.prepaymentBalances = res.body;
@@ -110,10 +100,39 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
       );
 
       // Update the title
-      this.reportDate = this.stateService.data.balanceDate.toString();
-      this.reportServiceOutlet = this.stateService.data.serviceOutlet;
-      this.reportAccountName = this.stateService.data.accountName;
-    });
+      this.updateReportTitles(this.stateService.data);
+    } else {
+      this.prepaymentTimeBalanceService.getEntities(this.navigationQuery).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          // TODO test whether data-tables are created once and only once
+          this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
+
+      // Update the title
+      this.updateReportTitles(this.navigationQuery);
+    }
+  }
+
+  private updateReportTitles(balanceQuery: IBalanceQuery): void {
+    this.reportDate = balanceQuery.balanceDate.toString();
+    this.reportServiceOutlet = balanceQuery.serviceOutlet;
+    this.reportAccountName = balanceQuery.accountName;
+  }
+
+  private loadSupportEntities() {
+    this.serviceOutletReportingService.getEntities().subscribe(
+      (data: HttpResponse<IServiceOutlet[]>) => {
+        this.serviceOutlets = data.body;
+      },
+      err => this.onError(err),
+      () => {
+        this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
+      }
+    );
 
     this.transactionAccountsReportingService
       .getEntities()
@@ -136,9 +155,64 @@ export class PrepaymentBalanceComponent implements OnInit, AfterViewInit {
       );
   }
 
+  private loadServiceOutletEntities() {
+    this.serviceOutletReportingService.getEntities().subscribe(
+      (data: HttpResponse<IServiceOutlet[]>) => {
+        this.serviceOutlets = data.body;
+      },
+      err => this.onError(err),
+      () => {
+        this.log.info(`Service outlets array has been primed with ${this.serviceOutlets.length} items`);
+      }
+    );
+  }
+
+  private updateNavigationQuery(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.navigationQuery = new BalanceQuery({
+        balanceDate: params['balanceDate'],
+        serviceOutlet: params['serviceOutlet'],
+        accountName: params['accountName']
+      });
+    });
+  }
+
+  private loadPrepaymentBalancesFirstPass(): void {
+    if (this.stateService.data === undefined) {
+      this.prepaymentTimeBalanceService.getEntities(this.navigationQuery).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          // TODO Avoid Creating data-tables twice
+          // this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
+    } else {
+      this.prepaymentTimeBalanceService.getEntities(this.stateService.data).subscribe(
+        res => {
+          this.prepaymentBalances = res.body;
+          // TODO Avoid Creating data-tables twice
+          // this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.prepaymentBalances.length} prepayment balances from API`)
+      );
+    }
+  }
+
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-    this.log.error(`Error while extracting suppliers from API $errorMessage`);
+    this.log.error(`Error while extracting data from API $errorMessage`);
+
+    this.previousView();
+  }
+
+  private previousView() {
+    const navigation = this.router.navigate(['data-tables/prepayment-balances']);
+    navigation.then(() => {
+      this.log.debug(`Well! This was not supposed to happen. Review request parameters and reiterate`);
+    });
   }
 
   private onSelectAccountNumber(accountNumber: string): void {
