@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { NGXLogger } from 'ngx-logger';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { AmortizationReportingService } from 'app/preps/data-export/amortization-entries/amortization-reporting.service';
-import { ServiceOutletsReportingService } from 'app/preps/data-export/service-outlets/service-outlets-reporting.service';
 import { IServiceOutlet, ServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { ITransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
 import { tap } from 'rxjs/operators';
-import { TransactionAccountReportingService } from 'app/preps/data-export/transaction-accounts/transaction-account-reporting.service';
+import { AmortizationReportingService } from 'app/preps/data-display/data-export/amortization-entries/amortization-reporting.service';
+import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';
+import { ServiceOutletsReportingService } from 'app/preps/data-display/data-export/service-outlets/service-outlets-reporting.service';
 
 @Component({
   selector: 'gha-amortization-entries',

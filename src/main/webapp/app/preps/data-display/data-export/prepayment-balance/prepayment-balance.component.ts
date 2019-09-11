@@ -2,19 +2,19 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceOutletsReportingService } from 'app/preps/data-export/service-outlets/service-outlets-reporting.service';
 import { ITransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
-import { RegisteredSuppliersReportingService } from 'app/preps/data-export/registered-suppliers/registered-suppliers-reporting.service';
 import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
-import { TransactionAccountReportingService } from 'app/preps/data-export/transaction-accounts/transaction-account-reporting.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { HttpResponse } from '@angular/common/http';
 import { IServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
 import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-supplier.model';
-import { PrepaymentTimeBalanceService } from 'app/preps/data-export/prepayment-balance/prepayment-time-balance.service';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouteStateService } from 'app/preps/route-state.service';
+import { PrepaymentTimeBalanceService } from 'app/preps/data-display/data-export/prepayment-balance/prepayment-time-balance.service';
+import { RegisteredSuppliersReportingService } from 'app/preps/data-display/data-export/registered-suppliers/registered-suppliers-reporting.service';
+import { ServiceOutletsReportingService } from 'app/preps/data-display/data-export/service-outlets/service-outlets-reporting.service';
+import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';
 
 /**
  *  This component displays prepayment balances data as data-tables with full exportation options

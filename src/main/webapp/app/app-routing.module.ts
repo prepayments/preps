@@ -16,7 +16,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           /*Add paths for report items*/
           path: 'data-export',
-          loadChildren: './preps/data-export/data-export.module#DataExportModule'
+          loadChildren: './preps/data-display/data-export/data-export.module#DataExportModule'
         },
         {
           /*Add paths for report items*/

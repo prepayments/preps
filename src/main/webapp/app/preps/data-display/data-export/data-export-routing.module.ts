@@ -5,8 +5,8 @@ import { PrepaymentEntriesComponent } from './prepayment-entries/prepayment-entr
 import { RegisteredSuppliersComponent } from './registered-suppliers/registered-suppliers.component';
 import { ServiceOutletsComponent } from './service-outlets/service-outlets.component';
 import { TransactionAccountsComponent } from './transaction-accounts/transaction-accounts.component';
-import { PrepaymentsReportResolverService } from 'app/preps/data-export/prepayment-entries/prepayments-report-resolver.service';
-import { PrepaymentBalanceComponent } from 'app/preps/data-export/prepayment-balance/prepayment-balance.component';
+import { PrepaymentsReportResolverService } from 'app/preps/data-display/data-export/prepayment-entries/prepayments-report-resolver.service';
+import { PrepaymentBalanceComponent } from 'app/preps/data-display/data-export/prepayment-balance/prepayment-balance.component';
 
 const routes: Routes = [
   {

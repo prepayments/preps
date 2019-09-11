@@ -3,15 +3,15 @@ import { Subject } from 'rxjs/internal/Subject';
 import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
-import { PrepaymentsReportingService } from 'app/preps/data-export/prepayment-entries/prepayments-reporting.service';
 import { ITransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
-import { TransactionAccountReportingService } from 'app/preps/data-export/transaction-accounts/transaction-account-reporting.service';
 import { tap } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
 import { IServiceOutlet } from 'app/shared/model/prepayments/service-outlet.model';
-import { ServiceOutletsReportingService } from 'app/preps/data-export/service-outlets/service-outlets-reporting.service';
 import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-supplier.model';
-import { RegisteredSuppliersReportingService } from 'app/preps/data-export/registered-suppliers/registered-suppliers-reporting.service';
+import { PrepaymentsReportingService } from 'app/preps/data-display/data-export/prepayment-entries/prepayments-reporting.service';
+import { RegisteredSuppliersReportingService } from 'app/preps/data-display/data-export/registered-suppliers/registered-suppliers-reporting.service';
+import { ServiceOutletsReportingService } from 'app/preps/data-display/data-export/service-outlets/service-outlets-reporting.service';
+import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';
 
 @Component({
   selector: 'gha-prepayment-entries',
