@@ -3,6 +3,7 @@ import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-qu
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'gha-dashboard-hud-outstanding-preps',
@@ -12,7 +13,7 @@ import * as moment from 'moment';
 export class DashboardHudOutstandingPrepsComponent implements OnInit {
   modalRef: NgbModalRef;
 
-  constructor(private balanceQueryModalService: BalanceQueryModalService, private router: Router) {}
+  constructor(private balanceQueryModalService: BalanceQueryModalService, private router: Router, private log: NGXLogger) {}
 
   ngOnInit() {}
 
@@ -21,14 +22,22 @@ export class DashboardHudOutstandingPrepsComponent implements OnInit {
   }
 
   protected navigateToDay(): void {
+    const todate: string = moment().format('YYYY-MM-DD');
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        balanceDate: moment().format('YYYY-MM-DD'),
+        balanceDate: todate,
         serviceOutlet: 'All',
         accountName: 'All'
       }
     };
 
-    this.router.navigate(['data-tables/prepayment-balances'], navigationExtras);
+    this.router
+      .navigate(['data-tables/prepayment-balances'], navigationExtras)
+      .then(() => {
+        this.log.debug(`Successfully navigated to prepayment-balances as at ${todate}`);
+      })
+      .catch(() => {
+        this.log.debug(`This is embarrassing. The system has failed to navigate to prepayment-balances as at ${todate}`);
+      });
   }
 }
