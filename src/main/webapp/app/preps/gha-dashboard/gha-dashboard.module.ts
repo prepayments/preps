@@ -14,8 +14,7 @@ import { HealthDashboardComponent } from './health-dashboard/health-dashboard.co
 import { PrepaymentsDashboardComponent } from './prepayments-dashboard/prepayments-dashboard.component';
 import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-entry/prepayment-entry.module';
 import { DataExportModule } from 'app/preps/data-export/data-export.module';
-import { DashboardHudComponent } from './dashboard-hud/dashboard-hud.component';
-import { DashboardHudDeckModule } from './dashboard-hud-deck/dashboard-hud-deck.module';
+import { DashboardHudContainerModule } from 'app/preps/gha-dashboard/dashboard-hud-container/dashboard-hud-container.module';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import { DashboardHudDeckModule } from './dashboard-hud-deck/dashboard-hud-deck.
     UsersDashboardComponent,
     MetricDashboardComponent,
     HealthDashboardComponent,
-    PrepaymentsDashboardComponent,
-    DashboardHudComponent
+    PrepaymentsDashboardComponent
   ],
   imports: [
     RouterModule.forChild(adminState),
@@ -35,7 +33,7 @@ import { DashboardHudDeckModule } from './dashboard-hud-deck/dashboard-hud-deck.
     PrepsPrepaymentEntryModule,
     DataExportModule,
     PrepsMaterialModule,
-    DashboardHudDeckModule
+    DashboardHudContainerModule
   ],
   exports: [DashboardContainerComponent, UsersDashboardComponent],
   entryComponents: [
@@ -43,8 +41,7 @@ import { DashboardHudDeckModule } from './dashboard-hud-deck/dashboard-hud-deck.
     UsersDashboardComponent,
     MetricDashboardComponent,
     HealthDashboardComponent,
-    PrepaymentsDashboardComponent,
-    DashboardHudComponent
+    PrepaymentsDashboardComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
