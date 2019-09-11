@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { DashboardHudDeckRoutingModule } from './dashboard-hud-deck-routing.module';
 import { DashboardHudComponent } from 'app/preps/gha-dashboard/dashboard-hud-container/dashboard-hud/dashboard-hud.component';
 import { PrepsSharedModule } from 'app/shared';
+import { DashboardHudOutstandingPrepsComponent } from './dashboard-hud-outstanding-preps/dashboard-hud-outstanding-preps.component';
 
 @NgModule({
-  declarations: [DashboardHudComponent],
+  declarations: [DashboardHudComponent, DashboardHudOutstandingPrepsComponent],
   exports: [DashboardHudComponent],
   imports: [CommonModule, PrepsSharedModule, DashboardHudDeckRoutingModule],
-  entryComponents: [DashboardHudComponent],
+  entryComponents: [DashboardHudComponent, DashboardHudOutstandingPrepsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardHudContainerModule {}

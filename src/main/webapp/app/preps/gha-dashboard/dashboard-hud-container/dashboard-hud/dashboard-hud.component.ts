@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-query-modal.service';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'gha-dashboard-hud',
@@ -8,13 +6,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./dashboard-hud.component.scss']
 })
 export class DashboardHudComponent implements OnInit {
-  modalRef: NgbModalRef;
-
-  constructor(private balanceQueryModalService: BalanceQueryModalService) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  navigateToDate(): void {
-    this.modalRef = this.balanceQueryModalService.open();
-  }
 }
