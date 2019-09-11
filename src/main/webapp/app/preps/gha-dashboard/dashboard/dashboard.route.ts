@@ -7,7 +7,7 @@ export const PREPS_DASHBOARD_ROUTE: Route = {
   component: DashboardContainerComponent,
   data: {
     authorities: ['ROLE_USER'],
-    pageTitle: 'PREPS: DASHBOARD'
+    pageTitle: 'Prepayments'
   },
   canActivate: [UserRouteAccessService]
 };
