@@ -6,12 +6,23 @@ import { DashboardHudComponent } from 'app/preps/gha-dashboard/dashboard-hud-con
 import { PrepsSharedModule } from 'app/shared';
 import { DashboardHudOutstandingPrepsComponent } from './dashboard-hud-outstanding-preps/dashboard-hud-outstanding-preps.component';
 import { DashboardHudAmortizationComponent } from './dashboard-hud-amortization/dashboard-hud-amortization.component';
+import { DashboardHudOrphanedAmortizationsComponent } from './dashboard-hud-orphaned-amortizations/dashboard-hud-orphaned-amortizations.component';
 
 @NgModule({
-  declarations: [DashboardHudComponent, DashboardHudOutstandingPrepsComponent, DashboardHudAmortizationComponent],
+  declarations: [
+    DashboardHudComponent,
+    DashboardHudOutstandingPrepsComponent,
+    DashboardHudAmortizationComponent,
+    DashboardHudOrphanedAmortizationsComponent
+  ],
   exports: [DashboardHudComponent],
   imports: [CommonModule, PrepsSharedModule, DashboardHudDeckRoutingModule],
-  entryComponents: [DashboardHudComponent, DashboardHudOutstandingPrepsComponent, DashboardHudAmortizationComponent],
+  entryComponents: [
+    DashboardHudComponent,
+    DashboardHudOutstandingPrepsComponent,
+    DashboardHudAmortizationComponent,
+    DashboardHudOrphanedAmortizationsComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardHudContainerModule {}
