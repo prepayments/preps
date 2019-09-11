@@ -15,6 +15,7 @@ import { PrepaymentsDashboardComponent } from './prepayments-dashboard/prepaymen
 import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-entry/prepayment-entry.module';
 import { DataExportModule } from 'app/preps/data-export/data-export.module';
 import { DashboardHudComponent } from './dashboard-hud/dashboard-hud.component';
+import { DashboardHudDeckModule } from './dashboard-hud-deck/dashboard-hud-deck.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DashboardHudComponent } from './dashboard-hud/dashboard-hud.component';
     GhaDashboardRoutingModule,
     PrepsPrepaymentEntryModule,
     DataExportModule,
-    PrepsMaterialModule
+    PrepsMaterialModule,
+    DashboardHudDeckModule
   ],
   exports: [DashboardContainerComponent, UsersDashboardComponent],
   entryComponents: [
