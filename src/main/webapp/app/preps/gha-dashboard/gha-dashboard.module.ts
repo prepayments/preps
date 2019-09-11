@@ -14,6 +14,7 @@ import { HealthDashboardComponent } from './health-dashboard/health-dashboard.co
 import { PrepaymentsDashboardComponent } from './prepayments-dashboard/prepayments-dashboard.component';
 import { PrepsPrepaymentEntryModule } from 'app/entities/prepayments/prepayment-entry/prepayment-entry.module';
 import { DataExportModule } from 'app/preps/data-export/data-export.module';
+import { DashboardHudComponent } from './dashboard-hud/dashboard-hud.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DataExportModule } from 'app/preps/data-export/data-export.module';
     UsersDashboardComponent,
     MetricDashboardComponent,
     HealthDashboardComponent,
-    PrepaymentsDashboardComponent
+    PrepaymentsDashboardComponent,
+    DashboardHudComponent
   ],
   imports: [
     RouterModule.forChild(adminState),
@@ -39,7 +41,8 @@ import { DataExportModule } from 'app/preps/data-export/data-export.module';
     UsersDashboardComponent,
     MetricDashboardComponent,
     HealthDashboardComponent,
-    PrepaymentsDashboardComponent
+    PrepaymentsDashboardComponent,
+    DashboardHudComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
