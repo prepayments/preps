@@ -11,7 +11,7 @@ import { IRegisteredSupplier } from 'app/shared/model/prepayments/registered-sup
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouteStateService } from 'app/preps/route-state.service';
-import { PrepaymentTimeBalanceService } from 'app/preps/data-display/data-export/prepayment-balance/prepayment-time-balance.service';
+import { PrepaymentTimeBalanceService } from 'app/preps/data-display/data-tables/prepayment-balance/prepayment-time-balance.service';
 import { RegisteredSuppliersReportingService } from 'app/preps/data-display/data-export/registered-suppliers/registered-suppliers-reporting.service';
 import { ServiceOutletsReportingService } from 'app/preps/data-display/data-export/service-outlets/service-outlets-reporting.service';
 import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';

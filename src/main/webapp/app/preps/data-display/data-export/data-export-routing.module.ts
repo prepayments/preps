@@ -6,7 +6,6 @@ import { RegisteredSuppliersComponent } from './registered-suppliers/registered-
 import { ServiceOutletsComponent } from './service-outlets/service-outlets.component';
 import { TransactionAccountsComponent } from './transaction-accounts/transaction-accounts.component';
 import { PrepaymentsReportResolverService } from 'app/preps/data-display/data-export/prepayment-entries/prepayments-report-resolver.service';
-import { PrepaymentBalanceComponent } from 'app/preps/data-display/data-export/prepayment-balance/prepayment-balance.component';
 
 const routes: Routes = [
   {
@@ -46,13 +45,6 @@ const routes: Routes = [
     component: TransactionAccountsComponent,
     data: {
       pageTitle: 'Export | Transaction Accounts'
-    }
-  },
-  {
-    path: 'prepayment-balances',
-    component: PrepaymentBalanceComponent,
-    data: {
-      pageTitle: 'Export | Prepayment Balances'
     }
   }
 ];

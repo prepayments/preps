@@ -68,7 +68,7 @@ export class BalanceQueryModalComponent implements OnInit {
 
     this.stateService.data = balanceQuery;
 
-    this.router.navigate(['data-export/prepayment-balances']);
+    this.router.navigate(['data-tables/prepayment-balances']);
   }
 
   previousState() {

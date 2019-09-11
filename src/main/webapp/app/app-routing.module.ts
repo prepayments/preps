@@ -14,9 +14,14 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           loadChildren: './admin/admin.module#PrepsAdminModule'
         },
         {
-          /*Add paths for report items*/
+          /*Add paths for data-export items*/
           path: 'data-export',
           loadChildren: './preps/data-display/data-export/data-export.module#DataExportModule'
+        },
+        {
+          /*Add paths for data-table items*/
+          path: 'data-tables',
+          loadChildren: './preps/data-display/data-tables/data-tables.module#DataTablesModule'
         },
         {
           /*Add paths for report items*/
