@@ -22,16 +22,15 @@ type EntityArrayResponseType = HttpResponse<IPrepaymentTimeBalance[]>;
 export class PrepaymentTimeBalanceService {
   public resourceUrl = SERVER_API_URL + '/api/reports/balances/prepayments';
 
+  defaultQuery: IBalanceQuery = new BalanceQuery({
+    balanceDate: moment(),
+    accountName: 'All',
+    serviceOutlet: 'All'
+  });
+
   constructor(protected http: HttpClient, private jhiAlertService: JhiAlertService, private log: NGXLogger) {}
 
-  // TODO install today's date as default for this query
-  getEntities(
-    balanceQuery: IBalanceQuery = new BalanceQuery({
-      balanceDate: moment('2019-01-01', 'YYYY-MM-DD'),
-      accountName: 'PREPAYMENT ACCOUNT',
-      serviceOutlet: '100'
-    })
-  ): Observable<EntityArrayResponseType> {
+  getEntities(balanceQuery: IBalanceQuery = this.defaultQuery): Observable<EntityArrayResponseType> {
     this.log.info(`Pulling data for prepayment balances as at the date: ${balanceQuery.balanceDate}`);
     // TODO convert date : const copy = this.convertDateFromClient(balanceQuery);
     return this.http
