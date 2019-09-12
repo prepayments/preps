@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-query-modal.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationExtras, Router } from '@angular/router';
@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { NGXLogger } from 'ngx-logger';
 import { OutstandingBalanceService } from 'app/preps/gha-dashboard/dashboard-hud-container/dashboard-hud-outstanding-preps/outstanding-balance.service';
 import { IBalanceQuery } from 'app/preps/model/balance-query.model';
+import { CountUpOptions, CountUp } from 'countup.js';
 
 @Component({
   selector: 'gha-dashboard-hud-outstanding-preps',
@@ -15,16 +16,28 @@ import { IBalanceQuery } from 'app/preps/model/balance-query.model';
 export class DashboardHudOutstandingPrepsComponent implements OnInit {
   modalRef: NgbModalRef;
   outstandingBalanceAmount: number;
+  countUpOptions: CountUpOptions;
 
   constructor(
     private balanceQueryModalService: BalanceQueryModalService,
     private outstandingBalanceService: OutstandingBalanceService,
     private router: Router,
     private log: NGXLogger
-  ) {}
+  ) {
+    this.loadAll();
+  }
 
   ngOnInit() {
-    const todate: string = moment().format('YYYY-MM-DD');
+    this.countUpOptions = {
+      useEasing: true,
+      startVal: 40,
+      decimalPlaces: 3,
+      duration: 2,
+      formattingFn: (n: number) => n.toPrecision(4).toString()
+    };
+  }
+
+  private loadAll(): void {
     const balanceQuery: IBalanceQuery = {
       balanceDate: moment(),
       serviceOutlet: 'All',
@@ -33,8 +46,6 @@ export class DashboardHudOutstandingPrepsComponent implements OnInit {
     this.outstandingBalanceService.queryAmount(balanceQuery).subscribe(balanceAmount => {
       this.outstandingBalanceAmount = balanceAmount / 1000000;
     });
-
-    this.outstandingBalanceAmount.toFixed(2);
   }
 
   protected navigateToDate(): void {

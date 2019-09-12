@@ -7,6 +7,7 @@ import { PrepsSharedModule } from 'app/shared';
 import { DashboardHudOutstandingPrepsComponent } from './dashboard-hud-outstanding-preps/dashboard-hud-outstanding-preps.component';
 import { DashboardHudAmortizationComponent } from './dashboard-hud-amortization/dashboard-hud-amortization.component';
 import { DashboardHudOrphanedAmortizationsComponent } from './dashboard-hud-orphaned-amortizations/dashboard-hud-orphaned-amortizations.component';
+import { CountUpModule } from 'countup.js-angular2';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { DashboardHudOrphanedAmortizationsComponent } from './dashboard-hud-orph
     DashboardHudOrphanedAmortizationsComponent
   ],
   exports: [DashboardHudComponent],
-  imports: [CommonModule, PrepsSharedModule, DashboardHudDeckRoutingModule],
+  imports: [CommonModule, PrepsSharedModule, DashboardHudDeckRoutingModule, CountUpModule],
   entryComponents: [
     DashboardHudComponent,
     DashboardHudOutstandingPrepsComponent,
