@@ -1,8 +1,6 @@
 package io.github.prepayments.app.services;
 
 import com.google.common.collect.ImmutableList;
-import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.StringFilter;
 import io.github.prepayments.app.models.BalanceQuery;
 import io.github.prepayments.app.models.PrepaymentTimeBalanceDTO;
 import io.github.prepayments.app.services.reports.OnCallAmortizationService;
@@ -17,7 +15,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static io.github.prepayments.app.AppConstants.DATETIME_FORMATTER;
-import static io.github.prepayments.app.AppConstants.GENERAL_QUERY_REQUEST_ARGS;
 
 /**
  * This object implements the should-get-balance interface same as the prepayment-time-balance-service however that is where the similarity ends. The latter pulls an entire data set from repository
@@ -31,12 +28,15 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
     private final PrepaymentEntryQueryService prepaymentEntryQueryService;
     private final OnCallAmortizationService onCallAmortizationService;
     private final AmortizationEntryReportService amortizationEntryReportService;
+    private final QueryParameterCriteriaService<BalanceQuery, PrepaymentEntryCriteria> balanceQueryPrepaymentEntryCriteria;
 
     public PrepaymentBalanceQueryService(final PrepaymentEntryQueryService prepaymentEntryQueryService, final OnCallAmortizationService onCallAmortizationService,
-                                         final AmortizationEntryReportService amortizationEntryReportService) {
+                                         final AmortizationEntryReportService amortizationEntryReportService,
+                                         final QueryParameterCriteriaService<BalanceQuery, PrepaymentEntryCriteria> balanceQueryPrepaymentEntryCriteria) {
         this.prepaymentEntryQueryService = prepaymentEntryQueryService;
         this.onCallAmortizationService = onCallAmortizationService;
         this.amortizationEntryReportService = amortizationEntryReportService;
+        this.balanceQueryPrepaymentEntryCriteria = balanceQueryPrepaymentEntryCriteria;
     }
 
     /**
@@ -66,7 +66,7 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
     @Override
     public List<PrepaymentTimeBalanceDTO> getBalance(final BalanceQuery requestParameter) {
 
-        PrepaymentEntryCriteria prepaymentEntryCriteria = getPrepaymentEntryCriteria(requestParameter);
+        PrepaymentEntryCriteria prepaymentEntryCriteria = balanceQueryPrepaymentEntryCriteria.getCriteria(requestParameter);
 
         // @formatter:off
         return prepaymentEntryQueryService.findByCriteria(prepaymentEntryCriteria)
@@ -78,7 +78,7 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
         // @formatter:on
     }
 
-    private PrepaymentEntryCriteria getPrepaymentEntryCriteria(final BalanceQuery requestParameter) {
+    /*private PrepaymentEntryCriteria getPrepaymentEntryCriteria(final BalanceQuery requestParameter) {
         PrepaymentEntryCriteria prepaymentEntryCriteria = new PrepaymentEntryCriteria();
 
         // TODO create query criteria
@@ -98,5 +98,5 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
             prepaymentEntryCriteria.setAccountName(prepaymentAccountName);
         }
         return prepaymentEntryCriteria;
-    }
+    }*/
 }
