@@ -1,8 +1,11 @@
 export interface IAmortizationSchedule {
+  prepaymentEntryId?: number;
+  amortizationEntryId?: number;
   prepaymentAccount?: string;
   amortizationAccount?: string;
   particulars?: string;
-  amount?: number;
+  prepaymentBalance?: number;
+  amortizationAmount?: number;
 }
 
 export class AmortizationSchedule implements IAmortizationSchedule {

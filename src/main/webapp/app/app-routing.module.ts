@@ -24,6 +24,12 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           loadChildren: './preps/data-display/data-tables/data-tables.module#DataTablesModule'
         },
         {
+          /*Add paths for prepayment-amortization module*/
+          path: 'data-tables',
+          loadChildren:
+            './preps/data-display/data-tables/prepayment-amortization/prepayment-amortization.module#PrepaymentAmortizationModule'
+        },
+        {
           /*Add paths for report items*/
           path: 'reporting',
           loadChildren: './preps/reporting/reporting.module#ReportingModule'
