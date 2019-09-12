@@ -1,3 +1,28 @@
-<p>
-  amortization-schedule works!
-</p>
+<div class="table-responsive" *ngIf="amortizationScheduleArray">
+    <h5>Amortization Schedule for Date: {{reportDate |  date:'mediumDate' }}</h5>
+    <table class="table table-striped table-bordered table-sm row-border hover"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+        <tr>
+            <th><span>Prep Id</span></th>
+            <th><span>Amort Id</span></th>
+            <th><span>Prepayment Account</span></th>
+            <th><span>Amortization Account</span></th>
+            <th><span>Particulars</span></th>
+            <th><span>Prepayment Balance</span></th>
+            <th><span>Amort Amount</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let amortizationSchedule of amortizationScheduleArray">
+            <td><a [routerLink]="['/prepayment-entry', amortizationSchedule.prepaymentEntryId, 'view' ]">{{amortizationSchedule.prepaymentEntryId}}</a></td>
+            <td><a [routerLink]="['/amortization-entry', amortizationSchedule.amortizationEntryId, 'view' ]">{{amortizationSchedule.amortizationEntryId}}</a></td>
+            <td><a (click)="onSelectAccountNumber(amortizationSchedule.prepaymentAccount)">{{amortizationSchedule.prepaymentAccount}}</a></td>
+            <td><a (click)="onSelectAmortAccountNumber(amortizationSchedule.amortizationAccount)">{{amortizationSchedule.amortizationAccount}}</a></td>
+            <td>{{amortizationSchedule.particulars}}</td>
+            <td>{{amortizationSchedule.prepaymentBalance}}</td>
+            <td>{{amortizationSchedule.amortizationAmount}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

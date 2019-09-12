@@ -18,5 +18,6 @@ public class AmortizationScheduleDTO {
     private String prepaymentAccount;
     private String amortizationAccount;
     private String particulars;
+    public BigDecimal prepaymentBalance;
     private BigDecimal amount;
 }

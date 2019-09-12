@@ -12,6 +12,7 @@ export class AmortizationSchedule implements IAmortizationSchedule {
     public prepaymentAccount?: string,
     public amortizationAccount?: string,
     public particulars?: string,
-    public amount?: number
+    public prepaymentBalance?: number,
+    public amortizationAmount?: number
   ) {}
 }
