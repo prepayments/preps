@@ -30,7 +30,7 @@ export class DashboardHudOutstandingPrepsComponent implements OnInit {
   ngOnInit() {
     this.countUpOptions = {
       useEasing: true,
-      startVal: 40,
+      startVal: 0,
       decimalPlaces: 3,
       duration: 2,
       formattingFn: (n: number) => n.toPrecision(4).toString()
