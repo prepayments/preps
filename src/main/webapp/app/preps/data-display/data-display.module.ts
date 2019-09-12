@@ -7,6 +7,7 @@ import { DataExportModule } from 'app/preps/data-display/data-export/data-export
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrepsMaterialModule } from 'app/preps/preps-material.module';
 import { PrepsSharedModule } from 'app/shared';
+import { PrepaymentAmortizationModule } from './data-tables/prepayment-amortization/prepayment-amortization.module';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import { PrepsSharedModule } from 'app/shared';
     PrepsSharedModule,
     DataExportModule,
     DataDisplayRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    PrepaymentAmortizationModule
   ],
   exports: [DataExportModule, DataTablesModule]
 })
