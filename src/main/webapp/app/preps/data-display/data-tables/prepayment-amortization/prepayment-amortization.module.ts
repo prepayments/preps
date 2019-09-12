@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PrepaymentAmortizationRoutingModule } from './prepayment-amortization-routing.module';
+import { AmortizationScheduleComponent } from './amortization-schedule.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, PrepaymentAmortizationRoutingModule]
+  declarations: [AmortizationScheduleComponent],
+  imports: [CommonModule, PrepaymentAmortizationRoutingModule],
+  exports: [AmortizationScheduleComponent],
+  entryComponents: [AmortizationScheduleComponent]
 })
 export class PrepaymentAmortizationModule {}
