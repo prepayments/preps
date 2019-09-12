@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -24,9 +25,9 @@ import java.util.List;
 @RequestMapping("/api/reports/balances")
 public class TimeBalanceResource {
 
-    private final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> prepaymentBalanceQueryService;
+    private final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO, BigDecimal> prepaymentBalanceQueryService;
 
-    public TimeBalanceResource(final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> prepaymentBalanceQueryService) {
+    public TimeBalanceResource(final ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO, BigDecimal> prepaymentBalanceQueryService) {
         this.prepaymentBalanceQueryService = prepaymentBalanceQueryService;
     }
 
@@ -69,4 +70,11 @@ public class TimeBalanceResource {
         return ResponseEntity.ok().body(prepaymentBalances);
     }
     // @formatter:on
+
+    @PostMapping("/prepayments/amount")
+    public ResponseEntity<BigDecimal> getPrepaymentBalanceAmount(@Valid @RequestBody BalanceQuery balanceQuery) {
+        log.debug("REST request to get all prepayment-balances' total amount for the balances query: {}", balanceQuery);
+        BigDecimal prepaymentBalances = prepaymentBalanceQueryService.getBalanceAmount(balanceQuery);
+        return ResponseEntity.ok().body(prepaymentBalances);
+    }
 }

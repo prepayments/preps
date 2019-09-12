@@ -26,7 +26,7 @@ import static io.github.prepayments.app.AppConstants.GENERAL_QUERY_REQUEST_ARGS;
  */
 @Transactional
 @Service("prepaymentBalanceQueryService")
-public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO> {
+public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQuery, PrepaymentTimeBalanceDTO, BigDecimal> {
 
     private final PrepaymentEntryQueryService prepaymentEntryQueryService;
     private final OnCallAmortizationService onCallAmortizationService;
@@ -37,6 +37,20 @@ public class PrepaymentBalanceQueryService implements ShouldGetBalance<BalanceQu
         this.prepaymentEntryQueryService = prepaymentEntryQueryService;
         this.onCallAmortizationService = onCallAmortizationService;
         this.amortizationEntryReportService = amortizationEntryReportService;
+    }
+
+    /**
+     * Returns an amount of all outstanding balances of type A having received a request of type R
+     */
+    @Override
+    public BigDecimal getBalanceAmount(final BalanceQuery requestParameter) {
+        // @formatter:off
+        return this.getBalance(requestParameter)
+                   .stream()
+                   .map(PrepaymentTimeBalanceDTO::getBalanceAmount)
+                   .reduce(BigDecimal::add)
+                   .orElse(BigDecimal.ZERO);
+        // @formatter:on
     }
 
     /**
