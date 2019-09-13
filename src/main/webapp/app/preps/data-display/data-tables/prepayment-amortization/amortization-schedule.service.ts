@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IAmortizationSchedule } from 'app/preps/model/amortization-schedule';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { JhiAlertService } from 'ng-jhipster';
 import { NGXLogger } from 'ngx-logger';
 import { IBalanceQuery } from 'app/preps/model/balance-query.model';
 import * as moment from 'moment';
-
-type EntityArrayResponseType = HttpResponse<IAmortizationSchedule[]>;
 
 @Injectable({
   providedIn: 'root'
@@ -30,21 +28,8 @@ export class AmortizationScheduleService {
   }
 
   public query(balanceQuery: IBalanceQuery = this.defaultQuery): Observable<HttpResponse<IAmortizationSchedule[]>> {
-    // TODO Add params
-    const requestHeaders = new HttpHeaders();
-    requestHeaders.append('Content-Type', 'application/json');
-    const requestParams = new HttpParams();
-    requestParams.append('balanceDate', balanceQuery.balanceDate.format('YYYY-MM-DD'));
-    requestParams.append('serviceOutlet', balanceQuery.serviceOutlet);
-    requestParams.append('accountName', balanceQuery.accountName);
-
     return this.http
-      .post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, {
-        observe: 'response',
-        reportProgress: true,
-        headers: requestHeaders,
-        params: requestParams
-      })
+      .post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, { observe: 'response', reportProgress: true })
       .pipe(catchError(this.handleError<HttpResponse<IAmortizationSchedule[]>>('query' /* TODO Add query details*/)));
   }
 

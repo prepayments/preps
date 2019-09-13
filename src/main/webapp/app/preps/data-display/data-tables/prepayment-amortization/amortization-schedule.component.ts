@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IAmortizationSchedule } from 'app/preps/model/amortization-schedule';
 import { Subject } from 'rxjs/internal/Subject';
 import { NGXLogger } from 'ngx-logger';
-import { Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ITransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
 import { AmortizationScheduleService } from 'app/preps/data-display/data-tables/prepayment-amortization/amortization-schedule.service';
 import { JhiAlertService } from 'ng-jhipster';
@@ -31,6 +31,7 @@ export class AmortizationScheduleComponent implements OnInit {
     private log: NGXLogger,
     private router: Router,
     private jhiAlertService: JhiAlertService,
+    protected activatedRoute: ActivatedRoute,
     private routerStateService: RouteStateService<IBalanceQuery>,
     private transactionAccountService: TransactionAccountService,
     private amortizationScheduleService: AmortizationScheduleService,
@@ -59,14 +60,22 @@ export class AmortizationScheduleComponent implements OnInit {
 
   private loadAmortizationSchedule(): void {
     this.dtOptions = this.getDataTableOptions();
-    this.amortizationScheduleService.query(this.routerStateService.data).subscribe(
-      res => {
-        this.amortizationScheduleArray = res.body;
-        this.dtTrigger.next();
-      },
-      err => this.onError(err.toString()),
-      () => this.log.info(`Extracted ${this.amortizationScheduleArray.length} amortization schedule items from API`)
-    );
+    if (this.routerStateService.data !== undefined) {
+      this.amortizationScheduleService.query(this.routerStateService.data).subscribe(
+        res => {
+          this.amortizationScheduleArray = res.body;
+          this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.amortizationScheduleArray.length} amortization schedule items from API`)
+      );
+      // Update the title
+      this.updateReportTitles(this.routerStateService.data);
+    }
+  }
+
+  private updateReportTitles(balanceQuery: IBalanceQuery): void {
+    this.reportDate = balanceQuery.balanceDate.toString();
   }
 
   private loadSupportEntitie(): void {
