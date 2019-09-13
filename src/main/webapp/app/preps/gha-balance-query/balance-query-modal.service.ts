@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AmortizationScheduleQueryComponent } from 'app/preps/data-display/data-tables/prepayment-amortization/amortization-schedule-query/amortization-schedule-query.component';
 import { BalanceQueryModalComponent } from 'app/preps/gha-balance-query/balance-query-modal.component';
 
 /**

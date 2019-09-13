@@ -1,7 +1,7 @@
-<div class="row justify-content-center">
+<div class="row card justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="navigateToSchedule" [formGroup]="editForm">
-            <h2 id="gha-amortization-entry-heading">Create or edit a Amortization Entry</h2>
+            <h2 id="gha-amortization-entry-heading">Get Amortization Schedule</h2>
             <div>
                 <!--// TODO BALANCE DATE-->
                 <div class="form-group">
@@ -50,7 +50,7 @@
             </div>
 
 
-            <div>
+            <div class="card-footer">
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
