@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,9 +27,9 @@ import static io.github.prepayments.app.AppConstants.DATETIME_FORMATTER;
 @RequestMapping("/api/data")
 public class AmortizationScheduleResource {
 
-    private final AmortizationScheduleService<BalanceQuery> balanceQueryAmortizationScheduleService;
+    private final AmortizationScheduleService<BalanceQuery, BigDecimal> balanceQueryAmortizationScheduleService;
 
-    public AmortizationScheduleResource(final AmortizationScheduleService<BalanceQuery> balanceQueryAmortizationScheduleService) {
+    public AmortizationScheduleResource(final AmortizationScheduleService<BalanceQuery, BigDecimal> balanceQueryAmortizationScheduleService) {
         this.balanceQueryAmortizationScheduleService = balanceQueryAmortizationScheduleService;
     }
 
@@ -42,5 +43,17 @@ public class AmortizationScheduleResource {
     public ResponseEntity<List<AmortizationScheduleDTO>> getAmortizationSchedule(@Valid @RequestBody BalanceQuery balanceQuery) {
         List<AmortizationScheduleDTO> scheduleAmortization = balanceQueryAmortizationScheduleService.scheduleAmortization(balanceQuery);
         return ResponseEntity.ok().body(scheduleAmortization);
+    }
+
+    /**
+     * {@code GET /amortization-schedule/amount}: Generate amortization schedule amount as per query params
+     *
+     * @param balanceQuery
+     * @return
+     */
+    @PostMapping("/amortization-schedule/amount")
+    public ResponseEntity<BigDecimal> getAmortizationScheduleAmount(@Valid @RequestBody BalanceQuery balanceQuery) {
+        BigDecimal scheduleAmortizationAmount = balanceQueryAmortizationScheduleService.scheduleAmortizationAmount(balanceQuery);
+        return ResponseEntity.ok().body(scheduleAmortizationAmount);
     }
 }

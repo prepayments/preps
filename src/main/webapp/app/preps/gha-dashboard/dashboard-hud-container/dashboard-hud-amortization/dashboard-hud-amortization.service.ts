@@ -9,7 +9,7 @@ import { NGXLogger } from 'ngx-logger';
   providedIn: 'root'
 })
 export class DashboardHudAmortizationService {
-  public resourceAmountUrl = SERVER_API_URL + '/api/reports/balances/prepayments/amount';
+  public resourceAmountUrl = SERVER_API_URL + '/api/data/amortization-schedule/amount';
 
   constructor(private http: HttpClient, private log: NGXLogger) {}
 

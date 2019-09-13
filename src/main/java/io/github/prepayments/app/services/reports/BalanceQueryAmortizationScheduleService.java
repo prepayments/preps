@@ -45,7 +45,11 @@ public class BalanceQueryAmortizationScheduleService implements AmortizationSche
     }
 
     @Override
-    public BigDecimal sheduleAmortizationAmount(final BalanceQuery queryParameters) {
-        return null;
+    public BigDecimal scheduleAmortizationAmount(final BalanceQuery queryParameters) {
+        return scheduleAmortization(queryParameters)
+            .stream()
+            .map(AmortizationScheduleDTO::getAmortizationAmount)
+            .reduce(BigDecimal::add)
+            .orElse(BigDecimal.ZERO);
     }
 }

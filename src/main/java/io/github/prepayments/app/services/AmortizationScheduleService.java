@@ -11,5 +11,5 @@ public interface AmortizationScheduleService<Q, A> {
 
     List<AmortizationScheduleDTO> scheduleAmortization(Q queryParameters);
 
-    A sheduleAmortizationAmount(Q queryParameters);
+    A scheduleAmortizationAmount(Q queryParameters);
 }
