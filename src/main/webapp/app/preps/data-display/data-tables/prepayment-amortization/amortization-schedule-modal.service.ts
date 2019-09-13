@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { BalanceQueryModalComponent } from 'app/preps/gha-balance-query/balance-query-modal.component';
+import { AmortizationScheduleQueryComponent } from 'app/preps/data-display/data-tables/prepayment-amortization/amortization-schedule-query/amortization-schedule-query.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AmortizationScheduleModalService {
       return;
     }
     this.isOpen = true;
-    const modalRef = this.modalService.open(BalanceQueryModalComponent);
+    const modalRef = this.modalService.open(AmortizationScheduleQueryComponent);
     modalRef.result.then(
       result => {
         this.isOpen = false;

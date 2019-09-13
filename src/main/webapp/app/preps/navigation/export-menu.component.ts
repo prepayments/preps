@@ -3,6 +3,7 @@ import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-query-modal.service';
+import { AmortizationScheduleModalService } from 'app/preps/data-display/data-tables/prepayment-amortization/amortization-schedule-modal.service';
 
 @Component({
   selector: 'gha-export-menu',
@@ -58,8 +59,8 @@ import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-qu
           </a>
         </li>
         <li>
-          <!--<a class="dropdown-item" (click)="amortizationScheduleQuery()" routerLinkActive="active">-->
-          <a class="dropdown-item" routerLink="data-tables/amortization-schedule" routerLinkActive="active">
+          <a class="dropdown-item" (click)="amortizationScheduleQuery()" routerLinkActive="active">
+            <!--<a class="dropdown-item" routerLink="data-tables/amortization-schedule" routerLinkActive="active">-->
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Amortization Schedule</span>
           </a>
@@ -78,6 +79,7 @@ export class ExportMenuComponent implements OnInit {
     private accountService: AccountService,
     private loginModalService: LoginModalService,
     private balanceQueryModalService: BalanceQueryModalService,
+    private amortizationScheduleModalService: AmortizationScheduleModalService,
     private router: Router
   ) {
     this.isNavbarCollapsed = false;
@@ -90,8 +92,7 @@ export class ExportMenuComponent implements OnInit {
   }
 
   amortizationScheduleQuery() {
-    // TODO query for amortization schedule
-    this.modalRef = this.balanceQueryModalService.open();
+    this.modalRef = this.amortizationScheduleModalService.open();
   }
 
   isAuthenticated() {
