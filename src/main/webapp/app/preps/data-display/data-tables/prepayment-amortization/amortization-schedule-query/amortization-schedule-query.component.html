@@ -1,3 +1,63 @@
-<p>
-  amortization-schedule-query works!
-</p>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="navigateToSchedule" [formGroup]="editForm">
+            <h2 id="gha-amortization-entry-heading">Create or edit a Amortization Entry</h2>
+            <div>
+                <!--// TODO BALANCE DATE-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationDate">Amortization Date</label>
+                    <div class="input-group">
+                        <input id="field_amortizationDate" type="text" class="form-control" name="amortizationDate" ngbDatepicker  #amortizationDateDp="ngbDatepicker" formControlName="amortizationDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="amortizationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('amortizationDate').invalid && (editForm.get('amortizationDate').dirty || editForm.get('amortizationDate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationDate').errors.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <!--// TODO SERVICE OUTLET-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentServiceOutlet">Prepayment Service Outlet</label>
+                    <input type="text" class="form-control" name="prepaymentServiceOutlet" id="field_prepaymentServiceOutlet"
+                           formControlName="prepaymentServiceOutlet"/>
+                    <div *ngIf="editForm.get('prepaymentServiceOutlet').invalid && (editForm.get('prepaymentServiceOutlet').dirty || editForm.get('prepaymentServiceOutlet').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <!--// ACCOUNT NUMBER-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentAccountNumber">Prepayment Account Number</label>
+                    <input type="text" class="form-control" name="prepaymentAccountNumber" id="field_prepaymentAccountNumber"
+                           formControlName="prepaymentAccountNumber"/>
+                    <div *ngIf="editForm.get('prepaymentAccountNumber').invalid && (editForm.get('prepaymentAccountNumber').dirty || editForm.get('prepaymentAccountNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentAccountNumber').errors.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Query</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
