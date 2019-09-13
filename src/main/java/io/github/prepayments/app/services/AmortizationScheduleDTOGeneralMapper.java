@@ -31,7 +31,8 @@ public class AmortizationScheduleDTOGeneralMapper implements GeneralMapper<Amort
                                       .amortizationAccount(amortizationAccount)
                                       .particulars(amortizationEntryDTO.getParticulars())
                                       // TODO update balance in client code
-                                      .amount(amortizationEntryDTO.getAmortizationAmount())
+//                                      .amount(amortizationEntryDTO.getAmortizationAmount())
+                                      .amortizationAmount(amortizationEntryDTO.getAmortizationAmount())
                                       .build();
         // @formatter:on
     }
@@ -55,7 +56,7 @@ public class AmortizationScheduleDTOGeneralMapper implements GeneralMapper<Amort
                                    .amortizationServiceOutlet(amortizationServiceOutlet)
                                    .amortizationAccountNumber(amortizationAccountNumber)
                                    .particulars(amortizationScheduleDTO.getParticulars())
-                                   .amortizationAmount(amortizationScheduleDTO.getAmount())
+                                   .amortizationAmount(amortizationScheduleDTO.getAmortizationAmount())
                                    .build();
         // @formatter:on
     }
