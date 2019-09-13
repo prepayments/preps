@@ -16,16 +16,16 @@ import java.util.List;
 @Service("balanceQueryAmortizationScheduleService")
 public class BalanceQueryAmortizationScheduleService implements AmortizationScheduleService<BalanceQuery> {
 
-    private final QueryParameterCriteriaService<BalanceQuery, AmortizationEntryCriteria> amortizationEntryCriteriaQueryParameterCriteriaService;
+    private final QueryParameterCriteriaService<BalanceQuery, AmortizationEntryCriteria> prepaymentEntryQueryParameterCriteriaService;
     private final AmortizationEntryQueryService amortizationEntryQueryService;
     private final GeneralMapper<AmortizationEntryDTO, AmortizationScheduleDTO> amortizationScheduleDTOGeneralMapper;
     private final PrepaymentBalanceService<AmortizationScheduleDTO> amortizationSchedulePrepaymentBalanceService;
 
-    public BalanceQueryAmortizationScheduleService(final QueryParameterCriteriaService<BalanceQuery, AmortizationEntryCriteria> amortizationEntryCriteriaQueryParameterCriteriaService,
+    public BalanceQueryAmortizationScheduleService(final QueryParameterCriteriaService<BalanceQuery, AmortizationEntryCriteria> prepaymentEntryQueryParameterCriteriaService,
                                                    final AmortizationEntryQueryService amortizationEntryQueryService,
                                                    final GeneralMapper<AmortizationEntryDTO, AmortizationScheduleDTO> amortizationScheduleDTOGeneralMapper,
                                                    final PrepaymentBalanceService<AmortizationScheduleDTO> amortizationSchedulePrepaymentBalanceService) {
-        this.amortizationEntryCriteriaQueryParameterCriteriaService = amortizationEntryCriteriaQueryParameterCriteriaService;
+        this.prepaymentEntryQueryParameterCriteriaService = prepaymentEntryQueryParameterCriteriaService;
         this.amortizationEntryQueryService = amortizationEntryQueryService;
         this.amortizationScheduleDTOGeneralMapper = amortizationScheduleDTOGeneralMapper;
         this.amortizationSchedulePrepaymentBalanceService = amortizationSchedulePrepaymentBalanceService;
@@ -34,7 +34,7 @@ public class BalanceQueryAmortizationScheduleService implements AmortizationSche
     @Override
     public List<AmortizationScheduleDTO> scheduleAmortization(final BalanceQuery queryParameters) {
 
-        AmortizationEntryCriteria amortizationEntryCriteria = amortizationEntryCriteriaQueryParameterCriteriaService.getCriteria(queryParameters);
+        AmortizationEntryCriteria amortizationEntryCriteria = prepaymentEntryQueryParameterCriteriaService.getCriteria(queryParameters);
 
         List<AmortizationEntryDTO> amortizationEntries = amortizationEntryQueryService.findByCriteria(amortizationEntryCriteria);
 
