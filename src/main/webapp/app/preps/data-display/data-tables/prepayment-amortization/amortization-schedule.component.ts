@@ -121,7 +121,7 @@ export class AmortizationScheduleComponent implements OnInit {
       searching: true,
       paging: true,
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 10,
       processing: true,
       dom: 'Bfrtip',
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
