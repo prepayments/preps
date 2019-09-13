@@ -33,9 +33,9 @@ export class AmortizationScheduleService {
     // return this.http.post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, { observe: 'response' })
 
     // TODO Add params
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     params.append('balanceDate', balanceQuery.balanceDate.format('YYYY-MM-DD'));
     params.append('serviceOutlet', balanceQuery.serviceOutlet);
     params.append('accountName', balanceQuery.accountName);
