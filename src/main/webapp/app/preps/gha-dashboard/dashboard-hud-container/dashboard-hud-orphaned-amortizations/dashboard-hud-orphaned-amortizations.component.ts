@@ -15,10 +15,10 @@ export class DashboardHudOrphanedAmortizationsComponent implements OnInit {
   ngOnInit() {
     this.countUpOptions = {
       useEasing: true,
-      startVal: 1000,
-      decimalPlaces: 3,
+      startVal: 999,
+      decimalPlaces: 0,
       duration: 2,
-      formattingFn: (n: number) => n.toPrecision(4).toString()
+      formattingFn: (n: number) => n.toPrecision(3).toString()
     };
   }
 }
