@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
 import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';
 import { RouteStateService } from 'app/preps/route-state.service';
-import { IBalanceQuery } from 'app/preps/model/balance-query.model';
+import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 
 @Component({
   selector: 'gha-amortization-schedule',
@@ -23,6 +23,7 @@ export class AmortizationScheduleComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   amortizationScheduleArray: IAmortizationSchedule[];
   reportDate: string;
+  navigationQuery: IBalanceQuery;
 
   // Navigation data
   transactionAccounts: ITransactionAccount[];
@@ -37,12 +38,23 @@ export class AmortizationScheduleComponent implements OnInit {
     private amortizationScheduleService: AmortizationScheduleService,
     protected transactionAccountsReportingService: TransactionAccountReportingService
   ) {
+    this.updateNavigationQuery();
     this.loadAmortizationScheduleFirstPass();
   }
 
   ngOnInit() {
     this.loadAmortizationSchedule();
     this.loadSupportEntitie();
+  }
+
+  private updateNavigationQuery(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.navigationQuery = new BalanceQuery({
+        balanceDate: params['balanceDate'],
+        serviceOutlet: params['serviceOutlet'],
+        accountName: params['accountName']
+      });
+    });
   }
 
   private loadAmortizationScheduleFirstPass(): void {
@@ -71,6 +83,19 @@ export class AmortizationScheduleComponent implements OnInit {
       );
       // Update the title
       this.updateReportTitles(this.routerStateService.data);
+    } else {
+      this.amortizationScheduleService.query(this.navigationQuery).subscribe(
+        res => {
+          this.amortizationScheduleArray = res.body;
+          // TODO test whether data-tables are created once and only once
+          this.dtTrigger.next();
+        },
+        err => this.onError(err.toString()),
+        () => this.log.info(`Extracted ${this.amortizationScheduleArray.length} amortization schedule items from API`)
+      );
+
+      // Update the title
+      this.updateReportTitles(this.navigationQuery);
     }
   }
 
