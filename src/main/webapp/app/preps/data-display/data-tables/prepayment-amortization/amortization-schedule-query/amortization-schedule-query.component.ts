@@ -22,8 +22,8 @@ export class AmortizationScheduleQueryComponent implements OnInit, AfterViewInit
 
   editForm = this.fb.group({
     balanceDate: [null, [Validators.required]],
-    accountName: [],
-    serviceOutlet: []
+    accountName: [null, [Validators.required]],
+    serviceOutlet: [null, [Validators.required]]
   });
 
   private createFromForm(queryForm: FormGroup): IBalanceQuery {

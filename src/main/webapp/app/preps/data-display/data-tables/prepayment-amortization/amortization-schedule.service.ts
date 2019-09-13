@@ -30,8 +30,6 @@ export class AmortizationScheduleService {
   }
 
   public query(balanceQuery: IBalanceQuery = this.defaultQuery): Observable<HttpResponse<IAmortizationSchedule[]>> {
-    // return this.http.post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, { observe: 'response' })
-
     // TODO Add params
     const requestHeaders = new HttpHeaders();
     requestHeaders.append('Content-Type', 'application/json');

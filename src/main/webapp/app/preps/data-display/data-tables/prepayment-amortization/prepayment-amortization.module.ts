@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AmortizationScheduleComponent, AmortizationScheduleQueryComponent],
   imports: [
+    CommonModule,
+    PrepsSharedModule,
     QuestionnaireModule,
     PrepsMaterialModule,
     ReactiveFormsModule,
@@ -22,8 +24,6 @@ import { ReactiveFormsModule } from '@angular/forms';
       validationMessages: [{ name: 'required', message: 'This field is required' }]
     }),
     FormlyMaterialModule,
-    PrepsSharedModule,
-    CommonModule,
     PrepaymentAmortizationRoutingModule,
     DTModule
   ],

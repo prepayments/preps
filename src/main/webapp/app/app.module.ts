@@ -19,17 +19,19 @@ import { PrepsAccountModule } from './account/account.module';
 import { PrepsEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 import { PrepsModule } from './preps/preps.module';
-import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { GhaMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     NgxWebstorageModule.forRoot({ prefix: 'gha', separator: '-' }),
     NgJhipsterModule.forRoot({
       // set below to true to make alerts look like toast
-      alertAsToast: false,
+      alertAsToast: true,
       alertTimeout: 5000
     }),
     PrepsSharedModule.forRoot(),

@@ -36,12 +36,25 @@ export class AmortizationScheduleComponent implements OnInit {
     private amortizationScheduleService: AmortizationScheduleService,
     protected transactionAccountsReportingService: TransactionAccountReportingService
   ) {
-    this.loadAmortizationSchedule();
+    this.loadAmortizationScheduleFirstPass();
   }
 
   ngOnInit() {
     this.loadAmortizationSchedule();
     this.loadSupportEntitie();
+  }
+
+  private loadAmortizationScheduleFirstPass(): void {
+    this.dtOptions = this.getDataTableOptions();
+    this.amortizationScheduleService.query(this.routerStateService.data).subscribe(
+      res => {
+        this.amortizationScheduleArray = res.body;
+        // TODO Avoid accidentally triggering the table while priming its data
+        // this.dtTrigger.next();
+      },
+      err => this.onError(err.toString()),
+      () => this.log.info(`Extracted ${this.amortizationScheduleArray.length} amortization schedule items from API`)
+    );
   }
 
   private loadAmortizationSchedule(): void {
