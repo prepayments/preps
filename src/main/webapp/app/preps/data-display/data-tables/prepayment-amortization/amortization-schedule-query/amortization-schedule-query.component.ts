@@ -12,7 +12,7 @@ import { AmortizationEntry, IAmortizationEntry } from 'app/shared/model/prepayme
   styleUrls: ['./amortization-schedule-query.component.scss']
 })
 export class AmortizationScheduleQueryComponent implements OnInit {
-  private pageUrl = '';
+  private pageUrl = 'data-tables/amortization-schedule';
 
   isSaving: boolean;
 
@@ -35,8 +35,7 @@ export class AmortizationScheduleQueryComponent implements OnInit {
 
   navigateToSchedule() {
     const amortizationEntry = this.createFromForm();
-
-    // TODO update service data this.routeStateService.data = //
+    this.routeStateService.data = amortizationEntry;
 
     // TODO Navigate
     this.router
@@ -48,10 +47,11 @@ export class AmortizationScheduleQueryComponent implements OnInit {
 
   private createFromForm(): IBalanceQuery {
     const entity = {
-      ...new BalanceQuery(),
-      amortizationDate: this.editForm.get(['amortizationDate']).value,
-      prepaymentServiceOutlet: this.editForm.get(['prepaymentServiceOutlet']).value,
-      prepaymentAccountNumber: this.editForm.get(['prepaymentAccountNumber']).value
+      ...new BalanceQuery({
+        balanceDate: this.editForm.get(['amortizationDate']).value,
+        serviceOutlet: this.editForm.get(['prepaymentServiceOutlet']).value,
+        accountName: this.editForm.get(['prepaymentAccountNumber']).value
+      })
     };
     return entity;
   }

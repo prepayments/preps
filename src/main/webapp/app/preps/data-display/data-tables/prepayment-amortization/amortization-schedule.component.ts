@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IAmortizationSchedule } from 'app/preps/model/amortization-schedule';
 import { Subject } from 'rxjs/internal/Subject';
 import { NGXLogger } from 'ngx-logger';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import { ITransactionAccount } from 'app/shared/model/prepayments/transaction-account.model';
 import { AmortizationScheduleService } from 'app/preps/data-display/data-tables/prepayment-amortization/amortization-schedule.service';
 import { JhiAlertService } from 'ng-jhipster';
@@ -10,6 +10,8 @@ import { TransactionAccountService } from 'app/entities/prepayments/transaction-
 import { tap } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
 import { TransactionAccountReportingService } from 'app/preps/data-display/data-export/transaction-accounts/transaction-account-reporting.service';
+import { RouteStateService } from 'app/preps/route-state.service';
+import { IBalanceQuery } from 'app/preps/model/balance-query.model';
 
 @Component({
   selector: 'gha-amortization-schedule',
@@ -29,6 +31,7 @@ export class AmortizationScheduleComponent implements OnInit {
     private log: NGXLogger,
     private router: Router,
     private jhiAlertService: JhiAlertService,
+    private routerStateService: RouteStateService<IBalanceQuery>,
     private transactionAccountService: TransactionAccountService,
     private amortizationScheduleService: AmortizationScheduleService,
     protected transactionAccountsReportingService: TransactionAccountReportingService
@@ -43,7 +46,7 @@ export class AmortizationScheduleComponent implements OnInit {
 
   private loadAmortizationSchedule(): void {
     this.dtOptions = this.getDataTableOptions();
-    this.amortizationScheduleService.query().subscribe(
+    this.amortizationScheduleService.query(this.routerStateService.data).subscribe(
       res => {
         this.amortizationScheduleArray = res.body;
         this.dtTrigger.next();
