@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteStateService } from 'app/preps/route-state.service';
 import { BalanceQuery, IBalanceQuery } from 'app/preps/model/balance-query.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { JhiAlertService } from 'ng-jhipster';
-import { AmortizationEntry, IAmortizationEntry } from 'app/shared/model/prepayments/amortization-entry.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'gha-amortization-schedule-query',
   templateUrl: './amortization-schedule-query.component.html',
   styleUrls: ['./amortization-schedule-query.component.scss']
 })
-export class AmortizationScheduleQueryComponent implements OnInit {
+export class AmortizationScheduleQueryComponent implements OnInit, AfterViewInit {
   private pageUrl = 'data-tables/amortization-schedule';
 
   isSaving: boolean;
@@ -28,14 +28,21 @@ export class AmortizationScheduleQueryComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     private fb: FormBuilder,
     private router: Router,
+    private modalService: NgbModal,
     private routeStateService: RouteStateService<IBalanceQuery>
   ) {}
 
   ngOnInit() {}
 
+  ngAfterViewInit(): void {
+    // TODO dismiss all
+    this.modalService.dismissAll();
+  }
+
   navigateToSchedule() {
-    const amortizationEntry = this.createFromForm();
-    this.routeStateService.data = amortizationEntry;
+    this.balanceQuery = this.createFromForm();
+
+    this.routeStateService.data = this.balanceQuery;
 
     // TODO Navigate
     this.router
@@ -46,14 +53,11 @@ export class AmortizationScheduleQueryComponent implements OnInit {
   }
 
   private createFromForm(): IBalanceQuery {
-    const entity = {
-      ...new BalanceQuery({
-        balanceDate: this.editForm.get(['balanceDate']).value,
-        serviceOutlet: this.editForm.get(['serviceOutlet']).value,
-        accountName: this.editForm.get(['accountName']).value
-      })
-    };
-    return entity;
+    return new BalanceQuery({
+      balanceDate: this.editForm.get(['balanceDate']).value,
+      serviceOutlet: this.editForm.get(['serviceOutlet']).value,
+      accountName: this.editForm.get(['accountName']).value
+    });
   }
 
   protected onSaveSuccess() {
