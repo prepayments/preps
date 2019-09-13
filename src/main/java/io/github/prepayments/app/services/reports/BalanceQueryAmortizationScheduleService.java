@@ -11,10 +11,11 @@ import io.github.prepayments.service.dto.AmortizationEntryCriteria;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service("balanceQueryAmortizationScheduleService")
-public class BalanceQueryAmortizationScheduleService implements AmortizationScheduleService<BalanceQuery> {
+public class BalanceQueryAmortizationScheduleService implements AmortizationScheduleService<BalanceQuery, BigDecimal> {
 
     private final QueryParameterCriteriaService<BalanceQuery, AmortizationEntryCriteria> prepaymentEntryQueryParameterCriteriaService;
     private final AmortizationEntryQueryService amortizationEntryQueryService;
@@ -41,5 +42,10 @@ public class BalanceQueryAmortizationScheduleService implements AmortizationSche
         return amortizationScheduleDTOGeneralMapper.toTypeT2(amortizationEntries).stream()
             .peek(entry -> entry.setPrepaymentBalance(amortizationSchedulePrepaymentBalanceService.getBalance(entry)))
             .collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
+    public BigDecimal sheduleAmortizationAmount(final BalanceQuery queryParameters) {
+        return null;
     }
 }

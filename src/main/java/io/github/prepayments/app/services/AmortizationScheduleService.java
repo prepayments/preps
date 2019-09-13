@@ -7,7 +7,9 @@ import java.util.List;
 /**
  * This interface creates a listing of amortization schedule items given certain parameters
  */
-public interface AmortizationScheduleService<Q> {
+public interface AmortizationScheduleService<Q, A> {
 
     List<AmortizationScheduleDTO> scheduleAmortization(Q queryParameters);
+
+    A sheduleAmortizationAmount(Q queryParameters);
 }
