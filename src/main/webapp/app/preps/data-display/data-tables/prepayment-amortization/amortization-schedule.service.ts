@@ -41,11 +41,11 @@ export class AmortizationScheduleService {
     requestParams.append('accountName', balanceQuery.accountName);
 
     return this.http
-      .get<IAmortizationSchedule[]>(this.resourceUrl, {
+      .post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, {
         observe: 'response',
-        params: requestParams,
+        reportProgress: true,
         headers: requestHeaders,
-        reportProgress: true
+        params: requestParams
       })
       .pipe(catchError(this.handleError<HttpResponse<IAmortizationSchedule[]>>('query' /* TODO Add query details*/)));
   }
