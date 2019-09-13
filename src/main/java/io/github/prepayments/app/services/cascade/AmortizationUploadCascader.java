@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.cascade;
 
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 

@@ -1,7 +1,7 @@
 package io.github.prepayments.app.decorators;
 
 import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
-import io.github.prepayments.app.services.AmortizationUploadCascader;
+import io.github.prepayments.app.services.cascade.AmortizationUploadCascader;
 import io.github.prepayments.app.token.Tag;
 import io.github.prepayments.app.token.TagProvider;
 import io.github.prepayments.service.AmortizationUploadService;
@@ -30,8 +30,8 @@ import java.util.List;
 
 import static io.github.prepayments.app.AppConstants.DATETIME_FORMATTER;
 import static io.github.prepayments.app.AppConstants.MONTHLY_AMORTIZATION_DATE;
-import static io.github.prepayments.app.services.CascadedOperation.DELETE;
-import static io.github.prepayments.app.services.CascadedOperation.UPDATE;
+import static io.github.prepayments.app.services.cascade.CascadedOperation.DELETE;
+import static io.github.prepayments.app.services.cascade.CascadedOperation.UPDATE;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpload}.

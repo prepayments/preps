@@ -1,13 +1,18 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.cascade;
 
+import io.github.prepayments.app.services.cascade.AmortizationUploadCascader;
+import io.github.prepayments.app.services.cascade.CascadeDeleteOperation;
+import io.github.prepayments.app.services.cascade.CascadeUpdateOperation;
+import io.github.prepayments.app.services.cascade.CascadedOperation;
+import io.github.prepayments.app.services.cascade.Cascader;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static io.github.prepayments.app.services.CascadedOperation.DELETE;
-import static io.github.prepayments.app.services.CascadedOperation.UPDATE;
+import static io.github.prepayments.app.services.cascade.CascadedOperation.DELETE;
+import static io.github.prepayments.app.services.cascade.CascadedOperation.UPDATE;
 
 @Slf4j
 @Service("simpleAmortizationUploadCascader")

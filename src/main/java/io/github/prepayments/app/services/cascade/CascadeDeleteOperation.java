@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.cascade;
 
 public interface CascadeDeleteOperation<T> extends Cascader<T> {
 

@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.cascade;
 
 /**
  * This interface carries out operations on the child similar to the operation carried out on the parent
