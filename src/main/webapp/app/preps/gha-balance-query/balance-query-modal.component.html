@@ -1,17 +1,20 @@
-<div class="modal-header">
-    <h3 class="modal-title">Prepayment Balance Params</h3>
-    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="modalService.dismissAll()"><span aria-hidden="true">x</span>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row justify-content-center">
-        <gha-alert-error></gha-alert-error>
-        <div class="col-8">
-            <form name="editForm" role="form" novalidate [formGroup]="editForm">
-                <div>
-                    <gha-dynamic-form [questions]="questions" (model)='updateBalanceQuery($event)' [queryForm]="editForm"></gha-dynamic-form>
-                </div>
-            </form>
+<div class="card">
+    <div class="modal-header card-header">
+        <h3 class="modal-title display-8">Prepayment Balance Params</h3>
+        <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="modalService.dismissAll()"><span aria-hidden="true">x</span>
+        </button>
+    </div>
+    <div class="modal-body card-body">
+        <div class="row justify-content-center">
+            <gha-alert-error></gha-alert-error>
+            <div class="col-8">
+                <form name="editForm" role="form" novalidate [formGroup]="editForm">
+                    <div>
+                        <gha-dynamic-form [questions]="questions" (model)='updateBalanceQuery($event)' [queryForm]="editForm"></gha-dynamic-form>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    <div class="card-footer display-10">Please use format yyyy-MM-dd for dates</div>
 </div>

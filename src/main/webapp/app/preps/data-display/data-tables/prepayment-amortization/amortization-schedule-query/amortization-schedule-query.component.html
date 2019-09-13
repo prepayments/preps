@@ -1,60 +1,20 @@
-<div class="row card justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="navigateToSchedule" [formGroup]="editForm">
-            <h2 id="gha-amortization-schedule-heading">Get Amortization Schedule</h2>
-            <div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_balanceDate">Balance Date</label>
-                    <div class="input-group">
-                        <input id="field_balanceDate" type="text" class="form-control" name="balanceDate" ngbDatepicker  #balanceDateDp="ngbDatepicker" formControlName="balanceDate"/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="balanceDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                    <div *ngIf="editForm.get('balanceDate').invalid && (editForm.get('balanceDate').dirty || editForm.get('balanceDate').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('balanceDate').errors.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_serviceOutlet">Service Outlet</label>
-                    <input type="text" class="form-control" name="serviceOutlet" id="field_serviceOutlet"
-                           formControlName="serviceOutlet"/>
-                    <div *ngIf="editForm.get('serviceOutlet').invalid && (editForm.get('serviceOutlet').dirty || editForm.get('serviceOutlet').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serviceOutlet').errors.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_accountName">Account Name</label>
-                    <input type="text" class="form-control" name="accountName" id="field_accountName"
-                           formControlName="accountName"/>
-                    <div *ngIf="editForm.get('accountName').invalid && (editForm.get('accountName').dirty || editForm.get('accountName').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('accountName').errors.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-            <div class="card-footer">
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Query</span>
-                </button>
-            </div>
-        </form>
+<div class="card">
+    <div class="modal-header card-header">
+        <h3 class="modal-title display-8">Amortization Schedule Params</h3>
+        <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="modalService.dismissAll()"><span aria-hidden="true">x</span>
+        </button>
     </div>
+    <div class="modal-body card-body">
+        <div class="row justify-content-center">
+            <gha-alert-error></gha-alert-error>
+            <div class="col-8">
+                <form name="editForm" role="form" novalidate [formGroup]="editForm">
+                    <div>
+                        <gha-dynamic-form [questions]="questions" (model)='updateBalanceQuery($event)' [queryForm]="editForm"></gha-dynamic-form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer display-10">Please use format yyyy-MM-dd for dates</div>
 </div>
