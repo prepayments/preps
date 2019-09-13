@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CountUpOptions, CountUp } from 'countup.js';
 
 @Component({
   selector: 'gha-dashboard-hud-orphaned-amortizations',
@@ -6,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-hud-orphaned-amortizations.component.scss']
 })
 export class DashboardHudOrphanedAmortizationsComponent implements OnInit {
+  countUpOptions: CountUpOptions;
+  modalRef: NgbModalRef;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.countUpOptions = {
+      useEasing: true,
+      startVal: 1000,
+      decimalPlaces: 3,
+      duration: 2,
+      formattingFn: (n: number) => n.toPrecision(4).toString()
+    };
+  }
 }
