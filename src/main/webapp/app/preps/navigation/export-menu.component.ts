@@ -57,6 +57,13 @@ import { BalanceQueryModalService } from 'app/preps/gha-balance-query/balance-qu
             <span>Prepayment Balances</span>
           </a>
         </li>
+        <li>
+          <!--<a class="dropdown-item" (click)="amortizationScheduleQuery()" routerLinkActive="active">-->
+          <a class="dropdown-item" routerLink="data-tables/amortization-schedule" routerLinkActive="active">
+            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+            <span>Amortization Schedule</span>
+          </a>
+        </li>
       </ul>
     </li>
   `,
@@ -79,6 +86,11 @@ export class ExportMenuComponent implements OnInit {
   ngOnInit() {}
 
   prepaymentBalanceQuery() {
+    this.modalRef = this.balanceQueryModalService.open();
+  }
+
+  amortizationScheduleQuery() {
+    // TODO query for amortization schedule
     this.modalRef = this.balanceQueryModalService.open();
   }
 
