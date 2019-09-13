@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.criteria;
 
 import io.github.prepayments.app.models.BalanceQuery;
 import io.github.prepayments.service.dto.PrepaymentEntryCriteria;

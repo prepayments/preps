@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.criteria;
 
 /**
  * This interface updates the criteria using parameters and data from a type of source.

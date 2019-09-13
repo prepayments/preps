@@ -3,7 +3,6 @@ package io.github.prepayments.app.services.criteria;
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.prepayments.app.models.BalanceQuery;
-import io.github.prepayments.app.services.QueryParameterCriteriaService;
 import io.github.prepayments.service.TransactionAccountQueryService;
 import io.github.prepayments.service.dto.AmortizationEntryCriteria;
 import io.github.prepayments.service.dto.TransactionAccountCriteria;

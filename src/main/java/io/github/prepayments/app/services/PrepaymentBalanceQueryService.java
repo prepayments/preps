@@ -3,6 +3,7 @@ package io.github.prepayments.app.services;
 import com.google.common.collect.ImmutableList;
 import io.github.prepayments.app.models.BalanceQuery;
 import io.github.prepayments.app.models.PrepaymentTimeBalanceDTO;
+import io.github.prepayments.app.services.criteria.QueryParameterCriteriaService;
 import io.github.prepayments.app.services.reports.OnCallAmortizationService;
 import io.github.prepayments.app.services.reports.ShouldGetBalance;
 import io.github.prepayments.service.PrepaymentEntryQueryService;

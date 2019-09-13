@@ -5,7 +5,7 @@ import io.github.prepayments.app.GeneralMapper;
 import io.github.prepayments.app.models.AmortizationScheduleDTO;
 import io.github.prepayments.app.models.BalanceQuery;
 import io.github.prepayments.app.services.AmortizationScheduleService;
-import io.github.prepayments.app.services.QueryParameterCriteriaService;
+import io.github.prepayments.app.services.criteria.QueryParameterCriteriaService;
 import io.github.prepayments.service.AmortizationEntryQueryService;
 import io.github.prepayments.service.dto.AmortizationEntryCriteria;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
@@ -39,9 +39,7 @@ public class BalanceQueryAmortizationScheduleService implements AmortizationSche
         List<AmortizationEntryDTO> amortizationEntries = amortizationEntryQueryService.findByCriteria(amortizationEntryCriteria);
 
         return amortizationScheduleDTOGeneralMapper.toTypeT2(amortizationEntries).stream()
-            .peek(entry -> {
-                entry.setPrepaymentBalance(amortizationSchedulePrepaymentBalanceService.getBalance(entry));
-            })
+            .peek(entry -> entry.setPrepaymentBalance(amortizationSchedulePrepaymentBalanceService.getBalance(entry)))
             .collect(ImmutableList.toImmutableList());
     }
 }

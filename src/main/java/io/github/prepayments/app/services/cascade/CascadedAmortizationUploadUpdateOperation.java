@@ -1,7 +1,7 @@
 package io.github.prepayments.app.services.cascade;
 
 import io.github.prepayments.app.messaging.data_entry.service.IPrepaymentEntryIdService;
-import io.github.prepayments.app.services.CriteriaUpdate;
+import io.github.prepayments.app.services.criteria.CriteriaUpdate;
 import io.github.prepayments.service.AmortizationEntryQueryService;
 import io.github.prepayments.service.AmortizationEntryService;
 import io.github.prepayments.service.dto.AmortizationEntryCriteria;
