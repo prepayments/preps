@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IAmortizationSchedule } from 'app/preps/model/amortization-schedule';
 import { catchError, tap } from 'rxjs/operators';
@@ -16,8 +16,8 @@ type EntityArrayResponseType = HttpResponse<IAmortizationSchedule[]>;
   providedIn: 'root'
 })
 export class AmortizationScheduleService {
-  // public resourceUrl = SERVER_API_URL + '/api/reports/balances/prepayments';
-  public resourceUrl = 'http://5d1af26edd81710014e87fd8.mockapi.io/amortization';
+  public resourceUrl = SERVER_API_URL + '/api/data/amortization-schedule';
+  // public resourceUrl = 'http://5d1af26edd81710014e87fd8.mockapi.io/amortization';
 
   defaultQuery: IBalanceQuery;
 
@@ -29,19 +29,24 @@ export class AmortizationScheduleService {
     };
   }
 
-  public query(balanceQuery: IBalanceQuery = this.defaultQuery): Observable<EntityArrayResponseType> {
+  public query(balanceQuery: IBalanceQuery = this.defaultQuery): Observable<HttpResponse<IAmortizationSchedule[]>> {
     // return this.http.post<IAmortizationSchedule[]>(this.resourceUrl, balanceQuery, { observe: 'response' })
 
     // TODO Add params
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const params = new URLSearchParams();
-    params.append('balanceDate', balanceQuery.balanceDate.format('YYYY-MM-DD'));
-    params.append('serviceOutlet', balanceQuery.serviceOutlet);
-    params.append('accountName', balanceQuery.accountName);
+    const requestHeaders = new HttpHeaders();
+    requestHeaders.append('Content-Type', 'application/json');
+    const requestParams = new HttpParams();
+    requestParams.append('balanceDate', balanceQuery.balanceDate.format('YYYY-MM-DD'));
+    requestParams.append('serviceOutlet', balanceQuery.serviceOutlet);
+    requestParams.append('accountName', balanceQuery.accountName);
 
     return this.http
-      .get<IAmortizationSchedule[]>(this.resourceUrl, { observe: 'response' })
+      .get<IAmortizationSchedule[]>(this.resourceUrl, {
+        observe: 'response',
+        params: requestParams,
+        headers: requestHeaders,
+        reportProgress: true
+      })
       .pipe(catchError(this.handleError<HttpResponse<IAmortizationSchedule[]>>('query' /* TODO Add query details*/)));
   }
 

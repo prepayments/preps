@@ -36,18 +36,18 @@ public class AmortizationEntryCriteriaQueryParameterCriteriaService implements Q
         StringFilter prepaymentAccountName = new StringFilter();
         prepaymentAccountName.setContains(queryParameter.getAccountName());
 
-        // TODO Create account account criteria
-        TransactionAccountCriteria accountCriteria = transactionAccountCriteria(queryParameter.getAccountName());
-        StringFilter prepaymentAccountNumber = new StringFilter();
-        prepaymentAccountNumber.setEquals(transactionAccountQueryService.findByCriteria(accountCriteria).get(0).getAccountNumber());
+        if(!queryParameter.getAccountName().equalsIgnoreCase(GENERAL_QUERY_REQUEST_ARGS)) {
+            // TODO Create account account criteria
+            TransactionAccountCriteria accountCriteria = transactionAccountCriteria(queryParameter.getAccountName());
+            StringFilter prepaymentAccountNumber = new StringFilter();
+            prepaymentAccountNumber.setEquals(transactionAccountQueryService.findByCriteria(accountCriteria).get(0).getAccountNumber());
+            amortizationEntryCriteria.setPrepaymentAccountNumber(prepaymentAccountNumber);
+        }
 
         // TODO update criteria for data account and service-outlet-code
         amortizationEntryCriteria.setAmortizationDate(balanceDate);
         if(!queryParameter.getServiceOutlet().equalsIgnoreCase(GENERAL_QUERY_REQUEST_ARGS)) {
             amortizationEntryCriteria.setAmortizationServiceOutlet(serviceOutletCode);
-        }
-        if(!queryParameter.getAccountName().equalsIgnoreCase(GENERAL_QUERY_REQUEST_ARGS)) {
-            amortizationEntryCriteria.setPrepaymentAccountNumber(prepaymentAccountNumber);
         }
 
         return amortizationEntryCriteria;
