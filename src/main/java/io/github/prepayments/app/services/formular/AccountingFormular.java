@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.formular;
 
 /**
  * This is a generalization of the concept by which an account is recognised

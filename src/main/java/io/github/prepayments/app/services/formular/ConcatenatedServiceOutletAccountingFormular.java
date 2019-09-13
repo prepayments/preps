@@ -1,4 +1,4 @@
-package io.github.prepayments.app.services;
+package io.github.prepayments.app.services.formular;
 
 import org.springframework.stereotype.Component;
 
