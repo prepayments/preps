@@ -48,9 +48,9 @@ export class AmortizationScheduleQueryComponent implements OnInit {
   private createFromForm(): IBalanceQuery {
     const entity = {
       ...new BalanceQuery({
-        balanceDate: this.editForm.get(['amortizationDate']).value,
-        serviceOutlet: this.editForm.get(['prepaymentServiceOutlet']).value,
-        accountName: this.editForm.get(['prepaymentAccountNumber']).value
+        balanceDate: this.editForm.get(['balanceDate']).value,
+        serviceOutlet: this.editForm.get(['serviceOutlet']).value,
+        accountName: this.editForm.get(['accountName']).value
       })
     };
     return entity;

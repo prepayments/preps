@@ -3,44 +3,41 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="navigateToSchedule" [formGroup]="editForm">
             <h2 id="gha-amortization-entry-heading">Get Amortization Schedule</h2>
             <div>
-                <!--// TODO BALANCE DATE-->
                 <div class="form-group">
-                    <label class="form-control-label" for="field_amortizationDate">Amortization Date</label>
+                    <label class="form-control-label" for="field_balanceDate">Balance Date</label>
                     <div class="input-group">
-                        <input id="field_amortizationDate" type="text" class="form-control" name="amortizationDate" ngbDatepicker  #amortizationDateDp="ngbDatepicker" formControlName="amortizationDate"/>
+                        <input id="field_balanceDate" type="text" class="form-control" name="balanceDate" ngbDatepicker  #balanceDateDp="ngbDatepicker" formControlName="balanceDate"/>
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="amortizationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                            <button type="button" class="btn btn-secondary" (click)="balanceDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                    <div *ngIf="editForm.get('amortizationDate').invalid && (editForm.get('amortizationDate').dirty || editForm.get('amortizationDate').touched)">
+                    <div *ngIf="editForm.get('balanceDate').invalid && (editForm.get('balanceDate').dirty || editForm.get('balanceDate').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('amortizationDate').errors.required">
+                               *ngIf="editForm.get('balanceDate').errors.required">
                             This field is required.
                         </small>
                     </div>
                 </div>
 
-                <!--// TODO SERVICE OUTLET-->
                 <div class="form-group">
-                    <label class="form-control-label" for="field_prepaymentServiceOutlet">Prepayment Service Outlet</label>
-                    <input type="text" class="form-control" name="prepaymentServiceOutlet" id="field_prepaymentServiceOutlet"
-                           formControlName="prepaymentServiceOutlet"/>
-                    <div *ngIf="editForm.get('prepaymentServiceOutlet').invalid && (editForm.get('prepaymentServiceOutlet').dirty || editForm.get('prepaymentServiceOutlet').touched)">
+                    <label class="form-control-label" for="field_serviceOutlet">Service Outlet</label>
+                    <input type="text" class="form-control" name="serviceOutlet" id="field_serviceOutlet"
+                           formControlName="serviceOutlet"/>
+                    <div *ngIf="editForm.get('serviceOutlet').invalid && (editForm.get('serviceOutlet').dirty || editForm.get('serviceOutlet').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.required">
+                               *ngIf="editForm.get('serviceOutlet').errors.required">
                             This field is required.
                         </small>
                     </div>
                 </div>
 
-                <!--// ACCOUNT NUMBER-->
                 <div class="form-group">
-                    <label class="form-control-label" for="field_prepaymentAccountNumber">Prepayment Account Number</label>
-                    <input type="text" class="form-control" name="prepaymentAccountNumber" id="field_prepaymentAccountNumber"
-                           formControlName="prepaymentAccountNumber"/>
-                    <div *ngIf="editForm.get('prepaymentAccountNumber').invalid && (editForm.get('prepaymentAccountNumber').dirty || editForm.get('prepaymentAccountNumber').touched)">
+                    <label class="form-control-label" for="field_accountName">Account Name</label>
+                    <input type="text" class="form-control" name="accountName" id="field_accountName"
+                           formControlName="accountName"/>
+                    <div *ngIf="editForm.get('accountName').invalid && (editForm.get('accountName').dirty || editForm.get('accountName').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('prepaymentAccountNumber').errors.required">
+                               *ngIf="editForm.get('accountName').errors.required">
                             This field is required.
                         </small>
                     </div>
