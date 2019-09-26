@@ -49,12 +49,34 @@ public class FailSafePrepaymentEntryIdService implements IPrepaymentEntryIdServi
         prepaymentIdFilter.setEquals(prepaymentEntryId);
         LocalDateFilter prepaymentEntryDateFilter = new LocalDateFilter();
         prepaymentEntryDateFilter.setEquals(LocalDate.parse(prepaymentEntryDate, DATETIME_FORMATTER));
+        StringFilter prepaymentServiceOutletFilter = new StringFilter();
+        prepaymentServiceOutletFilter.setEquals(amortizationEntryDTO.getPrepaymentServiceOutlet());
+        StringFilter prepaymentAccountNumberFilter = new StringFilter();
+        prepaymentAccountNumberFilter.setEquals(amortizationEntryDTO.getPrepaymentAccountNumber());
 
         PrepaymentEntryCriteria prepaymentIdCriteria = new PrepaymentEntryCriteria();
         prepaymentIdCriteria.setPrepaymentId(prepaymentIdFilter);
         prepaymentIdCriteria.setPrepaymentDate(prepaymentEntryDateFilter);
+        prepaymentIdCriteria.setAccountNumber(prepaymentAccountNumberFilter);
 
         List<PrepaymentEntryDTO> foundEntries = prepaymentEntryQueryService.findByCriteria(prepaymentIdCriteria);
+
+        if (foundEntries.size() > 1) {
+            prepaymentIdCriteria.setServiceOutlet(prepaymentServiceOutletFilter);
+            // empty found entries
+            foundEntries.clear();
+            foundEntries = prepaymentEntryQueryService.findByCriteria(prepaymentIdCriteria);
+
+            if(foundEntries.isEmpty()){
+                // Perhaps the service outlet criteria has been too strict. Here we go again...
+                PrepaymentEntryCriteria criteriaWithoutSOL = new PrepaymentEntryCriteria();
+                criteriaWithoutSOL.setPrepaymentId(prepaymentIdFilter);
+                criteriaWithoutSOL.setPrepaymentDate(prepaymentEntryDateFilter);
+                criteriaWithoutSOL.setAccountNumber(prepaymentAccountNumberFilter);
+                foundEntries.clear();
+                foundEntries = prepaymentEntryQueryService.findByCriteria(criteriaWithoutSOL);
+            }
+        }
 
         PrepaymentEntryDTO found = null;
 
