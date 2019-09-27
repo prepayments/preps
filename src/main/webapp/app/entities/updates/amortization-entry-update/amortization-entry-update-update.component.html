@@ -1,0 +1,148 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-amortization-entry-update-heading">Create or edit a Amortization Entry Update</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!amortizationEntryUpdate.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationEntryId">Amortization Entry Id</label>
+                    <input type="number" class="form-control" name="amortizationEntryId" id="field_amortizationEntryId"
+                           formControlName="amortizationEntryId"/>
+                    <div *ngIf="editForm.get('amortizationEntryId').invalid && (editForm.get('amortizationEntryId').dirty || editForm.get('amortizationEntryId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationEntryId').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('amortizationEntryId')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationDate">Amortization Date</label>
+                    <div class="input-group">
+                        <input id="field_amortizationDate" type="text" class="form-control" name="amortizationDate" ngbDatepicker  #amortizationDateDp="ngbDatepicker" formControlName="amortizationDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="amortizationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('amortizationDate').invalid && (editForm.get('amortizationDate').dirty || editForm.get('amortizationDate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationDate').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationAmount">Amortization Amount</label>
+                    <input type="number" class="form-control" name="amortizationAmount" id="field_amortizationAmount"
+                           formControlName="amortizationAmount"/>
+                    <div *ngIf="editForm.get('amortizationAmount').invalid && (editForm.get('amortizationAmount').dirty || editForm.get('amortizationAmount').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationAmount').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('amortizationAmount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_particulars">Particulars</label>
+                    <input type="text" class="form-control" name="particulars" id="field_particulars"
+                           formControlName="particulars"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentServiceOutlet">Prepayment Service Outlet</label>
+                    <input type="text" class="form-control" name="prepaymentServiceOutlet" id="field_prepaymentServiceOutlet"
+                           formControlName="prepaymentServiceOutlet"/>
+                    <div *ngIf="editForm.get('prepaymentServiceOutlet').invalid && (editForm.get('prepaymentServiceOutlet').dirty || editForm.get('prepaymentServiceOutlet').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentServiceOutlet').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentAccountNumber">Prepayment Account Number</label>
+                    <input type="text" class="form-control" name="prepaymentAccountNumber" id="field_prepaymentAccountNumber"
+                           formControlName="prepaymentAccountNumber"/>
+                    <div *ngIf="editForm.get('prepaymentAccountNumber').invalid && (editForm.get('prepaymentAccountNumber').dirty || editForm.get('prepaymentAccountNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentAccountNumber').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationServiceOutlet">Amortization Service Outlet</label>
+                    <input type="text" class="form-control" name="amortizationServiceOutlet" id="field_amortizationServiceOutlet"
+                           formControlName="amortizationServiceOutlet"/>
+                    <div *ngIf="editForm.get('amortizationServiceOutlet').invalid && (editForm.get('amortizationServiceOutlet').dirty || editForm.get('amortizationServiceOutlet').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationServiceOutlet').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationAccountNumber">Amortization Account Number</label>
+                    <input type="text" class="form-control" name="amortizationAccountNumber" id="field_amortizationAccountNumber"
+                           formControlName="amortizationAccountNumber"/>
+                    <div *ngIf="editForm.get('amortizationAccountNumber').invalid && (editForm.get('amortizationAccountNumber').dirty || editForm.get('amortizationAccountNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amortizationAccountNumber').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prepaymentEntryId">Prepayment Entry Id</label>
+                    <input type="number" class="form-control" name="prepaymentEntryId" id="field_prepaymentEntryId"
+                           formControlName="prepaymentEntryId"/>
+                    <div *ngIf="editForm.get('prepaymentEntryId').invalid && (editForm.get('prepaymentEntryId').dirty || editForm.get('prepaymentEntryId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prepaymentEntryId').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('prepaymentEntryId')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_originatingFileToken">Originating File Token</label>
+                    <input type="text" class="form-control" name="originatingFileToken" id="field_originatingFileToken"
+                           formControlName="originatingFileToken"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amortizationTag">Amortization Tag</label>
+                    <input type="text" class="form-control" name="amortizationTag" id="field_amortizationTag"
+                           formControlName="amortizationTag"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_orphaned">Orphaned</label>
+                    <input type="checkbox" class="form-control" name="orphaned" id="field_orphaned"
+                           formControlName="orphaned"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

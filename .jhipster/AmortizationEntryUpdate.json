@@ -1,0 +1,87 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "updates",
+    "relationships": [],
+    "fields": [
+        {
+          "fieldName": "amortizationEntryId",
+          "fieldType": "Long",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+            "fieldName": "amortizationDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "amortizationAmount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "particulars",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "prepaymentServiceOutlet",
+            "fieldType": "String",
+            "fieldValidateRules": [
+              "required"
+            ]
+        },
+        {
+          "fieldName": "prepaymentAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+            "fieldName": "amortizationServiceOutlet",
+            "fieldType": "String",
+            "fieldValidateRules": [
+              "required"
+            ]
+        },
+        {
+          "fieldName": "amortizationAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+          "fieldName": "prepaymentEntryId",
+          "fieldType": "Long",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+          "fieldName": "originatingFileToken",
+          "fieldType": "String"
+        },
+        {
+          "fieldName": "amortizationTag",
+          "fieldType": "String"
+        },
+        {
+          "fieldName": "orphaned",
+          "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20190927140327",
+    "dto": "mapstruct",
+    "searchEngine": "elasticsearch",
+    "service": "serviceImpl",
+    "entityTableName": "amortization_entry_update",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}

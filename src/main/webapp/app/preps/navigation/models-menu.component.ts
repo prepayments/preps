@@ -34,6 +34,18 @@ import { Component, OnInit } from '@angular/core';
         <li>
           <a
             class="dropdown-item"
+            routerLink="amortization-entry-update"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+            <span>Amortization Entry Update</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
             routerLink="amortization-upload"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
