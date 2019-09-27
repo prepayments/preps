@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Updated Amortization Entries</span>
-        <!--<button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-updated-amortization-entry" [routerLink]="['/updated-amortization-entry/new']">
+        <!--<button *ghaHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-updated-amortization-entry" [routerLink]="['/updated-amortization-entry/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Updated Amortization Entry
@@ -40,9 +40,10 @@
             <th jhiSortBy="originatingFileToken"><span>Originating File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amortizationTag"><span>Amortization Tag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orphaned"><span>Orphaned</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="prepaymentEntryId"><span>Prepayment Entry</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="dateOfUpdate"><span>Date Of Update</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reasonForUpdate"><span>Reason For Update</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="prepaymentEntryId"><span>Prepayment Entry</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
             <th></th>
             </tr>
             </thead>
@@ -59,13 +60,13 @@
                 <td>{{updatedAmortizationEntry.originatingFileToken}}</td>
                 <td>{{updatedAmortizationEntry.amortizationTag}}</td>
                 <td>{{updatedAmortizationEntry.orphaned}}</td>
-                <td>{{updatedAmortizationEntry.dateOfUpdate | date:'mediumDate'}}</td>
-                <td>{{updatedAmortizationEntry.reasonForUpdate}}</td>
                 <td>
                     <div *ngIf="updatedAmortizationEntry.prepaymentEntryId">
                         <a [routerLink]="['../prepayment-entry', updatedAmortizationEntry.prepaymentEntryId , 'view' ]" >{{updatedAmortizationEntry.prepaymentEntryId}}</a>
                     </div>
                 </td>
+                <td>{{updatedAmortizationEntry.dateOfUpdate | date:'mediumDate'}}</td>
+                <td>{{updatedAmortizationEntry.reasonForUpdate}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
@@ -74,13 +75,13 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
+                        <button *ghaHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/updated-amortization-entry', updatedAmortizationEntry.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *ghaHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/', 'updated-amortization-entry', { outlets: { popup: updatedAmortizationEntry.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
