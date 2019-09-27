@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'gha-import-menu',
   template: `
     <li
-      *ghaHasAnyAuthority="'ROLE_ADMIN'"
+      *ghaHasAnyAuthority="'ROLE_USER'"
       ngbDropdown
       class="nav-item dropdown pointer"
       routerLinkActive="active"
@@ -17,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
         </span>
       </a>
       <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_ADMIN'">
           <a
             class="dropdown-item"
             routerLink="amortization-data-entry-file"
@@ -29,7 +29,7 @@ import { Component, OnInit } from '@angular/core';
             <span>Amortization Data Entry File</span>
           </a>
         </li>
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_USER'">
           <a
             class="dropdown-item"
             routerLink="prepayment-data-entry-file"
@@ -41,7 +41,7 @@ import { Component, OnInit } from '@angular/core';
             <span>Prepayment Data Entry File</span>
           </a>
         </li>
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_ADMIN'">
           <a
             class="dropdown-item"
             routerLink="supplier-data-entry-file"
@@ -53,7 +53,7 @@ import { Component, OnInit } from '@angular/core';
             <span>Supplier Data Entry File</span>
           </a>
         </li>
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_ADMIN'">
           <a
             class="dropdown-item"
             routerLink="service-outlet-data-entry-file"
@@ -65,7 +65,7 @@ import { Component, OnInit } from '@angular/core';
             <span>Service Outlet Data Entry File</span>
           </a>
         </li>
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_ADMIN'">
           <a
             class="dropdown-item"
             routerLink="transaction-account-data-entry-file"
@@ -77,7 +77,7 @@ import { Component, OnInit } from '@angular/core';
             <span>Transaction Account Data Entry File</span>
           </a>
         </li>
-        <li>
+        <li *ghaHasAnyAuthority="'ROLE_USER'">
           <a
             class="dropdown-item"
             routerLink="amortization-upload-file"
@@ -87,6 +87,18 @@ import { Component, OnInit } from '@angular/core';
           >
             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
             <span>Amortization Upload File</span>
+          </a>
+        </li>
+        <li *ghaHasAnyAuthority="'ROLE_USER'">
+          <a
+            class="dropdown-item"
+            routerLink="amortization-update-file"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+            <span>Amortization Update File</span>
           </a>
         </li>
       </ul>

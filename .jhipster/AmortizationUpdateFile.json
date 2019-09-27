@@ -1,0 +1,56 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "updates",
+    "relationships": [],
+    "fields": [
+        {
+          "fieldName": "Narration",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+            "fieldName": "dataEntryFile",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "uploadSuccessful",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "uploadProcessed",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "entriesCount",
+            "fieldType": "Integer"
+        },
+        {
+          "fieldName": "fileToken",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "unique"
+          ]
+        },
+        {
+          "fieldName": "reasonForUpdate",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        }
+    ],
+    "changelogDate": "20190927132948",
+    "dto": "mapstruct",
+    "searchEngine": "elasticsearch",
+    "service": "serviceImpl",
+    "entityTableName": "amortization_update_file",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}

@@ -1,0 +1,92 @@
+<div>
+    <h2 id="page-heading">
+        <span>Amortization Update Files</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-amortization-update-file" [routerLink]="['/amortization-update-file/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Amortization Update File
+            </span>
+        </button>
+    </h2>
+    <gha-alert></gha-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="amortizationUpdateFiles">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="Narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dataEntryFile"><span>Data Entry File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="uploadSuccessful"><span>Upload Successful</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="uploadProcessed"><span>Upload Processed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="entriesCount"><span>Entries Count</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fileToken"><span>File Token</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="reasonForUpdate"><span>Reason For Update</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let amortizationUpdateFile of amortizationUpdateFiles ;trackBy: trackId">
+                <td><a [routerLink]="['/amortization-update-file', amortizationUpdateFile.id, 'view' ]">{{amortizationUpdateFile.id}}</a></td>
+                <td>{{amortizationUpdateFile.Narration}}</td>
+                <td>
+                    <a *ngIf="amortizationUpdateFile.dataEntryFile" (click)="openFile(amortizationUpdateFile.dataEntryFileContentType, amortizationUpdateFile.dataEntryFile)">open</a>
+                    <span *ngIf="amortizationUpdateFile.dataEntryFile">{{amortizationUpdateFile.dataEntryFileContentType}}, {{byteSize(amortizationUpdateFile.dataEntryFile)}}</span>
+                </td>
+                <td>{{amortizationUpdateFile.uploadSuccessful}}</td>
+                <td>{{amortizationUpdateFile.uploadProcessed}}</td>
+                <td>{{amortizationUpdateFile.entriesCount}}</td>
+                <td>{{amortizationUpdateFile.fileToken}}</td>
+                <td>{{amortizationUpdateFile.reasonForUpdate}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/amortization-update-file', amortizationUpdateFile.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/amortization-update-file', amortizationUpdateFile.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'amortization-update-file', { outlets: { popup: amortizationUpdateFile.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="amortizationUpdateFiles && amortizationUpdateFiles.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

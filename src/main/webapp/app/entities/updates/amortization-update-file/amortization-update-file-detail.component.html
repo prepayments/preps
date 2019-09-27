@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="amortizationUpdateFile">
+            <h2><span>Amortization Update File</span> {{amortizationUpdateFile.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Narration</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.Narration}}</span>
+                </dd>
+                <dt><span>Data Entry File</span></dt>
+                <dd>
+                    <div *ngIf="amortizationUpdateFile.dataEntryFile">
+                        <a (click)="openFile(amortizationUpdateFile.dataEntryFileContentType, amortizationUpdateFile.dataEntryFile)">open</a>
+                        {{amortizationUpdateFile.dataEntryFileContentType}}, {{byteSize(amortizationUpdateFile.dataEntryFile)}}
+                    </div>
+                </dd>
+                <dt><span>Upload Successful</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.uploadSuccessful}}</span>
+                </dd>
+                <dt><span>Upload Processed</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.uploadProcessed}}</span>
+                </dd>
+                <dt><span>Entries Count</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.entriesCount}}</span>
+                </dd>
+                <dt><span>File Token</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.fileToken}}</span>
+                </dd>
+                <dt><span>Reason For Update</span></dt>
+                <dd>
+                    <span>{{amortizationUpdateFile.reasonForUpdate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/amortization-update-file', amortizationUpdateFile.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

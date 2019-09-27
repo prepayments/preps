@@ -315,6 +315,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'updated-amortization-entry',
         loadChildren: './updates/updated-amortization-entry/updated-amortization-entry.module#PrepsUpdatedAmortizationEntryModule'
+      },
+      {
+        path: 'amortization-update-file',
+        loadChildren: './updates/amortization-update-file/amortization-update-file.module#PrepsAmortizationUpdateFileModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

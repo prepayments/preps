@@ -1,0 +1,92 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="gha-amortization-update-file-heading">Create or edit a Amortization Update File</h2>
+            <div>
+                <gha-alert-error></gha-alert-error>
+                <div class="form-group" [hidden]="!amortizationUpdateFile.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_Narration">Narration</label>
+                    <input type="text" class="form-control" name="Narration" id="field_Narration"
+                           formControlName="Narration"/>
+                    <div *ngIf="editForm.get('Narration').invalid && (editForm.get('Narration').dirty || editForm.get('Narration').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('Narration').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dataEntryFile">Data Entry File</label>
+                    <div>
+                        <div *ngIf="editForm.get('dataEntryFile').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('dataEntryFileContentType').value, editForm.get('dataEntryFile').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('dataEntryFileContentType').value}}, {{byteSize(editForm.get('dataEntryFile').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({dataEntryFile: null});editForm.patchValue({dataEntryFileContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_dataEntryFile" (change)="setFileData($event, 'dataEntryFile', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="dataEntryFile" id="field_dataEntryFile"
+                           formControlName="dataEntryFile"/>
+                    <input type="hidden" class="form-control" name="dataEntryFileContentType" id="field_dataEntryFileContentType"
+                           formControlName="dataEntryFileContentType" />
+                    <div *ngIf="editForm.get('dataEntryFile').invalid && (editForm.get('dataEntryFile').dirty || editForm.get('dataEntryFile').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataEntryFile').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="form-control-label" for="field_uploadSuccessful">Upload Successful</label>-->
+                    <!--<input type="checkbox" class="form-control" name="uploadSuccessful" id="field_uploadSuccessful"-->
+                           <!--formControlName="uploadSuccessful"/>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="form-control-label" for="field_uploadProcessed">Upload Processed</label>-->
+                    <!--<input type="checkbox" class="form-control" name="uploadProcessed" id="field_uploadProcessed"-->
+                           <!--formControlName="uploadProcessed"/>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="form-control-label" for="field_entriesCount">Entries Count</label>-->
+                    <!--<input type="number" class="form-control" name="entriesCount" id="field_entriesCount"-->
+                           <!--formControlName="entriesCount"/>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="form-control-label" for="field_fileToken">File Token</label>-->
+                    <!--<input type="text" class="form-control" name="fileToken" id="field_fileToken"-->
+                           <!--formControlName="fileToken"/>-->
+                    <!--<div *ngIf="editForm.get('fileToken').invalid && (editForm.get('fileToken').dirty || editForm.get('fileToken').touched)">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reasonForUpdate">Reason For Update</label>
+                    <input type="text" class="form-control" name="reasonForUpdate" id="field_reasonForUpdate"
+                           formControlName="reasonForUpdate"/>
+                    <div *ngIf="editForm.get('reasonForUpdate').invalid && (editForm.get('reasonForUpdate').dirty || editForm.get('reasonForUpdate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('reasonForUpdate').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
