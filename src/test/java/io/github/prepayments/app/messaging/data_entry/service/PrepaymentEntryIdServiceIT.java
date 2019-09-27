@@ -256,14 +256,14 @@ public class PrepaymentEntryIdServiceIT {
     @Autowired
     private PrepaymentEntryService prepaymentEntryService;
 
-    private List<EntryIDaAndDate> presentIds;
+    private List<EntryIDAndDate> presentIds;
 
     private List<PrepaymentEntryDTO> persistedEntries;
 
     private List<Long> ids;
     private List<AmortizationEntryDTO> amortizationEntries;
 
-    private static void logEntries(EntryIDaAndDate prep) {
+    private static void logEntries(EntryIDAndDate prep) {
         System.out.println("Entry id recorded : " + prep);
     }
 
@@ -291,7 +291,7 @@ public class PrepaymentEntryIdServiceIT {
         presentIds = prepaymentEntries.stream()
                                       .map(prepaymentEntryService::save)
                                       .peek(persistedEntries::add)
-                                      .map(prep -> new EntryIDaAndDate(prep.getId(), prep.getPrepaymentId(), prep.getPrepaymentDate(), prep.getParticulars()))
+                                      .map(prep -> new EntryIDAndDate(prep.getId(), prep.getPrepaymentId(), prep.getPrepaymentDate(), prep.getParticulars()))
                                       .peek(PrepaymentEntryIdServiceIT::logEntries)
                                       .collect(ImmutableList.toImmutableList());
 
@@ -328,7 +328,7 @@ public class PrepaymentEntryIdServiceIT {
     @Data
     @AllArgsConstructor
     @ToString
-    class EntryIDaAndDate {
+    private class EntryIDAndDate {
         private long id;
         private String transactionId;
         private LocalDate transactionDate;
