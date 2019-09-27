@@ -46,6 +46,18 @@ import { Component, OnInit } from '@angular/core';
         <li>
           <a
             class="dropdown-item"
+            routerLink="updated-amortization-entry"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()"
+          >
+            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+            <span>Updated Amortization Entry</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
             routerLink="prepayment-entry"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"

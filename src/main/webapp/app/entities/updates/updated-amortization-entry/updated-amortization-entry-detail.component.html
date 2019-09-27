@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="updatedAmortizationEntry">
+            <h2><span>Updated Amortization Entry</span> {{updatedAmortizationEntry.id}}</h2>
+            <hr>
+            <gha-alert-error></gha-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Amortization Date</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.amortizationDate}}</span>
+                </dd>
+                <dt><span>Amortization Amount</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.amortizationAmount}}</span>
+                </dd>
+                <dt><span>Particulars</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.particulars}}</span>
+                </dd>
+                <dt><span>Prepayment Service Outlet</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.prepaymentServiceOutlet}}</span>
+                </dd>
+                <dt><span>Prepayment Account Number</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.prepaymentAccountNumber}}</span>
+                </dd>
+                <dt><span>Amortization Service Outlet</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.amortizationServiceOutlet}}</span>
+                </dd>
+                <dt><span>Amortization Account Number</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.amortizationAccountNumber}}</span>
+                </dd>
+                <dt><span>Originating File Token</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.originatingFileToken}}</span>
+                </dd>
+                <dt><span>Amortization Tag</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.amortizationTag}}</span>
+                </dd>
+                <dt><span>Orphaned</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.orphaned}}</span>
+                </dd>
+                <dt><span>Date Of Update</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.dateOfUpdate}}</span>
+                </dd>
+                <dt><span>Reason For Update</span></dt>
+                <dd>
+                    <span>{{updatedAmortizationEntry.reasonForUpdate}}</span>
+                </dd>
+                <dt><span>Prepayment Entry</span></dt>
+                <dd>
+                    <div *ngIf="updatedAmortizationEntry.prepaymentEntryId">
+                        <a [routerLink]="['/prepayment-entry', updatedAmortizationEntry.prepaymentEntryId, 'view']">{{updatedAmortizationEntry.prepaymentEntryId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/updated-amortization-entry', updatedAmortizationEntry.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

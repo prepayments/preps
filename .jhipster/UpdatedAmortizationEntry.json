@@ -1,0 +1,95 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "updates",
+    "relationships": [
+        {
+            "relationshipName": "prepaymentEntry",
+            "otherEntityName": "prepaymentEntry",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "updatedAmortizationEntry",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "amortizationDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "amortizationAmount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "particulars",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "prepaymentServiceOutlet",
+            "fieldType": "String",
+            "fieldValidateRules": [
+              "required"
+            ]
+        },
+        {
+          "fieldName": "prepaymentAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+            "fieldName": "amortizationServiceOutlet",
+            "fieldType": "String",
+            "fieldValidateRules": [
+              "required"
+            ]
+        },
+        {
+          "fieldName": "amortizationAccountNumber",
+          "fieldType": "String",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+          "fieldName": "originatingFileToken",
+          "fieldType": "String"
+        },
+        {
+          "fieldName": "amortizationTag",
+          "fieldType": "String"
+        },
+        {
+          "fieldName": "orphaned",
+          "fieldType": "Boolean"
+        },
+        {
+          "fieldName": "dateOfUpdate",
+          "fieldType": "LocalDate",
+          "fieldValidateRules": [
+            "required"
+          ]
+        },
+        {
+          "fieldName": "reasonForUpdate",
+          "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20190927125827",
+    "dto": "mapstruct",
+    "searchEngine": "elasticsearch",
+    "service": "serviceImpl",
+    "entityTableName": "updated_amortization_entry",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}
