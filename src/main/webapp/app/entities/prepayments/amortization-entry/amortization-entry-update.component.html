@@ -106,10 +106,12 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_prepaymentEntry">Prepayment Entry</label>
-                    <select class="form-control" id="field_prepaymentEntry" name="prepaymentEntry" formControlName="prepaymentEntryId">
+                    <input type="text" class="form-control" name="prepaymentEntry" id="field_prepaymentEntry"
+                           formControlName="prepaymentEntryId"/>
+                    <!--<select class="form-control" id="field_prepaymentEntry" name="prepaymentEntry" formControlName="prepaymentEntryId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="prepaymentEntryOption.id" *ngFor="let prepaymentEntryOption of prepaymententries; trackBy: trackPrepaymentEntryById">{{prepaymentEntryOption.id}}</option>
-                    </select>
+                    </select>-->
                 </div>
             </div>
             <div>

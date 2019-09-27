@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @SpringBootApplication
 @EnableConfigurationProperties( {LiquibaseProperties.class, ApplicationProperties.class})
 public class PrepsApp implements InitializingBean {
