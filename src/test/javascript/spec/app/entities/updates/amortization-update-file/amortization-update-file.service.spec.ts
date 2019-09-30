@@ -59,7 +59,7 @@ describe('Service Tests', () => {
       it('should update a AmortizationUpdateFile', async () => {
         const returnedFromService = Object.assign(
           {
-            Narration: 'BBBBBB',
+            narration: 'BBBBBB',
             dataEntryFile: 'BBBBBB',
             uploadSuccessful: true,
             uploadProcessed: true,
@@ -83,7 +83,7 @@ describe('Service Tests', () => {
       it('should return a list of AmortizationUpdateFile', async () => {
         const returnedFromService = Object.assign(
           {
-            Narration: 'BBBBBB',
+            narration: 'BBBBBB',
             dataEntryFile: 'BBBBBB',
             uploadSuccessful: true,
             uploadProcessed: true,

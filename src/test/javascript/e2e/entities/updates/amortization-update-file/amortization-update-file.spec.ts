@@ -48,15 +48,15 @@ describe('AmortizationUpdateFile e2e test', () => {
 
     await amortizationUpdateFileComponentsPage.clickOnCreateButton();
     await promise.all([
-      amortizationUpdateFileUpdatePage.setNarrationInput('Narration'),
+      amortizationUpdateFileUpdatePage.setNarrationInput('narration'),
       amortizationUpdateFileUpdatePage.setDataEntryFileInput(absolutePath),
       amortizationUpdateFileUpdatePage.setEntriesCountInput('5'),
       amortizationUpdateFileUpdatePage.setFileTokenInput('fileToken'),
       amortizationUpdateFileUpdatePage.setReasonForUpdateInput('reasonForUpdate')
     ]);
     expect(await amortizationUpdateFileUpdatePage.getNarrationInput()).to.eq(
-      'Narration',
-      'Expected Narration value to be equals to Narration'
+      'narration',
+      'Expected Narration value to be equals to narration'
     );
     expect(await amortizationUpdateFileUpdatePage.getDataEntryFileInput()).to.endsWith(
       fileNameToUpload,

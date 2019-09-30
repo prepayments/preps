@@ -10,15 +10,9 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_Narration">Narration</label>
-                    <input type="text" class="form-control" name="Narration" id="field_Narration"
-                           formControlName="Narration"/>
-                    <div *ngIf="editForm.get('Narration').invalid && (editForm.get('Narration').dirty || editForm.get('Narration').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('Narration').errors.required">
-                        This field is required.
-                        </small>
-                    </div>
+                    <label class="form-control-label" for="field_narration">Narration</label>
+                    <input type="text" class="form-control" name="narration" id="field_narration"
+                           formControlName="narration"/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_dataEntryFile">Data Entry File</label>

@@ -30,7 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="Narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="dataEntryFile"><span>Data Entry File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadSuccessful"><span>Upload Successful</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uploadProcessed"><span>Upload Processed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -43,7 +43,7 @@
             <tbody>
             <tr *ngFor="let amortizationUpdateFile of amortizationUpdateFiles ;trackBy: trackId">
                 <td><a [routerLink]="['/amortization-update-file', amortizationUpdateFile.id, 'view' ]">{{amortizationUpdateFile.id}}</a></td>
-                <td>{{amortizationUpdateFile.Narration}}</td>
+                <td>{{amortizationUpdateFile.narration}}</td>
                 <td>
                     <a *ngIf="amortizationUpdateFile.dataEntryFile" (click)="openFile(amortizationUpdateFile.dataEntryFileContentType, amortizationUpdateFile.dataEntryFile)">open</a>
                     <span *ngIf="amortizationUpdateFile.dataEntryFile">{{amortizationUpdateFile.dataEntryFileContentType}}, {{byteSize(amortizationUpdateFile.dataEntryFile)}}</span>

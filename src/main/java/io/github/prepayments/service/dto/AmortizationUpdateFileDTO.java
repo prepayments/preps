@@ -21,8 +21,8 @@ public class AmortizationUpdateFileDTO implements Serializable, Tokenizable {
 
     private Long id;
 
-    @NotNull
-    private String Narration;
+    private String narration;
+
 
     @Lob
     private byte[] dataEntryFile;
@@ -34,16 +34,16 @@ public class AmortizationUpdateFileDTO implements Serializable, Tokenizable {
 
     private Integer entriesCount;
 
+
     private String fileToken;
 
-    @NotNull
     private String reasonForUpdate;
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AmortizationUpdateFileDTO{");
         sb.append("id=").append(id);
-        sb.append(", Narration='").append(Narration).append('\'');
+        sb.append(", Narration='").append(narration).append('\'');
         sb.append(", uploadSuccessful=").append(uploadSuccessful);
         sb.append(", uploadProcessed=").append(uploadProcessed);
         sb.append(", entriesCount=").append(entriesCount);

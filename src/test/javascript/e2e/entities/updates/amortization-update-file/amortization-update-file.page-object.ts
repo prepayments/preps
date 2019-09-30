@@ -26,7 +26,7 @@ export class AmortizationUpdateFileUpdatePage {
   pageTitle = element(by.id('gha-amortization-update-file-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
-  NarrationInput = element(by.id('field_Narration'));
+  narrationInput = element(by.id('field_narration'));
   dataEntryFileInput = element(by.id('file_dataEntryFile'));
   uploadSuccessfulInput = element(by.id('field_uploadSuccessful'));
   uploadProcessedInput = element(by.id('field_uploadProcessed'));
@@ -38,12 +38,12 @@ export class AmortizationUpdateFileUpdatePage {
     return this.pageTitle.getText();
   }
 
-  async setNarrationInput(Narration) {
-    await this.NarrationInput.sendKeys(Narration);
+  async setNarrationInput(narration) {
+    await this.narrationInput.sendKeys(narration);
   }
 
   async getNarrationInput() {
-    return await this.NarrationInput.getAttribute('value');
+    return await this.narrationInput.getAttribute('value');
   }
 
   async setDataEntryFileInput(dataEntryFile) {

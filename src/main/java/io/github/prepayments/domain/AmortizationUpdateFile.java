@@ -28,9 +28,8 @@ public class AmortizationUpdateFile implements Serializable {
     @org.springframework.data.elasticsearch.annotations.Field(type = FieldType.Keyword)
     private Long id;
 
-    @NotNull
-    @Column(name = "narration", nullable = false)
-    private String Narration;
+    @Column(name = "narration")
+    private String narration;
 
     
     @Lob
@@ -53,8 +52,7 @@ public class AmortizationUpdateFile implements Serializable {
     @Column(name = "file_token", unique = true)
     private String fileToken;
 
-    @NotNull
-    @Column(name = "reason_for_update", nullable = false)
+    @Column(name = "reason_for_update")
     private String reasonForUpdate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -67,16 +65,16 @@ public class AmortizationUpdateFile implements Serializable {
     }
 
     public String getNarration() {
-        return Narration;
+        return narration;
     }
 
-    public AmortizationUpdateFile Narration(String Narration) {
-        this.Narration = Narration;
+    public AmortizationUpdateFile narration(String narration) {
+        this.narration = narration;
         return this;
     }
 
-    public void setNarration(String Narration) {
-        this.Narration = Narration;
+    public void setNarration(String narration) {
+        this.narration = narration;
     }
 
     public byte[] getDataEntryFile() {
@@ -191,7 +189,7 @@ public class AmortizationUpdateFile implements Serializable {
     public String toString() {
         return "AmortizationUpdateFile{" +
             "id=" + getId() +
-            ", Narration='" + getNarration() + "'" +
+            ", narration='" + getNarration() + "'" +
             ", dataEntryFile='" + getDataEntryFile() + "'" +
             ", dataEntryFileContentType='" + getDataEntryFileContentType() + "'" +
             ", uploadSuccessful='" + isUploadSuccessful() + "'" +

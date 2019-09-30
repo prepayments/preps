@@ -17,14 +17,14 @@ export class AmortizationUpdateFileUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    Narration: [null, [Validators.required]],
+    narration: [],
     dataEntryFile: [null, [Validators.required]],
     dataEntryFileContentType: [],
     uploadSuccessful: [],
     uploadProcessed: [],
     entriesCount: [],
     fileToken: [null, []],
-    reasonForUpdate: [null, [Validators.required]]
+    reasonForUpdate: []
   });
 
   constructor(
@@ -46,7 +46,7 @@ export class AmortizationUpdateFileUpdateComponent implements OnInit {
   updateForm(amortizationUpdateFile: IAmortizationUpdateFile) {
     this.editForm.patchValue({
       id: amortizationUpdateFile.id,
-      Narration: amortizationUpdateFile.Narration,
+      narration: amortizationUpdateFile.narration,
       dataEntryFile: amortizationUpdateFile.dataEntryFile,
       dataEntryFileContentType: amortizationUpdateFile.dataEntryFileContentType,
       uploadSuccessful: amortizationUpdateFile.uploadSuccessful,
@@ -107,7 +107,7 @@ export class AmortizationUpdateFileUpdateComponent implements OnInit {
     const entity = {
       ...new AmortizationUpdateFile(),
       id: this.editForm.get(['id']).value,
-      Narration: this.editForm.get(['Narration']).value,
+      narration: this.editForm.get(['narration']).value,
       dataEntryFileContentType: this.editForm.get(['dataEntryFileContentType']).value,
       dataEntryFile: this.editForm.get(['dataEntryFile']).value,
       uploadSuccessful: this.editForm.get(['uploadSuccessful']).value,

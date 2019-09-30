@@ -72,7 +72,7 @@ class AmortizationUpdateFileGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "Narration":"SAMPLE_TEXT"
+                , "narration":"SAMPLE_TEXT"
                 , "dataEntryFile":null
                 , "uploadSuccessful":null
                 , "uploadProcessed":null

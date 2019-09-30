@@ -1,6 +1,6 @@
 export interface IAmortizationUpdateFile {
   id?: number;
-  Narration?: string;
+  narration?: string;
   dataEntryFileContentType?: string;
   dataEntryFile?: any;
   uploadSuccessful?: boolean;
@@ -13,7 +13,7 @@ export interface IAmortizationUpdateFile {
 export class AmortizationUpdateFile implements IAmortizationUpdateFile {
   constructor(
     public id?: number,
-    public Narration?: string,
+    public narration?: string,
     public dataEntryFileContentType?: string,
     public dataEntryFile?: any,
     public uploadSuccessful?: boolean,

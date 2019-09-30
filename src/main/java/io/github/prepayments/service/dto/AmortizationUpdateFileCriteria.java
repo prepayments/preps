@@ -26,7 +26,7 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter Narration;
+    private StringFilter narration;
 
     private BooleanFilter uploadSuccessful;
 
@@ -43,7 +43,7 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
 
     public AmortizationUpdateFileCriteria(AmortizationUpdateFileCriteria other){
         this.id = other.id == null ? null : other.id.copy();
-        this.Narration = other.Narration == null ? null : other.Narration.copy();
+        this.narration = other.narration == null ? null : other.narration.copy();
         this.uploadSuccessful = other.uploadSuccessful == null ? null : other.uploadSuccessful.copy();
         this.uploadProcessed = other.uploadProcessed == null ? null : other.uploadProcessed.copy();
         this.entriesCount = other.entriesCount == null ? null : other.entriesCount.copy();
@@ -65,11 +65,11 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
     }
 
     public StringFilter getNarration() {
-        return Narration;
+        return narration;
     }
 
-    public void setNarration(StringFilter Narration) {
-        this.Narration = Narration;
+    public void setNarration(StringFilter narration) {
+        this.narration = narration;
     }
 
     public BooleanFilter getUploadSuccessful() {
@@ -124,7 +124,7 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
         final AmortizationUpdateFileCriteria that = (AmortizationUpdateFileCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(Narration, that.Narration) &&
+            Objects.equals(narration, that.narration) &&
             Objects.equals(uploadSuccessful, that.uploadSuccessful) &&
             Objects.equals(uploadProcessed, that.uploadProcessed) &&
             Objects.equals(entriesCount, that.entriesCount) &&
@@ -136,7 +136,7 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        Narration,
+        narration,
         uploadSuccessful,
         uploadProcessed,
         entriesCount,
@@ -149,7 +149,7 @@ public class AmortizationUpdateFileCriteria implements Serializable, Criteria {
     public String toString() {
         return "AmortizationUpdateFileCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (Narration != null ? "Narration=" + Narration + ", " : "") +
+                (narration != null ? "narration=" + narration + ", " : "") +
                 (uploadSuccessful != null ? "uploadSuccessful=" + uploadSuccessful + ", " : "") +
                 (uploadProcessed != null ? "uploadProcessed=" + uploadProcessed + ", " : "") +
                 (entriesCount != null ? "entriesCount=" + entriesCount + ", " : "") +

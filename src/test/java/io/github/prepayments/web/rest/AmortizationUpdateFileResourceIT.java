@@ -127,7 +127,7 @@ public class AmortizationUpdateFileResourceIT {
      */
     public static AmortizationUpdateFile createEntity(EntityManager em) {
         AmortizationUpdateFile amortizationUpdateFile = new AmortizationUpdateFile()
-            .Narration(DEFAULT_NARRATION)
+            .narration(DEFAULT_NARRATION)
             .dataEntryFile(DEFAULT_DATA_ENTRY_FILE)
             .dataEntryFileContentType(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(DEFAULT_UPLOAD_SUCCESSFUL)
@@ -145,7 +145,7 @@ public class AmortizationUpdateFileResourceIT {
      */
     public static AmortizationUpdateFile createUpdatedEntity(EntityManager em) {
         AmortizationUpdateFile amortizationUpdateFile = new AmortizationUpdateFile()
-            .Narration(UPDATED_NARRATION)
+            .narration(UPDATED_NARRATION)
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
@@ -216,44 +216,6 @@ public class AmortizationUpdateFileResourceIT {
 
     @Test
     @Transactional
-    public void checkNarrationIsRequired() throws Exception {
-        int databaseSizeBeforeTest = amortizationUpdateFileRepository.findAll().size();
-        // set the field null
-        amortizationUpdateFile.setNarration(null);
-
-        // Create the AmortizationUpdateFile, which fails.
-        AmortizationUpdateFileDTO amortizationUpdateFileDTO = amortizationUpdateFileMapper.toDto(amortizationUpdateFile);
-
-        restAmortizationUpdateFileMockMvc.perform(post("/api/amortization-update-files")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(amortizationUpdateFileDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<AmortizationUpdateFile> amortizationUpdateFileList = amortizationUpdateFileRepository.findAll();
-        assertThat(amortizationUpdateFileList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkReasonForUpdateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = amortizationUpdateFileRepository.findAll().size();
-        // set the field null
-        amortizationUpdateFile.setReasonForUpdate(null);
-
-        // Create the AmortizationUpdateFile, which fails.
-        AmortizationUpdateFileDTO amortizationUpdateFileDTO = amortizationUpdateFileMapper.toDto(amortizationUpdateFile);
-
-        restAmortizationUpdateFileMockMvc.perform(post("/api/amortization-update-files")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(amortizationUpdateFileDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<AmortizationUpdateFile> amortizationUpdateFileList = amortizationUpdateFileRepository.findAll();
-        assertThat(amortizationUpdateFileList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAmortizationUpdateFiles() throws Exception {
         // Initialize the database
         amortizationUpdateFileRepository.saveAndFlush(amortizationUpdateFile);
@@ -263,7 +225,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpdateFile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].Narration").value(hasItem(DEFAULT_NARRATION.toString())))
+            .andExpect(jsonPath("$.[*].narration").value(hasItem(DEFAULT_NARRATION.toString())))
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
@@ -284,7 +246,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(amortizationUpdateFile.getId().intValue()))
-            .andExpect(jsonPath("$.Narration").value(DEFAULT_NARRATION.toString()))
+            .andExpect(jsonPath("$.narration").value(DEFAULT_NARRATION.toString()))
             .andExpect(jsonPath("$.dataEntryFileContentType").value(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.dataEntryFile").value(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE)))
             .andExpect(jsonPath("$.uploadSuccessful").value(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue()))
@@ -300,11 +262,11 @@ public class AmortizationUpdateFileResourceIT {
         // Initialize the database
         amortizationUpdateFileRepository.saveAndFlush(amortizationUpdateFile);
 
-        // Get all the amortizationUpdateFileList where Narration equals to DEFAULT_NARRATION
-        defaultAmortizationUpdateFileShouldBeFound("Narration.equals=" + DEFAULT_NARRATION);
+        // Get all the amortizationUpdateFileList where narration equals to DEFAULT_NARRATION
+        defaultAmortizationUpdateFileShouldBeFound("narration.equals=" + DEFAULT_NARRATION);
 
-        // Get all the amortizationUpdateFileList where Narration equals to UPDATED_NARRATION
-        defaultAmortizationUpdateFileShouldNotBeFound("Narration.equals=" + UPDATED_NARRATION);
+        // Get all the amortizationUpdateFileList where narration equals to UPDATED_NARRATION
+        defaultAmortizationUpdateFileShouldNotBeFound("narration.equals=" + UPDATED_NARRATION);
     }
 
     @Test
@@ -313,11 +275,11 @@ public class AmortizationUpdateFileResourceIT {
         // Initialize the database
         amortizationUpdateFileRepository.saveAndFlush(amortizationUpdateFile);
 
-        // Get all the amortizationUpdateFileList where Narration in DEFAULT_NARRATION or UPDATED_NARRATION
-        defaultAmortizationUpdateFileShouldBeFound("Narration.in=" + DEFAULT_NARRATION + "," + UPDATED_NARRATION);
+        // Get all the amortizationUpdateFileList where narration in DEFAULT_NARRATION or UPDATED_NARRATION
+        defaultAmortizationUpdateFileShouldBeFound("narration.in=" + DEFAULT_NARRATION + "," + UPDATED_NARRATION);
 
-        // Get all the amortizationUpdateFileList where Narration equals to UPDATED_NARRATION
-        defaultAmortizationUpdateFileShouldNotBeFound("Narration.in=" + UPDATED_NARRATION);
+        // Get all the amortizationUpdateFileList where narration equals to UPDATED_NARRATION
+        defaultAmortizationUpdateFileShouldNotBeFound("narration.in=" + UPDATED_NARRATION);
     }
 
     @Test
@@ -326,11 +288,11 @@ public class AmortizationUpdateFileResourceIT {
         // Initialize the database
         amortizationUpdateFileRepository.saveAndFlush(amortizationUpdateFile);
 
-        // Get all the amortizationUpdateFileList where Narration is not null
-        defaultAmortizationUpdateFileShouldBeFound("Narration.specified=true");
+        // Get all the amortizationUpdateFileList where narration is not null
+        defaultAmortizationUpdateFileShouldBeFound("narration.specified=true");
 
-        // Get all the amortizationUpdateFileList where Narration is null
-        defaultAmortizationUpdateFileShouldNotBeFound("Narration.specified=false");
+        // Get all the amortizationUpdateFileList where narration is null
+        defaultAmortizationUpdateFileShouldNotBeFound("narration.specified=false");
     }
 
     @Test
@@ -562,7 +524,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpdateFile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].Narration").value(hasItem(DEFAULT_NARRATION)))
+            .andExpect(jsonPath("$.[*].narration").value(hasItem(DEFAULT_NARRATION)))
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))
@@ -617,7 +579,7 @@ public class AmortizationUpdateFileResourceIT {
         // Disconnect from session so that the updates on updatedAmortizationUpdateFile are not directly saved in db
         em.detach(updatedAmortizationUpdateFile);
         updatedAmortizationUpdateFile
-            .Narration(UPDATED_NARRATION)
+            .narration(UPDATED_NARRATION)
             .dataEntryFile(UPDATED_DATA_ENTRY_FILE)
             .dataEntryFileContentType(UPDATED_DATA_ENTRY_FILE_CONTENT_TYPE)
             .uploadSuccessful(UPDATED_UPLOAD_SUCCESSFUL)
@@ -704,7 +666,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(amortizationUpdateFile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].Narration").value(hasItem(DEFAULT_NARRATION)))
+            .andExpect(jsonPath("$.[*].narration").value(hasItem(DEFAULT_NARRATION)))
             .andExpect(jsonPath("$.[*].dataEntryFileContentType").value(hasItem(DEFAULT_DATA_ENTRY_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].dataEntryFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_DATA_ENTRY_FILE))))
             .andExpect(jsonPath("$.[*].uploadSuccessful").value(hasItem(DEFAULT_UPLOAD_SUCCESSFUL.booleanValue())))

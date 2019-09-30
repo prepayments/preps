@@ -94,7 +94,7 @@ public class AmortizationUpdateFileQueryService extends QueryService<Amortizatio
                 specification = specification.and(buildSpecification(criteria.getId(), AmortizationUpdateFile_.id));
             }
             if (criteria.getNarration() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNarration(), AmortizationUpdateFile_.Narration));
+                specification = specification.and(buildStringSpecification(criteria.getNarration(), AmortizationUpdateFile_.narration));
             }
             if (criteria.getUploadSuccessful() != null) {
                 specification = specification.and(buildSpecification(criteria.getUploadSuccessful(), AmortizationUpdateFile_.uploadSuccessful));
