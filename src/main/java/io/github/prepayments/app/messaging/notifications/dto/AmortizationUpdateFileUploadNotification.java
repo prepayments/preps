@@ -1,14 +1,16 @@
 package io.github.prepayments.app.messaging.notifications.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.Arrays;
-
-@Data
-@Builder
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Data
+@ToString
 public class AmortizationUpdateFileUploadNotification implements FileUploadNotification {
 
     private long id;
