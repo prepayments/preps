@@ -289,7 +289,7 @@ jhipster:
     contact-name: Edwin Njeru
     contact-url:
     contact-email: mailnjeru@gmail.com
-    license: MIT
+    license: GPL version 3
     license-url:
 # ===================================================================
 # Application specific properties
