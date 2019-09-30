@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpdateFile}.
  */
-@RestController
-@RequestMapping("/api")
+@Component
 public class AmortizationUpdateFileResource {
 
     private final Logger log = LoggerFactory.getLogger(AmortizationUpdateFileResource.class);
