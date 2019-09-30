@@ -10,7 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Data
-@ToString
 public class AmortizationUpdateFileUploadNotification implements FileUploadNotification {
 
     private long id;

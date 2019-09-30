@@ -4,11 +4,8 @@
     "relationships": [],
     "fields": [
         {
-          "fieldName": "Narration",
-          "fieldType": "String",
-          "fieldValidateRules": [
-            "required"
-          ]
+          "fieldName": "narration",
+          "fieldType": "String"
         },
         {
             "fieldName": "dataEntryFile",
@@ -39,13 +36,10 @@
         },
         {
           "fieldName": "reasonForUpdate",
-          "fieldType": "String",
-          "fieldValidateRules": [
-            "required"
-          ]
+          "fieldType": "String"
         }
     ],
-    "changelogDate": "20190927132948",
+    "changelogDate": "20190930192848",
     "dto": "mapstruct",
     "searchEngine": "elasticsearch",
     "service": "serviceImpl",
