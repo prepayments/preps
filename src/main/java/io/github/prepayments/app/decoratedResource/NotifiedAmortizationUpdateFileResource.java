@@ -18,6 +18,8 @@ import java.util.Objects;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpdateFile}.
+ *
+ * This controller contains notifiers to send message to the queue about uploaded updated or deleted files
  */
 @RestController
 @RequestMapping("/api/notified")
@@ -45,7 +47,7 @@ public class NotifiedAmortizationUpdateFileResource extends AmortizationUpdateFi
     @PostMapping("/amortization-update-files")
     public ResponseEntity<AmortizationUpdateFileDTO> createAmortizationUpdateFile(@Valid @RequestBody final AmortizationUpdateFileDTO amortizationUpdateFileDTO) throws URISyntaxException {
 
-        String fileToken = excelFileTokenProvider.getFileToken(amortizationUpdateFileDTO);
+        amortizationUpdateFileDTO.setFileToken(excelFileTokenProvider.getFileToken(amortizationUpdateFileDTO));
 
         ResponseEntity<AmortizationUpdateFileDTO> responseEntity = super.createAmortizationUpdateFile(amortizationUpdateFileDTO);
 
@@ -54,7 +56,7 @@ public class NotifiedAmortizationUpdateFileResource extends AmortizationUpdateFi
                                                                                                 .id(Objects.requireNonNull(responseEntity.getBody()).getId())
                                                                                                 .timeStamp(System.currentTimeMillis())
                                                                                                 .fileUpload(responseEntity.getBody().getDataEntryFile())
-                                                                                                .fileToken(fileToken)
+                                                                                                .fileToken(responseEntity.getBody().getFileToken())
                                                                                                 .build());
 
         return responseEntity;
