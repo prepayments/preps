@@ -47,6 +47,13 @@ Assuming the above is up and running all you have to do is run the jar :
 
 The application runs on port 11001
 
+###### Database migration
+
+The database has been setup with automatic tagging on compile command. When the following command is ran, the
+liquibase pluging will tag the database with the project version:
+
+    mvn clean compile
+
 ### Acknowledgement
 
 This app is designed primarily with open source libraries and software. Among others I would
