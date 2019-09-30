@@ -1,0 +1,135 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-1">
+        <dropForeignKeyConstraint baseTableName="amortization_entry" constraintName="fk_amortization_entry_prepayment_entry_id"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-2">
+        <dropForeignKeyConstraint baseTableName="gha_user_authority" constraintName="fk_authority_name"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-3">
+        <dropForeignKeyConstraint baseTableName="gha_persistent_audit_evt_data" constraintName="fk_evt_pers_audit_evt_data"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-4">
+        <dropForeignKeyConstraint baseTableName="report_request_event" constraintName="fk_report_request_event_report_type_id"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-5">
+        <dropForeignKeyConstraint baseTableName="updated_amortization_entry" constraintName="fk_updated_amortization_entry_prepayment_entry_id"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-6">
+        <dropForeignKeyConstraint baseTableName="gha_user_authority" constraintName="fk_user_id"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-7">
+        <dropUniqueConstraint constraintName="ux_amortization_data_entry_file_file_token" tableName="amortization_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-8">
+        <dropUniqueConstraint constraintName="ux_amortization_update_file_file_token" tableName="amortization_update_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-9">
+        <dropUniqueConstraint constraintName="ux_amortization_upload_file_file_token" tableName="amortization_upload_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-10">
+        <dropUniqueConstraint constraintName="ux_prepayment_data_entry_file_file_token" tableName="prepayment_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-11">
+        <dropUniqueConstraint constraintName="ux_registered_supplier_supplier_name" tableName="registered_supplier"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-12">
+        <dropUniqueConstraint constraintName="ux_scanned_document_document_name" tableName="scanned_document"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-13">
+        <dropUniqueConstraint constraintName="ux_service_outlet_data_entry_file_file_token" tableName="service_outlet_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-14">
+        <dropUniqueConstraint constraintName="ux_supplier_data_entry_file_file_token" tableName="supplier_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-15">
+        <dropUniqueConstraint constraintName="ux_transaction_account_account_name" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-16">
+        <dropUniqueConstraint constraintName="ux_transaction_account_account_number" tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-17">
+        <dropUniqueConstraint constraintName="ux_transaction_account_data_entry_file_file_token" tableName="transaction_account_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-18">
+        <dropUniqueConstraint constraintName="ux_user_email" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-19">
+        <dropUniqueConstraint constraintName="ux_user_login" tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-20">
+        <dropTable tableName="accounting_transaction"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-21">
+        <dropTable tableName="amortization_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-22">
+        <dropTable tableName="amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-23">
+        <dropTable tableName="amortization_entry_update"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-24">
+        <dropTable tableName="amortization_update_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-25">
+        <dropTable tableName="amortization_upload"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-26">
+        <dropTable tableName="amortization_upload_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-27">
+        <dropTable tableName="gha_authority"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-28">
+        <dropTable tableName="gha_persistent_audit_event"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-29">
+        <dropTable tableName="gha_persistent_audit_evt_data"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-30">
+        <dropTable tableName="gha_user"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-31">
+        <dropTable tableName="gha_user_authority"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-32">
+        <dropTable tableName="prepayment_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-33">
+        <dropTable tableName="prepayment_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-34">
+        <dropTable tableName="registered_supplier"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-35">
+        <dropTable tableName="report_request_event"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-36">
+        <dropTable tableName="report_type"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-37">
+        <dropTable tableName="scanned_document"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-38">
+        <dropTable tableName="service_outlet"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-39">
+        <dropTable tableName="service_outlet_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-40">
+        <dropTable tableName="supplier_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-41">
+        <dropTable tableName="transaction_account"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-42">
+        <dropTable tableName="transaction_account_data_entry_file"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-43">
+        <dropTable tableName="updated_amortization_entry"/>
+    </changeSet>
+    <changeSet author="edwin.njeru (generated)" id="1569864528208-44">
+        <dropSequence sequenceName="sequence_generator"/>
+    </changeSet>
+</databaseChangeLog>
