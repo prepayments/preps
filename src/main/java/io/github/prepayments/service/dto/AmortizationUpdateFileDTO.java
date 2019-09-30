@@ -1,20 +1,29 @@
 package io.github.prepayments.service.dto;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+
+import io.github.prepayments.app.token.Tokenizable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * A DTO for the {@link io.github.prepayments.domain.AmortizationUpdateFile} entity.
  */
-public class AmortizationUpdateFileDTO implements Serializable {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class AmortizationUpdateFileDTO implements Serializable, Tokenizable {
 
     private Long id;
 
     @NotNull
     private String Narration;
 
-    
     @Lob
     private byte[] dataEntryFile;
 
@@ -25,117 +34,22 @@ public class AmortizationUpdateFileDTO implements Serializable {
 
     private Integer entriesCount;
 
-    
     private String fileToken;
 
     @NotNull
     private String reasonForUpdate;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNarration() {
-        return Narration;
-    }
-
-    public void setNarration(String Narration) {
-        this.Narration = Narration;
-    }
-
-    public byte[] getDataEntryFile() {
-        return dataEntryFile;
-    }
-
-    public void setDataEntryFile(byte[] dataEntryFile) {
-        this.dataEntryFile = dataEntryFile;
-    }
-
-    public String getDataEntryFileContentType() {
-        return dataEntryFileContentType;
-    }
-
-    public void setDataEntryFileContentType(String dataEntryFileContentType) {
-        this.dataEntryFileContentType = dataEntryFileContentType;
-    }
-
-    public Boolean isUploadSuccessful() {
-        return uploadSuccessful;
-    }
-
-    public void setUploadSuccessful(Boolean uploadSuccessful) {
-        this.uploadSuccessful = uploadSuccessful;
-    }
-
-    public Boolean isUploadProcessed() {
-        return uploadProcessed;
-    }
-
-    public void setUploadProcessed(Boolean uploadProcessed) {
-        this.uploadProcessed = uploadProcessed;
-    }
-
-    public Integer getEntriesCount() {
-        return entriesCount;
-    }
-
-    public void setEntriesCount(Integer entriesCount) {
-        this.entriesCount = entriesCount;
-    }
-
-    public String getFileToken() {
-        return fileToken;
-    }
-
-    public void setFileToken(String fileToken) {
-        this.fileToken = fileToken;
-    }
-
-    public String getReasonForUpdate() {
-        return reasonForUpdate;
-    }
-
-    public void setReasonForUpdate(String reasonForUpdate) {
-        this.reasonForUpdate = reasonForUpdate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        AmortizationUpdateFileDTO amortizationUpdateFileDTO = (AmortizationUpdateFileDTO) o;
-        if (amortizationUpdateFileDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), amortizationUpdateFileDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
     @Override
     public String toString() {
-        return "AmortizationUpdateFileDTO{" +
-            "id=" + getId() +
-            ", Narration='" + getNarration() + "'" +
-            ", dataEntryFile='" + getDataEntryFile() + "'" +
-            ", uploadSuccessful='" + isUploadSuccessful() + "'" +
-            ", uploadProcessed='" + isUploadProcessed() + "'" +
-            ", entriesCount=" + getEntriesCount() +
-            ", fileToken='" + getFileToken() + "'" +
-            ", reasonForUpdate='" + getReasonForUpdate() + "'" +
-            "}";
+        final StringBuilder sb = new StringBuilder("AmortizationUpdateFileDTO{");
+        sb.append("id=").append(id);
+        sb.append(", Narration='").append(Narration).append('\'');
+        sb.append(", uploadSuccessful=").append(uploadSuccessful);
+        sb.append(", uploadProcessed=").append(uploadProcessed);
+        sb.append(", entriesCount=").append(entriesCount);
+        sb.append(", fileToken='").append(fileToken).append('\'');
+        sb.append(", reasonForUpdate='").append(reasonForUpdate).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

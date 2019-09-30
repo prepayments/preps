@@ -7,9 +7,9 @@ import java.time.LocalDate;
  */
 public interface Tokenizable {
 
-    LocalDate getPeriodFrom();
-
-    LocalDate getPeriodTo();
+//    LocalDate getPeriodFrom();
+//
+//    LocalDate getPeriodTo();
 
     byte[] getDataEntryFile();
 

@@ -1,5 +1,9 @@
 package io.github.prepayments.app.decoratedResource;
 
+import io.github.prepayments.app.messaging.MessageService;
+import io.github.prepayments.app.messaging.notifications.dto.AmortizationUpdateFileUploadNotification;
+import io.github.prepayments.app.messaging.notifications.dto.FileUploadNotification;
+import io.github.prepayments.app.token.ExcelFileTokenProvider;
 import io.github.prepayments.service.dto.AmortizationUpdateFileDTO;
 import io.github.prepayments.web.rest.AmortizationUpdateFileResource;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpdateFile}.
@@ -18,11 +23,14 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/notified")
 public class NotifiedAmortizationUpdateFileResource extends AmortizationUpdateFileResourceDecorator implements IAmortizationUpdateFileResource {
 
-    private final AmortizationUpdateFileResource resource;
+    private final ExcelFileTokenProvider excelFileTokenProvider;
+    private final MessageService<FileUploadNotification> amortizationUpdateFileMessageService;
 
-    public NotifiedAmortizationUpdateFileResource(final AmortizationUpdateFileResource resource, final AmortizationUpdateFileResource resource1) {
-        super(resource);
-        this.resource = resource1;
+    public NotifiedAmortizationUpdateFileResource(final AmortizationUpdateFileResource amortizationUpdateFileResource, final ExcelFileTokenProvider excelFileTokenProvider,
+                                                  final MessageService<FileUploadNotification> amortizationUpdateFileMessageService) {
+        super(amortizationUpdateFileResource);
+        this.excelFileTokenProvider = excelFileTokenProvider;
+        this.amortizationUpdateFileMessageService = amortizationUpdateFileMessageService;
     }
 
     /**
@@ -37,8 +45,19 @@ public class NotifiedAmortizationUpdateFileResource extends AmortizationUpdateFi
     @PostMapping("/amortization-update-files")
     public ResponseEntity<AmortizationUpdateFileDTO> createAmortizationUpdateFile(@Valid @RequestBody final AmortizationUpdateFileDTO amortizationUpdateFileDTO) throws URISyntaxException {
 
-        // Send notification
+        String fileToken = excelFileTokenProvider.getFileToken(amortizationUpdateFileDTO);
 
-        return super.createAmortizationUpdateFile(amortizationUpdateFileDTO);
+        ResponseEntity<AmortizationUpdateFileDTO> responseEntity = super.createAmortizationUpdateFile(amortizationUpdateFileDTO);
+
+        // Send notification
+        amortizationUpdateFileMessageService.sendMessage(AmortizationUpdateFileUploadNotification.builder()
+                                                                                                .id(Objects.requireNonNull(responseEntity.getBody()).getId())
+                                                                                                .timeStamp(System.currentTimeMillis())
+                                                                                                .fileUpload(responseEntity.getBody().getDataEntryFile())
+                                                                                                .fileToken(fileToken)
+                                                                                                .build());
+
+        return responseEntity;
+
     }
 }

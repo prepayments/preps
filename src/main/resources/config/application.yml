@@ -210,6 +210,12 @@ spring:
         transaction-account-data-file-uploaded-out:
           destination: transactionAccountFileUploads
           contentType: application/json
+        amortization-update-file-uploaded-in:
+          destination: amortizationUpdateFileStreams
+          contentType: application/json
+        amortization-update-file-uploaded-out:
+          destination: amortizationUpdateFileStreams
+          contentType: application/json
   autoconfigure:
     exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
   application:
