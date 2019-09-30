@@ -3,7 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.IPrepaymentDataEntryFileResource;
+import io.github.prepayments.app.decoratedResource.IPrepaymentDataEntryFileResource;
 import io.github.prepayments.service.PrepaymentDataEntryFileQueryService;
 import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;

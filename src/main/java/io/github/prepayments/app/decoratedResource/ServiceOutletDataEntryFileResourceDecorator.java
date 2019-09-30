@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators;
+package io.github.prepayments.app.decoratedResource;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.prepayments.app.messaging.notifications.dto.ServiceOutletFileUploadNotification;
@@ -37,7 +37,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class ServiceOutletDataEntryFileResourceDecorator implements io.github.prepayments.app.decorators.IServiceOutletDataEntryFileResource {
+public class ServiceOutletDataEntryFileResourceDecorator implements io.github.prepayments.app.decoratedResource.IServiceOutletDataEntryFileResource {
 
     private final ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource;
     private final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService;

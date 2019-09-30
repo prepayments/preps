@@ -3,7 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.IAmortizationDataEntryFileResource;
+import io.github.prepayments.app.decoratedResource.IAmortizationDataEntryFileResource;
 import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;

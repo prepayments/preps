@@ -1,6 +1,6 @@
 package io.github.prepayments.app.messaging.data_entry.service;
 
-import io.github.prepayments.app.decorators.repo.PrepaymentEntryRepositoryDecorator;
+import io.github.prepayments.app.decoratedResource.repo.PrepaymentEntryRepositoryDecorator;
 import io.github.prepayments.domain.PrepaymentEntry;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 import lombok.extern.slf4j.Slf4j;

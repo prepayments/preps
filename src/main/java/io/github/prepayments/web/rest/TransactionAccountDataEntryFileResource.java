@@ -3,7 +3,7 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decorators.ITransactionAccountDataEntryFileResource;
+import io.github.prepayments.app.decoratedResource.ITransactionAccountDataEntryFileResource;
 import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;

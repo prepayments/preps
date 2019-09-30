@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators;
+package io.github.prepayments.app.decoratedResource;
 
 import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;

@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators.repo;
+package io.github.prepayments.app.decoratedResource.repo;
 
 import io.github.prepayments.domain.PrepaymentEntry;
 import org.springframework.data.jpa.repository.JpaRepository;

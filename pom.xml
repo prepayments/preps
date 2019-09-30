@@ -113,6 +113,12 @@
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
         </dependency>
+        <!--Modified sep4j library-->
+        <dependency>
+            <groupId>com.github.ghacupha</groupId>
+            <artifactId>sep4j</artifactId>
+            <version>d5a958d8d3</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans -->
         <!--<dependency>
             <groupId>org.apache.xmlbeans</groupId>

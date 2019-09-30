@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators;
+package io.github.prepayments.app.decoratedResource;
 
 import io.github.prepayments.app.messaging.data_entry.service.AmortizationEntriesPropagatorService;
 import io.github.prepayments.app.services.cascade.AmortizationUploadCascader;

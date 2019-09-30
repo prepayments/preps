@@ -1,4 +1,4 @@
-package io.github.prepayments.app.decorators;
+package io.github.prepayments.app.decoratedResource;
 
 import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
