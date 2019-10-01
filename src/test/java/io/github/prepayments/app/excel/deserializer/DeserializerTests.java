@@ -2,6 +2,7 @@ package io.github.prepayments.app.excel.deserializer;
 
 import io.github.prepayments.app.excel.ExcelFileDeserializer;
 import io.github.prepayments.app.messaging.filing.vm.AmortizationEntryEVM;
+import io.github.prepayments.app.messaging.filing.vm.AmortizationEntryUpdateEVM;
 import io.github.prepayments.app.messaging.filing.vm.AmortizationUploadEVM;
 import io.github.prepayments.app.messaging.filing.vm.PrepaymentEntryEVM;
 import io.github.prepayments.app.messaging.filing.vm.RegisteredSupplierEVM;
@@ -24,4 +25,6 @@ public class DeserializerTests {
     ExcelFileDeserializer<ServiceOutletEVM> serviceOutletDeserializer = new ServiceOutletDataEntryFileDeserializer(getDefaultPoijiOptions());
 
     ExcelFileDeserializer<TransactionAccountEVM> transactionAccountDeserializer = new TransactionAccountDataEntryExcelFileDeserializer(getDefaultPoijiOptions());
+
+    ExcelFileDeserializer<AmortizationEntryUpdateEVM> amortizationEntryUpdateDeserializer = new AmortizationUpdateExcelFileDeserializer(getDefaultPoijiOptions());
 }
