@@ -28,33 +28,33 @@ public class AmortizationEntryUpdateEVM implements Serializable, IsTokenized<Str
     @ExcelRow
     private long rowIndex;
 
-    // Excel field
     @ExcelCell(0)
+    private String amortizationEntryId;
+
+    // Excel field
+    @ExcelCell(1)
     private String amortizationDate;
 
-    @ExcelCell(1)
+    @ExcelCell(2)
     private String amortizationAmount;
 
-    @ExcelCell(2)
+    @ExcelCell(3)
     private String particulars;
 
-    @ExcelCell(3)
+    @ExcelCell(4)
     private String prepaymentServiceOutlet;
 
-    @ExcelCell(4)
+    @ExcelCell(5)
     private String prepaymentAccountNumber;
 
-    @ExcelCell(5)
+    @ExcelCell(6)
     private String amortizationServiceOutlet;
 
-    @ExcelCell(6)
+    @ExcelCell(7)
     private String amortizationAccountNumber;
 
-    @ExcelCell(7)
-    private String prepaymentEntryId;
-
     @ExcelCell(8)
-    private String prepaymentEntryDate;
+    private String prepaymentEntryId;
 
     private Boolean orphaned;
 
