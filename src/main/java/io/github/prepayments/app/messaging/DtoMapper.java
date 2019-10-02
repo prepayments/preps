@@ -1,5 +1,7 @@
 package io.github.prepayments.app.messaging;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.List;
 
 /**
@@ -14,8 +16,12 @@ public interface DtoMapper<EVM, DTO> {
 
     EVM toEVM(DTO dto);
 
-    List<DTO> toDTO(List<EVM> evmList);
+    default List<DTO> toDTO(List<EVM> evmList) {
+        return evmList.stream().map(this::toDTO).collect(ImmutableList.toImmutableList());
+    }
 
-    List<EVM> toEVM(List<DTO> entityList);
+    default List<EVM> toEVM(List<DTO> entityList) {
+        return entityList.stream().map(this::toEVM).collect(ImmutableList.toImmutableList());
+    }
 
 }
