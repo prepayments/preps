@@ -216,12 +216,18 @@ spring:
         amortization-update-file-uploaded-out:
           destination: amortizationUpdateFileStreams
           contentType: application/json
-      amortization-updates-in:
-        destination: amortizationUpdates
-        contentType: application/json
-      amortization-updates-out:
-        destination: amortizationUpdates
-        contentType: application/json
+        amortization-updates-in:
+          destination: amortizationUpdates
+          contentType: application/json
+        amortization-updates-out:
+          destination: amortizationUpdates
+          contentType: application/json
+        amortization-entry-update-data-in:
+          destination: amortizationUpdateData
+          contentType: application/json
+        amortization-entry-update-data-out:
+          destination: amortizationUpdateData
+          contentType: application/json
   autoconfigure:
     exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
   application:
