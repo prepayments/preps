@@ -1,5 +1,6 @@
 package io.github.prepayments.service;
 
+import io.github.prepayments.app.messaging.data_entry.updates.EntryService;
 import io.github.prepayments.service.dto.AmortizationEntryDTO;
 
 import org.springframework.data.domain.Page;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * Service Interface for managing {@link io.github.prepayments.domain.AmortizationEntry}.
  */
-public interface AmortizationEntryService {
+public interface AmortizationEntryService extends EntryService<Long, AmortizationEntryDTO> {
 
     /**
      * Save a amortizationEntry.
@@ -48,7 +49,7 @@ public interface AmortizationEntryService {
      * Search for the amortizationEntry corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
