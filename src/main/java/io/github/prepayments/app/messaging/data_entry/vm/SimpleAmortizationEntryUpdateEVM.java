@@ -41,7 +41,7 @@ public class SimpleAmortizationEntryUpdateEVM implements Serializable, SimpleExc
 
     private String prepaymentEntryId;
 
-    private Boolean orphaned;
+    private Boolean orphaned = false;
 
     private String originatingFileToken;
 
