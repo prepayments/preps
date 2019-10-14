@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Description for preps",
   "private": true,
-  "license": "MIT",
+  "license": "GPLv3",
   "cacheDirectories": [
     "node_modules"
   ],

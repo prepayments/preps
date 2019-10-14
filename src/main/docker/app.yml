@@ -1,7 +1,7 @@
 version: '2'
 services:
   preps-app:
-    image: preps
+    image: ${docker.image.prefix}/${project.artifactId}:${project.version}
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,swagger

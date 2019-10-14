@@ -302,13 +302,13 @@ jhipster:
     default-include-pattern: /api/.*
     title: PREPS APP API
     description: Preps API documentation
-    version: 0.0.1
-    terms-of-service-url:
+    version: 0.0.4
+    terms-of-service-url: https://www.gnu.org/licenses/gpl-3.0.txt
     contact-name: Edwin Njeru
-    contact-url:
+    contact-url: https://github.com/ghacupha
     contact-email: mailnjeru@gmail.com
     license: GPL version 3
-    license-url:
+    license-url: https://www.gnu.org/licenses/gpl-3.0.txt
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
