@@ -49,7 +49,7 @@ spring:
           destination: topic-jhipster
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/preps
+    url: jdbc:postgresql://localhost:54320/preps
     username: ${PG_DATABASE_DEV_USER}
     password: ${PG_DATABASE_DEV_PASSWORD}
     hikari:
