@@ -2,8 +2,8 @@ version: '2'
 services:
   preps-postgresql:
     image: postgres:11.2
-    #volumes:
-    #  - ~/volumes/jhipster/preps/postgresql/:/var/lib/postgresql/data/
+    volumes:
+      - ~/volumes/jhipster/preps/postgresql/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=${PG_DATABASE_DEV_USER}
       - POSTGRES_PASSWORD=${PG_DATABASE_DEV_PASSWORD}
