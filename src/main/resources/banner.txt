@@ -8,5 +8,5 @@ $$ |      $$ |  $$ |$$ |      $$ |      $$\   $$ |
 $$ |      $$ |  $$ |$$$$$$$$\ $$ |      \$$$$$$  |
 \__|      \__|  \__|\________|\__|       \______/
 
-${AnsiColor.BRIGHT_BLUE}:: PREPAYMENTS ON JHipster 6.0.1  🤓  :: Running Spring Boot ${spring-boot.version} ::
+${AnsiColor.BRIGHT_BLUE}:: PREPAYMENTS ON JHipster 6.4.1  🤓  :: Running Spring Boot ${spring-boot.version} ::
 :: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
