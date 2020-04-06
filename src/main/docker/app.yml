@@ -14,6 +14,8 @@ services:
       - SPRING_ELASTICSEARCH_REST_URIS=http://preps-elasticsearch:9200
       - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka
       - SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=zookeeper
+      - PG_DATABASE_DEV_USER=${PG_DATABASE_DEV_USER}
+      - PG_DATABASE_DEV_PASSWORD=${PG_DATABASE_DEV_PASSWORD}
     ports:
       - 11001:11001
   preps-postgresql:
