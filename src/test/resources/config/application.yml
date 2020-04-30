@@ -63,6 +63,8 @@ spring:
       properties:
         path:
           home: target/elasticsearch
+        node:
+          max_local_storage_nodes: 2
   liquibase:
     contexts: test
   mail:
