@@ -105,7 +105,7 @@ jhipster:
     name: 'prepsApp'
   logging:
     # To test json console appender
-    use-json-format: true # By default, logs are in Json format
+    use-json-format: false # By default, logs are in Json format
     # To test logstash appender
     logstash:
       enabled: true
