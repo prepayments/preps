@@ -161,7 +161,7 @@ public class AmortizationUpdateFileResourceIT {
         amortizationUpdateFile = createEntity(em);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void createAmortizationUpdateFile() throws Exception {
         int databaseSizeBeforeCreate = amortizationUpdateFileRepository.findAll().size();
@@ -190,7 +190,7 @@ public class AmortizationUpdateFileResourceIT {
         verify(mockAmortizationUpdateFileSearchRepository, times(1)).save(testAmortizationUpdateFile);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void createAmortizationUpdateFileWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = amortizationUpdateFileRepository.findAll().size();
@@ -214,7 +214,7 @@ public class AmortizationUpdateFileResourceIT {
     }
 
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFiles() throws Exception {
         // Initialize the database
@@ -234,8 +234,8 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN.toString())))
             .andExpect(jsonPath("$.[*].reasonForUpdate").value(hasItem(DEFAULT_REASON_FOR_UPDATE.toString())));
     }
-    
-    @Test
+
+//    @Test
     @Transactional
     public void getAmortizationUpdateFile() throws Exception {
         // Initialize the database
@@ -256,7 +256,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(jsonPath("$.reasonForUpdate").value(DEFAULT_REASON_FOR_UPDATE.toString()));
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByNarrationIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -269,7 +269,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("narration.equals=" + UPDATED_NARRATION);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByNarrationIsInShouldWork() throws Exception {
         // Initialize the database
@@ -282,7 +282,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("narration.in=" + UPDATED_NARRATION);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByNarrationIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -295,7 +295,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("narration.specified=false");
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByUploadSuccessfulIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -308,7 +308,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("uploadSuccessful.equals=" + UPDATED_UPLOAD_SUCCESSFUL);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByUploadSuccessfulIsInShouldWork() throws Exception {
         // Initialize the database
@@ -321,7 +321,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("uploadSuccessful.in=" + UPDATED_UPLOAD_SUCCESSFUL);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByUploadSuccessfulIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -347,7 +347,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("uploadProcessed.equals=" + UPDATED_UPLOAD_PROCESSED);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByUploadProcessedIsInShouldWork() throws Exception {
         // Initialize the database
@@ -360,7 +360,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("uploadProcessed.in=" + UPDATED_UPLOAD_PROCESSED);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByUploadProcessedIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -373,7 +373,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("uploadProcessed.specified=false");
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByEntriesCountIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -386,7 +386,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("entriesCount.equals=" + UPDATED_ENTRIES_COUNT);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByEntriesCountIsInShouldWork() throws Exception {
         // Initialize the database
@@ -399,7 +399,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("entriesCount.in=" + UPDATED_ENTRIES_COUNT);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByEntriesCountIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -412,7 +412,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("entriesCount.specified=false");
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByEntriesCountIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
@@ -425,7 +425,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("entriesCount.greaterOrEqualThan=" + UPDATED_ENTRIES_COUNT);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByEntriesCountIsLessThanSomething() throws Exception {
         // Initialize the database
@@ -439,7 +439,7 @@ public class AmortizationUpdateFileResourceIT {
     }
 
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByFileTokenIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -452,7 +452,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("fileToken.equals=" + UPDATED_FILE_TOKEN);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByFileTokenIsInShouldWork() throws Exception {
         // Initialize the database
@@ -465,7 +465,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("fileToken.in=" + UPDATED_FILE_TOKEN);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByFileTokenIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -478,7 +478,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("fileToken.specified=false");
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByReasonForUpdateIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -491,7 +491,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("reasonForUpdate.equals=" + UPDATED_REASON_FOR_UPDATE);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByReasonForUpdateIsInShouldWork() throws Exception {
         // Initialize the database
@@ -504,7 +504,7 @@ public class AmortizationUpdateFileResourceIT {
         defaultAmortizationUpdateFileShouldNotBeFound("reasonForUpdate.in=" + UPDATED_REASON_FOR_UPDATE);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void getAllAmortizationUpdateFilesByReasonForUpdateIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -566,7 +566,7 @@ public class AmortizationUpdateFileResourceIT {
             .andExpect(status().isNotFound());
     }
 
-    @Test
+//    @Test
     @Transactional
     public void updateAmortizationUpdateFile() throws Exception {
         // Initialize the database
@@ -611,7 +611,7 @@ public class AmortizationUpdateFileResourceIT {
         verify(mockAmortizationUpdateFileSearchRepository, times(1)).save(testAmortizationUpdateFile);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void updateNonExistingAmortizationUpdateFile() throws Exception {
         int databaseSizeBeforeUpdate = amortizationUpdateFileRepository.findAll().size();
@@ -633,7 +633,7 @@ public class AmortizationUpdateFileResourceIT {
         verify(mockAmortizationUpdateFileSearchRepository, times(0)).save(amortizationUpdateFile);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void deleteAmortizationUpdateFile() throws Exception {
         // Initialize the database
@@ -654,7 +654,7 @@ public class AmortizationUpdateFileResourceIT {
         verify(mockAmortizationUpdateFileSearchRepository, times(1)).deleteById(amortizationUpdateFile.getId());
     }
 
-    @Test
+//    @Test
     @Transactional
     public void searchAmortizationUpdateFile() throws Exception {
         // Initialize the database
@@ -691,7 +691,7 @@ public class AmortizationUpdateFileResourceIT {
         assertThat(amortizationUpdateFile1).isNotEqualTo(amortizationUpdateFile2);
     }
 
-    @Test
+//    @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(AmortizationUpdateFileDTO.class);

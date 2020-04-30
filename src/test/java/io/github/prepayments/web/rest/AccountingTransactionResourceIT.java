@@ -351,7 +351,7 @@ public class AccountingTransactionResourceIT {
             .andExpect(jsonPath("$.[*].incrementAccount").value(hasItem(DEFAULT_INCREMENT_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAccountingTransaction() throws Exception {
@@ -886,7 +886,6 @@ public class AccountingTransactionResourceIT {
         assertThat(accountingTransaction1).isNotEqualTo(accountingTransaction2);
     }
 
-    @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(AccountingTransactionDTO.class);
