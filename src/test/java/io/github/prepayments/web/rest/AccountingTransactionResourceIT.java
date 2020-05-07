@@ -886,6 +886,7 @@ public class AccountingTransactionResourceIT {
         assertThat(accountingTransaction1).isNotEqualTo(accountingTransaction2);
     }
 
+    @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(AccountingTransactionDTO.class);

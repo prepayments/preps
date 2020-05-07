@@ -3,7 +3,6 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decoratedResource.ITransactionAccountDataEntryFileResource;
 import io.github.prepayments.service.TransactionAccountDataEntryFileQueryService;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -36,8 +36,10 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.TransactionAccountDataEntryFile}.
  */
-@Component("transactionAccountDataEntryFileResourceDelegate")
-public class TransactionAccountDataEntryFileResource implements ITransactionAccountDataEntryFileResource {
+//@Component("transactionAccountDataEntryFileResourceDelegate")
+@RestController
+@RequestMapping("/api")
+public class TransactionAccountDataEntryFileResource {
 
     private static final String ENTITY_NAME = "dataEntryTransactionAccountDataEntryFile";
     private final Logger log = LoggerFactory.getLogger(TransactionAccountDataEntryFileResource.class);
@@ -60,7 +62,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * transactionAccountDataEntryFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PostMapping("/transaction-account-data-entry-files")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> createTransactionAccountDataEntryFile(@Valid @RequestBody TransactionAccountDataEntryFileDTO transactionAccountDataEntryFileDTO)
         throws URISyntaxException {
@@ -82,7 +83,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * transactionAccountDataEntryFileDTO is not valid, or with status {@code 500 (Internal Server Error)} if the transactionAccountDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PutMapping("/transaction-account-data-entry-files")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> updateTransactionAccountDataEntryFile(@Valid @RequestBody TransactionAccountDataEntryFileDTO transactionAccountDataEntryFileDTO)
         throws URISyntaxException {
@@ -101,7 +101,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactionAccountDataEntryFiles in body.
      */
-    @Override
     @GetMapping("/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> getAllTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
@@ -117,7 +116,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @Override
     @GetMapping("/transaction-account-data-entry-files/count")
     public ResponseEntity<Long> countTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria) {
         log.debug("REST request to count TransactionAccountDataEntryFiles by criteria: {}", criteria);
@@ -130,7 +128,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * @param id the id of the transactionAccountDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the transactionAccountDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    @Override
     @GetMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> getTransactionAccountDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to get TransactionAccountDataEntryFile : {}", id);
@@ -144,7 +141,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * @param id the id of the transactionAccountDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @Override
     @DeleteMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<Void> deleteTransactionAccountDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to delete TransactionAccountDataEntryFile : {}", id);
@@ -159,7 +155,6 @@ public class TransactionAccountDataEntryFileResource implements ITransactionAcco
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @Override
     @GetMapping("/_search/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> searchTransactionAccountDataEntryFiles(@RequestParam String query, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {

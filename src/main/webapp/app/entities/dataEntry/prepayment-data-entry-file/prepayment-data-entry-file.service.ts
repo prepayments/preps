@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IPrepaymentDataEntryFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PrepaymentDataEntryFileService {
-  public resourceUrl = SERVER_API_URL + 'api/prepayment-data-entry-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/prepayment-data-entry-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/prepayment-data-entry-files';
 
   constructor(protected http: HttpClient) {}

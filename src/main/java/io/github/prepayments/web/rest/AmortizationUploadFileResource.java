@@ -3,7 +3,6 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decoratedResource.IAmortizationUploadFileResource;
 import io.github.prepayments.service.AmortizationUploadFileQueryService;
 import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -36,8 +36,10 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUploadFile}.
  */
-@Component("amortizationUploadFileResourceDelegate")
-public class AmortizationUploadFileResource implements IAmortizationUploadFileResource {
+//@Component("amortizationUploadFileResourceDelegate")
+@RestController
+@RequestMapping("/api")
+public class AmortizationUploadFileResource {
 
     private static final String ENTITY_NAME = "dataEntryAmortizationUploadFile";
     private final Logger log = LoggerFactory.getLogger(AmortizationUploadFileResource.class);
@@ -59,7 +61,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PostMapping("/amortization-upload-files")
     public ResponseEntity<AmortizationUploadFileDTO> createAmortizationUploadFile(@Valid @RequestBody AmortizationUploadFileDTO amortizationUploadFileDTO) throws URISyntaxException {
         log.debug("REST request to save AmortizationUploadFile : {}", amortizationUploadFileDTO);
@@ -80,7 +81,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * not valid, or with status {@code 500 (Internal Server Error)} if the amortizationUploadFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PutMapping("/amortization-upload-files")
     public ResponseEntity<AmortizationUploadFileDTO> updateAmortizationUploadFile(@Valid @RequestBody AmortizationUploadFileDTO amortizationUploadFileDTO) throws URISyntaxException {
         log.debug("REST request to update AmortizationUploadFile : {}", amortizationUploadFileDTO);
@@ -98,7 +98,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of amortizationUploadFiles in body.
      */
-    @Override
     @GetMapping("/amortization-upload-files")
     public ResponseEntity<List<AmortizationUploadFileDTO>> getAllAmortizationUploadFiles(AmortizationUploadFileCriteria criteria, Pageable pageable,
                                                                                          @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
@@ -114,7 +113,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @Override
     @GetMapping("/amortization-upload-files/count")
     public ResponseEntity<Long> countAmortizationUploadFiles(AmortizationUploadFileCriteria criteria) {
         log.debug("REST request to count AmortizationUploadFiles by criteria: {}", criteria);
@@ -127,7 +125,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * @param id the id of the amortizationUploadFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the amortizationUploadFileDTO, or with status {@code 404 (Not Found)}.
      */
-    @Override
     @GetMapping("/amortization-upload-files/{id}")
     public ResponseEntity<AmortizationUploadFileDTO> getAmortizationUploadFile(@PathVariable Long id) {
         log.debug("REST request to get AmortizationUploadFile : {}", id);
@@ -141,7 +138,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * @param id the id of the amortizationUploadFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @Override
     @DeleteMapping("/amortization-upload-files/{id}")
     public ResponseEntity<Void> deleteAmortizationUploadFile(@PathVariable Long id) {
         log.debug("REST request to delete AmortizationUploadFile : {}", id);
@@ -156,7 +152,6 @@ public class AmortizationUploadFileResource implements IAmortizationUploadFileRe
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @Override
     @GetMapping("/_search/amortization-upload-files")
     public ResponseEntity<List<AmortizationUploadFileDTO>> searchAmortizationUploadFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                          UriComponentsBuilder uriBuilder) {

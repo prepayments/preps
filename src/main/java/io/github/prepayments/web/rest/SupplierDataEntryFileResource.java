@@ -3,7 +3,6 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decoratedResource.ISupplierDataEntryFileResource;
 import io.github.prepayments.service.SupplierDataEntryFileQueryService;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -36,8 +36,10 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.SupplierDataEntryFile}.
  */
-@Component("SupplierDataEntryFileResourceDelegate")
-public class SupplierDataEntryFileResource implements ISupplierDataEntryFileResource {
+//@Component("SupplierDataEntryFileResourceDelegate")
+@RestController
+@RequestMapping("/api")
+public class SupplierDataEntryFileResource {
 
     private static final String ENTITY_NAME = "dataEntrySupplierDataEntryFile";
     private final Logger log = LoggerFactory.getLogger(SupplierDataEntryFileResource.class);
@@ -59,7 +61,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PostMapping("/supplier-data-entry-files")
     public ResponseEntity<SupplierDataEntryFileDTO> createSupplierDataEntryFile(@Valid @RequestBody SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to save SupplierDataEntryFile : {}", supplierDataEntryFileDTO);
@@ -80,7 +81,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * not valid, or with status {@code 500 (Internal Server Error)} if the supplierDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PutMapping("/supplier-data-entry-files")
     public ResponseEntity<SupplierDataEntryFileDTO> updateSupplierDataEntryFile(@Valid @RequestBody SupplierDataEntryFileDTO supplierDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to update SupplierDataEntryFile : {}", supplierDataEntryFileDTO);
@@ -98,7 +98,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of supplierDataEntryFiles in body.
      */
-    @Override
     @GetMapping("/supplier-data-entry-files")
     public ResponseEntity<List<SupplierDataEntryFileDTO>> getAllSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria, Pageable pageable,
                                                                                        @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
@@ -114,7 +113,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @Override
     @GetMapping("/supplier-data-entry-files/count")
     public ResponseEntity<Long> countSupplierDataEntryFiles(SupplierDataEntryFileCriteria criteria) {
         log.debug("REST request to count SupplierDataEntryFiles by criteria: {}", criteria);
@@ -127,7 +125,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * @param id the id of the supplierDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the supplierDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    @Override
     @GetMapping("/supplier-data-entry-files/{id}")
     public ResponseEntity<SupplierDataEntryFileDTO> getSupplierDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to get SupplierDataEntryFile : {}", id);
@@ -141,7 +138,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * @param id the id of the supplierDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @Override
     @DeleteMapping("/supplier-data-entry-files/{id}")
     public ResponseEntity<Void> deleteSupplierDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to delete SupplierDataEntryFile : {}", id);
@@ -156,7 +152,6 @@ public class SupplierDataEntryFileResource implements ISupplierDataEntryFileReso
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @Override
     @GetMapping("/_search/supplier-data-entry-files")
     public ResponseEntity<List<SupplierDataEntryFileDTO>> searchSupplierDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                        UriComponentsBuilder uriBuilder) {

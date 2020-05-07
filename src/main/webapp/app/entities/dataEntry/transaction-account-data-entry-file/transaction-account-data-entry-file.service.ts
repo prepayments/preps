@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<ITransactionAccountDataEntryFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class TransactionAccountDataEntryFileService {
-  public resourceUrl = SERVER_API_URL + 'api/transaction-account-data-entry-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/transaction-account-data-entry-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/transaction-account-data-entry-files';
 
   constructor(protected http: HttpClient) {}

@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IAmortizationUploadFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AmortizationUploadFileService {
-  public resourceUrl = SERVER_API_URL + 'api/amortization-upload-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/amortization-upload-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/amortization-upload-files';
 
   constructor(protected http: HttpClient) {}

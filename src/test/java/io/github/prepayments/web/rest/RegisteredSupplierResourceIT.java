@@ -288,7 +288,7 @@ public class RegisteredSupplierResourceIT {
             .andExpect(jsonPath("$.[*].taxAuthorityPIN").value(hasItem(DEFAULT_TAX_AUTHORITY_PIN.toString())))
             .andExpect(jsonPath("$.[*].originatingFileToken").value(hasItem(DEFAULT_ORIGINATING_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getRegisteredSupplier() throws Exception {

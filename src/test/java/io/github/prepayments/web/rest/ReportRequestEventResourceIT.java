@@ -209,7 +209,7 @@ public class ReportRequestEventResourceIT {
             .andExpect(jsonPath("$.[*].reportFileContentType").value(hasItem(DEFAULT_REPORT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].reportFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_REPORT_FILE))));
     }
-    
+
     @Test
     @Transactional
     public void getReportRequestEvent() throws Exception {

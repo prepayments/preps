@@ -274,7 +274,7 @@ public class ServiceOutletDataEntryFileResourceIT {
             .andExpect(jsonPath("$.[*].entriesCount").value(hasItem(DEFAULT_ENTRIES_COUNT)))
             .andExpect(jsonPath("$.[*].fileToken").value(hasItem(DEFAULT_FILE_TOKEN.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getServiceOutletDataEntryFile() throws Exception {

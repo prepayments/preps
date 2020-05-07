@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<ISupplierDataEntryFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SupplierDataEntryFileService {
-  public resourceUrl = SERVER_API_URL + 'api/supplier-data-entry-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/supplier-data-entry-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/supplier-data-entry-files';
 
   constructor(protected http: HttpClient) {}

@@ -180,7 +180,7 @@ public class ReportTypeResourceIT {
             .andExpect(jsonPath("$.[*].reportMediumType").value(hasItem(DEFAULT_REPORT_MEDIUM_TYPE.toString())))
             .andExpect(jsonPath("$.[*].reportPassword").value(hasItem(DEFAULT_REPORT_PASSWORD.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getReportType() throws Exception {

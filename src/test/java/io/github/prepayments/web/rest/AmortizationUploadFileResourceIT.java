@@ -785,7 +785,7 @@ public class AmortizationUploadFileResourceIT {
         assertThat(amortizationUploadFile1).isNotEqualTo(amortizationUploadFile2);
     }
 
-//    @Test
+    @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(AmortizationUploadFileDTO.class);

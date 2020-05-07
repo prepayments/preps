@@ -3,7 +3,6 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decoratedResource.IPrepaymentDataEntryFileResource;
 import io.github.prepayments.service.PrepaymentDataEntryFileQueryService;
 import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -36,8 +36,10 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.PrepaymentDataEntryFile}.
  */
-@Component("prepaymentDataEntryFileResourceDelegate")
-public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFileResource {
+//@Component("prepaymentDataEntryFileResourceDelegate")
+@RestController
+@RequestMapping("/api")
+public class PrepaymentDataEntryFileResource {
 
     private static final String ENTITY_NAME = "dataEntryPrepaymentDataEntryFile";
     private final Logger log = LoggerFactory.getLogger(PrepaymentDataEntryFileResource.class);
@@ -59,7 +61,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PostMapping("/prepayment-data-entry-files")
     public ResponseEntity<PrepaymentDataEntryFileDTO> createPrepaymentDataEntryFile(@Valid @RequestBody PrepaymentDataEntryFileDTO prepaymentDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to save PrepaymentDataEntryFile : {}", prepaymentDataEntryFileDTO);
@@ -80,7 +81,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * is not valid, or with status {@code 500 (Internal Server Error)} if the prepaymentDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PutMapping("/prepayment-data-entry-files")
     public ResponseEntity<PrepaymentDataEntryFileDTO> updatePrepaymentDataEntryFile(@Valid @RequestBody PrepaymentDataEntryFileDTO prepaymentDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to update PrepaymentDataEntryFile : {}", prepaymentDataEntryFileDTO);
@@ -98,7 +98,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of prepaymentDataEntryFiles in body.
      */
-    @Override
     @GetMapping("/prepayment-data-entry-files")
     public ResponseEntity<List<PrepaymentDataEntryFileDTO>> getAllPrepaymentDataEntryFiles(PrepaymentDataEntryFileCriteria criteria, Pageable pageable,
                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
@@ -114,7 +113,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @Override
     @GetMapping("/prepayment-data-entry-files/count")
     public ResponseEntity<Long> countPrepaymentDataEntryFiles(PrepaymentDataEntryFileCriteria criteria) {
         log.debug("REST request to count PrepaymentDataEntryFiles by criteria: {}", criteria);
@@ -127,7 +125,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * @param id the id of the prepaymentDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the prepaymentDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    @Override
     @GetMapping("/prepayment-data-entry-files/{id}")
     public ResponseEntity<PrepaymentDataEntryFileDTO> getPrepaymentDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to get PrepaymentDataEntryFile : {}", id);
@@ -141,7 +138,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * @param id the id of the prepaymentDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @Override
     @DeleteMapping("/prepayment-data-entry-files/{id}")
     public ResponseEntity<Void> deletePrepaymentDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to delete PrepaymentDataEntryFile : {}", id);
@@ -156,7 +152,6 @@ public class PrepaymentDataEntryFileResource implements IPrepaymentDataEntryFile
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @Override
     @GetMapping("/_search/prepayment-data-entry-files")
     public ResponseEntity<List<PrepaymentDataEntryFileDTO>> searchPrepaymentDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                            UriComponentsBuilder uriBuilder) {

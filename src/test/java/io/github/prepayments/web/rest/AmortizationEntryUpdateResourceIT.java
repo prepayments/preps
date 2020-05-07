@@ -1182,7 +1182,7 @@ public class AmortizationEntryUpdateResourceIT {
         assertThat(amortizationEntryUpdate1).isNotEqualTo(amortizationEntryUpdate2);
     }
 
-//    @Test
+    @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(AmortizationEntryUpdateDTO.class);

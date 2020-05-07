@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,9 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationUpload}.
  */
-@Component("amortizationUploadResourceDelegate")
+//@Component("amortizationUploadResourceDelegate")
+@RestController
+@RequestMapping("/api")
 public class AmortizationUploadResource {
 
     private final Logger log = LoggerFactory.getLogger(AmortizationUploadResource.class);

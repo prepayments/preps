@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IServiceOutletDataEntryFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ServiceOutletDataEntryFileService {
-  public resourceUrl = SERVER_API_URL + 'api/service-outlet-data-entry-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/service-outlet-data-entry-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/service-outlet-data-entry-files';
 
   constructor(protected http: HttpClient) {}

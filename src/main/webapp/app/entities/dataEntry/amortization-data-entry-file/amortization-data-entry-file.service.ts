@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IAmortizationDataEntryFile[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AmortizationDataEntryFileService {
-  public resourceUrl = SERVER_API_URL + 'api/amortization-data-entry-files';
+  public resourceUrl = SERVER_API_URL + 'api/app/amortization-data-entry-files';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/amortization-data-entry-files';
 
   constructor(protected http: HttpClient) {}

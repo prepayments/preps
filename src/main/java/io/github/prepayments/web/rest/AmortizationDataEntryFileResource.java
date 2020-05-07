@@ -3,7 +3,6 @@ package io.github.prepayments.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import io.github.prepayments.app.decoratedResource.IAmortizationDataEntryFileResource;
 import io.github.prepayments.service.AmortizationDataEntryFileQueryService;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -36,8 +36,10 @@ import java.util.Optional;
 /**
  * REST controller for managing {@link io.github.prepayments.domain.AmortizationDataEntryFile}.
  */
-@Component("amortizationDataEntryFileResourceDelegate")
-public class AmortizationDataEntryFileResource implements IAmortizationDataEntryFileResource {
+//@Component("amortizationDataEntryFileResourceDelegate")
+@RestController
+@RequestMapping("/api")
+public class AmortizationDataEntryFileResource {
 
     private static final String ENTITY_NAME = "dataEntryAmortizationDataEntryFile";
     private final Logger log = LoggerFactory.getLogger(AmortizationDataEntryFileResource.class);
@@ -59,7 +61,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * amortizationDataEntryFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PostMapping("/amortization-data-entry-files")
     public ResponseEntity<AmortizationDataEntryFileDTO> createAmortizationDataEntryFile(@Valid @RequestBody AmortizationDataEntryFileDTO amortizationDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to save AmortizationDataEntryFile : {}", amortizationDataEntryFileDTO);
@@ -80,7 +81,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * amortizationDataEntryFileDTO is not valid, or with status {@code 500 (Internal Server Error)} if the amortizationDataEntryFileDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @Override
     @PutMapping("/amortization-data-entry-files")
     public ResponseEntity<AmortizationDataEntryFileDTO> updateAmortizationDataEntryFile(@Valid @RequestBody AmortizationDataEntryFileDTO amortizationDataEntryFileDTO) throws URISyntaxException {
         log.debug("REST request to update AmortizationDataEntryFile : {}", amortizationDataEntryFileDTO);
@@ -98,7 +98,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of amortizationDataEntryFiles in body.
      */
-    @Override
     @GetMapping("/amortization-data-entry-files")
     public ResponseEntity<List<AmortizationDataEntryFileDTO>> getAllAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria, Pageable pageable,
                                                                                                @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
@@ -114,7 +113,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @Override
     @GetMapping("/amortization-data-entry-files/count")
     public ResponseEntity<Long> countAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria) {
         log.debug("REST request to count AmortizationDataEntryFiles by criteria: {}", criteria);
@@ -127,7 +125,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * @param id the id of the amortizationDataEntryFileDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the amortizationDataEntryFileDTO, or with status {@code 404 (Not Found)}.
      */
-    @Override
     @GetMapping("/amortization-data-entry-files/{id}")
     public ResponseEntity<AmortizationDataEntryFileDTO> getAmortizationDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to get AmortizationDataEntryFile : {}", id);
@@ -141,7 +138,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * @param id the id of the amortizationDataEntryFileDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @Override
     @DeleteMapping("/amortization-data-entry-files/{id}")
     public ResponseEntity<Void> deleteAmortizationDataEntryFile(@PathVariable Long id) {
         log.debug("REST request to delete AmortizationDataEntryFile : {}", id);
@@ -156,7 +152,6 @@ public class AmortizationDataEntryFileResource implements IAmortizationDataEntry
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @Override
     @GetMapping("/_search/amortization-data-entry-files")
     public ResponseEntity<List<AmortizationDataEntryFileDTO>> searchAmortizationDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                                UriComponentsBuilder uriBuilder) {
