@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.PrepaymentDataEntryFileService;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileCriteria;
 import io.github.prepayments.service.dto.PrepaymentDataEntryFileDTO;
-import io.github.prepayments.web.rest.PrepaymentDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,24 +32,24 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentDataEntryFileResource {
+@RequestMapping("/api/app")
+public class AppPrepaymentDataEntryFileResource implements IPrepaymentDataEntryFileResource {
 
     private static final String ENTITY_NAME = "dataEntryPrepaymentDataEntryFile";
     private final PrepaymentDataFileMessageService prepaymentDataFileMessageService;
     private final PrepaymentDataEntryFileService prepaymentDataEntryFileService;
-    private final PrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDelegate;
+    private final IPrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDecorator;
     private final FileTokenProvider excelFileTokenProvider;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public PrepaymentDataEntryFileResourceDecorator(final PrepaymentDataFileMessageService prepaymentDataFileMessageService, final PrepaymentDataEntryFileService prepaymentDataEntryFileService,
-                                                    final @Qualifier("prepaymentDataEntryFileResourceDelegate") PrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDelegate,
-                                                    final FileTokenProvider excelFileTokenProvider) {
+    public AppPrepaymentDataEntryFileResource(final PrepaymentDataFileMessageService prepaymentDataFileMessageService, final PrepaymentDataEntryFileService prepaymentDataEntryFileService,
+                                              final @Qualifier("prepaymentDataEntryFileResourceDecorator") IPrepaymentDataEntryFileResource prepaymentDataEntryFileResourceDecorator,
+                                              final FileTokenProvider excelFileTokenProvider) {
         this.prepaymentDataFileMessageService = prepaymentDataFileMessageService;
         this.prepaymentDataEntryFileService = prepaymentDataEntryFileService;
-        this.prepaymentDataEntryFileResourceDelegate = prepaymentDataEntryFileResourceDelegate;
+        this.prepaymentDataEntryFileResourceDecorator = prepaymentDataEntryFileResourceDecorator;
         this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
@@ -99,7 +98,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @Override
     @PutMapping("/prepayment-data-entry-files")
     public ResponseEntity<PrepaymentDataEntryFileDTO> updatePrepaymentDataEntryFile(@Valid @RequestBody PrepaymentDataEntryFileDTO prepaymentDataEntryFileDTO) throws URISyntaxException {
-        return prepaymentDataEntryFileResourceDelegate.updatePrepaymentDataEntryFile(prepaymentDataEntryFileDTO);
+        return prepaymentDataEntryFileResourceDecorator.updatePrepaymentDataEntryFile(prepaymentDataEntryFileDTO);
     }
 
     /**
@@ -113,7 +112,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @GetMapping("/prepayment-data-entry-files")
     public ResponseEntity<List<PrepaymentDataEntryFileDTO>> getAllPrepaymentDataEntryFiles(PrepaymentDataEntryFileCriteria criteria, Pageable pageable,
                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        return prepaymentDataEntryFileResourceDelegate.getAllPrepaymentDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
+        return prepaymentDataEntryFileResourceDecorator.getAllPrepaymentDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -125,7 +124,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @Override
     @GetMapping("/prepayment-data-entry-files/count")
     public ResponseEntity<Long> countPrepaymentDataEntryFiles(PrepaymentDataEntryFileCriteria criteria) {
-        return prepaymentDataEntryFileResourceDelegate.countPrepaymentDataEntryFiles(criteria);
+        return prepaymentDataEntryFileResourceDecorator.countPrepaymentDataEntryFiles(criteria);
     }
 
     /**
@@ -137,7 +136,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @Override
     @GetMapping("/prepayment-data-entry-files/{id}")
     public ResponseEntity<PrepaymentDataEntryFileDTO> getPrepaymentDataEntryFile(@PathVariable Long id) {
-        return prepaymentDataEntryFileResourceDelegate.getPrepaymentDataEntryFile(id);
+        return prepaymentDataEntryFileResourceDecorator.getPrepaymentDataEntryFile(id);
     }
 
     /**
@@ -149,7 +148,7 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @Override
     @DeleteMapping("/prepayment-data-entry-files/{id}")
     public ResponseEntity<Void> deletePrepaymentDataEntryFile(@PathVariable Long id) {
-        return prepaymentDataEntryFileResourceDelegate.deletePrepaymentDataEntryFile(id);
+        return prepaymentDataEntryFileResourceDecorator.deletePrepaymentDataEntryFile(id);
     }
 
     /**
@@ -163,6 +162,6 @@ public class PrepaymentDataEntryFileResourceDecorator implements IPrepaymentData
     @GetMapping("/_search/prepayment-data-entry-files")
     public ResponseEntity<List<PrepaymentDataEntryFileDTO>> searchPrepaymentDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                            UriComponentsBuilder uriBuilder) {
-        return prepaymentDataEntryFileResourceDelegate.searchPrepaymentDataEntryFiles(query, pageable, queryParams, uriBuilder);
+        return prepaymentDataEntryFileResourceDecorator.searchPrepaymentDataEntryFiles(query, pageable, queryParams, uriBuilder);
     }
 }

@@ -2,7 +2,7 @@ package io.github.prepayments.app.decoratedResource;
 
 import io.github.prepayments.service.dto.AmortizationUpdateFileCriteria;
 import io.github.prepayments.service.dto.AmortizationUpdateFileDTO;
-import io.github.prepayments.web.rest.AmortizationUpdateFileResource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -22,13 +22,13 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-public class AmortizationUpdateFileResourceDecorator implements IAmortizationUpdateFileResource {
+@RequestMapping("/api/app")
+public class AppAmortizationUpdateFileResource implements IAmortizationUpdateFileResource {
 
 
-    private final AmortizationUpdateFileResource amortizationUpdateFileResource;
+    private final IAmortizationUpdateFileResource amortizationUpdateFileResource;
 
-    public AmortizationUpdateFileResourceDecorator(final AmortizationUpdateFileResource amortizationUpdateFileResource) {
+    public AppAmortizationUpdateFileResource(final @Qualifier("amortizationUpdateFileResourceDecorator") IAmortizationUpdateFileResource amortizationUpdateFileResource) {
         this.amortizationUpdateFileResource = amortizationUpdateFileResource;
     }
 

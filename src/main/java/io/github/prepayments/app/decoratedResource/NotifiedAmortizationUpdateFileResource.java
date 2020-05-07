@@ -1,5 +1,6 @@
 package io.github.prepayments.app.decoratedResource;
 
+import io.github.prepayments.app.decoratedResource.decorators.AmortizationUpdateFileResourceDecorator;
 import io.github.prepayments.app.messaging.MessageService;
 import io.github.prepayments.app.messaging.notifications.dto.AmortizationUpdateFileUploadNotification;
 import io.github.prepayments.app.messaging.notifications.dto.FileUploadNotification;

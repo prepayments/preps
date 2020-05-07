@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.AmortizationDataEntryFileService;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileCriteria;
 import io.github.prepayments.service.dto.AmortizationDataEntryFileDTO;
-import io.github.prepayments.web.rest.AmortizationDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,11 +32,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class AmortizationDataEntryFileResourceDecorator implements IAmortizationDataEntryFileResource {
+@RequestMapping("/api/app")
+public class AppAmortizationDataEntryFileResource implements IAmortizationDataEntryFileResource {
 
 
-    private final AmortizationDataEntryFileResource amortizationDataEntryFileResourceDelegate;
+    private final IAmortizationDataEntryFileResource amortizationDataEntryFileResourceDecorator;
     private static final String ENTITY_NAME = "dataEntryAmortizationDataEntryFile";
     private final AmortizationDataFileMessageService amortizationDataFileMessageService;
     private final AmortizationDataEntryFileService amortizationDataEntryFileService;
@@ -45,10 +44,10 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public AmortizationDataEntryFileResourceDecorator(final @Qualifier("amortizationDataEntryFileResourceDelegate") AmortizationDataEntryFileResource amortizationDataEntryFileResourceDelegate,
-                                                      final AmortizationDataFileMessageService amortizationDataFileMessageService,
-                                                      final AmortizationDataEntryFileService amortizationDataEntryFileService, final FileTokenProvider excelFileTokenProvider) {
-        this.amortizationDataEntryFileResourceDelegate = amortizationDataEntryFileResourceDelegate;
+    public AppAmortizationDataEntryFileResource(final @Qualifier("amortizationDataEntryFileResourceDecorator") IAmortizationDataEntryFileResource amortizationDataEntryFileResourceDecorator,
+                                                final AmortizationDataFileMessageService amortizationDataFileMessageService, final AmortizationDataEntryFileService amortizationDataEntryFileService,
+                                                final FileTokenProvider excelFileTokenProvider) {
+        this.amortizationDataEntryFileResourceDecorator = amortizationDataEntryFileResourceDecorator;
         this.amortizationDataFileMessageService = amortizationDataFileMessageService;
         this.amortizationDataEntryFileService = amortizationDataEntryFileService;
         this.excelFileTokenProvider = excelFileTokenProvider;
@@ -97,7 +96,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
      */
     @PutMapping("/amortization-data-entry-files")
     public ResponseEntity<AmortizationDataEntryFileDTO> updateAmortizationDataEntryFile(@Valid @RequestBody AmortizationDataEntryFileDTO amortizationDataEntryFileDTO) throws URISyntaxException {
-        return amortizationDataEntryFileResourceDelegate.updateAmortizationDataEntryFile(amortizationDataEntryFileDTO);
+        return amortizationDataEntryFileResourceDecorator.updateAmortizationDataEntryFile(amortizationDataEntryFileDTO);
     }
 
     /**
@@ -111,7 +110,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
     public ResponseEntity<List<AmortizationDataEntryFileDTO>> getAllAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria, Pageable pageable,
                                                                                                @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
 
-        return amortizationDataEntryFileResourceDelegate.getAllAmortizationDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
+        return amortizationDataEntryFileResourceDecorator.getAllAmortizationDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -122,7 +121,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
      */
     @GetMapping("/amortization-data-entry-files/count")
     public ResponseEntity<Long> countAmortizationDataEntryFiles(AmortizationDataEntryFileCriteria criteria) {
-        return amortizationDataEntryFileResourceDelegate.countAmortizationDataEntryFiles(criteria);
+        return amortizationDataEntryFileResourceDecorator.countAmortizationDataEntryFiles(criteria);
     }
 
     /**
@@ -133,7 +132,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
      */
     @GetMapping("/amortization-data-entry-files/{id}")
     public ResponseEntity<AmortizationDataEntryFileDTO> getAmortizationDataEntryFile(@PathVariable Long id) {
-        return amortizationDataEntryFileResourceDelegate.getAmortizationDataEntryFile(id);
+        return amortizationDataEntryFileResourceDecorator.getAmortizationDataEntryFile(id);
     }
 
     /**
@@ -144,7 +143,7 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
      */
     @DeleteMapping("/amortization-data-entry-files/{id}")
     public ResponseEntity<Void> deleteAmortizationDataEntryFile(@PathVariable Long id) {
-        return amortizationDataEntryFileResourceDelegate.deleteAmortizationDataEntryFile(id);
+        return amortizationDataEntryFileResourceDecorator.deleteAmortizationDataEntryFile(id);
     }
 
     /**
@@ -157,6 +156,6 @@ public class AmortizationDataEntryFileResourceDecorator implements IAmortization
     @GetMapping("/_search/amortization-data-entry-files")
     public ResponseEntity<List<AmortizationDataEntryFileDTO>> searchAmortizationDataEntryFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                                UriComponentsBuilder uriBuilder) {
-        return amortizationDataEntryFileResourceDelegate.searchAmortizationDataEntryFiles(query, pageable, queryParams, uriBuilder);
+        return amortizationDataEntryFileResourceDecorator.searchAmortizationDataEntryFiles(query, pageable, queryParams, uriBuilder);
     }
 }

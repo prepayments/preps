@@ -7,10 +7,8 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.TransactionAccountDataEntryFileService;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileCriteria;
 import io.github.prepayments.service.dto.TransactionAccountDataEntryFileDTO;
-import io.github.prepayments.web.rest.TransactionAccountDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -33,26 +31,24 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class TransactionAccountDataEntryFileResourceDecorator implements ITransactionAccountDataEntryFileResource {
+@RequestMapping("/api/app")
+public class AppTransactionAccountDataEntryFileResource implements ITransactionAccountDataEntryFileResource {
 
 
     private static final String ENTITY_NAME = "dataEntryTransactionAccountDataEntryFile";
     private final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService;
     private final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService;
-    private final TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate;
+    private final ITransactionAccountDataEntryFileResource transactionAccontDataEntryFileResourceDecorator;
     private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public TransactionAccountDataEntryFileResourceDecorator(final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
-                                                            final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService,
-                                                            final @Qualifier("transactionAccountDataEntryFileResourceDelegate")
-                                                                TransactionAccountDataEntryFileResource transactionAccountDataEntryFileResourceDelegate, final FileTokenProvider
-                                                                excelFileTokenProvider) {
+    public AppTransactionAccountDataEntryFileResource(final TransactionAccountDataEntryFileService transactionAccountDataEntryFileService,
+                                                      final TransactionAccountDataFileMessageService transactionAccountDataFileMessageService,
+                                                      final ITransactionAccountDataEntryFileResource transactionAccontDataEntryFileResourceDecorator, final FileTokenProvider excelFileTokenProvider) {
         this.transactionAccountDataEntryFileService = transactionAccountDataEntryFileService;
         this.transactionAccountDataFileMessageService = transactionAccountDataFileMessageService;
-        this.transactionAccountDataEntryFileResourceDelegate = transactionAccountDataEntryFileResourceDelegate;
+        this.transactionAccontDataEntryFileResourceDecorator = transactionAccontDataEntryFileResourceDecorator;
         this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
@@ -101,7 +97,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @PutMapping("/transaction-account-data-entry-files")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> updateTransactionAccountDataEntryFile(@Valid @RequestBody TransactionAccountDataEntryFileDTO transactionAccountDataEntryFileDTO)
         throws URISyntaxException {
-        return transactionAccountDataEntryFileResourceDelegate.updateTransactionAccountDataEntryFile(transactionAccountDataEntryFileDTO);
+        return transactionAccontDataEntryFileResourceDecorator.updateTransactionAccountDataEntryFile(transactionAccountDataEntryFileDTO);
     }
 
     /**
@@ -115,7 +111,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @GetMapping("/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> getAllTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        return transactionAccountDataEntryFileResourceDelegate.getAllTransactionAccountDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
+        return transactionAccontDataEntryFileResourceDecorator.getAllTransactionAccountDataEntryFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -127,7 +123,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @Override
     @GetMapping("/transaction-account-data-entry-files/count")
     public ResponseEntity<Long> countTransactionAccountDataEntryFiles(TransactionAccountDataEntryFileCriteria criteria) {
-        return transactionAccountDataEntryFileResourceDelegate.countTransactionAccountDataEntryFiles(criteria);
+        return transactionAccontDataEntryFileResourceDecorator.countTransactionAccountDataEntryFiles(criteria);
     }
 
     /**
@@ -139,7 +135,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @Override
     @GetMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<TransactionAccountDataEntryFileDTO> getTransactionAccountDataEntryFile(@PathVariable Long id) {
-        return transactionAccountDataEntryFileResourceDelegate.getTransactionAccountDataEntryFile(id);
+        return transactionAccontDataEntryFileResourceDecorator.getTransactionAccountDataEntryFile(id);
     }
 
     /**
@@ -151,7 +147,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @Override
     @DeleteMapping("/transaction-account-data-entry-files/{id}")
     public ResponseEntity<Void> deleteTransactionAccountDataEntryFile(@PathVariable Long id) {
-        return transactionAccountDataEntryFileResourceDelegate.deleteTransactionAccountDataEntryFile(id);
+        return transactionAccontDataEntryFileResourceDecorator.deleteTransactionAccountDataEntryFile(id);
     }
 
     /**
@@ -165,7 +161,7 @@ public class TransactionAccountDataEntryFileResourceDecorator implements ITransa
     @GetMapping("/_search/transaction-account-data-entry-files")
     public ResponseEntity<List<TransactionAccountDataEntryFileDTO>> searchTransactionAccountDataEntryFiles(@RequestParam String query, Pageable pageable,
                                                                                                            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        return transactionAccountDataEntryFileResourceDelegate.searchTransactionAccountDataEntryFiles(query, pageable, queryParams, uriBuilder);
+        return transactionAccontDataEntryFileResourceDecorator.searchTransactionAccountDataEntryFiles(query, pageable, queryParams, uriBuilder);
     }
 
 }

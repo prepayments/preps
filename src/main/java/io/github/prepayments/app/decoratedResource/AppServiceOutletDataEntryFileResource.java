@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.ServiceOutletDataEntryFileService;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileCriteria;
 import io.github.prepayments.service.dto.ServiceOutletDataEntryFileDTO;
-import io.github.prepayments.web.rest.ServiceOutletDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,10 +35,10 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class ServiceOutletDataEntryFileResourceDecorator implements io.github.prepayments.app.decoratedResource.IServiceOutletDataEntryFileResource {
+@RequestMapping("/api/app")
+public class AppServiceOutletDataEntryFileResource implements io.github.prepayments.app.decoratedResource.IServiceOutletDataEntryFileResource {
 
-    private final ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource;
+    private final IServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource;
     private final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService;
 
     private static final String ENTITY_NAME = "dataEntryServiceOutletDataEntryFile";
@@ -48,10 +47,10 @@ public class ServiceOutletDataEntryFileResourceDecorator implements io.github.pr
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public ServiceOutletDataEntryFileResourceDecorator(final ServiceOutletDataEntryFileService serviceOutletDataEntryFileService,
-                                                       final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService,
-                                                       final @Qualifier("serviceOutletDataEntryFileResourceDelegate") ServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource,
-                                                       final FileTokenProvider excelFileProvider) {
+    public AppServiceOutletDataEntryFileResource(final ServiceOutletDataEntryFileService serviceOutletDataEntryFileService,
+                                                 final ServiceOutletDataFileMessageService serviceOutletDataFileMessageService,
+                                                 final @Qualifier("serviceOutletDataEntryFileResourceDecorator") IServiceOutletDataEntryFileResource serviceOutletDataEntryFileResource,
+                                                 final FileTokenProvider excelFileProvider) {
         this.serviceOutletDataEntryFileResource = serviceOutletDataEntryFileResource;
         this.serviceOutletDataEntryFileService = serviceOutletDataEntryFileService;
         this.serviceOutletDataFileMessageService = serviceOutletDataFileMessageService;

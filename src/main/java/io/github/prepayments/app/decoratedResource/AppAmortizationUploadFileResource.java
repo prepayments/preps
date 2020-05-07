@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.AmortizationUploadFileService;
 import io.github.prepayments.service.dto.AmortizationUploadFileCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadFileDTO;
-import io.github.prepayments.web.rest.AmortizationUploadFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,25 +32,25 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class AmortizationUploadFileResourceDecorator implements IAmortizationUploadFileResource {
+@RequestMapping("/api/app")
+public class AppAmortizationUploadFileResource implements IAmortizationUploadFileResource {
 
 
     private static final String ENTITY_NAME = "dataEntryAmortizationUploadFile";
     private final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService;
     private final AmortizationUploadFileService amortizationUploadFileService;
-    @Qualifier("amortizationUploadFileResourceDelegate")
-    private final AmortizationUploadFileResource amortizationUploadFileResourceDelegate;
+    private final IAmortizationUploadFileResource amortizationUploadFileResourceDecorator;
     private final FileTokenProvider excelFileTokenProvider;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public AmortizationUploadFileResourceDecorator(final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService,
-                                                   final AmortizationUploadFileService amortizationUploadFileService, final AmortizationUploadFileResource amortizationUploadFileResourceDelegate,
-                                                   final FileTokenProvider excelFileTokenProvider) {
+    public AppAmortizationUploadFileResource(final AmortizationUploadFileNotificationMessageService amortizationUploadFileNotificationMessageService,
+                                             final AmortizationUploadFileService amortizationUploadFileService,
+                                             final @Qualifier("amortizationUploadFileResourceDecorator") IAmortizationUploadFileResource amortizationUploadFileResourceDecorator,
+                                             final FileTokenProvider excelFileTokenProvider) {
         this.amortizationUploadFileNotificationMessageService = amortizationUploadFileNotificationMessageService;
         this.amortizationUploadFileService = amortizationUploadFileService;
-        this.amortizationUploadFileResourceDelegate = amortizationUploadFileResourceDelegate;
+        this.amortizationUploadFileResourceDecorator = amortizationUploadFileResourceDecorator;
         this.excelFileTokenProvider = excelFileTokenProvider;
     }
 
@@ -100,7 +99,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     @PutMapping("/amortization-upload-files")
     public ResponseEntity<AmortizationUploadFileDTO> updateAmortizationUploadFile(@Valid @RequestBody AmortizationUploadFileDTO amortizationUploadFileDTO) throws URISyntaxException {
 
-        return amortizationUploadFileResourceDelegate.updateAmortizationUploadFile(amortizationUploadFileDTO);
+        return amortizationUploadFileResourceDecorator.updateAmortizationUploadFile(amortizationUploadFileDTO);
     }
 
     /**
@@ -115,7 +114,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     public ResponseEntity<List<AmortizationUploadFileDTO>> getAllAmortizationUploadFiles(AmortizationUploadFileCriteria criteria, Pageable pageable,
                                                                                          @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
 
-        return amortizationUploadFileResourceDelegate.getAllAmortizationUploadFiles(criteria, pageable, queryParams, uriBuilder);
+        return amortizationUploadFileResourceDecorator.getAllAmortizationUploadFiles(criteria, pageable, queryParams, uriBuilder);
     }
 
     /**
@@ -128,7 +127,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     @GetMapping("/amortization-upload-files/count")
     public ResponseEntity<Long> countAmortizationUploadFiles(AmortizationUploadFileCriteria criteria) {
 
-        return amortizationUploadFileResourceDelegate.countAmortizationUploadFiles(criteria);
+        return amortizationUploadFileResourceDecorator.countAmortizationUploadFiles(criteria);
     }
 
     /**
@@ -141,7 +140,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     @GetMapping("/amortization-upload-files/{id}")
     public ResponseEntity<AmortizationUploadFileDTO> getAmortizationUploadFile(@PathVariable Long id) {
 
-        return amortizationUploadFileResourceDelegate.getAmortizationUploadFile(id);
+        return amortizationUploadFileResourceDecorator.getAmortizationUploadFile(id);
     }
 
     /**
@@ -154,7 +153,7 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     @DeleteMapping("/amortization-upload-files/{id}")
     public ResponseEntity<Void> deleteAmortizationUploadFile(@PathVariable Long id) {
 
-        return amortizationUploadFileResourceDelegate.deleteAmortizationUploadFile(id);
+        return amortizationUploadFileResourceDecorator.deleteAmortizationUploadFile(id);
     }
 
     /**
@@ -169,6 +168,6 @@ public class AmortizationUploadFileResourceDecorator implements IAmortizationUpl
     public ResponseEntity<List<AmortizationUploadFileDTO>> searchAmortizationUploadFiles(@RequestParam String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams,
                                                                                          UriComponentsBuilder uriBuilder) {
 
-        return amortizationUploadFileResourceDelegate.searchAmortizationUploadFiles(query, pageable, queryParams, uriBuilder);
+        return amortizationUploadFileResourceDecorator.searchAmortizationUploadFiles(query, pageable, queryParams, uriBuilder);
     }
 }

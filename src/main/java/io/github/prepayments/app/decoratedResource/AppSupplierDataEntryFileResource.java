@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.FileTokenProvider;
 import io.github.prepayments.service.SupplierDataEntryFileService;
 import io.github.prepayments.service.dto.SupplierDataEntryFileCriteria;
 import io.github.prepayments.service.dto.SupplierDataEntryFileDTO;
-import io.github.prepayments.web.rest.SupplierDataEntryFileResource;
 import io.github.prepayments.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,10 +32,10 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntryFileResource {
+@RequestMapping("/api/app")
+public class AppSupplierDataEntryFileResource implements ISupplierDataEntryFileResource {
 
-    private final SupplierDataEntryFileResource supplierDataEntryFileResource;
+    private final ISupplierDataEntryFileResource supplierDataEntryFileResource;
 
     private static final String ENTITY_NAME = "dataEntrySupplierDataEntryFile";
     private final SupplierDataEntryFileService supplierDataEntryFileService;
@@ -45,9 +44,9 @@ public class SupplierDataEntryFileResourceDecorator implements ISupplierDataEntr
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public SupplierDataEntryFileResourceDecorator(final SupplierDataEntryFileService supplierDataEntryFileService, final SupplierDataFileMessageService supplierDataFileMessageService,
-                                                  final @Qualifier("SupplierDataEntryFileResourceDelegate") SupplierDataEntryFileResource supplierDataEntryFileResource,
-                                                  final FileTokenProvider excelFileTokenProvider) {
+    public AppSupplierDataEntryFileResource(final SupplierDataEntryFileService supplierDataEntryFileService, final SupplierDataFileMessageService supplierDataFileMessageService,
+                                            final @Qualifier("supplierDataEntryFileResourceDecorator") ISupplierDataEntryFileResource supplierDataEntryFileResource,
+                                            final FileTokenProvider excelFileTokenProvider) {
         this.supplierDataEntryFileResource = supplierDataEntryFileResource;
         this.supplierDataEntryFileService = supplierDataEntryFileService;
         this.supplierDataFileMessageService = supplierDataFileMessageService;

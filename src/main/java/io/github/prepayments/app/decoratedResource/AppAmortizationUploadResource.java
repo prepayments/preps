@@ -7,7 +7,6 @@ import io.github.prepayments.app.token.TagProvider;
 import io.github.prepayments.service.AmortizationUploadService;
 import io.github.prepayments.service.dto.AmortizationUploadCriteria;
 import io.github.prepayments.service.dto.AmortizationUploadDTO;
-import io.github.prepayments.web.rest.AmortizationUploadResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -38,18 +37,18 @@ import static io.github.prepayments.app.services.cascade.CascadedOperation.UPDAT
  */
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class AmortizationUploadResourceDecorator implements IAmortizationUploadResource {
+@RequestMapping("/api/app")
+public class AppAmortizationUploadResource implements IAmortizationUploadResource {
 
-    private final AmortizationUploadResource amortizationUploadResource;
+    private final IAmortizationUploadResource amortizationUploadResource;
     private final TagProvider<String> tagProvider;
     private final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService;
     private final AmortizationUploadCascader amortizationUploadCascader;
     private final AmortizationUploadService amortizationUploadService;
 
-    public AmortizationUploadResourceDecorator(final @Qualifier("amortizationUploadResourceDelegate") AmortizationUploadResource amortizationUploadResource, final TagProvider<String> tagProvider,
-                                               final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService, final AmortizationUploadCascader amortizationUploadCascader,
-                                               final AmortizationUploadService amortizationUploadService) {
+    public AppAmortizationUploadResource(final @Qualifier("amortizationUploadResourceDecorator") IAmortizationUploadResource amortizationUploadResource, final TagProvider<String> tagProvider,
+                                         final AmortizationEntriesPropagatorService amortizationEntriesPropagatorService, final AmortizationUploadCascader amortizationUploadCascader,
+                                         final AmortizationUploadService amortizationUploadService) {
         this.amortizationUploadResource = amortizationUploadResource;
         this.tagProvider = tagProvider;
         this.amortizationEntriesPropagatorService = amortizationEntriesPropagatorService;
