@@ -22,10 +22,10 @@ services:
   #    extends:
   #      file: postgresql.yml
   #      service: preps-postgresql
-  preps-elasticsearch:
-    extends:
-      file: elasticsearch.yml
-      service: preps-elasticsearch
+  #  preps-elasticsearch:
+  #    extends:
+  #      file: elasticsearch.yml
+  #      service: preps-elasticsearch
   kafka:
     extends:
       file: kafka.yml
